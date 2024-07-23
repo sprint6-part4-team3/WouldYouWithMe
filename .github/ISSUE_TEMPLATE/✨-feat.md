@@ -1,8 +1,8 @@
 ---
 name: "✨ Feat"
 about: 새로운 기능 작업
-title: ''
-labels: "✨ Feat"
+title: "✨ Feat: 이슈제목"
+labels: "✨ Feat, \U0001F528 Refactor"
 assignees: ''
 
 ---
