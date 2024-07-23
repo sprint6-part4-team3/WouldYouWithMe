@@ -1,10 +1,9 @@
 ---
-name: "✨ Feat"
+name: '✨ Feat'
 about: 새로운 기능 작업
-title: "✨ Feat: 이슈제목"
-labels: "✨ Feat, \U0001F528 Refactor"
+title: '✨ Feat: 이슈제목'
+labels: '✨ Feat'
 assignees: ''
-
 ---
 
 # ✨ Feat
