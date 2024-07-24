@@ -55,4 +55,4 @@ jobs:
         with:
           message: |
             💄 Storybook: ${{ steps.chromatic.outputs.storybookUrl }}
-            🕖 Update: ${{ steps.current-time.outputs.time }}
+            🕖 Update: ${{ steps.current-time.outputs.formattedTime }}
