@@ -50,7 +50,7 @@ export const 버튼_활성화_여부: Story = {
       return (
         <div className="flex size-[300px] flex-col gap-4">
           <Button variant="primary" isDisabled={isActive}>
-            버튼입니다
+            {isActive ? "비활성화" : "활성화"}
           </Button>
           <Button variant="secondary" onClick={handleActive}>
             버튼 상태 변경하기
