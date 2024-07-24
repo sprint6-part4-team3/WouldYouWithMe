@@ -1,3 +1,6 @@
+#!/bin/sh
+
+
 current_branch=$(git branch --show-current)
 
 restricted_branches="^(main|develop)$"
