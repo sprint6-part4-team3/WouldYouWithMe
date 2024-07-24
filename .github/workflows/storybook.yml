@@ -26,11 +26,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: "**/node_modules"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-storybook
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}-storybook
 
       - name: 종속성 설치
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: yarn install
 
       - name: Chromatic에 게시
         id: chromatic
