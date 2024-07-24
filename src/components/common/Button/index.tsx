@@ -15,7 +15,7 @@ const Button = ({
   children,
   ...props
 }: ButtonProps) => {
-  const baseStyle = "max-w-[400px] rounded-lg px-5 py-2";
+  const baseStyle = "max-w-[400px] rounded-2xl px-5 py-2";
 
   const variantStyles =
     variant === "secondary"
