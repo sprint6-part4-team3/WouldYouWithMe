@@ -48,11 +48,18 @@ jobs:
           format: "YYYY년 MM월 DD일 HH시 mm분 ss초"
           utcOffset: "+09:00"
 
+    outputs:
+      storybook_url: ${{ steps.chromatic.outputs.storybookUrl }}
+      currnent_time: ${{ steps.current-time.outputs.formattedTime }}
+
+  github-bot-storybook:
+    runs-on: ubuntu-latest
+    needs: [storybook-preview]
+    steps:
       - name: PR 코멘트 남기기
-        uses: thollander/actions-comment-pull-request@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: thollander/actions-comment-pull-request@v2
         with:
+          comment_tag: ${{github.event.number}}-storybook
           message: |
-            💄 Storybook: ${{ steps.chromatic.outputs.storybookUrl }}
-            🕖 Update: ${{ steps.current-time.outputs.formattedTime }}
+            💄 Storybook: ${{ needs.storybook-preview.outputs.storybook_url }}
+            🕖 Update: ${{ needs.storybook-preview.outputs.currnent_time }}
