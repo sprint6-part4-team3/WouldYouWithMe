@@ -8,7 +8,7 @@
     "airbnb/hooks",
     "airbnb-typescript",
     "plugin:jsx-a11y/recommended",
-    "plugin:tailwindcss/recommended", //tailwind 관련 규칙 <- 방금 추가됨
+    "plugin:tailwindcss/recommended",
     "next/core-web-vitals",
     "prettier"
   ],
@@ -35,7 +35,7 @@
         }
       }
     ],
-    "react/react-in-jsx-scope": "off", // Next.js doesn't require React to be in scope
+    "react/react-in-jsx-scope": "off",
     // 'import/prefer-default-export': 'off',
     // '@typescript-eslint/explicit-module-boundary-types': 'off',
     "react/prop-types": "off",
