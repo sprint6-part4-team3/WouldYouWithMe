@@ -14,5 +14,5 @@ export { default as IconProfileDesktop } from "./icon-profile-desktop.svg";
 export { default as IconToggle } from "./icon-toggle.svg";
 export { default as IconUser } from "./icon-user.svg";
 export { default as IconVisibilityOff } from "./icon-visibility-off.svg";
-export { default as IconVisibilityOn } from "./icon-visibility-off.svg";
+export { default as IconVisibilityOn } from "./icon-visibility-on.svg";
 export { default as IconX } from "./icon-x.svg";
