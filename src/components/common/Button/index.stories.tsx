@@ -30,7 +30,7 @@ export const Secondary: Story = {
     variant: "secondary",
   },
   render: (args) => (
-    <div className="flex size-[200px] items-center justify-center bg-gray-600">
+    <div className="flex size-200 items-center justify-center bg-background-tertiary">
       <Button {...args}>안녕</Button>
     </div>
   ),
@@ -48,7 +48,7 @@ export const 버튼_활성화_여부: Story = {
       };
 
       return (
-        <div className="flex size-[300px] flex-col gap-4">
+        <div className="flex size-300 flex-col gap-16">
           <Button variant="primary" isDisabled={isActive}>
             {isActive ? "비활성화" : "활성화"}
           </Button>

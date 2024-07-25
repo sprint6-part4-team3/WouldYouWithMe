@@ -1,0 +1,32 @@
+{/* Typography.mdx */}
+
+import { Meta, Typeset } from "@storybook/blocks";
+
+<Meta title="Design/Typography" />
+
+export const typography = {
+  type: {
+    primary: '"Pretendard-Regular", Arial, sans-serif',
+  },
+  weight: {
+    semibold: "600",
+  },
+  size: {
+    lg: 16,
+  },
+};
+
+export const SampleText = "코드잇 스프린트 6기 파트4 3팀의 타이포그라피입니다.";
+
+# Typography
+
+**Font:** Pretendard
+
+**Weights:** 600(semibold)
+
+<Typeset
+  fontSizes={[Number(typography.size.lg)]}
+  fontWeight={typography.weight.black}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>

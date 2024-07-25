@@ -1,7 +1,7 @@
 import * as Icons from "@/public/assets/icons";
 
 const meta = {
-  title: "Assets/Icons",
+  title: "Design/Icon",
   tags: ["autodocs"],
   parameters: {
     docs: {
@@ -15,7 +15,7 @@ const meta = {
 export default meta;
 
 export const Docs = () => (
-  <div className="flex flex-wrap items-center gap-6">
+  <div className="flex flex-wrap items-center gap-16">
     {Object.entries(Icons).map(([name, IconComponent]) => (
       <IconComponent className="cursor-pointer" key={name} />
     ))}
