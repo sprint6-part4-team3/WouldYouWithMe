@@ -19,9 +19,10 @@ const Button = ({
   <button
     type="button"
     disabled={isDisabled}
-    className={clsx("max-w-[400px] rounded-2xl px-5 py-2", {
-      "bg-gray-300 cursor-not-allowed": isDisabled,
-      "bg-blue-300 hover:bg-blue-400": variant === "primary" && !isDisabled,
+    className={clsx("max-w-[400px] rounded-2xl px-5 py-2 text-lg-semibold", {
+      "bg-interaction-inactive cursor-not-allowed": isDisabled,
+      "bg-brand-primary hover:bg-interaction-hover active:bg-interaction-pressed":
+        variant === "primary" && !isDisabled,
       "bg-red-300 hover:bg-red-400": variant === "secondary" && !isDisabled,
     })}
     {...props}
