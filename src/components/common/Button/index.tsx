@@ -1,4 +1,4 @@
-import React, { ComponentProps } from "react";
+import { ComponentProps, ReactNode } from "react";
 
 interface ButtonProps extends ComponentProps<"button"> {
   /** 버튼의 스타일 타입을 지정합니다. */
@@ -6,7 +6,7 @@ interface ButtonProps extends ComponentProps<"button"> {
   /** 버튼의 활성화 여부를 지정합니다. */
   isDisabled?: boolean;
   /** 버튼의 내용을 지정합니다. */
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const Button = ({
@@ -38,10 +38,6 @@ const Button = ({
       {children}
     </button>
   );
-};
-
-Button.defaultProps = {
-  isDisabled: false,
 };
 
 export default Button;
