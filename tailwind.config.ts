@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import type { Config } from "tailwindcss";
 
+const pxToRem = require("tailwindcss-preset-px-to-rem");
+
 const config: Config = {
+  presets: [pxToRem],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -19,12 +23,11 @@ const config: Config = {
           primary: "#22b8cf",
           secondary: "#66d9e8",
           tertiary: "#A3E635",
-          gradient: "linear-gradient(to right, #22b8cf, #A3E635)",
         },
         point: {
           purple: "#A855F7",
           blue: "#3B82F6",
-          cyan: "#06B6D4", // 원래 primary인  #10B981 로 바꾸는 건 어떤가요?
+          green: "#10B981", // cyan 대신 green 으로 변경
           pink: "#EC4899",
           rose: "#F43F5E",
           orange: "#F97316",
@@ -38,7 +41,7 @@ const config: Config = {
         },
         interaction: {
           inactive: "#94A3B8",
-          hover: "#1EA2B5", // Chat GPT가 추천해준 색상입니다. 별로면 추후에 변경해도 될 거 같아요.
+          hover: "#1EA2B5",
           pressed: "#198CA0",
           focus: "#22b8cf",
         },
@@ -56,11 +59,9 @@ const config: Config = {
         status: {
           danger: "#DC2626",
         },
-        icon: {
-          primary: "#64748B",
-          inverse: "#F8FAFC",
-          brand: "#22b8cf",
-        },
+      },
+      backgroundImage: {
+        "brand-gradient": "linear-gradient(to right, #22b8cf, #A3E635)",
       },
     },
     fontSize: {
