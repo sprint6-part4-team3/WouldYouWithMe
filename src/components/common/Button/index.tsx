@@ -1,3 +1,4 @@
+import { clsx } from "clsx";
 import { ComponentProps, ReactNode } from "react";
 
 interface ButtonProps extends ComponentProps<"button"> {
@@ -14,30 +15,19 @@ const Button = ({
   isDisabled = false,
   children,
   ...props
-}: ButtonProps) => {
-  const baseStyle = "max-w-[400px] rounded-2xl px-5 py-2";
-
-  const variantStyles =
-    variant === "secondary"
-      ? "bg-red-300 hover:bg-red-400"
-      : "bg-blue-300 hover:bg-blue-400";
-
-  const disabledStyles = "bg-gray-300 cursor-not-allowed";
-
-  const buttonClassName = isDisabled
-    ? `${baseStyle} ${disabledStyles}`
-    : `${baseStyle} ${variantStyles} cursor-pointer`;
-
-  return (
-    <button
-      type="button"
-      disabled={isDisabled}
-      className={buttonClassName}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
+}: ButtonProps) => (
+  <button
+    type="button"
+    disabled={isDisabled}
+    className={clsx("max-w-[400px] rounded-2xl px-5 py-2", {
+      "bg-gray-300 cursor-not-allowed": isDisabled,
+      "bg-blue-300 hover:bg-blue-400": variant === "primary" && !isDisabled,
+      "bg-red-300 hover:bg-red-400": variant === "secondary" && !isDisabled,
+    })}
+    {...props}
+  >
+    {children}
+  </button>
+);
 
 export default Button;
