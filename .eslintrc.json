@@ -53,7 +53,9 @@
     "@typescript-eslint/no-unused-vars": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "import/order": "off"
+    "import/order": "off",
+    "react/function-component-definition": "off",
+    "react/require-default-props": "off"
   },
   "settings": {
     "react": {
