@@ -15,7 +15,7 @@ const meta = {
 export default meta;
 
 export const Docs = () => (
-  <div className="flex items-center gap-4">
+  <div className="flex flex-wrap items-center gap-16">
     {Object.entries(Icons).map(([name, IconComponent]) => (
       <IconComponent className="cursor-pointer" key={name} />
     ))}
