@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { useEffect, useRef } from "react";
 
 import Input from "../Input";
+import Textarea from "../Textarea";
 import FieldWrapper from ".";
 
 const meta = {
@@ -50,4 +51,26 @@ export const InputWrapper: Story = {
       </FieldWrapper>
     );
   },
+};
+
+export const TextareaWrapper: Story = {
+  render: () => (
+    <FieldWrapper
+      id="content"
+      label={
+        <span>
+          <span className="text-brand-primary">* </span>
+          내용
+        </span>
+      }
+    >
+      <Textarea
+        id="content"
+        placeholder="내용을 입력해주세요"
+        maxLength={20}
+        rows={5}
+        isError={false}
+      />
+    </FieldWrapper>
+  ),
 };
