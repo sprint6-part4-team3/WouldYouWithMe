@@ -55,7 +55,8 @@
     "simple-import-sort/exports": "error",
     "import/order": "off",
     "react/function-component-definition": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   },
   "settings": {
     "react": {
