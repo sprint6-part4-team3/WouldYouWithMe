@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import React from "react";
 
 import Input from ".";
 
@@ -9,6 +10,28 @@ const meta = {
   args: {
     isError: false,
     isDisabled: false,
+    type: "text",
+  },
+  argTypes: {
+    isError: {
+      control: "boolean",
+      description: "input의 error 여부입니다.",
+    },
+    isDisabled: {
+      control: "boolean",
+      description: "input의 disabled 여부입니다.",
+    },
+    type: {
+      control: "radio",
+      options: ["text", "email", "password"],
+      description: "input 의 타입입니다.",
+    },
+    id: {
+      description: "input의 id 속성입니다. name 속성도 동일하게 적용됩니다.",
+    },
+    placeholder: {
+      description: "input의 placeholder 속성입니다.",
+    },
   },
 } as Meta<typeof Input>;
 
@@ -18,7 +41,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    id: "name",
-    placeholder: "이름을 입력하세요",
+    id: "content",
+    placeholder: "비밀번호를 입력하세요",
+    type: "password",
   },
 };
