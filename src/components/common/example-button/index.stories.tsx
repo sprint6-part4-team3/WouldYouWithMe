@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 
-import Button from ".";
+import ExampleButton from ".";
 
 const meta = {
-  title: "Components/Button",
-  component: Button,
+  title: "Components/ExampleButton",
+  component: ExampleButton,
   tags: ["autodocs"],
   args: {
     isDisabled: false,
   },
-} as Meta<typeof Button>;
+} as Meta<typeof ExampleButton>;
 
 export default meta;
 
@@ -31,7 +31,7 @@ export const Secondary: Story = {
   },
   render: (args) => (
     <div className="flex size-200 items-center justify-center bg-background-tertiary">
-      <Button {...args}>안녕</Button>
+      <ExampleButton {...args}>안녕</ExampleButton>
     </div>
   ),
 };
@@ -49,12 +49,12 @@ export const 버튼_활성화_여부: Story = {
 
       return (
         <div className="flex size-300 flex-col gap-16">
-          <Button variant="primary" isDisabled={isActive}>
+          <ExampleButton variant="primary" isDisabled={isActive}>
             {isActive ? "비활성화" : "활성화"}
-          </Button>
-          <Button variant="secondary" onClick={handleActive}>
+          </ExampleButton>
+          <ExampleButton variant="secondary" onClick={handleActive}>
             버튼 상태 변경하기
-          </Button>
+          </ExampleButton>
         </div>
       );
     };

@@ -10,7 +10,7 @@ interface ButtonProps extends ComponentProps<"button"> {
   children: ReactNode;
 }
 
-const Button = ({
+const ExampleButton = ({
   variant = "primary",
   isDisabled = false,
   children,
@@ -34,4 +34,4 @@ const Button = ({
   </button>
 );
 
-export default Button;
+export default ExampleButton;
