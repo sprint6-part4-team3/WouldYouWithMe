@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import ErrorMessage from "../ErrorMessage";
+
 interface FieldWrapperProps {
   /** input의 id 와 연결되는 label 의 htmlFor 값 입니다. */
   id: string;
@@ -22,7 +24,7 @@ const FieldWrapper = ({
       {label}
     </label>
     {children}
-    {errorMessage && <span className="text-status-danger">{errorMessage}</span>}
+    {errorMessage && <ErrorMessage message={errorMessage} />}
   </section>
 );
 
