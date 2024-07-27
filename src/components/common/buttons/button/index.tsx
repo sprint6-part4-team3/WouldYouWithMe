@@ -11,7 +11,11 @@ interface ButtonProps extends ComponentProps<"button"> {
 /**
  * 
  * 커스텀 버튼 컴포넌트
- * 
+ * 아이콘 없는 브랜드 버튼입니다.
+ * colorType에 따라 디자인이 적용됩니다.
+ * 글자 크기 16px 굵기 600 중앙정렬입니다. 
+ * 버튼 가로 세로 크기를 className으로 주면 됩니다.
+ * 커스텀 디자인 적용을 원하는 경우에도 className으로 주면 덮어 쓸 수 있습니다.
  * @example
  *  <Button
       colorType="primary"
@@ -73,13 +77,13 @@ const Button = ({ children, colorType, className, ...rest }: ButtonProps) => (
       {
         "bg-brand-primary text-text-inverse hover:bg-interaction-hover disabled:bg-interaction-inactive":
           colorType === "primary",
-        "border border-brand-primary bg-white text-brand-primary hover:border-interaction-hover hover:text-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
+        "hover:text-interaction-hover border border-brand-primary bg-white text-brand-primary hover:border-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
           colorType === "white",
         "bg-status-danger text-text-inverse hover:bg-[#b91c1c]":
           colorType === "danger",
         "border border-text-secondary bg-white text-text-secondary hover:text-[#94A3B8]":
           colorType === "secondary",
-        "border-primary border bg-transparent text-brand-primary hover:border-interaction-hover hover:text-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
+        "border bg-transparent text-brand-primary border-primary hover:border-interaction-hover hover:text-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
           colorType === "noFill",
       },
       className,
