@@ -6,24 +6,31 @@ import Image from "next/image";
 import { IconDropdown, IconUser } from "@/public/assets/icons";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
 
-const user = {
-  id: 43,
-  nickname: "test",
-};
+// 임시로 넣었습니다. api 작업 후 수정할 예정입니다.
+interface User {
+  id: number;
+  email: string;
+  nickname: string;
+}
 
-const groups = {
-  id: 43,
-  name: "테스트팀",
-};
+interface Team {
+  id: number;
+  name: string;
+}
 
-const NavBar = () => (
+interface NavBarProps {
+  user: User | null;
+  team: Team | null;
+}
+
+const NavBar = ({ user, team }: NavBarProps) => (
   <header className="sticky top-0 z-10 h-60 border-b border-border-primary bg-background-secondary">
     <div className="mx-16 flex h-full items-center justify-between lg:mx-200 xl:mx-360">
-      {user ? (
+      {user && team ? (
         <>
           <div className="flex items-center whitespace-nowrap text-lg-medium text-text-primary">
             <div className="mr-12 size-32 rounded-md bg-brand-primary" />
-            {groups.name}
+            {team.name}
             <IconDropdown className="ml-12" />
           </div>
           <div className="flex items-center justify-center whitespace-nowrap text-md-medium text-text-primary">
