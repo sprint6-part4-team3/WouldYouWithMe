@@ -23,7 +23,7 @@ const DropDownMenu = ({
         animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
         exit={{ opacity: 0, scale: 0.5, x: 20, y: -50 }}
       >
-        <ul className="flex-col items-center text-center">{children}</ul>
+        <ul className="text-center">{children}</ul>
       </motion.div>
     )}
   </AnimatePresence>
