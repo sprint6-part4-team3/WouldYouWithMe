@@ -5,14 +5,14 @@ import { ComponentProps, ReactNode } from "react";
 
 interface IconButtonProps extends ComponentProps<"button"> {
   children: string;
-  colorType: "primary" | "white" | "danger" | "secondary" | "noFill";
+  variant: "primary" | "white" | "danger" | "secondary" | "noFill";
   Icon: ReactNode;
 }
 
 /**
  * 
  * 커스텀 범용 아이콘 버튼 컴포넌트(radius:40px)
- * colorType에 따라 디자인이 적용됩니다.
+ * variant에 따라 디자인이 적용됩니다.
  * svg를 리액트 컴포넌트로 바꿔서 넣어줍니다.("@svgr/webpack")
  * 글자는 중앙정렬입니다.
  * 글자와 아이콘 사이 거리는 4px입니다.
@@ -23,13 +23,13 @@ interface IconButtonProps extends ComponentProps<"button"> {
  * import IconPlus from "@/public/assets/icons/icon-plus.svg";
  *  <IconButton
       Icon={<IconPlus />}
-      colorType="primary"
+      variant="primary"
       className="h-83 w-280 text-15"
     >
       추가하기
     </IconButton>
   * @param children 버튼 안에 들어갈 글자
-  * @param colorType 
+  * @param variant 
   *   "primary"(primary 배경색+하얀 글자) | 
   *   "white"(하얀 배경색+primary 글자 ) | 
   *   "danger"(빨간 배경색+ 하얀 글자) | 
@@ -42,7 +42,7 @@ interface IconButtonProps extends ComponentProps<"button"> {
 
 const IconButton = ({
   children,
-  colorType,
+  variant,
   className,
   Icon,
   ...rest
@@ -53,15 +53,15 @@ const IconButton = ({
       "flex cursor-pointer items-center justify-center gap-4 rounded-40 disabled:cursor-not-allowed",
       {
         "bg-brand-primary text-text-inverse hover:bg-interaction-hover disabled:bg-interaction-inactive":
-          colorType === "primary",
+          variant === "primary",
         "hover:text-interaction-hover border border-brand-primary bg-white text-brand-primary hover:border-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
-          colorType === "white",
+          variant === "white",
         "bg-status-danger text-text-inverse hover:bg-[#b91c1c]":
-          colorType === "danger",
+          variant === "danger",
         "border border-text-secondary bg-white text-text-secondary hover:text-[#94A3B8]":
-          colorType === "secondary",
+          variant === "secondary",
         "border bg-transparent text-brand-primary border-primary hover:border-interaction-hover hover:text-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
-          colorType === "noFill",
+          variant === "noFill",
       },
       className,
     )}

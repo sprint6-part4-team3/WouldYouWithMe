@@ -5,20 +5,20 @@ import { ComponentProps } from "react";
 
 interface ButtonProps extends ComponentProps<"button"> {
   children: string;
-  colorType: "primary" | "white" | "danger" | "secondary" | "noFill";
+  variant: "primary" | "white" | "danger" | "secondary" | "noFill";
 }
 
 /**
  * 
  * 커스텀 버튼 컴포넌트 radius(12px)
- * colorType에 따라 디자인이 적용됩니다.
+ * variant에 따라 디자인이 적용됩니다.
  * 글자 크기 16px 굵기 600 중앙정렬입니다.
  * 버튼 가로 세로 크기를 className으로 주면 됩니다.
  * 커스텀 디자인 적용을 원하는 경우에도 className으로 주면 덮어 쓸 수 있습니다.
  * button attributes 모두 사용 가능합니다.
  * @example
  *  <Button
-      colorType="primary"
+      variant="primary"
       className="h-48 w-280"
       onClick={() => {}}
       type="submit"
@@ -27,7 +27,7 @@ interface ButtonProps extends ComponentProps<"button"> {
     </Button>
 
  *  <Button
-      colorType="white"
+      variant="white"
       className="h-83 w-280"
       onClick={() => {}}
     >
@@ -35,7 +35,7 @@ interface ButtonProps extends ComponentProps<"button"> {
     </Button>
 
     <Button
-      colorType="danger"
+      variant="danger"
       className="h-83 w-280"
       onClick={() => {}}
     >
@@ -43,7 +43,7 @@ interface ButtonProps extends ComponentProps<"button"> {
     </Button>
 
     <Button
-      colorType="secondary"
+      variant="secondary"
       className="h-83 w-280"
       onClick={() => {}}
     >
@@ -51,14 +51,14 @@ interface ButtonProps extends ComponentProps<"button"> {
     </Button>
     
     <Button
-      colorType="noFill"
+      variant="noFill"
       className="h-83 w-280"
       onClick={() => {}}
     >
       수정하기
     </Button>
   * @param children 버튼 안에 들어갈 글자
-  * @param colorType 
+  * @param variant 
   *   "primary"(primary 배경색+하얀 글자) | 
   *   "white"(하얀 배경색+primary 글자 ) | 
   *   "danger"(빨간 배경색+ 하얀 글자) | 
@@ -69,22 +69,22 @@ interface ButtonProps extends ComponentProps<"button"> {
   * @author ☯️채종민
   */
 
-const Button = ({ children, colorType, className, ...rest }: ButtonProps) => (
+const Button = ({ children, variant, className, ...rest }: ButtonProps) => (
   <button
     type="button"
     className={clsx(
       "flex cursor-pointer items-center justify-center rounded-12 text-lg-semibold disabled:cursor-not-allowed",
       {
         "bg-brand-primary text-text-inverse hover:bg-interaction-hover disabled:bg-interaction-inactive":
-          colorType === "primary",
+          variant === "primary",
         "hover:text-interaction-hover border border-brand-primary bg-white text-brand-primary hover:border-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
-          colorType === "white",
+          variant === "white",
         "bg-status-danger text-text-inverse hover:bg-[#b91c1c]":
-          colorType === "danger",
+          variant === "danger",
         "border border-text-secondary bg-white text-text-secondary hover:text-[#94A3B8]":
-          colorType === "secondary",
+          variant === "secondary",
         "border bg-transparent text-brand-primary border-primary hover:border-interaction-hover hover:text-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
-          colorType === "noFill",
+          variant === "noFill",
       },
       className,
     )}
