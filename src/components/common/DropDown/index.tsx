@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import useClickOutside from "@/hooks/useClickOutside";
 
 import DropDownItem from "./Item";
-import DropDownItemList from "./ItemList";
+import DropDownMenu from "./Menu";
 import DropDownTrigger from "./Trigger";
 
 interface DropDownProps {
@@ -24,7 +24,7 @@ const DropDown = ({ children, handleClose }: DropDownProps) => {
 };
 
 DropDown.Item = DropDownItem;
-DropDown.ItemList = DropDownItemList;
+DropDown.Menu = DropDownMenu;
 DropDown.Trigger = DropDownTrigger;
 
 export default DropDown;

@@ -13,9 +13,9 @@ const meta = {
   },
   component: DropDown,
   subcomponents: {
-    Trigger: DropDown.Trigger as ComponentType<unknown>,
-    ItemList: DropDown.ItemList as ComponentType<unknown>,
-    Item: DropDown.Item as ComponentType<unknown>,
+    Trigger: DropDown.Trigger as ComponentType,
+    Menu: DropDown.Menu as ComponentType,
+    Item: DropDown.Item as ComponentType,
   },
   tags: ["autodocs"],
 } as Meta<typeof DropDown>;
@@ -33,9 +33,11 @@ export const Primary: Story = {
         <div className="flex h-200 justify-center text-14">
           <DropDown handleClose={handleOff}>
             <DropDown.Trigger onClick={handleToggle}>
-              <span className="cursor-pointer text-text-primary">⋮</span>
+              <span className="cursor-pointer text-16 text-text-primary">
+                ⋮
+              </span>
             </DropDown.Trigger>
-            <DropDown.ItemList isOpen={value}>
+            <DropDown.Menu isOpen={value}>
               <DropDown.Item onClick={() => console.log("마이 히스토리 클릭")}>
                 마이 히스토리
               </DropDown.Item>
@@ -45,7 +47,7 @@ export const Primary: Story = {
               <DropDown.Item onClick={() => console.log("로그아웃 클릭")}>
                 로그아웃
               </DropDown.Item>
-            </DropDown.ItemList>
+            </DropDown.Menu>
           </DropDown>
         </div>
       );

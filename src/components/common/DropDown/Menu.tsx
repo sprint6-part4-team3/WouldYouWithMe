@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode } from "react";
 
-interface DropDownItemListProps {
+interface DropDownMenuProps {
   /** 드롭다운 메뉴 안에 포함될 내용입니다.  */
   children: ReactNode;
   /** 드롭다운 메뉴 open 여부입니다.  */
@@ -10,18 +10,18 @@ interface DropDownItemListProps {
   position?: string;
 }
 
-const DropDownItemList = ({
+const DropDownMenu = ({
   children,
   isOpen,
   position = "top-30 right-0",
-}: DropDownItemListProps) => (
+}: DropDownMenuProps) => (
   <AnimatePresence>
     {isOpen && (
       <motion.div
-        className={`${position}  absolute right-0 top-30 z-10 w-120 flex-col rounded-12 border border-border-primary bg-background-secondary text-text-primary shadow-md`}
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0 }}
+        className={`${position} absolute z-10 w-120 flex-col overflow-hidden rounded-12 border border-border-primary bg-background-secondary text-text-primary shadow-md`}
+        initial={{ opacity: 0, scale: 0.5, x: 20, y: -50 }}
+        animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+        exit={{ opacity: 0, scale: 0.5, x: 20, y: -50 }}
       >
         <ul className="flex-col items-center text-center">{children}</ul>
       </motion.div>
@@ -29,4 +29,4 @@ const DropDownItemList = ({
   </AnimatePresence>
 );
 
-export default DropDownItemList;
+export default DropDownMenu;
