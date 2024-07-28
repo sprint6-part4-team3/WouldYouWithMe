@@ -3,7 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import NavBar from "@/components/common/NavBar/navbar";
+import LoginNavBar from "@/components/common/NavBar/login-navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <NavBar />
+        <LoginNavBar />
         {children}
       </body>
     </html>
