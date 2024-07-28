@@ -32,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 flex size-full items-center justify-center overflow-y-auto bg-background-primary bg-opacity-50">
+    <div className="fixed inset-0 flex size-full items-center justify-center overflow-y-auto bg-background-primary/50">
       <div
         className={clsx(
           "relative w-384 rounded-8 bg-background-secondary px-48 pb-32 pt-48 shadow-lg",
