@@ -2,7 +2,7 @@
 import { clsx } from "clsx";
 import { ComponentProps, forwardRef, useState } from "react";
 
-import useBoolean from "@/hooks/useToggle";
+import useToggle from "@/hooks/useToggle";
 import { IconVisibilityOff, IconVisibilityOn } from "@/public/assets/icons";
 
 interface InputProps extends ComponentProps<"input"> {
@@ -31,7 +31,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     ref,
   ) => {
     const [inputType, setInputType] = useState(type);
-    const { value: isVisible, handleToggle } = useBoolean();
+    const { value: isVisible, handleToggle } = useToggle();
 
     const handleClickVisible = () => {
       handleToggle();
