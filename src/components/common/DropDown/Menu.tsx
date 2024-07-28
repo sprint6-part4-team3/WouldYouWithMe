@@ -18,7 +18,7 @@ const DropDownMenu = ({
   <AnimatePresence>
     {isOpen && (
       <motion.div
-        className={`${position} absolute z-10 w-120 flex-col overflow-hidden rounded-12 border border-border-primary bg-background-secondary text-text-primary shadow-md`}
+        className={`${position} absolute z-10 w-120 overflow-hidden rounded-12 border border-border-primary bg-background-secondary text-text-primary shadow-md`}
         initial={{ opacity: 0, scale: 0.5, x: 20, y: -50 }}
         animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
         exit={{ opacity: 0, scale: 0.5, x: 20, y: -50 }}
