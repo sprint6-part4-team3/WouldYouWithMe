@@ -6,6 +6,7 @@ export { default as IconCheckGreen } from "./icon-check-green.svg";
 export { default as IconCheckWhite } from "./icon-check-white.svg";
 export { default as IconComment } from "./icon-comment.svg";
 export { default as IconDone } from "./icon-done.svg";
+export { default as IconDropdown } from "./icon-dropdown.svg";
 export { default as IconGear } from "./icon-gear.svg";
 export { default as IconImgSelect } from "./icon-img-select.svg";
 export { default as IconPlus } from "./icon-plus.svg";
