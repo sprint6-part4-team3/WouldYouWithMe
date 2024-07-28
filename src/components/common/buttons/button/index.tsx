@@ -16,8 +16,9 @@ interface ButtonProps extends ComponentProps<"button"> {
  * 버튼 가로 세로 크기를 className으로 주면 됩니다.
  * 커스텀 디자인 적용을 원하는 경우에도 className으로 주면 덮어 쓸 수 있습니다.
  * button attributes 모두 사용 가능합니다.
+ * 
  * @example
- *  <Button
+  * <Button
       variant="primary"
       className="h-48 w-280"
       onClick={() => {}}
@@ -26,7 +27,7 @@ interface ButtonProps extends ComponentProps<"button"> {
       로그인
     </Button>
 
- *  <Button
+    <Button
       variant="white"
       className="h-83 w-280"
       onClick={() => {}}

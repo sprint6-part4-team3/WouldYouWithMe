@@ -24,7 +24,7 @@ const PlusButton = ({ children, ...rest }: PlusButtonProps) => (
   <IconButton
     Icon={<PlusIcon />}
     variant="primary"
-    className="px-21 py-[14.5px] text-16 font-[600] leading-[19px]"
+    className="size-fit px-21 py-[14.5px] text-16 font-[600] leading-[19px]"
     {...rest}
   >
     {children}
