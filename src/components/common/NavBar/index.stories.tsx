@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import NavBar from ".";
 
-// 임시로 넣었습니다.
+// 임시로 넣은 값
 const loggedInUser = {
   id: 43,
   email: "test@test.com",
