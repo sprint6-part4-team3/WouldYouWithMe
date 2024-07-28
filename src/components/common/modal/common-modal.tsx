@@ -26,10 +26,7 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const getTitleMarginClass = () => {
-    if (description) return "mb-8";
-    return children ? "mb-16" : "mb-24"; // 인풋이나 textArea 가 있을 경우를 피그마 시안보고 고려
-  };
+  const getTitleMarginClass = () => (description ? "mb-8" : "mb-24");
 
   return (
     <div className="fixed inset-0 flex size-full items-center justify-center overflow-y-auto bg-background-primary/50">
