@@ -1,0 +1,90 @@
+/* eslint-disable */
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import Modal, { ModalProps } from "./common-modal";
+
+const meta: Meta<typeof Modal> = {
+  title: "Components/Modal",
+  component: Modal,
+  tags: ["autodocs"],
+  argTypes: {
+    isOpen: { control: "boolean" },
+    onClose: { action: "닫힘" },
+    title: { control: "text" },
+    description: { control: "text" },
+    showCloseButton: { control: "boolean" },
+    showWarningIcon: { control: "boolean" },
+    className: { control: "text" },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof Modal>;
+
+const ModalWrapper: React.FC<ModalProps> = (args) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <div>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="bg-brand-primary hover:bg-interaction-hover text-white font-bold py-2 px-4 rounded"
+      >
+        모달 열기
+      </button>
+      <Modal
+        {...args}
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+          args.onClose?.();
+        }}
+      />
+    </div>
+  );
+};
+
+export const Default: Story = {
+  render: (args) => <ModalWrapper {...args} />,
+  args: {
+    title: "기본 모달",
+    description: "이것은 기본 모달입니다.",
+    showCloseButton: true,
+  },
+};
+
+export const WithWarningIcon: Story = {
+  render: (args) => <ModalWrapper {...args} />,
+  args: {
+    title: "경고 모달",
+    description: "이것은 경고 아이콘이 있는 모달입니다.",
+    showCloseButton: true,
+    showWarningIcon: true,
+  },
+};
+
+export const CustomStyle: Story = {
+  render: (args) => <ModalWrapper {...args} />,
+  args: {
+    title: "커스텀 스타일 모달",
+    description: "클레스네임으로 디자인 수정가능합니다",
+    showCloseButton: true,
+    className: "bg-brand-primary border-2 border-blue-500",
+  },
+};
+
+export const TitleOnly: Story = {
+  render: (args) => <ModalWrapper {...args} />,
+  args: {
+    title: "제목만 있는 모달",
+    showCloseButton: true,
+  },
+};
+
+export const DescriptionOnly: Story = {
+  render: (args) => <ModalWrapper {...args} />,
+  args: {
+    description: "설명만 있는 모달입니다.",
+    showCloseButton: true,
+  },
+};
