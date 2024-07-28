@@ -7,21 +7,18 @@ type IconType = keyof typeof Icons;
 export const iconTypes: IconType[] = Object.keys(Icons) as IconType[]; // 스토리에서 불러오기 위함
 
 interface IconButtonProps extends ComponentProps<"button"> {
-  /** 아이콘 버튼의 스타일 타입. */
+  /** 아이콘 버튼 스타일 */
   variant?: "gray" | "darkest" | "bright" | "green" | "none";
-  /** 사용 할 아이콘 타입 */
+  /** 사용 할 아이콘 */
   icon: IconType;
   /** 테두리 */
   border?: boolean;
-  /** 테두리 색상 */
-  borderColorName?: string;
 }
 
 const IconButton = ({
   variant = "gray",
   border = false,
   icon,
-  borderColorName,
   ...props
 }: IconButtonProps) => {
   const SVGIcon = Icons[icon];
@@ -29,17 +26,17 @@ const IconButton = ({
     <button
       type="button"
       className={clsx(
-        `rounded-full px-3 py-4`,
+        `rounded-full px-4 py-5`,
         variant === "gray" && "bg-background-tertiary",
         variant === "darkest" && "bg-background-secondary",
-        variant === "bright" && "bg-background-primary",
+        variant === "bright" && "bg-slate-500",
         variant === "green" && "bg-point-green",
         variant === "none" && "",
-        border && `border-[${borderColorName}] border-2`,
+        border && "border-2 border-background-primary",
       )}
       {...props}
     >
-      <SVGIcon />
+      <SVGIcon className="m-auto" />
     </button>
   );
 };

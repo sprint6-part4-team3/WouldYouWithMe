@@ -9,7 +9,6 @@ const meta = {
   args: {
     border: false,
     icon: "IconUser",
-    borderColorName: "#99a3ff",
   },
 } as Meta<typeof IconButton>;
 
