@@ -26,7 +26,7 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const getTitleMarginClass = () => (description ? "mb-8" : "mb-24");
+  const titleMarginClass = description ? "mb-8" : "mb-24";
 
   return (
     <div className="fixed inset-0 flex size-full items-center justify-center overflow-y-auto bg-background-primary/50">
@@ -57,7 +57,7 @@ const Modal: React.FC<ModalProps> = ({
             <h2
               className={clsx(
                 "font-pretendard leading-19 text-center text-16 font-medium text-text-primary",
-                getTitleMarginClass(),
+                titleMarginClass,
               )}
             >
               {title}
