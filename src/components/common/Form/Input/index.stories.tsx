@@ -39,9 +39,17 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+export const Email: Story = {
   args: {
-    id: "content",
+    id: "email",
+    placeholder: "이메일을 입력하세요",
+    type: "email",
+  },
+};
+
+export const Password: Story = {
+  args: {
+    id: "password",
     placeholder: "비밀번호를 입력하세요",
     type: "password",
   },

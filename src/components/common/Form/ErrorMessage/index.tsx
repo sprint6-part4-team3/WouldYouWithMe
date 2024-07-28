@@ -4,7 +4,7 @@ interface ErrorMessageProps {
 }
 
 const ErrorMessage = ({ message }: ErrorMessageProps) => (
-  <span className="text-status-danger">{message}</span>
+  <span className="text-md-medium text-status-danger">{message}</span>
 );
 
 export default ErrorMessage;

@@ -20,7 +20,7 @@ const FieldWrapper = ({
   errorMessage = "",
 }: FieldWrapperProps) => (
   <section className="flex flex-col gap-8">
-    <label htmlFor={id} className="mb-4 text-text-primary">
+    <label htmlFor={id} className="mb-4 text-lg-medium text-text-primary">
       {label}
     </label>
     {children}
