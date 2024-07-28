@@ -22,7 +22,7 @@ interface CheckButtonProps extends ComponentProps<"button"> {
         완료하기
     </CheckButton>
 
-    <CheckButton variant="primary" onClick={() => {}}>
+    <CheckButton variant="white" onClick={() => {}}>
         완료 취소하기
     </CheckButton>
   * @param children 버튼 안에 들어갈 글자
@@ -44,7 +44,7 @@ const CheckButton = ({
       variant === "primary" ? (
         <CheckIconWhite />
       ) : (
-        <CheckIcon stroke={disabled ? "#94A3B8" : "#10B981"} />
+        <CheckIcon stroke={disabled ? "#94A3B8" : "#22b8cf"} />
       )
     }
     variant={variant}
