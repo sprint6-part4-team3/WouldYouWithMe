@@ -6,14 +6,17 @@ import PlusButton from ".";
 const meta = {
   title: "Components/플러스 버튼",
   component: PlusButton,
-  args: {
-    children: "완료하기",
-  },
 } as Meta<typeof PlusButton>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+export const Primary: Story = {
+  args: {
+    children: "할 일 추가",
+  },
+};
 
 export const 버튼_활성화_여부: Story = {
   render: () => {
@@ -26,7 +29,7 @@ export const 버튼_활성화_여부: Story = {
 
       return (
         <div className="flex flex-col gap-16">
-          <PlusButton disabled={isDisabled}>버튼</PlusButton>
+          <PlusButton disabled={isDisabled}>할 일 추가</PlusButton>
           <PlusButton onClick={handleActive}>
             {isDisabled ? "활성화하기" : "비활성화하기"}
           </PlusButton>
