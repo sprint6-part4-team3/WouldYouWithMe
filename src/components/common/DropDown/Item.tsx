@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
+import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
 interface DropDownItemProps {
@@ -9,15 +10,17 @@ interface DropDownItemProps {
 }
 
 const DropDownItem = ({ children, onClick }: DropDownItemProps) => (
-  <li
-    className="cursor-pointer rounded-12 pb-11 pt-12 hover:bg-interaction-hover/10"
+  <motion.li
+    whileHover={{ backgroundColor: "rgba(30, 162, 181, 0.2)" }}
+    whileTap={{ scale: 0.9, backgroundColor: "rgba(25, 140, 160, 0.2)" }}
+    className="cursor-pointer rounded-12 pb-11 pt-12"
     role="button"
     tabIndex={0}
     onClick={onClick}
     onKeyDown={(e) => e.key === "Enter" && onClick()}
   >
     {children}
-  </li>
+  </motion.li>
 );
 
 export default DropDownItem;
