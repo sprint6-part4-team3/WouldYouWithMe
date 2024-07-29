@@ -44,7 +44,7 @@ const CheckButton = ({ children, variant, ...rest }: CheckButtonProps) => (
       />
     }
     variant={variant}
-    className={clsx("group size-fit text-14 font-[600] leading-[17px]", {
+    className={clsx("group size-fit text-14-600", {
       "px-21 py-[11.5px]": variant === "primary",
       "px-20 py-[10.5px]": variant === "white",
     })}

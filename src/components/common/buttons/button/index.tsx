@@ -74,7 +74,7 @@ const Button = ({ children, variant, className, ...rest }: ButtonProps) => (
   <button
     type="button"
     className={clsx(
-      "flex cursor-pointer items-center justify-center rounded-12 text-lg-semibold disabled:cursor-not-allowed",
+      "flex cursor-pointer items-center justify-center rounded-12 text-16-600 disabled:cursor-not-allowed",
       {
         "bg-brand-primary text-text-inverse hover:bg-interaction-hover disabled:bg-interaction-inactive":
           variant === "primary",
