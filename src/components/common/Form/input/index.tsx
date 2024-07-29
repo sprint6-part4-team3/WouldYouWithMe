@@ -1,8 +1,9 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
+"use client";
+
 import { clsx } from "clsx";
 import { ComponentProps, forwardRef, useState } from "react";
 
-import useToggle from "@/hooks/useToggle";
+import useToggle from "@/hooks/use-toggle";
 import { IconVisibilityOff, IconVisibilityOn } from "@/public/assets/icons";
 
 interface InputProps extends ComponentProps<"input"> {
@@ -44,7 +45,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <div className="relative">
         <input
           className={clsx(
-            "w-full rounded-xl px-16 py-15 text-lg-regular text-text-primary outline-none ring-1 transition-all duration-300",
+            "w-full rounded-xl px-16 py-15 text-16-500 text-text-primary outline-none ring-1 transition-all duration-300",
             isError
               ? "ring-0.5 ring-offset-0.5 ring-status-danger ring-offset-status-danger"
               : "focus:ring-0.5 focus:ring-offset-0.5 ring-border-primary focus:shadow-lg focus:outline-none focus:ring-brand-primary focus:ring-offset-brand-primary/10",
