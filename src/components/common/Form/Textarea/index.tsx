@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { ComponentProps, forwardRef } from "react";
+import { ComponentProps, forwardRef } from "react";
 
 interface TextareaProps extends ComponentProps<"textarea"> {
   /** textarea id 속성입니다. name 속성도 동일하게 적용됩니다. */
