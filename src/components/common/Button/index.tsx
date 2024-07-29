@@ -20,7 +20,7 @@ const Button = ({
     type="button"
     disabled={isDisabled}
     className={clsx(
-      "max-w-400 rounded-2xl px-20 py-8 text-lg-semibold text-text-primary",
+      "max-w-400 rounded-2xl px-20 py-8 text-14-700 text-text-primary",
       {
         "bg-interaction-inactive cursor-not-allowed": isDisabled,
         "bg-brand-primary hover:bg-interaction-hover active:bg-interaction-pressed":

@@ -28,12 +28,12 @@ const NavBar = ({ user, team }: NavBarProps) => (
     <div className="mx-16 flex h-full items-center justify-between lg:mx-200 xl:mx-360">
       {user && team ? (
         <>
-          <div className="flex items-center whitespace-nowrap text-lg-medium text-text-primary">
+          <div className="flex items-center whitespace-nowrap text-16-500 text-text-primary">
             <div className="mr-12 size-32 rounded-md bg-brand-primary" />
             {team.name}
             <IconDropdown className="ml-12" />
           </div>
-          <div className="flex items-center justify-center whitespace-nowrap text-md-medium text-text-primary">
+          <div className="flex items-center justify-center whitespace-nowrap text-14-500 text-text-primary">
             <IconUser className="mr-12" />
             <span className={clsx("hidden", "xl:inline")}>{user.nickname}</span>
           </div>
