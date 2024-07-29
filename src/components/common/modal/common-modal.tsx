@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { ReactNode, useRef } from "react";
 import { createPortal } from "react-dom";
 
@@ -28,12 +29,14 @@ export interface ModalProps {
   description?: string;
 
   /**
-   * 모달 닫기 버튼의 표시 여부를 설정합니다. 기본설정은 `false`입니다.
+   * 모달 닫기 버튼의 표시 여부를 설정합니다.
+   * 기본설정은 `false`입니다.
    */
   showCloseButton?: boolean;
 
   /**
-   * 경고 아이콘의 표시 여부를 설정합니다. 기본설정은 `false`입니다.
+   * 경고 아이콘의 표시 여부를 설정합니다.
+   * 기본설정은 `false`입니다.
    */
   showWarningIcon?: boolean;
 
@@ -47,6 +50,40 @@ export interface ModalProps {
    */
   children?: ReactNode;
 }
+
+const modalVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.9,
+    y: -20,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      damping: 20,
+      stiffness: 300,
+      mass: 0.5,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    transition: {
+      type: "tween",
+      ease: "easeInOut",
+      duration: 0.2,
+    },
+  },
+};
+
+const overlayVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.2 } },
+  exit: { opacity: 0, transition: { duration: 0.2 } },
+};
 
 /**
  * 모달 컴포넌트입니다.
@@ -73,58 +110,73 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  if (!isOpen) return null;
-
   const titleMarginClass = description ? "mb-8" : "mb-24";
 
   return createPortal(
-    <div
-      ref={modalRef}
-      onClick={(e) => e.target === modalRef.current && onClose()}
-      className="fixed inset-0 z-50 flex size-full items-center justify-center overflow-y-auto bg-background-primary/50"
-    >
-      <div
-        className={clsx(
-          "z-51 relative w-384 rounded-8 bg-background-secondary px-48 pb-32 pt-48 shadow-lg",
-          className,
-        )}
-      >
-        {showCloseButton && (
-          <button
-            type="button"
-            onClick={onClose}
-            className="absolute right-12 top-12 text-text-secondary hover:text-text-primary"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          ref={modalRef}
+          onClick={(e) => e.target === modalRef.current && onClose()}
+          className="fixed inset-0 z-50 flex size-full items-center justify-center overflow-y-auto bg-background-primary/50"
+          variants={overlayVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
+          <motion.div
+            className={clsx(
+              "z-51 relative w-384 rounded-8 bg-background-secondary px-48 pb-32 pt-48 shadow-lg",
+              className,
+            )}
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
           >
-            <IconX width={20} height={20} />
-          </button>
-        )}
+            {showCloseButton && (
+              <button
+                type="button"
+                onClick={onClose}
+                className="absolute right-12 top-12 text-text-secondary hover:text-text-primary"
+              >
+                <IconX
+                  width={20}
+                  height={20}
+                  className="text-gray-500 transition-colors duration-200 hover:text-blue-500"
+                  transition-colors
+                />
+              </button>
+            )}
 
-        <div className="flex flex-col items-center">
-          {showWarningIcon && (
-            <div className="mb-16">
-              <IconAlert width={24} height={24} />
-            </div>
-          )}
-
-          {title && (
-            <h2
-              className={clsx(
-                "font-pretendard leading-19 text-center text-16 font-medium text-text-primary",
-                titleMarginClass,
+            <div className="flex flex-col items-center">
+              {showWarningIcon && (
+                <div className="mb-16">
+                  <IconAlert width={24} height={24} />
+                </div>
               )}
-            >
-              {title}
-            </h2>
-          )}
-          {description && (
-            <p className="font-pretendard leading-17 mb-24 text-center text-14 font-medium text-text-secondary">
-              {description}
-            </p>
-          )}
-          {children}
-        </div>
-      </div>
-    </div>,
+
+              {title && (
+                <h2
+                  className={clsx(
+                    "font-pretendard leading-19 text-center text-16 font-medium text-text-primary",
+                    titleMarginClass,
+                  )}
+                >
+                  {title}
+                </h2>
+              )}
+              {description && (
+                <p className="font-pretendard leading-17 mb-24 text-center text-14 font-medium text-text-secondary">
+                  {description}
+                </p>
+              )}
+              {children}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>,
     document.body,
   );
 };
