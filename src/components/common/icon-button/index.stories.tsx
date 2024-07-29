@@ -16,13 +16,13 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const gray: Story = {
+export const Gray: Story = {
   args: {
     variant: "gray",
   },
 };
 
-export const customBorder: Story = {
+export const CustomBorder: Story = {
   args: {
     variant: "green",
     icon: "IconProfile",
