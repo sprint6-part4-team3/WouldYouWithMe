@@ -36,44 +36,49 @@ const NavBar = ({ user, team }: NavBarProps) => {
         <>
           <div className="flex items-center whitespace-nowrap text-16-500 text-text-primary">
             <div className="mr-12 size-32 rounded-md bg-brand-primary" />
-            <div className="flex items-center">
-              {team.name}
-              <DropDown handleClose={teamDropdown.handleOff}>
-                <DropDown.Trigger onClick={teamDropdown.handleToggle}>
+            <DropDown handleClose={teamDropdown.handleOff}>
+              <DropDown.Trigger onClick={teamDropdown.handleToggle}>
+                <div className="flex items-center">
+                  {team.name}
                   <IconDropdown className="ml-12 mt-3" />
-                </DropDown.Trigger>
-                <DropDown.Menu
-                  isOpen={teamDropdown.value}
-                  position="top-50 right-0"
-                  className="w-140"
-                >
-                  <DropDown.Item>
-                    <div className="flex items-center">
-                      <div className="ml-12 size-32 rounded-md bg-point-blue" />
-                      <span className="ml-12">경영관리 팀</span>
-                    </div>
-                  </DropDown.Item>
-                  <DropDown.Item>
-                    <div className="flex items-center">
-                      <div className="ml-12 size-32 rounded-md bg-point-green" />
-                      <span className="ml-12">프로덕트 팀</span>
-                    </div>
-                  </DropDown.Item>
-                  <DropDown.Item>
-                    <div className="flex items-center">
-                      <div className="ml-12 size-32 rounded-md bg-point-rose" />
-                      <span className="ml-12">마케팅 팀</span>
-                    </div>
-                  </DropDown.Item>
-                  <DropDown.Item>팀추가하기버튼</DropDown.Item>
-                </DropDown.Menu>
-              </DropDown>
-            </div>
+                </div>
+              </DropDown.Trigger>
+              <DropDown.Menu
+                isOpen={teamDropdown.value}
+                position="top-50 right-0"
+                className="w-140"
+              >
+                <DropDown.Item>
+                  <div className="flex items-center">
+                    <div className="ml-12 size-32 rounded-md bg-point-blue" />
+                    <span className="ml-12">경영관리 팀</span>
+                  </div>
+                </DropDown.Item>
+                <DropDown.Item>
+                  <div className="flex items-center">
+                    <div className="ml-12 size-32 rounded-md bg-point-green" />
+                    <span className="ml-12">프로덕트 팀</span>
+                  </div>
+                </DropDown.Item>
+                <DropDown.Item>
+                  <div className="flex items-center">
+                    <div className="ml-12 size-32 rounded-md bg-point-rose" />
+                    <span className="ml-12">마케팅 팀</span>
+                  </div>
+                </DropDown.Item>
+                <DropDown.Item>팀추가하기버튼</DropDown.Item>
+              </DropDown.Menu>
+            </DropDown>
           </div>
           <div className="text-md-medium flex items-center justify-center whitespace-nowrap text-text-primary">
             <DropDown handleClose={userDropdown.handleOff}>
               <DropDown.Trigger onClick={userDropdown.handleToggle}>
-                <IconUser className="mr-12" />
+                <div className="flex items-center">
+                  <IconUser className="mr-12" />
+                  <span className={clsx("hidden", "xl:inline")}>
+                    {user.nickname}
+                  </span>
+                </div>
               </DropDown.Trigger>
               <DropDown.Menu
                 isOpen={userDropdown.value}
@@ -84,7 +89,6 @@ const NavBar = ({ user, team }: NavBarProps) => {
                 <DropDown.Item>로그아웃</DropDown.Item>
               </DropDown.Menu>
             </DropDown>
-            <span className={clsx("hidden", "xl:inline")}>{user.nickname}</span>
           </div>
         </>
       );
@@ -103,7 +107,12 @@ const NavBar = ({ user, team }: NavBarProps) => {
           <div className="text-md-medium flex items-center justify-center whitespace-nowrap text-text-primary">
             <DropDown handleClose={userDropdown.handleOff}>
               <DropDown.Trigger onClick={userDropdown.handleToggle}>
-                <IconUser className="mr-12" />
+                <div className="flex items-center">
+                  <IconUser className="mr-12" />
+                  <span className={clsx("hidden", "xl:inline")}>
+                    {user.nickname}
+                  </span>
+                </div>
               </DropDown.Trigger>
               <DropDown.Menu
                 isOpen={userDropdown.value}
@@ -114,7 +123,6 @@ const NavBar = ({ user, team }: NavBarProps) => {
                 <DropDown.Item>로그아웃</DropDown.Item>
               </DropDown.Menu>
             </DropDown>
-            <span className={clsx("hidden", "xl:inline")}>{user.nickname}</span>
           </div>
         </>
       );
