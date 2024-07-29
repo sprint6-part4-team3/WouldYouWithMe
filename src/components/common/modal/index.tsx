@@ -2,54 +2,11 @@
 
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { ReactNode, useRef } from "react";
+import React, { useRef } from "react";
 import { createPortal } from "react-dom";
 
 import { IconAlert, IconX } from "@/public/assets/icons";
-
-export interface ModalProps {
-  /**
-   * 모달의 열림/닫힘 상태를 제어합니다.
-   */
-  isOpen: boolean;
-
-  /**
-   * 모달이 닫힐 때 호출되는 함수입니다.
-   */
-  onClose: () => void;
-
-  /**
-   * 모달의 제목을 설정합니다.
-   */
-  title: string;
-
-  /**
-   * 모달의 설명 텍스트를 설정합니다.
-   */
-  description?: string;
-
-  /**
-   * 모달 닫기 버튼의 표시 여부를 설정합니다.
-   * 기본설정은 `false`입니다.
-   */
-  showCloseButton?: boolean;
-
-  /**
-   * 경고 아이콘의 표시 여부를 설정합니다.
-   * 기본설정은 `false`입니다.
-   */
-  showWarningIcon?: boolean;
-
-  /**
-   * 모달에 추가적인 CSS 클래스를 적용합니다.
-   */
-  className?: string;
-
-  /**
-   * 모달 내부에 표시될 자식 컴포넌트들입니다.
-   */
-  children?: ReactNode;
-}
+import { ModalProps } from "@/types/modal-drawer/index";
 
 const modalVariants = {
   hidden: {
@@ -118,6 +75,7 @@ const Modal: React.FC<ModalProps> = ({
         <motion.div
           ref={modalRef}
           onClick={(e) => e.target === modalRef.current && onClose()}
+          onKeyDown={(e) => e.key === "Escape" && onClose()}
           className="fixed inset-0 z-50 flex size-full items-center justify-center overflow-y-auto bg-background-primary/50"
           variants={overlayVariants}
           initial="hidden"
@@ -143,7 +101,7 @@ const Modal: React.FC<ModalProps> = ({
                 <IconX
                   width={20}
                   height={20}
-                  className="text-gray-500 transition-colors duration-200 hover:text-blue-500"
+                  className="text-gray-500 transition-colors duration-200"
                   transition-colors
                 />
               </button>
@@ -159,7 +117,7 @@ const Modal: React.FC<ModalProps> = ({
               {title && (
                 <h2
                   className={clsx(
-                    "font-pretendard leading-19 text-center text-16-500 text-text-primary",
+                    "text-center text-16-600 text-text-primary",
                     titleMarginClass,
                   )}
                 >
@@ -167,7 +125,7 @@ const Modal: React.FC<ModalProps> = ({
                 </h2>
               )}
               {description && (
-                <p className="font-pretendard leading-17 mb-24 text-center text-14-500 text-text-secondary">
+                <p className="mb-24 text-center text-14-500 text-text-secondary">
                   {description}
                 </p>
               )}
