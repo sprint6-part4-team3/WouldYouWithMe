@@ -100,13 +100,3 @@ export const NoCloseButton: Story = {
     showCloseButton: false,
   },
 };
-
-export const CloseOnlyByExternalClick: Story = {
-  render: (args) => <ModalWrapper {...args} />,
-  args: {
-    title: "외부 클릭으로만 닫기",
-    description:
-      "이 모달은 외부 클릭으로만 닫을 수 있습니다. 닫기 버튼이 없습니다.",
-    showCloseButton: false,
-  },
-};
