@@ -5,6 +5,7 @@ const pxToRem = require("tailwindcss-preset-px-to-rem");
 
 const config: Config = {
   presets: [pxToRem],
+  darkMode: "selector",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -37,7 +38,7 @@ const config: Config = {
           primary: "#0F172A",
           secondary: "#1E293B",
           tertiary: "#334155",
-          Inverse: "#FFF",
+          inverse: "#FFF",
         },
         interaction: {
           inactive: "#94A3B8",
