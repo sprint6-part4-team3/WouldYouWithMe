@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 
 import ErrorMessage from "../error-message";

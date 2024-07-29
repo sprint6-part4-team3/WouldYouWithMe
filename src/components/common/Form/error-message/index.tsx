@@ -1,3 +1,5 @@
+"use client";
+
 interface ErrorMessageProps {
   /** 에러메시지 입니다. */
   message: string;
