@@ -78,7 +78,7 @@ const Button = ({ children, variant, className, ...rest }: ButtonProps) => (
       {
         "bg-brand-primary text-text-inverse hover:bg-interaction-hover disabled:bg-interaction-inactive":
           variant === "primary",
-        "hover:text-interaction-hover border border-brand-primary bg-white text-brand-primary hover:border-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
+        "hover:text-interaction-hover border border-brand-primary bg-white text-brand-primary hover:border-interaction-hover hover:bg-[#F5F5F5] disabled:border-interaction-inactive disabled:text-interaction-inactive":
           variant === "white",
         "bg-status-danger text-text-inverse hover:bg-[#b91c1c]":
           variant === "danger",

@@ -2,7 +2,6 @@ import { clsx } from "clsx";
 import { ComponentProps } from "react";
 
 import CheckIcon from "@/public/assets/icons/icon-check-current.svg";
-import CheckIconWhite from "@/public/assets/icons/icon-check-white.svg";
 
 import IconButton from "../icon-button";
 
@@ -33,26 +32,22 @@ interface CheckButtonProps extends ComponentProps<"button"> {
   * @author ☯️채종민
   */
 
-const CheckButton = ({
-  children,
-  variant,
-  disabled,
-  ...rest
-}: CheckButtonProps) => (
+const CheckButton = ({ children, variant, ...rest }: CheckButtonProps) => (
   <IconButton
     Icon={
-      variant === "primary" ? (
-        <CheckIconWhite />
-      ) : (
-        <CheckIcon stroke={disabled ? "#94A3B8" : "#22b8cf"} />
-      )
+      <CheckIcon
+        className={clsx({
+          "stroke-white": variant === "primary",
+          "stroke-brand-primary group-hover:stroke-interaction-hover group-disabled:stroke-interaction-inactive":
+            variant === "white",
+        })}
+      />
     }
     variant={variant}
-    className={clsx("size-fit text-14 font-[600] leading-[17px]", {
+    className={clsx("group size-fit text-14 font-[600] leading-[17px]", {
       "px-21 py-[11.5px]": variant === "primary",
       "px-20 py-[10.5px]": variant === "white",
     })}
-    disabled={disabled}
     {...rest}
   >
     {children}
