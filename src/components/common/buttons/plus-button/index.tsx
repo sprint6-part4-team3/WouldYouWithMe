@@ -1,6 +1,6 @@
 import { ComponentProps } from "react";
 
-import PlusIcon from "@/public/assets/icons/icon-plus.svg";
+import { IconPlus } from "@/public/assets/icons";
 
 import IconButton from "../icon-button";
 
@@ -22,7 +22,7 @@ interface PlusButtonProps extends ComponentProps<"button"> {
 
 const PlusButton = ({ children, ...rest }: PlusButtonProps) => (
   <IconButton
-    Icon={<PlusIcon />}
+    Icon={<IconPlus />}
     variant="primary"
     className="size-fit px-21 py-[14.5px] text-16 font-[600] leading-[19px]"
     {...rest}
