@@ -159,7 +159,7 @@ const Modal: React.FC<ModalProps> = ({
               {title && (
                 <h2
                   className={clsx(
-                    "font-pretendard leading-19 text-center text-16 font-medium text-text-primary",
+                    "font-pretendard leading-19 text-center text-16-500 text-text-primary",
                     titleMarginClass,
                   )}
                 >
@@ -167,7 +167,7 @@ const Modal: React.FC<ModalProps> = ({
                 </h2>
               )}
               {description && (
-                <p className="font-pretendard leading-17 mb-24 text-center text-14 font-medium text-text-secondary">
+                <p className="font-pretendard leading-17 mb-24 text-center text-14-500 text-text-secondary">
                   {description}
                 </p>
               )}
