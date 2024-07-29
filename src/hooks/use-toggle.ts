@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const useBoolean = () => {
+const useToggle = () => {
   const [value, setValue] = useState(false);
 
   const handleOn = useCallback(() => {
@@ -18,4 +18,4 @@ const useBoolean = () => {
   return { value, handleOn, handleOff, handleToggle };
 };
 
-export default useBoolean;
+export default useToggle;

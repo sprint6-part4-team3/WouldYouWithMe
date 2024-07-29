@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { useEffect, useRef } from "react";
 
-import Input from "../Input";
+import Input from "../input";
 import ErrorMessage from ".";
 
 const meta = {

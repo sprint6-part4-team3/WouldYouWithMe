@@ -1,10 +1,9 @@
 ---
 name: "\U0001F528 Refactor"
 about: 코드 리팩토링 작업
-title: ''
+title: ""
 labels: "\U0001F528 Refactor"
-assignees: ''
-
+assignees: ""
 ---
 
 # 🔨 Refactor
