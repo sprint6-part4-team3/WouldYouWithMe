@@ -3,8 +3,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useEffect, useRef } from "react";
 
-import Input from "../input";
-import Textarea from "../textarea";
+import Input from "../input/index";
+import Textarea from "../textarea/index";
 import FieldWrapper from ".";
 
 const meta = {
