@@ -4,7 +4,7 @@ import { useState } from "react";
 import CheckButton from ".";
 
 const meta = {
-  title: "Components/체크 버튼",
+  title: "Components/Button/체크 버튼",
   component: CheckButton,
 } as Meta<typeof CheckButton>;
 

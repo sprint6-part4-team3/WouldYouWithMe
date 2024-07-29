@@ -4,7 +4,7 @@ import { useState } from "react";
 import PlusButton from ".";
 
 const meta = {
-  title: "Components/플러스 버튼",
+  title: "Components/Button/플러스 버튼",
   component: PlusButton,
 } as Meta<typeof PlusButton>;
 

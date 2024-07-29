@@ -4,7 +4,7 @@ import { useState } from "react";
 import Button from ".";
 
 const meta = {
-  title: "Components/버튼",
+  title: "Components/Button/버튼",
   component: Button,
   args: {
     className: "h-48 w-332",
