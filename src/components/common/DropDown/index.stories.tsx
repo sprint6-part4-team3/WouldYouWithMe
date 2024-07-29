@@ -30,10 +30,10 @@ export const Primary: Story = {
       const { value, handleOff, handleToggle } = useToggle();
 
       return (
-        <div className="flex h-200 justify-center text-14">
+        <div className="flex h-200 justify-center text-14-500">
           <DropDown handleClose={handleOff}>
             <DropDown.Trigger onClick={handleToggle}>
-              <span className="cursor-pointer text-16 text-text-primary">
+              <span className="cursor-pointer text-16-700 text-text-primary">
                 ⋮
               </span>
             </DropDown.Trigger>

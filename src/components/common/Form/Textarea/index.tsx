@@ -16,7 +16,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ id, placeholder, isError = false, rows = 3, ...props }, ref) => (
     <textarea
       className={clsx(
-        "w-full resize-none rounded-xl bg-background-secondary px-16 py-15 text-lg-regular text-text-primary outline-none ring-1",
+        "w-full resize-none rounded-xl bg-background-secondary px-16 py-15 text-16-500 text-text-primary outline-none ring-1",
         isError
           ? "ring-status-danger"
           : "ring-border-primary focus:ring-brand-primary",

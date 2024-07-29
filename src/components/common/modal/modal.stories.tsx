@@ -29,7 +29,7 @@ const ModalWrapper: React.FC<ModalProps> = (args) => {
     <div>
       <button
         onClick={() => setIsOpen(true)}
-        className="rounded bg-brand-primary px-4 py-2 font-bold text-white hover:bg-interaction-hover"
+        className="rounded bg-brand-primary px-4 py-2 font-16-700 text-white hover:bg-interaction-hover"
       >
         모달 열기
       </button>
