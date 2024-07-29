@@ -3,7 +3,7 @@
 import { motion, MotionProps as FramerMotionProps } from "framer-motion";
 import React, { ReactNode } from "react";
 
-type AnimationType = "slow-appearance";
+type AnimationType = "fade-in";
 
 interface MotionProps extends FramerMotionProps {
   children: ReactNode;
@@ -11,7 +11,7 @@ interface MotionProps extends FramerMotionProps {
 }
 
 const animations: Record<AnimationType, Partial<FramerMotionProps>> = {
-  "slow-appearance": {
+  "fade-in": {
     initial: { opacity: 0 },
     animate: { opacity: 1 },
     transition: { duration: 2 },
@@ -24,7 +24,7 @@ const animations: Record<AnimationType, Partial<FramerMotionProps>> = {
  * framer-motion을 적용할 곳에 감싸서 사용하면 됩니다.
  * framer-motion motion 속성 전부 사용 가능하며, 자주 쓰는 애니메이션은 animation prop으로 쉽게 사용 가능합니다.
  * @example
- *  <Motion animation="slow-appearance" >
+ *  <Motion animation="fade-in" >
  *    <h1>Hello, Framer Motion!</h1>
  *  </Motion>
  *
@@ -38,7 +38,7 @@ const animations: Record<AnimationType, Partial<FramerMotionProps>> = {
  *  </Motion>
  *
  * @param children ReactNode
- * @param animation "slow-appearance" | (추가 애니메이션 타입)
+ * @param animation "fade-in" | (추가 애니메이션 타입)
  * @param rest framer-motion의 motion 속성 사용 가능
  * @author ☯️채종민
  */

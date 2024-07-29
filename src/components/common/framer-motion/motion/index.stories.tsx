@@ -11,9 +11,9 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const slowAppearance: Story = {
+export const fadeIn: Story = {
   args: {
-    animation: "slow-appearance",
+    animation: "fade-in",
     children: (
       <h1 className="text-14-700 text-brand-primary">Hello, Framer Motion!</h1>
     ),
