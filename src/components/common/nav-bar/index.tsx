@@ -30,11 +30,6 @@ const NavBar = ({ user, team }: NavBarProps) => {
   const teamDropdown = useToggle();
   const userDropdown = useToggle();
 
-  const closeDropDowns = () => {
-    teamDropdown.handleOff();
-    userDropdown.handleOff();
-  };
-
   const renderContent = () => {
     if (user && team) {
       return (
@@ -43,7 +38,7 @@ const NavBar = ({ user, team }: NavBarProps) => {
             <div className="mr-12 size-32 rounded-md bg-brand-primary" />
             <div className="flex items-center">
               {team.name}
-              <DropDown handleClose={closeDropDowns}>
+              <DropDown handleClose={teamDropdown.handleOff}>
                 <DropDown.Trigger onClick={teamDropdown.handleToggle}>
                   <IconDropdown className="ml-12 mt-3" />
                 </DropDown.Trigger>
@@ -76,7 +71,7 @@ const NavBar = ({ user, team }: NavBarProps) => {
             </div>
           </div>
           <div className="text-md-medium flex items-center justify-center whitespace-nowrap text-text-primary">
-            <DropDown handleClose={closeDropDowns}>
+            <DropDown handleClose={userDropdown.handleOff}>
               <DropDown.Trigger onClick={userDropdown.handleToggle}>
                 <IconUser className="mr-12" />
               </DropDown.Trigger>
@@ -106,7 +101,7 @@ const NavBar = ({ user, team }: NavBarProps) => {
             />
           </div>
           <div className="text-md-medium flex items-center justify-center whitespace-nowrap text-text-primary">
-            <DropDown handleClose={closeDropDowns}>
+            <DropDown handleClose={userDropdown.handleOff}>
               <DropDown.Trigger onClick={userDropdown.handleToggle}>
                 <IconUser className="mr-12" />
               </DropDown.Trigger>
