@@ -23,10 +23,10 @@ interface NavBarProps {
   team: Team | null;
 }
 
-const NavBar = ({ user, team }: NavBarProps) => (
-  <header className="sticky top-0 z-10 h-60 border-b border-border-primary bg-background-secondary">
-    <div className="mx-16 flex h-full items-center justify-between lg:mx-200 xl:mx-360">
-      {user && team ? (
+const NavBar = ({ user, team }: NavBarProps) => {
+  const renderContent = () => {
+    if (user && team) {
+      return (
         <>
           <div className="flex items-center whitespace-nowrap text-lg-medium text-text-primary">
             <div className="mr-12 size-32 rounded-md bg-brand-primary" />
@@ -38,7 +38,11 @@ const NavBar = ({ user, team }: NavBarProps) => (
             <span className={clsx("hidden", "xl:inline")}>{user.nickname}</span>
           </div>
         </>
-      ) : (
+      );
+    }
+
+    if (user) {
+      return (
         <>
           <div className="relative w-102 shrink-0 xl:w-158">
             <Image
@@ -47,11 +51,31 @@ const NavBar = ({ user, team }: NavBarProps) => (
               className="object-fill"
             />
           </div>
-          <span className="whitespace-nowrap text-text-primary">로그인</span>
+          <div className="flex items-center justify-center whitespace-nowrap text-md-medium text-text-primary">
+            <IconUser className="mr-12" />
+            <span className={clsx("hidden", "xl:inline")}>{user.nickname}</span>
+          </div>
         </>
-      )}
-    </div>
-  </header>
-);
+      );
+    }
+
+    return (
+      <>
+        <div className="relative w-102 shrink-0 xl:w-158">
+          <Image src={LogoImage} alt="코워커스 로고" className="object-fill" />
+        </div>
+        <span className="whitespace-nowrap text-text-primary">로그인</span>
+      </>
+    );
+  };
+
+  return (
+    <header className="sticky top-0 z-10 h-60 border-b border-border-primary bg-background-secondary">
+      <div className="mx-16 flex h-full items-center justify-between lg:mx-200 xl:mx-360">
+        {renderContent()}
+      </div>
+    </header>
+  );
+};
 
 export default NavBar;
