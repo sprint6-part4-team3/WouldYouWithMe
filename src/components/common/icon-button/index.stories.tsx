@@ -3,11 +3,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import IconButton from ".";
 
 const meta = {
-  title: "components/아이콘 버튼",
+  title: "components/IconButton",
   component: IconButton,
   tags: ["autodocs"],
   args: {
-    border: false,
+    isBorder: false,
     icon: "IconUser",
   },
 } as Meta<typeof IconButton>;
@@ -26,6 +26,6 @@ export const CustomBorder: Story = {
   args: {
     variant: "green",
     icon: "IconProfile",
-    border: true,
+    isBorder: true,
   },
 };

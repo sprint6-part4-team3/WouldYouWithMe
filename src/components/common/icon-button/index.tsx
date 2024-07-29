@@ -12,12 +12,12 @@ interface IconButtonProps extends ComponentProps<"button"> {
   /** 사용 할 아이콘 */
   icon: IconType;
   /** 테두리 */
-  border?: boolean;
+  isBorder?: boolean;
 }
 
 const IconButton = ({
   variant = "gray",
-  border = false,
+  isBorder = false,
   icon,
   ...props
 }: IconButtonProps) => {
@@ -25,15 +25,14 @@ const IconButton = ({
   return (
     <button
       type="button"
-      className={clsx(
-        `rounded-full px-4 py-5`,
-        variant === "gray" && "bg-background-tertiary",
-        variant === "darkest" && "bg-background-secondary",
-        variant === "bright" && "bg-slate-500",
-        variant === "green" && "bg-point-green",
-        variant === "none" && "",
-        border && "border-2 border-background-primary",
-      )}
+      className={clsx(`rounded-full px-4 py-5`, {
+        "bg-background-tertiary": variant === "gray",
+        "bg-background-secondary": variant === "darkest",
+        "bg-slate-500": variant === "bright",
+        "bg-point-green": variant === "green",
+        "": variant === "none",
+        "border-2 border-background-primary": isBorder,
+      })}
       {...props}
     >
       <SVGIcon className="m-auto" />
