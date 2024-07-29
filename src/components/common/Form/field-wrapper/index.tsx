@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../error-message";
 
 interface FieldWrapperProps {
   /** input의 id 와 연결되는 label 의 htmlFor 값 입니다. */

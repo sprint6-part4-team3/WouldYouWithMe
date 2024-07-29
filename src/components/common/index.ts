@@ -1,7 +1,7 @@
-export { default as DropDown } from "./DropDown";
-export { default as ErrorMessage } from "./Form/ErrorMessage";
-export { default as FieldWrapper } from "./Form/FieldWrapper";
-export { default as Input } from "./Form/Input";
-export { default as Textarea } from "./Form/Textarea";
-export { default as Modal } from "./modal/common-modal";
-export { default as NavBar } from "./NavBar";
+export { default as DropDown } from "./drop-down";
+export { default as ErrorMessage } from "./form/error-message";
+export { default as FieldWrapper } from "./form/field-wrapper";
+export { default as Input } from "./form/input";
+export { default as Textarea } from "./form/textarea";
+export { default as Modal } from "./modal";
+export { default as NavBar } from "./nav-bar";
