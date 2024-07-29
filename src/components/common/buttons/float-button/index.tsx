@@ -21,13 +21,13 @@ interface IconButtonProps extends ComponentProps<"button"> {
  * button attributes 모두 사용 가능합니다.
  * @example
  * import IconPlus from "@/public/assets/icons/icon-plus.svg";
- *  <IconButton
+ *  <FloatButton
       Icon={<IconPlus />}
       variant="primary"
       className="h-83 w-280 text-15"
     >
       추가하기
-    </IconButton>
+    </FloatButton>
   * @param children 버튼 안에 들어갈 글자
   * @param variant 
   *   "primary"(primary 배경색+하얀 글자) | 
