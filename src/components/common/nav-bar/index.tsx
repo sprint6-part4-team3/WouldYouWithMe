@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import clsx from "clsx";
@@ -49,18 +47,30 @@ const NavBar = ({ user, team }: NavBarProps) => {
                 <DropDown.Trigger onClick={teamDropdown.handleToggle}>
                   <IconDropdown className="ml-12 mt-3" />
                 </DropDown.Trigger>
-                <DropDown.Menu isOpen={teamDropdown.value}>
-                  <DropDown.Item
-                    onClick={() => console.log("마이 히스토리 클릭")}
-                  >
-                    마이 히스토리
+                <DropDown.Menu
+                  isOpen={teamDropdown.value}
+                  position="top-50 right-0"
+                  className="w-140"
+                >
+                  <DropDown.Item>
+                    <div className="flex items-center">
+                      <div className="ml-12 size-32 rounded-md bg-point-blue" />
+                      <span className="ml-12">경영관리 팀</span>
+                    </div>
                   </DropDown.Item>
-                  <DropDown.Item onClick={() => console.log("계정 설정 클릭")}>
-                    계정 설정
+                  <DropDown.Item>
+                    <div className="flex items-center">
+                      <div className="ml-12 size-32 rounded-md bg-point-green" />
+                      <span className="ml-12">프로덕트 팀</span>
+                    </div>
                   </DropDown.Item>
-                  <DropDown.Item onClick={() => console.log("로그아웃 클릭")}>
-                    로그아웃
+                  <DropDown.Item>
+                    <div className="flex items-center">
+                      <div className="ml-12 size-32 rounded-md bg-point-rose" />
+                      <span className="ml-12">마케팅 팀</span>
+                    </div>
                   </DropDown.Item>
+                  <DropDown.Item>팀추가하기버튼</DropDown.Item>
                 </DropDown.Menu>
               </DropDown>
             </div>
@@ -70,18 +80,13 @@ const NavBar = ({ user, team }: NavBarProps) => {
               <DropDown.Trigger onClick={userDropdown.handleToggle}>
                 <IconUser className="mr-12" />
               </DropDown.Trigger>
-              <DropDown.Menu isOpen={userDropdown.value}>
-                <DropDown.Item
-                  onClick={() => console.log("마이 히스토리 클릭")}
-                >
-                  마이 히스토리
-                </DropDown.Item>
-                <DropDown.Item onClick={() => console.log("계정 설정 클릭")}>
-                  계정 설정
-                </DropDown.Item>
-                <DropDown.Item onClick={() => console.log("로그아웃 클릭")}>
-                  로그아웃
-                </DropDown.Item>
+              <DropDown.Menu
+                isOpen={userDropdown.value}
+                position="top-50 left-0"
+              >
+                <DropDown.Item>마이 히스토리</DropDown.Item>
+                <DropDown.Item>계정 설정</DropDown.Item>
+                <DropDown.Item>로그아웃</DropDown.Item>
               </DropDown.Menu>
             </DropDown>
             <span className={clsx("hidden", "xl:inline")}>{user.nickname}</span>
@@ -105,18 +110,13 @@ const NavBar = ({ user, team }: NavBarProps) => {
               <DropDown.Trigger onClick={userDropdown.handleToggle}>
                 <IconUser className="mr-12" />
               </DropDown.Trigger>
-              <DropDown.Menu isOpen={userDropdown.value}>
-                <DropDown.Item
-                  onClick={() => console.log("마이 히스토리 클릭")}
-                >
-                  마이 히스토리
-                </DropDown.Item>
-                <DropDown.Item onClick={() => console.log("계정 설정 클릭")}>
-                  계정 설정
-                </DropDown.Item>
-                <DropDown.Item onClick={() => console.log("로그아웃 클릭")}>
-                  로그아웃
-                </DropDown.Item>
+              <DropDown.Menu
+                isOpen={userDropdown.value}
+                position="top-50 left-0"
+              >
+                <DropDown.Item>마이 히스토리</DropDown.Item>
+                <DropDown.Item>계정 설정</DropDown.Item>
+                <DropDown.Item>로그아웃</DropDown.Item>
               </DropDown.Menu>
             </DropDown>
             <span className={clsx("hidden", "xl:inline")}>{user.nickname}</span>
