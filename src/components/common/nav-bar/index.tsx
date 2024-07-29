@@ -82,7 +82,7 @@ const NavBar = ({ user, team }: NavBarProps) => {
               </DropDown.Trigger>
               <DropDown.Menu
                 isOpen={userDropdown.value}
-                position="top-50 left-0"
+                position="top-50 right-0 lg:left-0"
               >
                 <DropDown.Item>마이 히스토리</DropDown.Item>
                 <DropDown.Item>계정 설정</DropDown.Item>
@@ -112,7 +112,7 @@ const NavBar = ({ user, team }: NavBarProps) => {
               </DropDown.Trigger>
               <DropDown.Menu
                 isOpen={userDropdown.value}
-                position="top-50 left-0"
+                position="top-50 right-0 lg:left-0"
               >
                 <DropDown.Item>마이 히스토리</DropDown.Item>
                 <DropDown.Item>계정 설정</DropDown.Item>
