@@ -2,7 +2,7 @@ import { ComponentProps } from "react";
 
 import { IconPlus } from "@/public/assets/icons";
 
-import IconButton from "../icon-button";
+import FloatButton from "../float-button";
 
 interface PlusButtonProps extends ComponentProps<"button"> {
   children: string;
@@ -21,14 +21,14 @@ interface PlusButtonProps extends ComponentProps<"button"> {
  */
 
 const PlusButton = ({ children, ...rest }: PlusButtonProps) => (
-  <IconButton
+  <FloatButton
     Icon={<IconPlus />}
     variant="primary"
     className="size-fit px-21 py-[14.5px] text-16-600"
     {...rest}
   >
     {children}
-  </IconButton>
+  </FloatButton>
 );
 
 export default PlusButton;

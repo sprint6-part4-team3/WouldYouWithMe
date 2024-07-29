@@ -3,7 +3,7 @@ import { ComponentProps } from "react";
 
 import { IconCheckCurrent } from "@/public/assets/icons";
 
-import IconButton from "../icon-button";
+import FloatButton from "../float-button";
 
 interface CheckButtonProps extends ComponentProps<"button"> {
   children: string;
@@ -33,7 +33,7 @@ interface CheckButtonProps extends ComponentProps<"button"> {
   */
 
 const CheckButton = ({ children, variant, ...rest }: CheckButtonProps) => (
-  <IconButton
+  <FloatButton
     Icon={
       <IconCheckCurrent
         className={clsx({
@@ -51,7 +51,7 @@ const CheckButton = ({ children, variant, ...rest }: CheckButtonProps) => (
     {...rest}
   >
     {children}
-  </IconButton>
+  </FloatButton>
 );
 
 export default CheckButton;

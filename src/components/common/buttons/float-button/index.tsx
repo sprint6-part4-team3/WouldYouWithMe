@@ -40,7 +40,7 @@ interface IconButtonProps extends ComponentProps<"button"> {
   * @author ☯️채종민
   */
 
-const IconButton = ({
+const FloatButton = ({
   children,
   variant,
   className,
@@ -72,4 +72,4 @@ const IconButton = ({
   </button>
 );
 
-export default IconButton;
+export default FloatButton;
