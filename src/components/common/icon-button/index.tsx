@@ -4,7 +4,7 @@ import { ComponentProps } from "react";
 import * as Icons from "@/public/assets/icons";
 
 type IconType = keyof typeof Icons;
-export const IconTypes: IconType[] = Object.keys(Icons) as IconType[]; // 스토리에서 불러오기 위함
+export const IconTypes: IconType[] = Object.keys(Icons) as IconType[];
 
 interface IconButtonProps extends ComponentProps<"button"> {
   /** 아이콘 버튼 스타일 */
