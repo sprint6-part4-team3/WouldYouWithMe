@@ -3,7 +3,6 @@ import ReportBox from "./_components/report";
 
 const TeamPage = () => (
   <>
-    <div />
     <ReportBox />
     <MemberBox />
   </>
