@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { AnimatePresence, motion, PanInfo } from "framer-motion";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { IconAlert, IconX } from "@/public/assets/icons";
@@ -44,16 +44,16 @@ const overlayVariants = {
  * 페이지 위에 오버레이와 함께 내용을 표시합니다.
  * 터치로 위 또는 아래로 드래그하여 닫을 수 있습니다.
  */
-const Drawer: React.FC<DrawerProps> = ({
+const Drawer = ({
   isOpen,
   onClose,
   title,
   description,
-  showCloseButton = true,
+  showCloseButton = false,
   showWarningIcon = false,
   className,
   children,
-}) => {
+}: DrawerProps) => {
   const drawerRef = useRef<HTMLDivElement>(null);
   const [drawerHeight, setDrawerHeight] = useState<number | null>(null);
 
@@ -63,7 +63,7 @@ const Drawer: React.FC<DrawerProps> = ({
     event: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo,
   ) => {
-    const threshold = drawerHeight ? drawerHeight / 4 : 200;
+    const threshold = drawerHeight ? drawerHeight / 4 : 200; // 드로어 높이의 1/4 또는 기본값 200px
 
     if (info.velocity.y > 20 || info.offset.y > threshold) {
       // 아래로 빠르게 스와이프하거나 충분히 아래로 드래그
@@ -74,7 +74,7 @@ const Drawer: React.FC<DrawerProps> = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (drawerRef.current) {
       setDrawerHeight(drawerRef.current.offsetHeight);
     }
@@ -84,11 +84,13 @@ const Drawer: React.FC<DrawerProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          ref={drawerRef}
           className="fixed inset-0 z-50 flex items-end justify-center bg-background-primary/50"
           variants={overlayVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
+          onClick={(e) => e.target === drawerRef.current && onClose()}
         >
           <motion.div
             ref={drawerRef}
@@ -132,14 +134,14 @@ const Drawer: React.FC<DrawerProps> = ({
               )}
 
               {title && (
-                <h2
+                <h1
                   className={clsx(
                     "text-center text-16-600 text-text-primary",
                     titleMarginClass,
                   )}
                 >
                   {title}
-                </h2>
+                </h1>
               )}
               {description && (
                 <p className="mb-24 text-center text-14-500 text-text-secondary">
