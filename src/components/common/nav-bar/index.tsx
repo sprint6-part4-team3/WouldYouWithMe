@@ -1,10 +1,6 @@
-"use client";
+"use server";
 
-import clsx from "clsx";
-import Image from "next/image";
-
-import { IconDropdown, IconUser } from "@/public/assets/icons";
-import LogoImage from "@/public/assets/images/logo-coworkers.png";
+import { Logo, TeamDropdown, UserDropdown } from "./nav-component";
 
 // 임시로 넣었습니다. api 작업 후 수정할 예정입니다.
 interface User {
@@ -23,35 +19,41 @@ interface NavBarProps {
   team: Team | null;
 }
 
-const NavBar = ({ user, team }: NavBarProps) => (
-  <header className="sticky top-0 z-10 h-60 border-b border-border-primary bg-background-secondary">
-    <div className="mx-16 flex h-full items-center justify-between lg:mx-200 xl:mx-360">
-      {user && team ? (
+const NavBar = ({ user, team }: NavBarProps) => {
+  const renderContent = () => {
+    if (user && team) {
+      return (
         <>
-          <div className="flex items-center whitespace-nowrap text-16-500 text-text-primary">
-            <div className="mr-12 size-32 rounded-md bg-brand-primary" />
-            {team.name}
-            <IconDropdown className="ml-12" />
-          </div>
-          <div className="flex items-center justify-center whitespace-nowrap text-14-500 text-text-primary">
-            <IconUser className="mr-12" />
-            <span className={clsx("hidden", "xl:inline")}>{user.nickname}</span>
-          </div>
+          <TeamDropdown teamName={team.name} />
+          <UserDropdown userNickname={user.nickname} />
         </>
-      ) : (
+      );
+    }
+
+    if (user) {
+      return (
         <>
-          <div className="relative w-102 shrink-0 xl:w-158">
-            <Image
-              src={LogoImage}
-              alt="코워커스 로고"
-              className="object-fill"
-            />
-          </div>
-          <span className="whitespace-nowrap text-text-primary">로그인</span>
+          <Logo />
+          <UserDropdown userNickname={user.nickname} />
         </>
-      )}
-    </div>
-  </header>
-);
+      );
+    }
+
+    return (
+      <>
+        <Logo />
+        <span className="whitespace-nowrap text-text-primary">로그인</span>
+      </>
+    );
+  };
+
+  return (
+    <header className="sticky top-0 z-10 h-60 border-b border-border-primary bg-background-secondary">
+      <div className="mx-16 flex h-full items-center justify-between lg:mx-200 xl:mx-360">
+        {renderContent()}
+      </div>
+    </header>
+  );
+};
 
 export default NavBar;
