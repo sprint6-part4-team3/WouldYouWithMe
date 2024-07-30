@@ -14,7 +14,10 @@ export const ToastAtom = atom(
       id: Date.now().toString(),
     };
 
-    set(ToastListAtom, [...prevAtom, newToast]);
+    const lastToast = prevAtom[prevAtom.length - 1];
+    if (!lastToast || lastToast.type !== type) {
+      set(ToastListAtom, [...prevAtom, newToast]);
+    }
   },
 );
 
