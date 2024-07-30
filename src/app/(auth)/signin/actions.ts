@@ -5,7 +5,7 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
-export default async function signIn(email: string, password: string) {
+const signIn = async (email: string, password: string) => {
   try {
     const response = await axios.post(
       `https://fe-project-cowokers.vercel.app/6-3/auth/signIn`,
@@ -47,4 +47,6 @@ export default async function signIn(email: string, password: string) {
       data: { message: "로그인 요청 중 오류가 발생했습니다." },
     };
   }
-}
+};
+
+export default signIn;
