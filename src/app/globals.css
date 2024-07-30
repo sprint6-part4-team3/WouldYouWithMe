@@ -33,6 +33,14 @@ input {
   caret-color: #f8fafc;
 }
 
+.group:hover .group-hover {
+  color: #66d9e8;
+}
+
+.group:hover .group-hover {
+  text-decoration: underline;
+}
+
 .text-gradient {
   @apply bg-gradient-to-r from-brand-primary to-brand-tertiary bg-clip-text text-transparent;
 }
