@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import { Logo, TeamDropdown, UserDropdown } from "./nav-component";
 
