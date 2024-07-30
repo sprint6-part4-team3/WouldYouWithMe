@@ -10,20 +10,22 @@ interface DropDownMenuProps {
   isOpen: boolean;
   /** 드롭다운 메뉴 위치입니다. 기본값 top-30 right-0 */
   position?: string;
+  className?: string;
 }
 
 const DropDownMenu = ({
   children,
   isOpen,
   position = "top-30 right-0",
+  className,
 }: DropDownMenuProps) => (
   <AnimatePresence>
     {isOpen && (
       <motion.div
-        className={`${position} absolute z-10 w-120 overflow-hidden rounded-12 border border-border-primary bg-background-secondary text-text-primary shadow-md`}
-        initial={{ opacity: 0, scale: 0.5, x: 20, y: -50 }}
-        animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
-        exit={{ opacity: 0, scale: 0.5, x: 20, y: -50 }}
+        className={`${position} ${className} absolute z-10 w-120 overflow-hidden rounded-12 border border-border-primary bg-background-secondary text-text-primary shadow-md`}
+        initial={{ opacity: 0, scale: 0.5, y: -70 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.5, y: -70 }}
       >
         <ul className="text-center">{children}</ul>
       </motion.div>
