@@ -1,5 +1,7 @@
 import Button from "@/components/common/buttons/button";
+import Drawer from "@/components/common/drawer";
 import Modal from "@/components/common/modal";
+import useIsMobile from "@/hooks/use-is-mobile";
 import useToast from "@/hooks/use-toast";
 import { IconProfile } from "@/public/assets/icons";
 
@@ -10,6 +12,7 @@ interface ProfileModalProps {
 
 const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
   const toast = useToast();
+  const isMobile = useIsMobile();
 
   const handleClickCopy = () => {
     // TODO: 이메일 복사하기
@@ -17,8 +20,10 @@ const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
     onClose();
   };
 
+  const CommonComponent = isMobile ? Drawer : Modal;
+
   return (
-    <Modal showCloseButton isOpen={isOpen} onClose={onClose} title="">
+    <CommonComponent showCloseButton isOpen={isOpen} onClose={onClose} title="">
       <div className="flex w-full flex-col items-center justify-center gap-24">
         <IconProfile width={52} height={52} />
         <div className="flex flex-col items-center gap-8">
@@ -36,7 +41,7 @@ const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
           이메일 복사하기
         </Button>
       </div>
-    </Modal>
+    </CommonComponent>
   );
 };
 export default ProfileModal;

@@ -1,19 +1,24 @@
 "use client";
 
 import Button from "@/components/common/buttons/button";
+import Drawer from "@/components/common/drawer";
 import Modal from "@/components/common/modal";
+import useIsMobile from "@/hooks/use-is-mobile";
 import useToast from "@/hooks/use-toast";
 import useToggle from "@/hooks/use-toggle";
 
 const AddMemberModal2 = () => {
   const { value, handleOn, handleOff } = useToggle();
   const toast = useToast();
+  const isMobile = useIsMobile();
 
   const handleClickCopy = () => {
     // TODO: 링크 생성해서 복사하기
     toast.success("링크가 복사되었습니다.");
     handleOff();
   };
+
+  const CommonComponent = isMobile ? Drawer : Modal;
 
   return (
     <>
@@ -23,7 +28,7 @@ const AddMemberModal2 = () => {
       >
         + 멤버 추가하기
       </div>
-      <Modal
+      <CommonComponent
         showCloseButton
         isOpen={value}
         onClose={handleOff}
@@ -37,7 +42,7 @@ const AddMemberModal2 = () => {
         >
           복사하기
         </Button>
-      </Modal>
+      </CommonComponent>
     </>
   );
 };
