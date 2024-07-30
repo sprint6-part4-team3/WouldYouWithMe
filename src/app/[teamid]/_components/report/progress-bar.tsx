@@ -9,7 +9,7 @@ interface ProgressBarProps {
 
 const ProgressBar = ({ percentage }: ProgressBarProps) => (
   <div className="flex items-center">
-    <div className="size-180">
+    <div className="size-160 lg:size-180">
       <CircularProgressbar
         styles={buildStyles({
           rotation: 0.25,

@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className="dark">
       <body
-        className={`${inter.className} dark:bg-background-primary dark:text-text-primary`}
+        className={`${inter.className} mx-16 dark:bg-background-primary dark:text-text-primary`}
       >
         {children}
       </body>

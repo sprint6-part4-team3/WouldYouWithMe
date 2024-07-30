@@ -5,7 +5,7 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => (
-  <main className="mx-16">{children}</main>
+  <main className="mx-auto flex max-w-1200 flex-col gap-48">{children}</main>
 );
 
 export default Layout;
