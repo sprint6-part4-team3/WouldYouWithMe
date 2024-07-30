@@ -39,3 +39,11 @@ export const LoggedOut: Story = {
   },
   name: "로그인안했을때",
 };
+
+export const LoggedInNotTeam: Story = {
+  args: {
+    user: loggedInUser,
+    team: null,
+  },
+  name: "로그인했는데팀이없을때",
+};
