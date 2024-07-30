@@ -7,7 +7,6 @@ import useToggle from "@/hooks/use-toggle";
 import { IconDropdown, IconUser } from "@/public/assets/icons";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
 
-import PlusButton from "../buttons/plus-button";
 import DropDown from "../drop-down";
 
 interface TeamDropdownProps {
@@ -50,13 +49,7 @@ const TeamDropdown = ({ teamName }: TeamDropdownProps) => {
               <span className="ml-12">마케팅 팀</span>
             </div>
           </DropDown.Item>
-          <DropDown.Item>
-            <div className="flex justify-center">
-              <PlusButton className="h-40 w-130 rounded-10 border border-border-primary bg-transparent">
-                팀 추가하기
-              </PlusButton>
-            </div>
-          </DropDown.Item>
+          <DropDown.Item>+ 팀 추가하기</DropDown.Item>
         </DropDown.Menu>
       </DropDown>
     </div>
