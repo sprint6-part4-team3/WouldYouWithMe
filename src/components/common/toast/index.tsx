@@ -58,7 +58,12 @@ const Toast = ({ type, message = "test", id }: ToastProps) => {
       ) : (
         <Lottie
           animationData={ErrorAnimation}
-          style={{ width: "26px", height: "26px", marginRight: "6px" }}
+          style={{
+            width: "18px",
+            height: "18px",
+            marginLeft: "3px",
+            marginRight: "10px",
+          }}
         />
       )}
       <span className="mr-6 text-16-500">{message}</span>
