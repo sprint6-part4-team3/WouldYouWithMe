@@ -7,9 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import Button from "@/components/common/buttons/button";
-import FieldWrapper from "@/components/common/Form/field-wrapper";
-import Input from "@/components/common/Form/input";
+import { Button, FieldWrapper, Input } from "@/components/common";
 import loginSchema from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { SignInInput } from "@/types/auth";
