@@ -1,9 +1,9 @@
-import Report from "./_components/report";
+import ReportBox from "./_components/report";
 
 const TeamPage = () => (
   <>
     <div />
-    <Report />
+    <ReportBox />
   </>
 );
 

@@ -32,3 +32,7 @@ input:-webkit-autofill:active {
 input {
   caret-color: #f8fafc;
 }
+
+.text-gradient {
+  @apply bg-gradient-to-r from-brand-primary to-brand-tertiary bg-clip-text text-transparent;
+}
