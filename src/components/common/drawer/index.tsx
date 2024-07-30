@@ -134,14 +134,14 @@ const Drawer = ({
               )}
 
               {title && (
-                <h1
+                <h2
                   className={clsx(
                     "text-center text-16-600 text-text-primary",
                     titleMarginClass,
                   )}
                 >
                   {title}
-                </h1>
+                </h2>
               )}
               {description && (
                 <p className="mb-24 text-center text-14-500 text-text-secondary">
