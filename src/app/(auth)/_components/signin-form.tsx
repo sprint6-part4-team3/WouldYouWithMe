@@ -5,7 +5,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import Button from "@/components/common/buttons/button";
@@ -27,24 +26,19 @@ const SignInForm: React.FC = () => {
     mode: "onSubmit",
   });
 
-  const [errorMessage, setErrorMessage] = useState("");
-
   const onSubmit: SubmitHandler<SignInInput> = async (data) => {
     const { email, password } = data;
     const resData = await signIn(email, password);
     if (!resData.success) {
-      const message =
-        resData.data?.message || "로그인 실패. 다시 시도해주세요.";
-      setErrorMessage(message);
+      const message = resData.data?.message;
       console.error("로그인 실패:", message);
     } else {
-      setErrorMessage("");
       console.log("로그인 성공");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-350 md:w-460">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-350 md:w-450">
       <p className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
         로그인
       </p>
@@ -75,6 +69,7 @@ const SignInForm: React.FC = () => {
             isError={!!errors.password}
           />
         </FieldWrapper>
+        {/* 비밀번호 재설정 모달 띄우기  */}
         <p className="mt-12 text-right text-16-500 text-brand-primary underline">
           비밀번호를 잊으셨나요?
         </p>
@@ -95,6 +90,7 @@ const SignInForm: React.FC = () => {
       </div>
       <div className="mt-16 flex w-full justify-between">
         <p className=" text-16-500">간편 로그인하기</p>
+        {/* 간편 로그인 작업 예정 */}
         <div className="flex gap-4">
           <button
             type="button"

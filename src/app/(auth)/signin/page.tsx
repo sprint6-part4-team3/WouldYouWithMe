@@ -1,3 +1,5 @@
+"use server";
+
 import SignInForm from "../_components/signin-form";
 
 const SignIn = () => (

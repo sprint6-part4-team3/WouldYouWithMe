@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 "use server";
 
 import axios from "axios";
@@ -26,22 +24,7 @@ const signIn = async (email: string, password: string) => {
       return { success: true };
     }
     return { success: false, data };
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error message:", error.message);
-      if (error.response) {
-        console.error("Axios response data:", error.response.data);
-        console.error("Axios response status:", error.response.status);
-        return { success: false, data: error.response.data };
-      }
-      if (error.request) {
-        console.error("Axios request data:", error.request);
-      } else {
-        console.error("Axios other error:", error.message);
-      }
-    } else {
-      console.error("Non-Axios error:");
-    }
+  } catch {
     return {
       success: false,
       data: { message: "로그인 요청 중 오류가 발생했습니다." },
