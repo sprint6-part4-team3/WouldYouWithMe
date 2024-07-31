@@ -1,5 +1,5 @@
 const GradientSVG: React.FC = () => {
-  const idCSS: string = "hello";
+  const idCSS: string = "gradient";
   const gradientTransform: string = `rotate(90)`;
 
   return (

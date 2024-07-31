@@ -18,7 +18,7 @@ const AddMember = () => {
     handleOff();
   };
 
-  const CommonComponent = isMobile ? Drawer : Modal;
+  const ModalComponent = isMobile ? Drawer : Modal;
 
   return (
     <>
@@ -28,7 +28,7 @@ const AddMember = () => {
       >
         + 멤버 추가하기
       </span>
-      <CommonComponent
+      <ModalComponent
         showCloseButton
         isOpen={value}
         onClose={handleOff}
@@ -42,7 +42,7 @@ const AddMember = () => {
         >
           복사하기
         </Button>
-      </CommonComponent>
+      </ModalComponent>
     </>
   );
 };
