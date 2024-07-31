@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { type ComponentType } from "react";
 
-import useToggle from "@/hooks/use-toggle";
+import { useToggle } from "@/hooks";
 
 import DropDown from ".";
 

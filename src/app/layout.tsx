@@ -22,7 +22,7 @@ export default function RootLayout({
         className={`${inter.className} dark:bg-background-primary dark:text-text-primary`}
       >
         <ToastContainer />
-        {children}
+        <main className="mx-16">{children}</main>
       </body>
     </html>
   );
