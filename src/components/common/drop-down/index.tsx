@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 
-import useClickOutside from "@/hooks/use-click-outside";
+import { useClickOutside } from "@/hooks";
 
 import DropDownItem from "./item";
 import DropDownMenu from "./menu";
