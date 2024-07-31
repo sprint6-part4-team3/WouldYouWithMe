@@ -1,6 +1,9 @@
 import Link from "next/link";
 import React from "react";
 
+import { Task } from "@/types/task-list/index";
+
+import mockData from "./_components/mock.json";
 import TaskListNav from "./_components/task-lists-nav";
 import TaskNav from "./_components/task-nav";
 import TasksContainer from "./_components/tasks-container";
@@ -28,7 +31,11 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
         currentDate={currentDate}
         currentListId={currentListId}
       />
-      <TasksContainer tasks={[]} />
+      <TasksContainer
+        currentTeamId={currentTeamId}
+        currentListId={currentListId}
+        initialTasks={mockData as Task[]}
+      />
       <Link
         href={`/${currentTeamId}/task-lists/${currentListId}/create-task?date=${searchParams.date}`}
         className="text-16-400 hover:text-brand-primary"

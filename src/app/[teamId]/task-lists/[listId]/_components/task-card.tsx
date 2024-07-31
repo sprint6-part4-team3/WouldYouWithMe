@@ -2,7 +2,9 @@
 
 import "dayjs/locale/ko";
 
+import { clsx } from "clsx";
 import dayjs from "dayjs";
+import Link from "next/link";
 import React from "react";
 
 import DropDown from "@/components/common/drop-down/index";
@@ -10,7 +12,7 @@ import useToggle from "@/hooks/use-toggle";
 import {
   IconCalendar,
   IconCheckBox,
-  IconCheckBoxGreen,
+  IconCheckBoxPrimary,
   IconKebab,
   IconRepeat,
   IconTime,
@@ -25,6 +27,8 @@ interface TaskCardProps {
   frequency: string;
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
+  currentTeamId: number;
+  currentListId: number;
 }
 
 const TaskCard = ({
@@ -34,6 +38,8 @@ const TaskCard = ({
   frequency,
   onEdit,
   onDelete,
+  currentTeamId,
+  currentListId,
 }: TaskCardProps) => {
   const { value: isChecked, handleToggle: toggleChecked } = useToggle();
   const {
@@ -58,17 +64,26 @@ const TaskCard = ({
 
   return (
     <article className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
-      <div className="mb-2 flex items-center">
-        <button type="button" onClick={toggleChecked} className="mr-8">
-          {isChecked ? <IconCheckBoxGreen /> : <IconCheckBox />}
-        </button>
-        <h2
-          className={`grow text-14-400 text-text-primary ${
-            isChecked ? "line-through" : ""
-          }`}
-        >
-          {name}
-        </h2>
+      <div className="mb-2 flex items-center justify-between">
+        <div className="flex items-center">
+          <button type="button" onClick={toggleChecked} className="mr-8">
+            {isChecked ? <IconCheckBoxPrimary /> : <IconCheckBox />}
+          </button>
+          <Link
+            href={`/${currentTeamId}/task-lists/${currentListId}/task-detail/${id}`}
+          >
+            <h2
+              className={clsx(
+                `text-14-400 text-text-primary hover:text-brand-primary`,
+                {
+                  "line-through": isChecked,
+                },
+              )}
+            >
+              {name}
+            </h2>
+          </Link>
+        </div>
         <DropDown handleClose={closeDropdown}>
           <DropDown.Trigger onClick={toggleDropdown}>
             <IconKebab />

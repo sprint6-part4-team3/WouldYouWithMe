@@ -1,12 +1,49 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+
+import { Task } from "@/types/task-list/index";
+
+import TaskCard from "./task-card";
 
 interface TasksProps {
-  tasks: [];
+  initialTasks: Task[];
+  currentListId: number;
+  currentTeamId: number;
 }
 
-// tasks 배열 prop으로 받아서 맵 돌려주는 컴포넌트
-const TasksContainer = ({ tasks }: TasksProps) => (
-  <div className="mt-16 h-500 bg-background-secondary">Tasks</div>
-);
+const TasksContainer = ({
+  initialTasks,
+  currentListId,
+  currentTeamId,
+}: TasksProps) => {
+  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+
+  const handleEdit = (id: number) => {
+    // 수정 로직 구현
+  };
+
+  const handleDelete = (id: number) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  return (
+    <div>
+      {tasks.map((task) => (
+        <TaskCard
+          key={task.id}
+          id={task.id}
+          name={task.name}
+          date={task.date}
+          frequency={task.frequency}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          currentListId={currentListId}
+          currentTeamId={currentTeamId}
+        />
+      ))}
+    </div>
+  );
+};
 
 export default TasksContainer;

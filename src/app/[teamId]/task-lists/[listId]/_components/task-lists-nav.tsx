@@ -35,7 +35,7 @@ const TaskListNav = ({
   // 그리고 스와이퍼 넣기
   const stringCurrentDate = currentDate.toISOString();
   return (
-    <nav className="flex h-25 gap-12">
+    <nav className="my-16 flex h-25 gap-12 md:mt-24">
       {taskLists.map((list) => (
         <Link
           key={list.id}

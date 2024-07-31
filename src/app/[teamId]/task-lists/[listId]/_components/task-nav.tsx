@@ -21,7 +21,7 @@ const TaskNav = ({ currentDate }: TaskNavProps) => {
   const stringPrevDate = prevDate.toISOString();
 
   return (
-    <nav className="mb-16 flex items-center justify-between">
+    <nav className="flex items-center justify-between">
       <div className="flex items-center justify-center gap-12">
         <time className="text-16-500 text-text-primary ">
           {formattedCurrentDate}
