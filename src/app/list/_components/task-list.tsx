@@ -56,7 +56,7 @@ const RecurringTask = ({
   };
 
   return (
-    <div className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12 sm:w-343 md:w-343 lg:w-696 xl:min-w-1200">
+    <div className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center">
         <button
           type="button"
