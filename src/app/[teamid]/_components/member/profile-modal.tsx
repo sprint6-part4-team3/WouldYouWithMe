@@ -1,6 +1,6 @@
 import { Button, Drawer, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
-import { IconProfile } from "@/public/assets/icons";
+import { IconProfileCurrent } from "@/public/assets/icons";
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
   return (
     <CommonComponent showCloseButton isOpen={isOpen} onClose={onClose} title="">
       <div className="flex w-full flex-col items-center justify-center gap-24">
-        <IconProfile width={52} height={52} />
+        <IconProfileCurrent width={52} height={52} />
         <div className="flex flex-col items-center gap-8">
           <span className="text-14-500">우지은</span>
           <span className="text-12-400 text-text-secondary">
