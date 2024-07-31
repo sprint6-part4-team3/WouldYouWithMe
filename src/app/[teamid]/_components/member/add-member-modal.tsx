@@ -1,8 +1,6 @@
 "use client";
 
-import Button from "@/components/common/buttons/button";
-import Drawer from "@/components/common/drawer";
-import Modal from "@/components/common/modal";
+import { Button, Drawer, Modal } from "@/components/common";
 import useIsMobile from "@/hooks/use-is-mobile";
 import useToast from "@/hooks/use-toast";
 import useToggle from "@/hooks/use-toggle";
