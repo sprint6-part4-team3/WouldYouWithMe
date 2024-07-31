@@ -3,9 +3,10 @@
 import "dayjs/locale/ko";
 
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React from "react";
 
 import DropDown from "@/components/common/drop-down/index";
+import useToggle from "@/hooks/use-toggle";
 import {
   IconCalendar,
   IconCheckBox,
@@ -34,35 +35,31 @@ const RecurringTask = ({
   onEdit,
   onDelete,
 }: RecurringTaskProps) => {
-  const [isChecked, setIsChecked] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { value: isChecked, handleToggle: toggleChecked } = useToggle();
+  const {
+    value: isDropdownOpen,
+    handleOff: closeDropdown,
+    handleToggle: toggleDropdown,
+  } = useToggle();
 
   const taskDate = dayjs(date);
   const formattedDate = taskDate.format("YYYY년 M월 D일");
   const formattedTime = taskDate.format("A h:mm");
 
-  const handleDropdownClose = () => {
-    setIsDropdownOpen(false);
-  };
-
   const handleEditClick = () => {
     onEdit(id);
-    setIsDropdownOpen(false);
+    closeDropdown();
   };
 
   const handleDeleteClick = () => {
     onDelete(id);
-    setIsDropdownOpen(false);
+    closeDropdown();
   };
 
   return (
     <div className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center">
-        <button
-          type="button"
-          onClick={() => setIsChecked(!isChecked)}
-          className="mr-8"
-        >
+        <button type="button" onClick={toggleChecked} className="mr-8">
           {isChecked ? <IconCheckBoxGreen /> : <IconCheckBox />}
         </button>
         <h2
@@ -72,18 +69,14 @@ const RecurringTask = ({
         >
           {name}
         </h2>
-        <DropDown handleClose={handleDropdownClose}>
-          <DropDown.Trigger onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+        <DropDown handleClose={closeDropdown}>
+          <DropDown.Trigger onClick={toggleDropdown}>
             <IconKebab />
           </DropDown.Trigger>
-          {isDropdownOpen && (
-            <DropDown.Menu isOpen>
-              <DropDown.Item onClick={handleEditClick}>수정하기</DropDown.Item>
-              <DropDown.Item onClick={handleDeleteClick}>
-                삭제하기
-              </DropDown.Item>
-            </DropDown.Menu>
-          )}
+          <DropDown.Menu isOpen={isDropdownOpen}>
+            <DropDown.Item onClick={handleEditClick}>수정하기</DropDown.Item>
+            <DropDown.Item onClick={handleDeleteClick}>삭제하기</DropDown.Item>
+          </DropDown.Menu>
         </DropDown>
       </div>
       <div className="flex items-center text-12-400 text-text-default">

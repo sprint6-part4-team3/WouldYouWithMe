@@ -6,7 +6,7 @@ import mockData from "./_components/mock.json";
 import RecurringTasks from "./_components/task-list-container";
 
 const RecurringTasksPage = () => (
-  <div className="mx-auto p-4">
+  <div className="mx-auto min-w-430 p-4">
     <RecurringTasks initialTasks={mockData as Task[]} />
   </div>
 );

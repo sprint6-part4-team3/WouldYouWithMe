@@ -6,9 +6,9 @@ import { Task } from "@/types/task-list/index";
 
 import RecurringTask from "./task-list";
 
-type RecurringTasksProps = {
+interface RecurringTasksProps {
   initialTasks: Task[];
-};
+}
 
 const RecurringTasksContainer = ({ initialTasks }: RecurringTasksProps) => {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
