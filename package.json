@@ -21,6 +21,7 @@
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.12",
     "eslint-plugin-tailwindcss": "^3.17.4",
     "framer-motion": "^11.3.8",
     "jotai": "^2.9.1",
