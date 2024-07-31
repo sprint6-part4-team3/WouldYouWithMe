@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 declare module "*.svg" {
   import { FC, SVGProps } from "react";
 
@@ -8,6 +7,6 @@ declare module "*.svg" {
 }
 
 declare module "*.svg?url" {
-  const content: any; // This line will not trigger the eslint warning
+  const content: any;
   export default content;
 }

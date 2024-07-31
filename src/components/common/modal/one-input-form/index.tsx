@@ -3,7 +3,7 @@
 import React from "react";
 
 import Button from "@/components/common/buttons/button";
-import Input from "@/components/common/Form/input";
+import Input from "@/components/common/forms/input";
 
 interface OneInputFormProps {
   id: string;

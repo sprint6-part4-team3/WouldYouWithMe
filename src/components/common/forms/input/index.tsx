@@ -3,7 +3,7 @@
 import { clsx } from "clsx";
 import { ComponentProps, forwardRef, useState } from "react";
 
-import useToggle from "@/hooks/use-toggle";
+import { useToggle } from "@/hooks";
 import { IconVisibilityOff, IconVisibilityOn } from "@/public/assets/icons";
 
 interface InputProps extends ComponentProps<"input"> {

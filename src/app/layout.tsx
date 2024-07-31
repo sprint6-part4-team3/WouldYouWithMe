@@ -3,6 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import ToastContainer from "@/components/common/toast/container";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,7 +21,8 @@ export default function RootLayout({
       <body
         className={`${inter.className} dark:bg-background-primary dark:text-text-primary`}
       >
-        <main>{children}</main>
+        <ToastContainer />
+        <main className="mx-16">{children}</main>
       </body>
     </html>
   );

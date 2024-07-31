@@ -22,11 +22,7 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
 
   return (
     <>
-      <TaskNav
-        currentTeamId={currentTeamId}
-        currentDate={currentDate}
-        currentListId={currentListId}
-      />
+      <TaskNav currentDate={currentDate} />
       <TaskListNav
         currentTeamId={currentTeamId}
         currentDate={currentDate}
