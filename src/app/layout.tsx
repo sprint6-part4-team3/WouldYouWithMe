@@ -19,10 +19,10 @@ export default function RootLayout({
   return (
     <html lang="ko" className="dark">
       <body
-        className={`${inter.className} mx-16 dark:bg-background-primary dark:text-text-primary`}
+        className={`${inter.className} dark:bg-background-primary dark:text-text-primary`}
       >
         <ToastContainer />
-        {children}
+        <main className="mx-16">{children}</main>
       </body>
     </html>
   );
