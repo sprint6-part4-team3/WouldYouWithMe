@@ -4,7 +4,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -30,16 +29,20 @@ const SignUpForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<SignUpInput> = async (data) => {
-    const { email, password } = data;
-    const resData = await signUp(email, password);
+    const { email, nickname, password, passwordConfirmation } = data;
+    const resData = await signUp(
+      email,
+      nickname,
+      password,
+      passwordConfirmation,
+    );
+
+    console.log("Sign up response data:", resData);
+
     if (!resData.success) {
-      setError("email", {
-        type: "manual",
-        message: "이메일 혹은 비밀번호를 확인해주세요.",
-      });
-      console.error("로그인 실패:", resData.data?.message);
+      console.error("회원가입 실패:", resData.data?.message);
     } else {
-      console.log("로그인 성공");
+      console.log("회원가입 성공");
       router.push("/");
     }
   };
@@ -121,7 +124,7 @@ const SignUpForm: React.FC = () => {
         <hr className="flex-1 border-t border-border-primary" />
       </div>
       <div className="mt-16 flex w-full justify-between">
-        <p className=" text-16-500">간편 회원가입하기</p>
+        <p className="text-16-500">간편 회원가입하기</p>
         <div className="flex gap-4">
           <button
             type="button"
