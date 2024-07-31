@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import { Button } from "@/components/common";
 import { IconComment, IconHeart, IconProfile } from "@/public/assets/icons";
 
 import BoardDropDown from "./board-drop-down";
@@ -11,7 +14,7 @@ const BoardDetail = () => (
       <BoardDropDown />
     </div>
 
-    <div className="my-16 h-1 w-full bg-border-primary" />
+    <div className="my-16 h-1 w-full bg-border-primary/10" />
 
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-8 text-12-500 md:text-14-500">
@@ -32,12 +35,21 @@ const BoardDetail = () => (
       </div>
     </div>
 
-    <div className="mb-80 mt-48 text-14-400 leading-[24px] text-text-secondary md:text-16-400 md:leading-[28px]">
+    <p className="mb-80 mt-48 text-14-400 leading-[24px] text-text-secondary md:text-16-400 md:leading-[28px]">
       본문이 들어가는 영역입니다. 본문이 들어가는 영역입니다. 본문이 들어가는
       영역입니다. 본문이 들어가는 영역입니다. 본문이 들어가는 영역입니다. 본문이
       들어가는 영역입니다. 본문이 들어가는 영역입니다. 본문이 들어가는
       영역입니다. 본문이 들어가는 영역입니다.
-    </div>
+    </p>
+
+    <Link href="/boards" className="mb-24 flex justify-center">
+      <Button
+        className="h-36 w-100 text-14 md:h-48 md:w-120 md:text-16"
+        variant="noFill"
+      >
+        목록으로
+      </Button>
+    </Link>
   </article>
 );
 export default BoardDetail;

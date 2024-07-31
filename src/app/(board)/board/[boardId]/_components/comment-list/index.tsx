@@ -1,10 +1,13 @@
 /* eslint-disable no-console */
+import Comment from "./comment";
 
 const CommentList = () => {
   console.log("ji");
   return (
-    <section>
-      <div>댓글 영역입니다.</div>
+    <section className="mb-60 flex flex-col gap-16">
+      <Comment />
+      <Comment />
+      <Comment />
     </section>
   );
 };
