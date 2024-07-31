@@ -1,5 +1,6 @@
 "use server";
 
+import axios from "axios";
 import { cookies } from "next/headers";
 
 import instance from "@/lib/api/axios-instance";
@@ -30,7 +31,14 @@ const signUp = async (
       };
     }
     return { success: false, data };
-  } catch {
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return {
+        success: false,
+        data: error.response.data,
+      };
+    }
+
     return {
       success: false,
       data: { message: "회원가입 요청 중 오류가 발생했습니다." },

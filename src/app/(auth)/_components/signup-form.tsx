@@ -20,6 +20,7 @@ const SignUpForm: React.FC = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isValid },
   } = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
@@ -38,6 +39,20 @@ const SignUpForm: React.FC = () => {
 
     if (!resData.success) {
       console.error("회원가입 실패:", resData.data?.message);
+
+      if (resData.data?.details?.email) {
+        setError("email", {
+          type: "manual",
+          message: resData.data.details.email.message,
+        });
+      }
+
+      if (resData.data?.details?.nickname) {
+        setError("nickname", {
+          type: "manual",
+          message: resData.data.details.nickname.message,
+        });
+      }
     } else {
       console.log("회원가입 성공");
       router.push("/");
