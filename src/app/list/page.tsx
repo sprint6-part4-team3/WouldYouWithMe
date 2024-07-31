@@ -3,12 +3,12 @@ import React from "react";
 import { Task } from "@/types/task-list/index";
 
 import mockData from "./_components/mock.json";
-import RecurringTasks from "./_components/task-list-container";
+import TasksContainer from "./_components/tasks-container";
 
-const RecurringTasksPage = () => (
+const TasksContainerPage = () => (
   <div className="mx-auto min-w-430 p-4">
-    <RecurringTasks initialTasks={mockData as Task[]} />
+    <TasksContainer initialTasks={mockData as Task[]} />
   </div>
 );
 
-export default RecurringTasksPage;
+export default TasksContainerPage;

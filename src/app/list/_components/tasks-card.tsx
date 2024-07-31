@@ -18,23 +18,23 @@ import {
 
 dayjs.locale("ko");
 
-type RecurringTaskProps = {
+interface TaskCardProps {
   id: number;
   name: string;
   date: string;
   frequency: string;
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
-};
+}
 
-const RecurringTask = ({
+const TaskCard = ({
   id,
   name,
   date,
   frequency,
   onEdit,
   onDelete,
-}: RecurringTaskProps) => {
+}: TaskCardProps) => {
   const { value: isChecked, handleToggle: toggleChecked } = useToggle();
   const {
     value: isDropdownOpen,
@@ -57,7 +57,7 @@ const RecurringTask = ({
   };
 
   return (
-    <div className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
+    <article className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center">
         <button type="button" onClick={toggleChecked} className="mr-8">
           {isChecked ? <IconCheckBoxGreen /> : <IconCheckBox />}
@@ -85,7 +85,7 @@ const RecurringTask = ({
           height={16}
           className="flex content-center items-center"
         />
-        <span className="ml-6 mr-10 flex items-center">{formattedDate}</span>
+        <time className="ml-6 mr-10 flex items-center">{formattedDate}</time>
         <span>|</span>
         <IconTime
           width={16}
@@ -103,8 +103,8 @@ const RecurringTask = ({
           {frequency === "DAILY" ? "매일 반복" : "반복"}
         </span>
       </div>
-    </div>
+    </article>
   );
 };
 
-export default RecurringTask;
+export default TaskCard;

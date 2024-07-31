@@ -4,13 +4,13 @@ import React, { useState } from "react";
 
 import { Task } from "@/types/task-list/index";
 
-import RecurringTask from "./task-list";
+import TaskCard from "./tasks-card";
 
-interface RecurringTasksProps {
+interface TasksProps {
   initialTasks: Task[];
 }
 
-const RecurringTasksContainer = ({ initialTasks }: RecurringTasksProps) => {
+const TasksContainer = ({ initialTasks }: TasksProps) => {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
   const handleEdit = (id: number) => {
@@ -24,7 +24,7 @@ const RecurringTasksContainer = ({ initialTasks }: RecurringTasksProps) => {
   return (
     <div>
       {tasks.map((task) => (
-        <RecurringTask
+        <TaskCard
           key={task.id}
           id={task.id}
           name={task.name}
@@ -38,4 +38,4 @@ const RecurringTasksContainer = ({ initialTasks }: RecurringTasksProps) => {
   );
 };
 
-export default RecurringTasksContainer;
+export default TasksContainer;
