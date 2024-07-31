@@ -18,10 +18,10 @@ const ReportBox = () => {
   return (
     <article className="flex flex-col gap-16">
       <GradientSVG />
-      {/* 기존 16px 너무 작은데 18px 어떤가요? */}
-      <h2 className="text-18-500">리포트</h2>
 
-      <section className="flex h-224 w-full items-center justify-between rounded-12 bg-background-secondary px-24">
+      <h2 className="text-16-500">리포트</h2>
+
+      <section className="flex h-224 w-full items-center justify-between gap-24 rounded-12 bg-background-secondary p-20 md:gap-0 md:p-24 lg:h-217">
         {isMobile ? (
           <MobileProgressBar percentage={PERCENTAGE} />
         ) : (

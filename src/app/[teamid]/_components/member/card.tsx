@@ -38,9 +38,9 @@ const Card = () => {
         >
           <div className="flex-1">
             <IconProfile
-              width={24}
-              height={24}
-              className="size-24 md:size-28 lg:size-32"
+              width={28}
+              height={28}
+              className="size-28 lg:size-32"
             />
           </div>
           <div className="flex flex-1 flex-col gap-2">

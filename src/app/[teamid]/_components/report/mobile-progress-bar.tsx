@@ -13,7 +13,7 @@ interface MobileProgressBarProps {
 
 const MobileProgressBar = ({ percentage }: MobileProgressBarProps) => (
   <div className="flex-1">
-    <div className="size-full pr-24">
+    <div className="size-140">
       <GradientSVG />
       <CircularProgressbarWithChildren
         styles={buildStyles({
@@ -26,7 +26,7 @@ const MobileProgressBar = ({ percentage }: MobileProgressBarProps) => (
       >
         <div className="flex flex-col items-center gap-2">
           <span className="text-12-500">오늘</span>
-          <span className="text-gradient text-32-700">{percentage}%</span>
+          <span className="text-gradient text-24-700">{percentage}%</span>
         </div>
       </CircularProgressbarWithChildren>
     </div>

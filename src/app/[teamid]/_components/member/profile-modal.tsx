@@ -27,8 +27,8 @@ const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
       <div className="flex w-full flex-col items-center justify-center gap-24">
         <IconProfile width={52} height={52} />
         <div className="flex flex-col items-center gap-8">
-          <span className="text-16-500">우지은</span>
-          <span className="text-14-400 text-text-secondary">
+          <span className="text-14-500">우지은</span>
+          <span className="text-12-400 text-text-secondary">
             jieun@codeit.com
           </span>
         </div>
