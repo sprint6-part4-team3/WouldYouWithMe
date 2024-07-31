@@ -2,10 +2,10 @@
 
 import SignInForm from "../_components/signin-form";
 
-const SignIn = () => (
+const Login = () => (
   <div className="flex w-full flex-col items-center justify-center">
     <SignInForm />
   </div>
 );
 
-export default SignIn;
+export default Login;

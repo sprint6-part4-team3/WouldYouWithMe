@@ -12,7 +12,7 @@ import loginSchema from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { SignInInput } from "@/types/auth";
 
-import signIn from "../signin/actions";
+import signIn from "../login/actions";
 
 const SignInForm: React.FC = () => {
   const {
