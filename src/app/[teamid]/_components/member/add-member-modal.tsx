@@ -1,9 +1,8 @@
 "use client";
 
 import { Button, Drawer, Modal } from "@/components/common";
-import useIsMobile from "@/hooks/use-is-mobile";
-import useToast from "@/hooks/use-toast";
-import useToggle from "@/hooks/use-toggle";
+import { useIsMobile, useToast, useToggle } from "@/hooks";
+import { IconPlusCurrent } from "@/public/assets/icons";
 
 const AddMemberModal = () => {
   const { value, handleOn, handleOff } = useToggle();
@@ -22,9 +21,10 @@ const AddMemberModal = () => {
     <>
       <div
         onClick={handleOn}
-        className="flex h-72 cursor-pointer items-center rounded-16 border-4 border-dotted border-background-tertiary px-16 py-12 text-16-700 text-brand-primary hover:bg-background-secondary/50 hover:underline md:h-auto  md:px-20 md:py-16 lg:px-24 lg:py-20"
+        className="flex h-72 cursor-pointer items-center gap-4 rounded-16 border-4 border-dotted border-background-tertiary px-16 py-12 text-16-700 text-brand-primary hover:bg-background-secondary/50 md:h-auto  md:px-20 md:py-16 lg:px-24 lg:py-20"
       >
-        + 멤버 추가하기
+        <IconPlusCurrent stroke="#22b8cf" />
+        멤버 추가하기
       </div>
       <ModalComponent
         showCloseButton
