@@ -1,19 +1,12 @@
 "use server";
 
-import axios from "axios";
 import { cookies } from "next/headers";
+
+import instance from "@/lib/api/axios-instance";
 
 const signIn = async (email: string, password: string) => {
   try {
-    const response = await axios.post(
-      `https://fe-project-cowokers.vercel.app/6-3/auth/signIn`,
-      { email, password },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    const response = await instance.post(`/auth/signIn`, { email, password });
 
     const { data } = response;
 
