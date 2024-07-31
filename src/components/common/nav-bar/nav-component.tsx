@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 
-import useToggle from "@/hooks/use-toggle";
+import { useToggle } from "@/hooks";
 import { IconDropdown, IconUser } from "@/public/assets/icons";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
 

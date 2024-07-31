@@ -3,8 +3,8 @@
 import React from "react";
 
 import { DropDown } from "@/components/common";
-import useToggle from "@/hooks/use-toggle";
-import { IconProfile } from "@/public/assets/icons";
+import { useToggle } from "@/hooks";
+import { IconProfileCurrent } from "@/public/assets/icons";
 
 import ProfileModal from "./profile-modal";
 
@@ -37,7 +37,7 @@ const Card = () => {
           className="group flex cursor-pointer items-center gap-12"
         >
           <div className="flex-1">
-            <IconProfile
+            <IconProfileCurrent
               width={28}
               height={28}
               className="size-28 lg:size-32"
@@ -56,7 +56,7 @@ const Card = () => {
       <div className="flex items-center justify-between md:hidden">
         <div onClick={handleOn} className="group cursor-pointer">
           <div className="flex items-center gap-6">
-            <IconProfile width={24} height={24} />
+            <IconProfileCurrent width={24} height={24} />
             <span className="group-hover text-14-700">우지은</span>
           </div>
           <span className="group-hover text-12-400 text-text-secondary">

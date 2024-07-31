@@ -1,6 +1,5 @@
 import { Button, Drawer, Modal } from "@/components/common";
-import useIsMobile from "@/hooks/use-is-mobile";
-import useToast from "@/hooks/use-toast";
+import { useIsMobile, useToast } from "@/hooks";
 import { IconProfile } from "@/public/assets/icons";
 
 interface ProfileModalProps {

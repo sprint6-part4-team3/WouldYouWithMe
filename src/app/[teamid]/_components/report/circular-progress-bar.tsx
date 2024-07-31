@@ -8,7 +8,7 @@ import {
   CircularProgressbarWithChildren,
 } from "react-circular-progressbar";
 
-import useIsMobile from "@/hooks/use-is-mobile";
+import { useIsMobile } from "@/hooks";
 
 import GradientSVG from "./gradient-svg";
 
