@@ -1,5 +1,3 @@
-import PlusButton from "@/components/common/buttons/plus-button";
-
 import TodoListCard from "./todo-list-card";
 
 export default function TodoList() {
@@ -10,9 +8,8 @@ export default function TodoList() {
           <span className="text-16-500">할 일 목록</span>
           <span className="text-16-400 text-text-default">(4개)</span>
         </div>
-        {/* <PlusButton/> 임시 대체 */}
         <span className="text-14-400 text-point-green">
-          새로운 목록 추가하기
+          + 새로운 목록 추가하기
         </span>
       </div>
       <TodoListCard color="purple">법인 설계</TodoListCard>
