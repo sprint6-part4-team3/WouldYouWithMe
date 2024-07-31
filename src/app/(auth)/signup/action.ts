@@ -26,6 +26,7 @@ const signUp = async (
 
       return {
         success: true,
+        user: data.user,
       };
     }
     return { success: false, data };

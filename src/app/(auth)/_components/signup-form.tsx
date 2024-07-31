@@ -20,7 +20,6 @@ const SignUpForm: React.FC = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid },
   } = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
@@ -36,8 +35,6 @@ const SignUpForm: React.FC = () => {
       password,
       passwordConfirmation,
     );
-
-    console.log("Sign up response data:", resData);
 
     if (!resData.success) {
       console.error("회원가입 실패:", resData.data?.message);

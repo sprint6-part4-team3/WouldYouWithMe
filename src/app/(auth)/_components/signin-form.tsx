@@ -89,12 +89,14 @@ const SignInForm: React.FC = () => {
       >
         로그인
       </Button>
-      <p className="mt-24">
-        아직 계정이 없으신가요?
-        <Link href="/signup" className="ml-12 text-brand-primary underline">
-          가입하기
-        </Link>
-      </p>
+      <div className="flex justify-center">
+        <p className="mt-24">
+          아직 계정이 없으신가요?
+          <Link href="/signup" className="ml-12 text-brand-primary underline">
+            가입하기
+          </Link>
+        </p>
+      </div>
       <div className="mt-48 flex w-full items-center">
         <hr className="flex-1 border-t border-border-primary" />
         <span className="mx-24 text-16-400">OR</span>
