@@ -1,5 +1,3 @@
-"use client";
-
 import { IconDonePanel, IconToDo } from "@/public/assets/icons";
 
 interface TodoCountProps {

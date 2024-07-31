@@ -7,7 +7,7 @@ import useIsMobile from "@/hooks/use-is-mobile";
 import useToast from "@/hooks/use-toast";
 import useToggle from "@/hooks/use-toggle";
 
-const AddMember = () => {
+const AddMemberModal = () => {
   const { value, handleOn, handleOff } = useToggle();
   const toast = useToast();
   const isMobile = useIsMobile();
@@ -22,12 +22,12 @@ const AddMember = () => {
 
   return (
     <>
-      <span
+      <div
         onClick={handleOn}
-        className="cursor-pointer text-14-400 text-brand-primary hover:scale-105 hover:underline"
+        className="flex h-72 cursor-pointer items-center rounded-16 border-4 border-dotted border-background-tertiary px-16 py-12 text-16-700 text-brand-primary hover:bg-background-secondary/50 hover:underline md:h-auto  md:px-20 md:py-16 lg:px-24 lg:py-20"
       >
         + 멤버 추가하기
-      </span>
+      </div>
       <ModalComponent
         showCloseButton
         isOpen={value}
@@ -47,4 +47,4 @@ const AddMember = () => {
   );
 };
 
-export default AddMember;
+export default AddMemberModal;
