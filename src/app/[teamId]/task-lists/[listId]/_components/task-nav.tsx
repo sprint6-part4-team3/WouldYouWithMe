@@ -1,9 +1,8 @@
 import Link from "next/link";
 import React from "react";
 
+import AddListModalButton from "@/components/common/buttons/add-list-modal-button";
 import IconButton from "@/components/common/icon-button";
-import CreateListForm from "@/components/common/modal/create-list-form";
-import OpenModal from "@/components/common/modal/open-modal";
 import formatDate from "@/utils/format-date";
 
 interface TaskNavProps {
@@ -39,14 +38,7 @@ const TaskNav = ({ currentDate }: TaskNavProps) => {
         <IconButton variant="gray" icon="IconCalendar" className="p-6" />
       </div>
 
-      <OpenModal title="할 일 목록" modalChildren={<CreateListForm />}>
-        <button type="button">
-          <span className="leading-0 text-brand-primary">+ </span>
-          <span className="text-14-400 text-brand-primary">
-            새로운 목록 추가하기
-          </span>
-        </button>
-      </OpenModal>
+      <AddListModalButton />
     </nav>
   );
 };
