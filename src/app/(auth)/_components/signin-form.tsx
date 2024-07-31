@@ -5,6 +5,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
@@ -15,23 +16,31 @@ import { SignInInput } from "@/types/auth";
 import signIn from "../login/actions";
 
 const SignInForm: React.FC = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setError,
+    formState: { errors, isValid },
   } = useForm<SignInInput>({
     resolver: zodResolver(loginSchema),
-    mode: "onSubmit",
+    mode: "onBlur",
+    reValidateMode: "onChange",
   });
 
   const onSubmit: SubmitHandler<SignInInput> = async (data) => {
     const { email, password } = data;
     const resData = await signIn(email, password);
     if (!resData.success) {
-      const message = resData.data?.message;
-      console.error("로그인 실패:", message);
+      setError("email", {
+        type: "manual",
+        message: "이메일 혹은 비밀번호를 확인해주세요.",
+      });
+      console.error("로그인 실패:", resData.data?.message);
     } else {
       console.log("로그인 성공");
+      router.push("/");
     }
   };
 
@@ -72,7 +81,12 @@ const SignInForm: React.FC = () => {
           비밀번호를 잊으셨나요?
         </p>
       </div>
-      <Button variant="primary" type="submit" className="mt-40 h-47 w-full">
+      <Button
+        variant="primary"
+        type="submit"
+        className="mt-40 h-47 w-full"
+        disabled={!isValid}
+      >
         로그인
       </Button>
       <p className="mt-24">
