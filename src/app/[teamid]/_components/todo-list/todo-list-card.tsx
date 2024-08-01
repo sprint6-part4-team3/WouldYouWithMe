@@ -26,11 +26,11 @@ const TodoListDropDown = () => {
   return (
     <DropDown handleClose={handleOff}>
       <DropDown.Trigger onClick={handleToggle}>
-        <span className="cursor-pointer text-16-700 text-text-primary">
+        <span className="cursor-pointer text-16-700 text-gray-500">
           &nbsp;⋮&nbsp;
         </span>
       </DropDown.Trigger>
-      <DropDown.Menu isOpen={value}>
+      <DropDown.Menu isOpen={value} className="z-50">
         <DropDown.Item>수정하기</DropDown.Item>
         <DropDown.Item>삭제하기</DropDown.Item>
       </DropDown.Menu>
@@ -42,12 +42,13 @@ const TodoListCard = ({ children, color }: TodoListCardProps) => {
   const colorClass = getColorClass(color);
 
   return (
-    // 이후에 수정 할 예정, 임시 경로입니다.
-    <Link href="/some-path">
-      <div className="relative my-10 flex h-40 items-center justify-between rounded-12 bg-background-secondary px-24 text-16-500">
-        <div
-          className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`}
-        />
+    <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary px-24 text-16-500">
+      <div className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`} />
+      <Link
+        // 이후에 수정 할 예정, 임시 경로입니다.
+        href="/some-path"
+        className="z-10 flex flex-1 items-center justify-between"
+      >
         <span className="text-14-500">{children}</span>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-4 rounded-full bg-background-primary px-8 py-4">
@@ -55,10 +56,12 @@ const TodoListCard = ({ children, color }: TodoListCardProps) => {
             <span>◎</span>
             <span className="text-14-400 text-point-green">5/5</span>
           </div>
-          <TodoListDropDown />
         </div>
+      </Link>
+      <div className="absolute right-10">
+        <TodoListDropDown />
       </div>
-    </Link>
+    </div>
   );
 };
 
