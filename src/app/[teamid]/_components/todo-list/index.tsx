@@ -1,6 +1,6 @@
 import TodoListCard from "./todo-list-card";
 
-export default function TodoList() {
+export default function TodoListBox() {
   return (
     <>
       <div className="m-auto my-10 flex w-343 justify-between lg:w-696 xl:w-1200">

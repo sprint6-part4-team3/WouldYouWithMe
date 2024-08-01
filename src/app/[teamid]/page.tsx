@@ -1,12 +1,11 @@
-import TeamCard from "./_components/team-card";
-import TodoList from "./_components/todo-list";
+import MemberBox from "./_components/member";
+import ReportBox from "./_components/report";
 
-export default function TeamPage() {
-  return (
-    <>
-      <div>팀 페이지입니다.</div>
-      <TeamCard />
-      <TodoList />
-    </>
-  );
-}
+const TeamPage = () => (
+  <>
+    <ReportBox />
+    <MemberBox />
+  </>
+);
+
+export default TeamPage;
