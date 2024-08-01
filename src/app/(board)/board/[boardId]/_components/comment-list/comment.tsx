@@ -1,6 +1,6 @@
 import { IconProfile } from "@/public/assets/icons";
 import { ArticleCommentResponse } from "@/types/article/comment";
-import dateToString from "@/utils/dateToString";
+import dateToString from "@/utils/date-to-string";
 
 import CommentDropDown from "./drop-down";
 

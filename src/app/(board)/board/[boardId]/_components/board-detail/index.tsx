@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/common";
 import { IconComment, IconHeart, IconProfile } from "@/public/assets/icons";
 import { ArticleResponse } from "@/types/article";
-import dateToString from "@/utils/dateToString";
+import dateToString from "@/utils/date-to-string";
 
 import BoardDropDown from "./board-drop-down";
 
