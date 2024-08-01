@@ -30,9 +30,12 @@ const BoardDetail = ({ articleData, commentCount }: BoardDetailProps) => (
         <IconProfile />
         <span>{articleData.writer.nickname}</span>
         <div className="h-12 w-1 bg-background-tertiary" />
-        <span className="text-text-disabled">
+        <time
+          className="text-text-disabled"
+          dateTime={dateToString(articleData.createdAt)}
+        >
           {dateToString(articleData.createdAt)}
-        </span>
+        </time>
       </div>
       <div className="flex items-center gap-8 text-12-400 text-text-disabled md:text-14-400">
         <div className="flex gap-4">

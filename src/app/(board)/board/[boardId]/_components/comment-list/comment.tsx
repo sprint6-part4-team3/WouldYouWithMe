@@ -22,9 +22,12 @@ const Comment = ({ commentData }: CommentProps) => (
         {commentData.writer.nickname}
       </span>
       <div className="mx-8 h-12 w-1 bg-background-tertiary md:mx-16" />
-      <span className="text-disabled text-14-500">
+      <time
+        className="text-disabled text-14-500"
+        dateTime={dateToString(commentData.createdAt)}
+      >
         {dateToString(commentData.createdAt)}
-      </span>
+      </time>
     </div>
   </div>
 );
