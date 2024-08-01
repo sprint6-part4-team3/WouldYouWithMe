@@ -3,7 +3,7 @@
  * 24시간 이후: 2024.08.01
  * 24시간 이전: 09:53
  */
-const dateToString = (time: Date | string): string => {
+const formatBoardDate = (time: Date | string): string => {
   const date = new Date(time);
   const today = new Date();
 
@@ -23,4 +23,4 @@ const dateToString = (time: Date | string): string => {
   return `${year}.${month}.${day}`;
 };
 
-export default dateToString;
+export default formatBoardDate;

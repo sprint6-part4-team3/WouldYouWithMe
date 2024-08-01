@@ -1,6 +1,6 @@
 import { IconProfile } from "@/public/assets/icons";
 import { ArticleCommentResponse } from "@/types/article/comment";
-import dateToString from "@/utils/date-to-string";
+import formatBoardDate from "@/utils/format-board-date";
 
 import CommentDropDown from "./drop-down";
 
@@ -24,9 +24,9 @@ const Comment = ({ commentData }: CommentProps) => (
       <div className="mx-8 h-12 w-1 bg-background-tertiary md:mx-16" />
       <time
         className="text-disabled text-14-500"
-        dateTime={dateToString(commentData.createdAt)}
+        dateTime={formatBoardDate(commentData.createdAt)}
       >
-        {dateToString(commentData.createdAt)}
+        {formatBoardDate(commentData.createdAt)}
       </time>
     </div>
   </div>

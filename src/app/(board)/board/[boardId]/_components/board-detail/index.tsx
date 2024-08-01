@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/common";
 import { IconComment, IconHeart, IconProfile } from "@/public/assets/icons";
 import { ArticleResponse } from "@/types/article";
-import dateToString from "@/utils/date-to-string";
+import formatBoardDate from "@/utils/format-board-date";
 
 import BoardDropDown from "./board-drop-down";
 
@@ -32,9 +32,9 @@ const BoardDetail = ({ articleData, commentCount }: BoardDetailProps) => (
         <div className="h-12 w-1 bg-background-tertiary" />
         <time
           className="text-text-disabled"
-          dateTime={dateToString(articleData.createdAt)}
+          dateTime={formatBoardDate(articleData.createdAt)}
         >
-          {dateToString(articleData.createdAt)}
+          {formatBoardDate(articleData.createdAt)}
         </time>
       </div>
       <div className="flex items-center gap-8 text-12-400 text-text-disabled md:text-14-400">
