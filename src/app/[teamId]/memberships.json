@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "group": {
+      "updatedAt": "2024-08-01T06:50:14.105Z",
+      "createdAt": "2024-08-01T06:50:14.105Z",
+      "image": "string",
+      "name": "string",
+      "teamId": "string",
+      "id": 0
+    },
+    "role": "ADMIN",
+    "userImage": "string",
+    "userEmail": "string",
+    "userName": "string",
+    "groupId": 0,
+    "userId": 0
+  }
+]

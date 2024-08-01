@@ -1,0 +1,37 @@
+{
+  "updatedAt": "2024-08-01T06:50:14.090Z",
+  "createdAt": "2024-08-01T06:50:14.090Z",
+  "image": null,
+  "name": "경영관리팀",
+  "teamId": "1",
+  "id": 1,
+  "members": [
+    {
+      "role": "ADMIN",
+      "userImage": null,
+      "userEmail": "111@111.com",
+      "userName": "홍길동",
+      "groupId": 1,
+      "userId": 1
+    },
+    {
+      "role": "MEMBER",
+      "userImage": null,
+      "userEmail": "222@222.com",
+      "userName": "김길동",
+      "groupId": 1,
+      "userId": 2
+    }
+  ],
+  "taskLists": [
+    {
+      "groupId": 1,
+      "displayIndex": 0,
+      "updatedAt": "2024-08-01T06:50:14.090Z",
+      "createdAt": "2024-08-01T06:50:14.090Z",
+      "name": "저녁 밥 먹기",
+      "id": 0,
+      "tasks": ["밥 하기", "국 끓이기", "반찬 만들기"]
+    }
+  ]
+}

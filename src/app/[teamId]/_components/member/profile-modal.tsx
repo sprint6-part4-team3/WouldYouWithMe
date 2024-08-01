@@ -1,13 +1,15 @@
 import { Button, Drawer, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import { IconProfileCurrent } from "@/public/assets/icons";
+import { GroupMember } from "@/types/user";
 
 interface ProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
+  member: GroupMember;
 }
 
-const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
+const ProfileModal = ({ isOpen, onClose, member }: ProfileModalProps) => {
   const toast = useToast();
   const isMobile = useIsMobile();
 
@@ -22,11 +24,23 @@ const ProfileModal = ({ isOpen, onClose }: ProfileModalProps) => {
   return (
     <CommonComponent showCloseButton isOpen={isOpen} onClose={onClose} title="">
       <div className="flex w-full flex-col items-center justify-center gap-24">
-        <IconProfileCurrent width={52} height={52} />
+        {/** TODO: 유저 프로필 있는 경우 이미지 넣기 */}
+        {member.userImage ? (
+          <IconProfileCurrent width={52} height={52} />
+        ) : (
+          <IconProfileCurrent width={52} height={52} />
+        )}
         <div className="flex flex-col items-center gap-8">
-          <span className="text-14-500">우지은</span>
+          <span className="text-14-500">
+            {member.userName}
+            {member.role === "ADMIN" && (
+              <span className="ml-4 text-12-400 text-brand-secondary">
+                (관리자)
+              </span>
+            )}
+          </span>
           <span className="text-12-400 text-text-secondary">
-            jieun@codeit.com
+            {member.userEmail}
           </span>
         </div>
         <Button

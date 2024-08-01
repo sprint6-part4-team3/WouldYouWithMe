@@ -11,8 +11,6 @@ export type GroupResponse = {
   name: string;
   teamId: string;
   id: number;
-
   members: GroupMember[];
-
   taskLists: GroupTask[];
 };
