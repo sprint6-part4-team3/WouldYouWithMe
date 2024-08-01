@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -127,6 +128,14 @@ const SignUpForm: React.FC = () => {
       >
         회원가입
       </Button>
+      <div className="flex justify-center">
+        <p className="mt-24">
+          이미 계정이 있으신가요?
+          <Link href="/login" className="ml-12 text-brand-primary underline">
+            로그인하기
+          </Link>
+        </p>
+      </div>
       <div className="mt-48 flex w-full items-center">
         <hr className="flex-1 border-t border-border-primary" />
         <span className="mx-24 text-16-400">OR</span>
