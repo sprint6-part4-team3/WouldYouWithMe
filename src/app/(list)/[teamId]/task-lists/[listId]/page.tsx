@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
+import { IconPlusCurrent } from "@/public/assets/icons";
 import { Task } from "@/types/task-list/index";
 
 import { TaskListNav, TaskNav, TasksContainer } from "./_components";
@@ -36,10 +37,10 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
       />
       <Link
         href={`/${currentTeamId}/task-lists/${currentListId}/create-task?date=${searchParams.date}`}
-        className="text-16-400 hover:text-brand-primary"
+        className="group flex items-center gap-4 text-16-400 hover:text-brand-primary"
       >
-        <span className="leading-0">+ </span>
-        <span className="">할 일 추가</span>
+        <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />
+        할 일 추가
       </Link>
     </>
   );
