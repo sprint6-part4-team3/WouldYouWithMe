@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
+import { useToast } from "@/hooks";
 import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { SignInInput } from "@/types/auth";
@@ -17,11 +16,11 @@ import signIn from "../login/actions";
 
 const SignInForm: React.FC = () => {
   const router = useRouter();
+  const { success, error } = useToast();
 
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid },
   } = useForm<SignInInput>({
     resolver: zodResolver(loginSchema),
@@ -32,15 +31,14 @@ const SignInForm: React.FC = () => {
   const onSubmit: SubmitHandler<SignInInput> = async (data) => {
     const { email, password } = data;
     const resData = await signIn(email, password);
+
     if (!resData.success) {
-      setError("email", {
-        type: "manual",
-        message: "이메일 혹은 비밀번호를 확인해주세요.",
-      });
-      console.error("로그인 실패:", resData.data?.message);
+      error(`${resData.data?.message}`);
     } else {
-      console.log("로그인 성공");
-      router.push("/");
+      success("로그인 성공");
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
     }
   };
 

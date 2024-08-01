@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
+import { useToast } from "@/hooks";
 import { signUpSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { SignUpInput } from "@/types/auth";
@@ -16,11 +15,11 @@ import signUp from "../signup/action";
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
+  const { success, error } = useToast();
 
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid },
   } = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
@@ -38,24 +37,12 @@ const SignUpForm: React.FC = () => {
     );
 
     if (!resData.success) {
-      console.error("회원가입 실패:", resData.data?.message);
-
-      if (resData.data?.details?.email) {
-        setError("email", {
-          type: "manual",
-          message: resData.data.details.email.message,
-        });
-      }
-
-      if (resData.data?.details?.nickname) {
-        setError("nickname", {
-          type: "manual",
-          message: resData.data.details.nickname.message,
-        });
-      }
+      error(`${resData.data?.message}`);
     } else {
-      console.log("회원가입 성공");
-      router.push("/");
+      success("회원가입 성공");
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
     }
   };
 

@@ -2,7 +2,7 @@
 
 import { Logo, TeamDropdown, UserDropdown } from "./nav-component";
 
-// 임시로 넣었습니다. api 작업 후 수정할 예정입니다.
+// TODO - 임시로 넣었습니다. api 작업 후 수정할 예정입니다.
 interface User {
   id: number;
   email: string;
