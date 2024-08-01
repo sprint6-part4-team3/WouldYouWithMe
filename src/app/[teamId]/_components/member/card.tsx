@@ -65,7 +65,7 @@ const Card = () => {
         </div>
         <MemberDropdown />
       </div>
-      {value && <ProfileModal isOpen={value} onClose={handleOff} />}
+      <ProfileModal isOpen={value} onClose={handleOff} />
     </div>
   );
 };

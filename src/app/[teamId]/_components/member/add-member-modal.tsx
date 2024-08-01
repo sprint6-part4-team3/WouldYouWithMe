@@ -26,23 +26,22 @@ const AddMemberModal = () => {
         <IconPlusCurrent stroke="#22b8cf" />
         멤버 추가하기
       </div>
-      {value && (
-        <ModalComponent
-          showCloseButton
-          isOpen={value}
-          onClose={handleOff}
-          title="멤버 초대"
-          description="그룹에 참여할 수 있는 링크를 복사합니다."
+
+      <ModalComponent
+        showCloseButton
+        isOpen={value}
+        onClose={handleOff}
+        title="멤버 초대"
+        description="그룹에 참여할 수 있는 링크를 복사합니다."
+      >
+        <Button
+          onClick={handleClickCopy}
+          variant="primary"
+          className="mt-16 h-47 w-full"
         >
-          <Button
-            onClick={handleClickCopy}
-            variant="primary"
-            className="mt-16 h-47 w-full"
-          >
-            복사하기
-          </Button>
-        </ModalComponent>
-      )}
+          복사하기
+        </Button>
+      </ModalComponent>
     </>
   );
 };
