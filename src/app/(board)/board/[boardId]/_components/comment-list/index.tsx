@@ -1,4 +1,4 @@
-import { ArticleCommentListResponse } from "@/types/article-comment";
+import { ArticleCommentListResponse } from "@/types/article/comment";
 
 import Comment from "./comment";
 import EmptyComment from "./empty-comment";
