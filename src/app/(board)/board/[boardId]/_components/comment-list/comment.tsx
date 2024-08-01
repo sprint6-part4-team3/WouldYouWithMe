@@ -2,7 +2,7 @@ import { IconProfile } from "@/public/assets/icons";
 import { ArticleCommentResponse } from "@/types/article/comment";
 import formatBoardDate from "@/utils/format-board-date";
 
-import CommentDropDown from "./drop-down";
+import CommentDropDown from "./comment-drop-down";
 
 interface CommentProps {
   commentData: ArticleCommentResponse;
