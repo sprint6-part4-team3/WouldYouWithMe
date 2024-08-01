@@ -1,6 +1,7 @@
 "use client";
 
 import Lottie from "lottie-react";
+import Link from "next/link";
 
 import { Button } from "@/components/common";
 import TeamEmpty from "@/public/assets/lotties/team-empty.json";
@@ -18,12 +19,17 @@ const Empty = () => (
     </div>
 
     <div className="flex flex-col gap-8 lg:gap-16">
-      <Button className="h-48 w-186 text-14 lg:text-16" variant="primary">
-        팀 생성하기
-      </Button>
-      <Button className="h-48 w-186 text-14 lg:text-16" variant="noFill">
-        팀 참여하기
-      </Button>
+      <Link href="/addteam">
+        <Button className="h-48 w-186 text-14 lg:text-16" variant="primary">
+          팀 생성하기
+        </Button>
+      </Link>
+      {/** FIXME: 노션에 해당 페이지 주소가 없어서 일단 임시로 아무거나 했습니다. */}
+      <Link href="/addteam">
+        <Button className="h-48 w-186 text-14 lg:text-16" variant="noFill">
+          팀 참여하기
+        </Button>
+      </Link>
     </div>
   </div>
 );
