@@ -23,7 +23,7 @@ const ToastContainer = () => {
   }
 
   return ReactDOM.createPortal(
-    <div className="absolute left-1/2 top-30 flex -translate-x-1/2 flex-col items-center gap-12 sm:w-full sm:px-12 md:min-w-400">
+    <div className="absolute left-1/2 top-30 z-[60] flex -translate-x-1/2 flex-col items-center gap-12 sm:w-full sm:px-12 md:min-w-400">
       <AnimatePresence>
         {toasts?.map((toast: any) => <Toast key={toast.id} {...toast} />)}
       </AnimatePresence>
