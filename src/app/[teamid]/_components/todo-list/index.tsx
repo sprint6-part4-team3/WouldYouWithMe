@@ -15,16 +15,36 @@ export default function TodoListBox() {
       </div>
       <section>
         {/* TODO: 이후에 수정 할 예정, 임시 경로입니다. */}
-        <TodoListCard color="purple" link="/some-path1">
+        <TodoListCard
+          color="purple"
+          link="/some-path1"
+          totalItems={5}
+          completedItems={3}
+        >
           법인 설계
         </TodoListCard>
-        <TodoListCard color="blue" link="/some-path2">
+        <TodoListCard
+          color="blue"
+          link="/some-path2"
+          totalItems={5}
+          completedItems={5}
+        >
           변경 동기
         </TodoListCard>
-        <TodoListCard color="green" link="/some-path3">
+        <TodoListCard
+          color="green"
+          link="/some-path3"
+          totalItems={5}
+          completedItems={3}
+        >
           정기 주총
         </TodoListCard>
-        <TodoListCard color="pink" link="/some-path4">
+        <TodoListCard
+          color="pink"
+          link="/some-path4"
+          totalItems={5}
+          completedItems={1}
+        >
           법인 설립
         </TodoListCard>
       </section>

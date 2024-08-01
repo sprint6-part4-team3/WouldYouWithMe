@@ -3,14 +3,18 @@
 "use client";
 
 import Link from "next/link";
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 
 import { DropDown } from "@/components/common";
 import { useToggle } from "@/hooks";
+import { IconDone } from "@/public/assets/icons";
 
 interface TodoListCardProps {
   color?: "purple" | "blue" | "green" | "pink";
   children: string;
   link: string;
+  totalItems: number;
+  completedItems: number;
 }
 
 function getColorClass(color: TodoListCardProps["color"]) {
@@ -39,8 +43,17 @@ const TodoListDropDown = () => {
   );
 };
 
-const TodoListCard = ({ children, color, link }: TodoListCardProps) => {
+const TodoListCard = ({
+  children,
+  color,
+  link,
+  totalItems,
+  completedItems,
+}: TodoListCardProps) => {
   const colorClass = getColorClass(color);
+
+  // TODO: 완료 개수에 따라 변경
+  const CHECKED_ITEMS = (completedItems / totalItems) * 100;
 
   return (
     <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary px-24 text-16-500">
@@ -52,9 +65,24 @@ const TodoListCard = ({ children, color, link }: TodoListCardProps) => {
         <span className="text-14-500">{children}</span>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-4 rounded-full bg-background-primary px-8 py-4">
-            {/* 임시 아이콘 */}
-            <span>◎</span>
-            <span className="text-14-400 text-brand-primary">5/5</span>
+            {totalItems === completedItems ? (
+              <IconDone />
+            ) : (
+              <div className="size-14">
+                <CircularProgressbar
+                  styles={buildStyles({
+                    rotation: 0.25,
+                    pathColor: "#22b8cf",
+                    trailColor: "#F8FAFC",
+                  })}
+                  strokeWidth={17}
+                  value={CHECKED_ITEMS}
+                />
+              </div>
+            )}
+            <span className="text-14-400 text-brand-primary">
+              {completedItems}&#47;{totalItems}
+            </span>
           </div>
         </div>
       </Link>
