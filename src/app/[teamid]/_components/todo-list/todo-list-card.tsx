@@ -8,8 +8,9 @@ import { DropDown } from "@/components/common";
 import { useToggle } from "@/hooks";
 
 interface TodoListCardProps {
-  color: "purple" | "blue" | "green" | "pink";
+  color?: "purple" | "blue" | "green" | "pink";
   children: string;
+  link: string;
 }
 
 function getColorClass(color: TodoListCardProps["color"]) {
@@ -38,15 +39,14 @@ const TodoListDropDown = () => {
   );
 };
 
-const TodoListCard = ({ children, color }: TodoListCardProps) => {
+const TodoListCard = ({ children, color, link }: TodoListCardProps) => {
   const colorClass = getColorClass(color);
 
   return (
     <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary px-24 text-16-500">
       <div className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`} />
       <Link
-        // TODO: 이후에 수정 할 예정, 임시 경로입니다.
-        href="/some-path"
+        href={link}
         className="z-10 flex flex-1 items-center justify-between"
       >
         <span className="text-14-500">{children}</span>

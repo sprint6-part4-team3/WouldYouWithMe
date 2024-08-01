@@ -1,9 +1,11 @@
 import { useState } from "react";
 
-import { Button, Input, Modal } from "@/components/common";
+import { Button, Drawer, Input, Modal } from "@/components/common";
+import { useIsMobile } from "@/hooks";
 
-const AddTodoListModal: React.FC = (args) => {
+const AddTodoListModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   return (
     <div>
@@ -14,21 +16,48 @@ const AddTodoListModal: React.FC = (args) => {
       >
         + 새로운 목록 추가하기
       </button>
-      <Modal
-        title="할 일 목록"
-        showCloseButton
-        isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false);
-        }}
-      >
-        <div>
-          <Input id="text" placeholder="목록 명을 입력해주세요." type="text" />
-          <Button className="mt-24 h-48 w-280" variant="primary">
-            만들기
-          </Button>
-        </div>
-      </Modal>
+      {isMobile ? (
+        // TODO: 모바일
+        <Drawer
+          isOpen={isOpen}
+          onClose={() => {
+            setIsOpen(false);
+          }}
+          title="할 일 목록"
+        >
+          <div>
+            <Input
+              id="text"
+              placeholder="목록 명을 입력해주세요."
+              type="text"
+            />
+            <Button className="mt-24 h-48 w-280" variant="primary">
+              만들기
+            </Button>
+          </div>
+        </Drawer>
+      ) : (
+        // TODO: PC, 태블릿
+        <Modal
+          title="할 일 목록"
+          showCloseButton
+          isOpen={isOpen}
+          onClose={() => {
+            setIsOpen(false);
+          }}
+        >
+          <div>
+            <Input
+              id="text"
+              placeholder="목록 명을 입력해주세요."
+              type="text"
+            />
+            <Button className="mt-24 h-48 w-280" variant="primary">
+              만들기
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

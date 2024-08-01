@@ -27,13 +27,13 @@ const TeamCardDropdown = () => {
 };
 
 const TeamCardBox = () => (
-  <div className="m-auto my-24 flex h-64 w-full items-center justify-between rounded-12 border border-border-primary/10 bg-slate-50/10 px-24">
+  <article className="m-auto my-24 flex h-64 w-full items-center justify-between rounded-12 border border-border-primary/10 bg-slate-50/10 px-24">
     <div className="text-20-700">경영관리팀</div>
     <div className="flex items-center gap-30">
       <Image src={TeamCardThumbnail} alt="" draggable="false" />
       <TeamCardDropdown />
     </div>
-  </div>
+  </article>
 );
 
 export default TeamCardBox;
