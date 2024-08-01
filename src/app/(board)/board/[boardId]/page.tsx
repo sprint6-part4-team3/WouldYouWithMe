@@ -6,7 +6,10 @@ import CommentTestData from "./comment.json";
 
 const BoardPage = () => (
   <>
-    <BoardDetail />
+    <BoardDetail
+      articleData={ArticleTestData}
+      commentCount={CommentTestData.list.length}
+    />
     <AddComment />
     <CommentList commentListData={CommentTestData} />
   </>
