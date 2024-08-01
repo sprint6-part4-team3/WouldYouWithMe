@@ -7,7 +7,7 @@ import EmptyAnimation from "@/public/assets/lotties/empty.json";
 const EmptyComment = () => (
   <div className="flex flex-col items-center gap-24">
     <Lottie
-      style={{ width: "80%", height: "80%" }}
+      style={{ width: "80%", height: "80%", maxWidth: "400px" }}
       animationData={EmptyAnimation}
     />
     <span className="text-16-700 text-text-disabled">
