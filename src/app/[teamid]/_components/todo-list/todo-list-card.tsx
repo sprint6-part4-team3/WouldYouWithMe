@@ -45,7 +45,7 @@ const TodoListCard = ({ children, color }: TodoListCardProps) => {
     <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary px-24 text-16-500">
       <div className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`} />
       <Link
-        // 이후에 수정 할 예정, 임시 경로입니다.
+        // TODO: 이후에 수정 할 예정, 임시 경로입니다.
         href="/some-path"
         className="z-10 flex flex-1 items-center justify-between"
       >
@@ -54,7 +54,7 @@ const TodoListCard = ({ children, color }: TodoListCardProps) => {
           <div className="flex items-center gap-4 rounded-full bg-background-primary px-8 py-4">
             {/* 임시 아이콘 */}
             <span>◎</span>
-            <span className="text-14-400 text-point-green">5/5</span>
+            <span className="text-14-400 text-brand-primary">5/5</span>
           </div>
         </div>
       </Link>

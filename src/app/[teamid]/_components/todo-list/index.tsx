@@ -1,3 +1,6 @@
+"use client";
+
+import AddTodoListModal from "./add-todo-list-modal";
 import TodoListCard from "./todo-list-card";
 
 export default function TodoListBox() {
@@ -8,9 +11,7 @@ export default function TodoListBox() {
           <span className="text-16-500">할 일 목록</span>
           <span className="text-16-400 text-text-default">(4개)</span>
         </div>
-        <span className="text-14-400 text-point-green">
-          + 새로운 목록 추가하기
-        </span>
+        <AddTodoListModal />
       </div>
       <TodoListCard color="purple">법인 설계</TodoListCard>
       <TodoListCard color="blue">변경 동기</TodoListCard>
