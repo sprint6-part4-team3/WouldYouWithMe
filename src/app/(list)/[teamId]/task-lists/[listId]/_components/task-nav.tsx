@@ -1,8 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-import AddListModalButton from "@/components/common/buttons/add-list-modal-button";
-import IconButton from "@/components/common/icon-button";
+import { AddListModalButton, IconButton } from "@/components/common";
 import formatDate from "@/utils/format-date";
 
 interface TaskNavProps {

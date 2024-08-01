@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import Link from "next/link";
 import React from "react";
 
-import DropDown from "@/components/common/drop-down/index";
+import { DropDown } from "@/components/common";
 import useToggle from "@/hooks/use-toggle";
 import {
   IconCalendar,

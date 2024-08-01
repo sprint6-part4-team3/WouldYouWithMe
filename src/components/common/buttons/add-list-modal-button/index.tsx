@@ -1,6 +1,7 @@
 "use client";
 
-import { Drawer, Modal } from "@/components/common";
+import Drawer from "@/components/common/drawer";
+import Modal from "@/components/common/modal";
 import OneInputForm from "@/components/common/modal/one-input-form";
 import { useIsMobile, useToast, useToggle } from "@/hooks";
 

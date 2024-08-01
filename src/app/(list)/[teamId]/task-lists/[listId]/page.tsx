@@ -3,10 +3,8 @@ import React from "react";
 
 import { Task } from "@/types/task-list/index";
 
+import { TaskListNav, TaskNav, TasksContainer } from "./_components";
 import mockData from "./_components/mock.json";
-import TaskListNav from "./_components/task-lists-nav";
-import TaskNav from "./_components/task-nav";
-import TasksContainer from "./_components/tasks-container";
 
 interface TaskListProps {
   params: { teamId: string; listId: string };
