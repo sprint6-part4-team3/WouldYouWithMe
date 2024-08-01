@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
@@ -17,6 +18,7 @@ import signIn from "../login/actions";
 const SignInForm: React.FC = () => {
   const router = useRouter();
   const { success, error } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -29,16 +31,24 @@ const SignInForm: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<SignInInput> = async (data) => {
+    setIsLoading(true);
     const { email, password } = data;
-    const resData = await signIn(email, password);
 
-    if (!resData.success) {
-      error(`${resData.data?.message}`);
-    } else {
-      success("로그인 성공");
-      setTimeout(() => {
-        router.push("/");
-      }, 3000);
+    try {
+      const resData = await signIn(email, password);
+
+      if (!resData.success) {
+        error(`${resData.data?.message}`);
+      } else {
+        success("로그인 성공");
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
+      }
+    } catch (err) {
+      error("로그인 요청 중 오류가 발생했습니다.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -83,7 +93,7 @@ const SignInForm: React.FC = () => {
         variant="primary"
         type="submit"
         className="mt-40 h-47 w-full"
-        disabled={!isValid}
+        disabled={!isValid || isLoading}
       >
         로그인
       </Button>
