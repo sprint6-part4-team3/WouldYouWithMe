@@ -1,5 +1,7 @@
 "use server";
 
+import Link from "next/link";
+
 import { Logo, TeamDropdown, UserDropdown } from "./nav-component";
 
 // TODO - 임시로 넣었습니다. api 작업 후 수정할 예정입니다.
@@ -24,7 +26,11 @@ const NavBar = ({ user, team }: NavBarProps) => {
     if (user && team) {
       return (
         <>
-          <TeamDropdown teamName={team.name} />
+          <div className="flex items-center gap-20">
+            <Logo />
+            <TeamDropdown teamName={team.name} />
+            <Link href="/">자유게시판</Link>
+          </div>
           <UserDropdown userNickname={user.nickname} />
         </>
       );
@@ -33,18 +39,16 @@ const NavBar = ({ user, team }: NavBarProps) => {
     if (user) {
       return (
         <>
-          <Logo />
+          <div className="flex items-center gap-20">
+            <Logo />
+            <Link href="/">자유게시판</Link>
+          </div>
           <UserDropdown userNickname={user.nickname} />
         </>
       );
     }
 
-    return (
-      <>
-        <Logo />
-        <span className="whitespace-nowrap text-text-primary">로그인</span>
-      </>
-    );
+    return <Logo />;
   };
 
   return (

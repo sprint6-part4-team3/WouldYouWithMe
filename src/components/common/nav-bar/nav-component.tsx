@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import Image from "next/image";
+import Link from "next/link";
 
 import { useToggle } from "@/hooks";
 import { IconDropdown, IconUser } from "@/public/assets/icons";
@@ -17,13 +18,12 @@ const TeamDropdown = ({ teamName }: TeamDropdownProps) => {
   const teamDropdown = useToggle();
 
   return (
-    <div className="flex items-center whitespace-nowrap text-16-500 text-text-primary">
-      <div className="mr-12 size-32 rounded-md bg-brand-primary" />
+    <div className="mt-1 whitespace-nowrap text-16-500 text-text-primary">
       <DropDown handleClose={teamDropdown.handleOff}>
         <DropDown.Trigger onClick={teamDropdown.handleToggle}>
           <div className="flex items-center">
             {teamName}
-            <IconDropdown className="ml-12 mt-3" />
+            <IconDropdown className="ml-8" />
           </div>
         </DropDown.Trigger>
         <DropDown.Menu
@@ -87,7 +87,9 @@ const UserDropdown = ({ userNickname }: UserDropdownProps) => {
 
 const Logo = () => (
   <div className="relative w-102 shrink-0 xl:w-158">
-    <Image src={LogoImage} alt="코워커스 로고" className="object-fill" />
+    <Link href="/">
+      <Image src={LogoImage} alt="코워커스 로고" className="object-fill" />
+    </Link>
   </div>
 );
 

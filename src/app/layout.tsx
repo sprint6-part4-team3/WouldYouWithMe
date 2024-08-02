@@ -8,16 +8,9 @@ import ToastContainer from "@/components/common/toast/container";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const user = {
-  id: 123,
-  email: "test1@test1.com",
-  nickname: "테스트용",
-};
+const user = null;
 
-const team = {
-  id: 132,
-  name: "경영관리팀",
-};
+const team = null;
 
 export const metadata: Metadata = {
   title: "Coworkers",
