@@ -9,14 +9,50 @@ import ToastContainer from "@/components/common/toast/container";
 const inter = Inter({ subsets: ["latin"] });
 
 const user = {
-  id: 123,
+  id: 44,
   email: "test1@test1.com",
-  nickname: "테스트용",
+  nickname: "두꺼비",
+  image: null,
+  teamId: "6-3",
+  memberships: [
+    {
+      userId: 44,
+      groupId: 30,
+      userName: "두꺼비",
+      userEmail: "test1@test1.com",
+      userImage: null,
+      role: "ADMIN",
+      group: {
+        id: 30,
+        teamId: null,
+        name: "테스트1팀",
+        image: "https://example.com/...",
+        createdAt: "2024-08-02T09:12:09.418Z",
+        updatedAt: "2024-08-02T09:12:09.418Z",
+      },
+    },
+    {
+      userId: 44,
+      groupId: 31,
+      userName: "두꺼비",
+      userEmail: "test1@test1.com",
+      userImage: null,
+      role: "ADMIN",
+      group: {
+        id: 31,
+        teamId: null,
+        name: "테스트2팀",
+        image: "https://example.com/...",
+        createdAt: "2024-08-02T09:13:02.456Z",
+        updatedAt: "2024-08-02T09:13:02.456Z",
+      },
+    },
+  ],
 };
 
 const team = {
-  id: 132,
-  name: "경영관리팀",
+  id: user.memberships[0].group.id,
+  name: user.memberships[0].group.name,
 };
 
 export const metadata: Metadata = {

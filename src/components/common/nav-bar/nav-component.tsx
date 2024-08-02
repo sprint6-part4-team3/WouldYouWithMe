@@ -84,6 +84,7 @@ const UserDropdown = ({ userNickname }: UserDropdownProps) => {
         >
           <DropDown.Item>마이 히스토리</DropDown.Item>
           <DropDown.Item>계정 설정</DropDown.Item>
+          <DropDown.Item>팀 참여</DropDown.Item>
           <DropDown.Item>로그아웃</DropDown.Item>
         </DropDown.Menu>
       </DropDown>
