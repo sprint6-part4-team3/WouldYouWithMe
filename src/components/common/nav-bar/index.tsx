@@ -28,8 +28,10 @@ const NavBar = ({ user, team }: NavBarProps) => {
         <>
           <div className="flex items-center gap-20">
             <Logo />
-            <TeamDropdown teamName={team.name} />
-            <Link href="/">자유게시판</Link>
+            <div className="hidden items-center gap-20 md:flex">
+              <TeamDropdown teamName={team.name} />
+              <Link href="/">자유게시판</Link>
+            </div>
           </div>
           <UserDropdown userNickname={user.nickname} />
         </>
@@ -41,7 +43,9 @@ const NavBar = ({ user, team }: NavBarProps) => {
         <>
           <div className="flex items-center gap-20">
             <Logo />
-            <Link href="/">자유게시판</Link>
+            <div className="hidden items-center gap-20 md:flex">
+              <Link href="/">자유게시판</Link>
+            </div>
           </div>
           <UserDropdown userNickname={user.nickname} />
         </>

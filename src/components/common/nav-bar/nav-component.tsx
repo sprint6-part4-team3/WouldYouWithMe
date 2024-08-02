@@ -3,8 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useToggle } from "@/hooks";
-import { IconDropdown, IconPlusCurrent, IconUser } from "@/public/assets/icons";
+import { useIsMobile, useToggle } from "@/hooks";
+import {
+  IconDropdown,
+  IconGnbMenu,
+  IconPlusCurrent,
+  IconUser,
+} from "@/public/assets/icons";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
 
 import DropDown from "../drop-down";
@@ -88,12 +93,19 @@ const UserDropdown = ({ userNickname }: UserDropdownProps) => {
   );
 };
 
-const Logo = () => (
-  <div className="relative w-158 shrink-0">
-    <Link href="/">
-      <Image src={LogoImage} alt="코워커스 로고" className="object-fill" />
-    </Link>
-  </div>
-);
+const Logo = () => {
+  const isMobile = useIsMobile();
+
+  return (
+    <>
+      {isMobile && <IconGnbMenu className="shrink-0" />}
+      <div className="relative w-158 shrink-0">
+        <Link href="/">
+          <Image src={LogoImage} alt="코워커스 로고" className="object-fill" />
+        </Link>
+      </div>
+    </>
+  );
+};
 
 export { Logo, TeamDropdown, UserDropdown };
