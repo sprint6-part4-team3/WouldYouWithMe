@@ -1,18 +1,16 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
-import { useIsMobile, useToggle } from "@/hooks";
-import {
-  IconDropdown,
-  IconGnbMenu,
-  IconPlusCurrent,
-  IconUser,
-} from "@/public/assets/icons";
+import { useClickOutside, useIsMobile, useToggle } from "@/hooks";
+import { IconDropdown, IconPlusCurrent, IconUser } from "@/public/assets/icons";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
 
 import DropDown from "../drop-down";
+import IconButton from "../icon-button";
 
 interface TeamDropdownProps {
   teamName: string;
@@ -93,19 +91,78 @@ const UserDropdown = ({ userNickname }: UserDropdownProps) => {
   );
 };
 
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
+  const sidebarRef = useClickOutside(onClose);
+
+  return (
+    <motion.div
+      ref={sidebarRef}
+      className="fixed left-0 top-0 h-full w-1/2 bg-background-secondary"
+      initial={{ x: "-100%" }}
+      animate={{ x: isOpen ? "0%" : "-100%" }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    >
+      <IconButton
+        icon="IconX"
+        variant="none"
+        isBorder={false}
+        onClick={onClose}
+        className="absolute right-22 top-22"
+      />
+      <div className="ml-16 mt-75">
+        <ul className="space-y-24">
+          <li>
+            <Link href="/team1">경영관리 팀</Link>
+          </li>
+          <li>
+            <Link href="/team2">프로덕트 팀</Link>
+          </li>
+          <li>
+            <Link href="/team3">마케팅 팀</Link>
+          </li>
+        </ul>
+        <div className="mt-24">
+          <Link href="/">자유게시판</Link>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const Logo = () => {
   const isMobile = useIsMobile();
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
 
   return (
     <>
-      {isMobile && <IconGnbMenu className="shrink-0" />}
+      {isMobile && (
+        <IconButton
+          icon="IconGnbMenu"
+          variant="none"
+          onClick={toggleSidebar}
+          className="shrink-0"
+        />
+      )}
       <div className="relative w-158 shrink-0">
         <Link href="/">
           <Image src={LogoImage} alt="코워커스 로고" className="object-fill" />
         </Link>
       </div>
+      <NavSideBar
+        isOpen={isSidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
     </>
   );
 };
 
-export { Logo, TeamDropdown, UserDropdown };
+export { Logo, NavSideBar, TeamDropdown, UserDropdown };
