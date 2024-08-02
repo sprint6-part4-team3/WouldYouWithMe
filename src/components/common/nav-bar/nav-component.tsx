@@ -1,6 +1,5 @@
 "use client";
 
-import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -73,7 +72,7 @@ const UserDropdown = ({ userNickname }: UserDropdownProps) => {
         <DropDown.Trigger onClick={userDropdown.handleToggle}>
           <div className="flex items-center">
             <IconUser className="mr-12" />
-            <span className={clsx("hidden", "xl:inline")}>{userNickname}</span>
+            <span className="hidden lg:inline">{userNickname}</span>
           </div>
         </DropDown.Trigger>
         <DropDown.Menu
@@ -90,7 +89,7 @@ const UserDropdown = ({ userNickname }: UserDropdownProps) => {
 };
 
 const Logo = () => (
-  <div className="relative w-102 shrink-0 xl:w-158">
+  <div className="relative w-158 shrink-0">
     <Link href="/">
       <Image src={LogoImage} alt="코워커스 로고" className="object-fill" />
     </Link>
