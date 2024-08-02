@@ -14,7 +14,7 @@ export default function TodoListBox() {
         <AddTodoListModal />
       </div>
       <section>
-        {/* TODO: 이후에 수정 할 예정, 임시 경로입니다. */}
+        {/* TODO: 이후에 수정 할 예정으로 임시 경로입니다. */}
         <TodoListCard
           color="purple"
           link="/some-path1"
