@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useToggle } from "@/hooks";
-import { IconDropdown, IconUser } from "@/public/assets/icons";
+import { IconDropdown, IconPlusCurrent, IconUser } from "@/public/assets/icons";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
 
 import DropDown from "../drop-down";
@@ -49,7 +49,11 @@ const TeamDropdown = ({ teamName }: TeamDropdownProps) => {
               <span className="ml-12">마케팅 팀</span>
             </div>
           </DropDown.Item>
-          <DropDown.Item>+ 팀 추가하기</DropDown.Item>
+          <DropDown.Item>
+            <div className="flex items-center justify-center">
+              <IconPlusCurrent className="mr-5 stroke-white" />팀 추가하기
+            </div>
+          </DropDown.Item>
         </DropDown.Menu>
       </DropDown>
     </div>
