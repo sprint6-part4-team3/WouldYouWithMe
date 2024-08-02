@@ -84,7 +84,7 @@ const Button = ({ children, variant, className, ...rest }: ButtonProps) => (
           variant === "danger",
         "border border-text-secondary bg-white text-text-secondary hover:text-[#94A3B8]":
           variant === "secondary",
-        "border bg-transparent text-brand-primary border-primary hover:border-interaction-hover hover:text-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
+        "border border-brand-primary bg-transparent text-brand-primary border-primary hover:border-interaction-hover hover:text-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
           variant === "noFill",
       },
       className,

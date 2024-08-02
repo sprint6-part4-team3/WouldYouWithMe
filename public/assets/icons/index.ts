@@ -6,7 +6,7 @@ export { default as IconCheckCurrent } from "./icon-check-current.svg";
 export { default as IconCheckPrimary } from "./icon-check-primary.svg";
 export { default as IconCheckWhite } from "./icon-check-white.svg";
 export { default as IconCheckBox } from "./icon-checkbox.svg";
-export { default as IconCheckBoxGreen } from "./icon-checkbox-green.svg";
+export { default as IconCheckBoxPrimary } from "./icon-checkbox-primary.svg";
 export { default as IconComment } from "./icon-comment.svg";
 export { default as IconDone } from "./icon-done.svg";
 export { default as IconDoneCyan } from "./icon-done-Cyan.svg";
