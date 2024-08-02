@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import React from "react";
 
 import { IconButton } from "@/components/common";
@@ -8,7 +9,7 @@ interface CommentListProps {
   comments: Comment[];
 }
 
-const CommentList: React.FC<CommentListProps> = ({ comments }) => (
+const CommentList = ({ comments }: CommentListProps) => (
   <div className="flex flex-col gap-16 p-12">
     {comments.map((comment) => (
       <div
@@ -21,14 +22,15 @@ const CommentList: React.FC<CommentListProps> = ({ comments }) => (
         </div>
         <div className="mb-12 flex items-center justify-between self-stretch text-14-500 text-text-primary">
           <div className="flex items-center">
+            {/* TODO - 추후 프로필 이미지 추가 */}
             <IconProfile className="mr-12" />
             <span className="text-14-500 text-text-primary">
               {comment.user.nickname}
             </span>
           </div>
-          <span className="text-14-400 text-text-secondary">
-            {new Date(comment.createdAt).toLocaleDateString()}
-          </span>
+          <time className="text-14-400 text-text-secondary">
+            {dayjs(comment.createdAt).format("YYYY.MM.DD")}
+          </time>
         </div>
       </div>
     ))}
