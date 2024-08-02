@@ -1,6 +1,7 @@
-/*eslint-disable */
+"use client";
 
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import {
@@ -27,13 +28,27 @@ interface TaskContentProps {
 }
 
 const TaskContent = ({ task }: TaskContentProps) => {
+  const router = useRouter();
   const taskDate = dayjs(task.date);
   const formattedDate = taskDate.format("YYYY년 M월 D일");
   const formattedTime = taskDate.format("A h:mm");
 
+  const getFrequencyText = (frequency: string) => {
+    switch (frequency) {
+      case "DAILY":
+        return "매일 반복";
+      case "WEEKLY":
+        return "매주 반복";
+      case "MONTHLY":
+        return "매월 반복";
+      default:
+        return "반복 없음";
+    }
+  };
+
   return (
     <div className="flex flex-col gap-16 p-12">
-      <IconX className="mb-16" />
+      <IconX className="mb-16 cursor-pointer" onClick={() => router.back()} />
       <div className="flex items-center justify-between text-18-600 text-text-primary">
         {task.name}
         <IconKebab />
@@ -71,11 +86,7 @@ const TaskContent = ({ task }: TaskContentProps) => {
           className="ml-10 flex content-center items-center"
         />
         <span className="ml-6 flex items-center">
-          {task.frequency === "DAILY"
-            ? "매일 반복"
-            : task.frequency === "WEEKLY"
-              ? "매주 반복"
-              : "매월 반복"}
+          {getFrequencyText(task.frequency)}
         </span>
       </div>
       <article className="overflow-wrap-anywhere mb-100 whitespace-normal break-words text-14-400">

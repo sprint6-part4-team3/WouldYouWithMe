@@ -1,10 +1,9 @@
 import React from "react";
 
 import { IconButton } from "@/components/common";
-import { IconComment } from "@/public/assets/icons";
 
 const CommentInput = () => (
-  <div className="relative mt-16 border-y-2">
+  <div className="relative mt-16 border-y-[0.2px] border-text-disabled">
     <input
       type="text"
       placeholder="댓글을 달아주세요"

@@ -1,0 +1,290 @@
+[
+  {
+    "id": 1,
+    "content": "드디어 시작했네요. 화이팅!",
+    "createdAt": "2024-08-02T06:28:07.594Z",
+    "updatedAt": "2024-08-02T06:28:07.594Z",
+    "taskId": 1,
+    "userId": 1,
+    "user": {
+      "id": 1,
+      "email": "user1@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "한상우",
+      "image": "/path/to/image1.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-02T06:28:07.594Z",
+      "updatedAt": "2024-08-02T06:28:07.594Z"
+    }
+  },
+  {
+    "id": 2,
+    "content": "아이고 하기싫어",
+    "createdAt": "2024-08-03T10:15:30.000Z",
+    "updatedAt": "2024-08-03T10:15:30.000Z",
+    "taskId": 1,
+    "userId": 2,
+    "user": {
+      "id": 2,
+      "email": "user2@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "채종민",
+      "image": "/path/to/image2.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-01T12:00:00.000Z",
+      "updatedAt": "2024-08-01T12:00:00.000Z"
+    }
+  },
+  {
+    "id": 3,
+    "content": "이번 프로젝트 정말 중요해요. 모두 집중해주세요!",
+    "createdAt": "2024-08-04T09:30:00.000Z",
+    "updatedAt": "2024-08-04T09:30:00.000Z",
+    "taskId": 1,
+    "userId": 3,
+    "user": {
+      "id": 3,
+      "email": "user3@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "김지원",
+      "image": "/path/to/image3.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-07-30T14:20:00.000Z",
+      "updatedAt": "2024-07-30T14:20:00.000Z"
+    }
+  },
+  {
+    "id": 4,
+    "content": "일정이 빡빡한데 괜찮을까요?",
+    "createdAt": "2024-08-05T11:45:00.000Z",
+    "updatedAt": "2024-08-05T11:45:00.000Z",
+    "taskId": 1,
+    "userId": 4,
+    "user": {
+      "id": 4,
+      "email": "user4@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "이현우",
+      "image": "/path/to/image4.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-01T08:10:00.000Z",
+      "updatedAt": "2024-08-01T08:10:00.000Z"
+    }
+  },
+  {
+    "id": 5,
+    "content": "모두 힘내세요! 좋은 결과 있을 거예요.",
+    "createdAt": "2024-08-06T15:20:00.000Z",
+    "updatedAt": "2024-08-06T15:20:00.000Z",
+    "taskId": 1,
+    "userId": 5,
+    "user": {
+      "id": 5,
+      "email": "user5@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "박소연",
+      "image": "/path/to/image5.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-07-29T16:40:00.000Z",
+      "updatedAt": "2024-07-29T16:40:00.000Z"
+    }
+  },
+  {
+    "id": 6,
+    "content": "두 번째 태스크 시작이네요. 힘내봐요!",
+    "createdAt": "2024-08-07T08:00:00.000Z",
+    "updatedAt": "2024-08-07T08:00:00.000Z",
+    "taskId": 2,
+    "userId": 1,
+    "user": {
+      "id": 1,
+      "email": "user1@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "한상우",
+      "image": "/path/to/image1.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-02T06:28:07.594Z",
+      "updatedAt": "2024-08-02T06:28:07.594Z"
+    }
+  },
+  {
+    "id": 7,
+    "content": "이번엔 좀 더 수월할 것 같아요.",
+    "createdAt": "2024-08-08T10:30:00.000Z",
+    "updatedAt": "2024-08-08T10:30:00.000Z",
+    "taskId": 2,
+    "userId": 2,
+    "user": {
+      "id": 2,
+      "email": "user2@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "채종민",
+      "image": "/path/to/image2.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-01T12:00:00.000Z",
+      "updatedAt": "2024-08-01T12:00:00.000Z"
+    }
+  },
+  {
+    "id": 8,
+    "content": "질문이 있는데 나중에 회의 때 얘기해도 될까요?",
+    "createdAt": "2024-08-09T14:15:00.000Z",
+    "updatedAt": "2024-08-09T14:15:00.000Z",
+    "taskId": 2,
+    "userId": 3,
+    "user": {
+      "id": 3,
+      "email": "user3@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "김지원",
+      "image": "/path/to/image3.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-07-30T14:20:00.000Z",
+      "updatedAt": "2024-07-30T14:20:00.000Z"
+    }
+  },
+  {
+    "id": 9,
+    "content": "네, 좋은 아이디어네요. 회의 때 논의해봐요.",
+    "createdAt": "2024-08-10T09:45:00.000Z",
+    "updatedAt": "2024-08-10T09:45:00.000Z",
+    "taskId": 2,
+    "userId": 4,
+    "user": {
+      "id": 4,
+      "email": "user4@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "이현우",
+      "image": "/path/to/image4.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-01T08:10:00.000Z",
+      "updatedAt": "2024-08-01T08:10:00.000Z"
+    }
+  },
+  {
+    "id": 10,
+    "content": "다들 열심히 하고 계시네요. 멋져요!",
+    "createdAt": "2024-08-11T16:20:00.000Z",
+    "updatedAt": "2024-08-11T16:20:00.000Z",
+    "taskId": 2,
+    "userId": 5,
+    "user": {
+      "id": 5,
+      "email": "user5@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "박소연",
+      "image": "/path/to/image5.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-07-29T16:40:00.000Z",
+      "updatedAt": "2024-07-29T16:40:00.000Z"
+    }
+  },
+  {
+    "id": 11,
+    "content": "세 번째 태스크네요. 이제 반이 지났어요!",
+    "createdAt": "2024-08-12T08:30:00.000Z",
+    "updatedAt": "2024-08-12T08:30:00.000Z",
+    "taskId": 3,
+    "userId": 1,
+    "user": {
+      "id": 1,
+      "email": "user1@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "한상우",
+      "image": "/path/to/image1.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-02T06:28:07.594Z",
+      "updatedAt": "2024-08-02T06:28:07.594Z"
+    }
+  },
+  {
+    "id": 12,
+    "content": "시간 가는 줄 모르고 일했네요.",
+    "createdAt": "2024-08-13T11:00:00.000Z",
+    "updatedAt": "2024-08-13T11:00:00.000Z",
+    "taskId": 3,
+    "userId": 2,
+    "user": {
+      "id": 2,
+      "email": "user2@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "채종민",
+      "image": "/path/to/image2.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-01T12:00:00.000Z",
+      "updatedAt": "2024-08-01T12:00:00.000Z"
+    }
+  },
+  {
+    "id": 13,
+    "content": "이번 부분이 좀 어려운데 도와주실 분 계신가요?",
+    "createdAt": "2024-08-14T14:45:00.000Z",
+    "updatedAt": "2024-08-14T14:45:00.000Z",
+    "taskId": 3,
+    "userId": 3,
+    "user": {
+      "id": 3,
+      "email": "user3@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "김지원",
+      "image": "/path/to/image3.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-07-30T14:20:00.000Z",
+      "updatedAt": "2024-07-30T14:20:00.000Z"
+    }
+  },
+  {
+    "id": 14,
+    "content": "제가 도와드릴게요. 퇴근 후에 시간 되시나요?",
+    "createdAt": "2024-08-15T09:20:00.000Z",
+    "updatedAt": "2024-08-15T09:20:00.000Z",
+    "taskId": 3,
+    "userId": 4,
+    "user": {
+      "id": 4,
+      "email": "user4@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "이현우",
+      "image": "/path/to/image4.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-01T08:10:00.000Z",
+      "updatedAt": "2024-08-01T08:10:00.000Z"
+    }
+  },
+  {
+    "id": 15,
+    "content": "팀워크가 정말 좋네요. 다들 수고하세요!",
+    "createdAt": "2024-08-16T17:10:00.000Z",
+    "updatedAt": "2024-08-16T17:10:00.000Z",
+    "taskId": 3,
+    "userId": 5,
+    "user": {
+      "id": 5,
+      "email": "user5@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "박소연",
+      "image": "/path/to/image5.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-07-29T16:40:00.000Z",
+      "updatedAt": "2024-07-29T16:40:00.000Z"
+    }
+  },
+  {
+    "id": 16,
+    "content": "네 번째 태스크 시작이에요. 조금만 더 힘내요!",
+    "createdAt": "2024-08-17T08:00:00.000Z",
+    "updatedAt": "2024-08-17T08:00:00.000Z",
+    "taskId": 4,
+    "userId": 1,
+    "user": {
+      "id": 1,
+      "email": "user1@example.com",
+      "encryptedPassword": "encrypted",
+      "nickname": "한상우",
+      "image": "/path/to/image1.jpg",
+      "teamId": "team1",
+      "createdAt": "2024-08-02T06:28:07.594Z",
+      "updatedAt": "2024-08-02T06:28:07.594Z"
+    }
+  }
+]
