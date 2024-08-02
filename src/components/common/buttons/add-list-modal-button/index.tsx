@@ -1,8 +1,11 @@
 "use client";
 
-import { Drawer, Modal } from "@/components/common";
+import Drawer from "@/components/common/drawer";
+import Modal from "@/components/common/modal";
 import OneInputForm from "@/components/common/modal/one-input-form";
 import { useIsMobile, useToast, useToggle } from "@/hooks";
+import { IconPlusCurrent } from "@/public/assets/icons";
+
 
 /**
  * 새로운 목록 추가하기 버튼
@@ -26,11 +29,13 @@ const AddListModalButton = () => {
 
   return (
     <>
-      <button onClick={handleOn} type="button">
-        <span className="leading-0 text-brand-primary">+ </span>
-        <span className="text-14-400 text-brand-primary">
-          새로운 목록 추가하기
-        </span>
+      <button
+        onClick={handleOn}
+        type="button"
+        className="group flex items-center gap-4 text-14-400 text-brand-primary hover:text-interaction-hover"
+      >
+        <IconPlusCurrent className="stroke-brand-primary group-hover:stroke-interaction-hover" />
+        새로운 목록 추가하기
       </button>
       {value && (
         <ModalComponent
