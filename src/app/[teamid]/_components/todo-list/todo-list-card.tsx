@@ -7,7 +7,7 @@ import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 
 import { DropDown } from "@/components/common";
 import { useToggle } from "@/hooks";
-import { IconDone } from "@/public/assets/icons";
+import { IconDoneCyan } from "@/public/assets/icons";
 
 interface TodoListCardProps {
   color?: "purple" | "blue" | "green" | "pink";
@@ -66,7 +66,7 @@ const TodoListCard = ({
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-4 rounded-full bg-background-primary px-8 py-4">
             {totalItems === completedItems ? (
-              <IconDone />
+              <IconDoneCyan />
             ) : (
               <div className="size-14">
                 <CircularProgressbar

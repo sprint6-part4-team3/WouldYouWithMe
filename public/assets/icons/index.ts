@@ -9,6 +9,7 @@ export { default as IconCheckBox } from "./icon-checkbox.svg";
 export { default as IconCheckBoxGreen } from "./icon-checkbox-green.svg";
 export { default as IconComment } from "./icon-comment.svg";
 export { default as IconDone } from "./icon-done.svg";
+export { default as IconDoneCyan } from "./icon-done-Cyan.svg";
 export { default as IconDonePanel } from "./icon-done-panel.svg";
 export { default as IconDropdown } from "./icon-dropdown.svg";
 export { default as IconGear } from "./icon-gear.svg";
