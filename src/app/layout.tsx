@@ -47,6 +47,22 @@ const user = {
         updatedAt: "2024-08-02T09:13:02.456Z",
       },
     },
+    {
+      userId: 44,
+      groupId: 32,
+      userName: "두꺼비",
+      userEmail: "test1@test1.com",
+      userImage: null,
+      role: "ADMIN",
+      group: {
+        id: 32,
+        teamId: null,
+        name: "테스트3팀",
+        image: "https://example.com/...",
+        createdAt: "2024-08-02T09:18:09.418Z",
+        updatedAt: "2024-08-02T09:18:09.418Z",
+      },
+    },
   ],
 };
 

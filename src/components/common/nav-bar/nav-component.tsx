@@ -36,19 +36,19 @@ const TeamDropdown = ({ teamName }: TeamDropdownProps) => {
           <DropDown.Item>
             <div className="flex items-center">
               <div className="ml-12 size-32 rounded-md bg-point-blue" />
-              <span className="ml-12">경영관리 팀</span>
+              <span className="ml-12">테스트1팀</span>
             </div>
           </DropDown.Item>
           <DropDown.Item>
             <div className="flex items-center">
               <div className="ml-12 size-32 rounded-md bg-point-green" />
-              <span className="ml-12">프로덕트 팀</span>
+              <span className="ml-12">테스트2팀</span>
             </div>
           </DropDown.Item>
           <DropDown.Item>
             <div className="flex items-center">
               <div className="ml-12 size-32 rounded-md bg-point-rose" />
-              <span className="ml-12">마케팅 팀</span>
+              <span className="ml-12">테스트3팀</span>
             </div>
           </DropDown.Item>
           <DropDown.Item>
@@ -118,13 +118,13 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
       <div className="ml-16 mt-75">
         <ul className="space-y-24">
           <li>
-            <Link href="/team1">경영관리 팀</Link>
+            <Link href="/team1">테스트1팀</Link>
           </li>
           <li>
-            <Link href="/team2">프로덕트 팀</Link>
+            <Link href="/team2">테스트2팀</Link>
           </li>
           <li>
-            <Link href="/team3">마케팅 팀</Link>
+            <Link href="/team3">테스트3팀</Link>
           </li>
         </ul>
         <div className="mt-24">
