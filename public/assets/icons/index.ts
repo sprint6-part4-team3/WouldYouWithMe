@@ -18,6 +18,7 @@ export { default as IconImgSelect } from "./icon-img-select.svg";
 export { default as IconKebab } from "./icon-kebab.svg";
 export { default as IconPlus } from "./icon-plus.svg";
 export { default as IconPlusCurrent } from "./icon-plus-current.svg";
+export { default as IconPlusCyan } from "./icon-plus-cyan.svg";
 export { default as IconProfile } from "./icon-profile.svg";
 export { default as IconProfileCurrent } from "./icon-profile-current.svg";
 export { default as IconProfileDesktop } from "./icon-profile-desktop.svg";

@@ -1,7 +1,10 @@
+"use client";
+
 import { useState } from "react";
 
 import { Button, Drawer, Input, Modal } from "@/components/common";
 import { useIsMobile } from "@/hooks";
+import { IconPlusCyan } from "@/public/assets/icons";
 
 const AddTodoListModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,9 +15,10 @@ const AddTodoListModal: React.FC = () => {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="rounded px-4 py-2 text-14-400 text-brand-primary"
+        className="flex items-center gap-2 rounded px-4 py-2 text-14-400 text-brand-primary"
       >
-        + 새로운 목록 추가하기
+        <IconPlusCyan />
+        <span>새로운 목록 추가하기</span>
       </button>
       {isMobile ? (
         // TODO: 모바일
