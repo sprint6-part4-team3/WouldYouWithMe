@@ -4,6 +4,7 @@ import { Comment, TaskDetailData } from "@/types/task-detail/index";
 
 import commentMock from "./_components/comment-mock.json";
 import CommentList from "./_components/comments-list";
+import EmptyComment from "./_components/empty-comment";
 import TaskContent from "./_components/task-content";
 import taskMock from "./_components/task-mock.json";
 
@@ -25,7 +26,11 @@ export default function Page({ params }: PageProps) {
   return (
     <div>
       <TaskContent task={taskData} />
-      <CommentList comments={comments} />
+      {comments.length > 0 ? (
+        <CommentList comments={comments} />
+      ) : (
+        <EmptyComment />
+      )}
     </div>
   );
 }
