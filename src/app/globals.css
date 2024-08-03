@@ -23,10 +23,20 @@ input:-webkit-autofill:active {
   transition:
     background-color 5000s ease-in-out 0s,
     color 5000s ease-in-out 0s;
-  -webkit-box-shadow: 0 0 0px 1000px #1e293b inset !important;
-  box-shadow: 0 0 0px 1000px #1e293b inset !important;
   -webkit-text-fill-color: #f8fafc !important;
   caret-color: #f8fafc !important;
+  border: 0.5px solid #4b5563 !important;
+}
+
+input {
+  border: 0.5px solid #4b5563 !important;
+}
+
+input.is-error:-webkit-autofill,
+input.is-error:-webkit-autofill:hover,
+input.is-error:-webkit-autofill:focus,
+input.is-error:-webkit-autofill:active {
+  border: 0.5px solid transparent !important;
 }
 
 input {
