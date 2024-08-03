@@ -21,7 +21,9 @@ const NavBar = ({ user }: NavBarProps) => {
             <Logo user={user} />
             <div className="hidden items-center gap-20 md:flex">
               {hasMemberships && <TeamDropdown user={user} />}
-              <Link href="/">자유게시판</Link>
+              <Link href="/" className="text-text-primary">
+                자유게시판
+              </Link>
             </div>
           </div>
           <UserDropdown user={user} />

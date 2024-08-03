@@ -4,14 +4,38 @@ import NavBar from ".";
 
 // 임시로 넣은 값
 const loggedInUser = {
-  id: 43,
-  email: "test@test.com",
-  nickname: "너구리",
+  id: 44,
+  email: "test1@test1.com",
+  nickname: "xxx",
+  image: null,
+  teamId: "6-3",
+  memberships: [],
 };
 
 const loggedInTeam = {
-  id: 43,
-  name: "코워커스",
+  id: 44,
+  email: "test1@test1.com",
+  nickname: "xxx",
+  image: null,
+  teamId: "6-3",
+  memberships: [
+    {
+      userId: 44,
+      groupId: 30,
+      userName: "xxx",
+      userEmail: "test1@test1.com",
+      userImage: null,
+      role: "ADMIN",
+      group: {
+        id: 30,
+        teamId: null,
+        name: "테스트1팀",
+        image: "https://example.com/...",
+        createdAt: "2024-08-02T09:12:09.418Z",
+        updatedAt: "2024-08-02T09:12:09.418Z",
+      },
+    },
+  ],
 };
 
 const meta = {
@@ -26,8 +50,7 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
   args: {
-    user: loggedInUser,
-    team: loggedInTeam,
+    user: loggedInTeam,
   },
   name: "로그인했을때",
 };
@@ -35,7 +58,6 @@ export const LoggedIn: Story = {
 export const LoggedOut: Story = {
   args: {
     user: null,
-    team: null,
   },
   name: "로그인안했을때",
 };
@@ -43,7 +65,6 @@ export const LoggedOut: Story = {
 export const LoggedInNotTeam: Story = {
   args: {
     user: loggedInUser,
-    team: null,
   },
   name: "로그인했는데팀이없을때",
 };
