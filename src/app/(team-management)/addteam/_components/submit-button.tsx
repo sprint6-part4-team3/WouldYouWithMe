@@ -13,7 +13,7 @@ const SubmitButton = () => {
       type="submit"
       disabled={!isValid}
       variant="primary"
-      className="h-47 w-full"
+      className="mt-16 h-47 w-full"
     >
       생성하기
     </Button>
