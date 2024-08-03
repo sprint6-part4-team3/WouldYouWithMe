@@ -48,7 +48,9 @@ const TodoListCard = ({
   const colorClass = getColorClass(color);
 
   // TODO: 완료 개수에 따라 변경
-  const CHECKED_ITEMS: number = (completedItems / totalItems) * 100;
+  // const CHECKED_ITEMS: number = (completedItems / totalItems) * 100;
+  const CHECKED_ITEMS =
+    totalItems === 0 ? 0 : (completedItems / totalItems) * 100;
 
   return (
     <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary pl-24 pr-30 text-16-500">

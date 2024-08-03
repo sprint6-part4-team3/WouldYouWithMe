@@ -1,6 +1,7 @@
 "use client";
 
-import AddTodoListModal from "./add-todo-list-modal";
+import { AddListModalButton } from "@/components/common";
+
 import TodoListCard from "./todo-list-card";
 
 const TodoListBox = () => (
@@ -10,7 +11,7 @@ const TodoListBox = () => (
         <h3 className="text-16-500">할 일 목록</h3>
         <span className="text-16-400 text-text-default">(4개)</span>
       </div>
-      <AddTodoListModal />
+      <AddListModalButton />
     </div>
     <section>
       {/* TODO: 이후에 수정 할 예정으로 임시 경로입니다. */}
