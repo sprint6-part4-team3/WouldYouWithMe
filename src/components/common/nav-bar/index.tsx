@@ -4,7 +4,9 @@ import Link from "next/link";
 
 import { User } from "@/types/user";
 
-import { Logo, TeamDropdown, UserDropdown } from "./nav-component";
+import Logo from "./logo";
+import TeamDropdown from "./team-dropdown";
+import UserDropdown from "./user-dropdown";
 
 interface NavBarProps {
   user: User | null;
