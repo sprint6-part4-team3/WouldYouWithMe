@@ -1,14 +1,14 @@
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper, Input } from "@/components/common";
-import { TeamAddInput } from "@/types/team-management";
+import { TeamAddEditInput } from "@/types/team-management";
 
 const NameInput = () => {
   const {
     register,
     watch,
     formState: { errors },
-  } = useFormContext<TeamAddInput>();
+  } = useFormContext<TeamAddEditInput>();
 
   return (
     <FieldWrapper

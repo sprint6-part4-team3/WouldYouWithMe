@@ -5,8 +5,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-import { teamEditSchema } from "@/lib/schemas/team-manage";
-import { TeamEditInput } from "@/types/team-management";
+import teamAddEditSchema from "@/lib/schemas/team-manage";
+import { TeamAddEditInput } from "@/types/team-management";
 
 import ImageInput from "./_components/image-input";
 import NameInput from "./_components/name-input";
@@ -24,8 +24,8 @@ const testTeamData: TestTeamData = {
 };
 
 const EditTeamPage = () => {
-  const methods = useForm<TeamEditInput>({
-    resolver: zodResolver(teamEditSchema),
+  const methods = useForm<TeamAddEditInput>({
+    resolver: zodResolver(teamAddEditSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
     defaultValues: {
@@ -34,8 +34,8 @@ const EditTeamPage = () => {
     },
   });
 
-  const handleSubmitTeam: SubmitHandler<TeamEditInput> = (data) => {
-    // TODO: API 연동 - 이미지 URL 만들고, 바로 그룹 수정 patch 요청
+  const handleSubmitTeam: SubmitHandler<TeamAddEditInput> = (data) => {
+    // TODO: API 연동 - 그룹 수정 patch 요청
     console.log(data);
   };
 

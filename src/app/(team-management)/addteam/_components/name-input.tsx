@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper, Input } from "@/components/common";
-import { TeamAddInput } from "@/types/team-management";
+import { TeamAddEditInput } from "@/types/team-management";
 
 /**
  * 요구사항에 "팀 이름이 중복이 되면 다음 에러 메세지를 보여줍니다." 라고 써있는데
@@ -12,7 +12,7 @@ const NameInput = () => {
   const {
     register,
     formState: { errors },
-  } = useFormContext<TeamAddInput>();
+  } = useFormContext<TeamAddEditInput>();
 
   return (
     <FieldWrapper

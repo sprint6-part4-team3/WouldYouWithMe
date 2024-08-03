@@ -1,12 +1,12 @@
 import { useFormContext } from "react-hook-form";
 
 import { Button } from "@/components/common";
-import { TeamAddInput } from "@/types/team-management";
+import { TeamAddEditInput } from "@/types/team-management";
 
 const SubmitButton = () => {
   const {
     formState: { isValid },
-  } = useFormContext<TeamAddInput>();
+  } = useFormContext<TeamAddEditInput>();
 
   return (
     <Button

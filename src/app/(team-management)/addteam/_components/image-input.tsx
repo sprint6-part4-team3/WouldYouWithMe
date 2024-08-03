@@ -9,10 +9,10 @@ import {
   IconImageButton,
   IconImageButtonError,
 } from "@/public/assets/icons";
-import { TeamAddInput } from "@/types/team-management";
+import { TeamAddEditInput } from "@/types/team-management";
 
 const ImageInput = memo(() => {
-  const { setValue, resetField } = useFormContext<TeamAddInput>();
+  const { setValue, resetField } = useFormContext<TeamAddEditInput>();
 
   const [imgUrl, setImgUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -21,8 +21,8 @@ const ImageInput = memo(() => {
     const file = e.target.files?.[0];
 
     if (file) {
-      if (file.size > 1024 * 1024) {
-        setErrorMessage("이미지는 1MB 이하여야 합니다");
+      if (file.size > 10 * 1024 * 1024) {
+        setErrorMessage("이미지는 10MB 이하여야 합니다");
         resetField("image");
         setImgUrl(null);
         return;

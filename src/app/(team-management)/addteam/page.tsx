@@ -6,16 +6,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-import { teamAddSchema } from "@/lib/schemas/team-manage";
-import { TeamAddInput } from "@/types/team-management";
+import teamAddEditSchema from "@/lib/schemas/team-manage";
+import { TeamAddEditInput } from "@/types/team-management";
 
 import ImageInput from "./_components/image-input";
 import NameInput from "./_components/name-input";
 import SubmitButton from "./_components/submit-button";
 
 const AddTeamPage = () => {
-  const methods = useForm<TeamAddInput>({
-    resolver: zodResolver(teamAddSchema),
+  const methods = useForm<TeamAddEditInput>({
+    resolver: zodResolver(teamAddEditSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
     defaultValues: {
@@ -23,7 +23,7 @@ const AddTeamPage = () => {
     },
   });
 
-  const handleSubmitTeam: SubmitHandler<TeamAddInput> = (data) => {
+  const handleSubmitTeam: SubmitHandler<TeamAddEditInput> = (data) => {
     // TODO: API 연동 - 그룹 생성 POST 요청
     console.log(data);
   };

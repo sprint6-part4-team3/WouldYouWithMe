@@ -1,9 +1,4 @@
-export type TeamAddInput = {
-  name: string;
-  image?: string;
-};
-
-export type TeamEditInput = {
+export type TeamAddEditInput = {
   name: string;
   image?: string;
 };
