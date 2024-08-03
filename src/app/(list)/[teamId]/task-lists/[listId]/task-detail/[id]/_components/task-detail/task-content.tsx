@@ -1,62 +1,33 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-import { CheckButton } from "@/components/common";
-import DropDown from "@/components/common/drop-down/index";
 import useToggle from "@/hooks/use-toggle";
-import {
-  IconCalendar,
-  IconCheckPrimary,
-  IconKebab,
-  IconProfile,
-  IconRepeat,
-  IconTime,
-  IconX,
-} from "@/public/assets/icons";
+import { IconCheckPrimary, IconX } from "@/public/assets/icons";
+import { TaskDetailData } from "@/types/task-detail/index";
 
 import CommentInput from "../comments/comment-input";
+import TaskDescription from "./task-description";
+import TaskHeader from "./task-header";
+import TaskInfo from "./task-info";
 
 dayjs.locale("ko");
 
-const frequency = {
-  ONCE: "반복 없음",
-  DAILY: "매일 반복",
-  WEEKLY: "매주 반복",
-  MONTHLY: "매월 반복",
-} as const;
-
 interface TaskContentProps {
-  task: {
-    name: string;
-    date: string;
-    frequency: string;
-    description: string;
-    user: {
-      nickname: string;
-    };
-  };
+  task: TaskDetailData;
 }
 
-const TaskContent = ({ task }: TaskContentProps) => {
+const TaskContent: React.FC<TaskContentProps> = ({ task }) => {
   const router = useRouter();
   const taskDate = dayjs(task.date);
-  const formattedDate = taskDate.format("YYYY년 M월 D일");
-  const formattedTime = taskDate.format("A h:mm");
   const {
     value: isDropdownOpen,
     handleToggle: toggleDropdown,
     handleOff: closeDropdown,
   } = useToggle();
-
-  const [isCompleted, setIsCompleted] = useState(false);
-
-  const getFrequencyText = (freq: string): string =>
-    frequency[freq as keyof typeof frequency] || frequency.ONCE;
+  const [isCompleted, setIsCompleted] = useState(task.doneAt !== null);
 
   const handleToggleComplete = () => {
     setIsCompleted((prev) => !prev);
@@ -71,69 +42,24 @@ const TaskContent = ({ task }: TaskContentProps) => {
           <span>완료</span>
         </div>
       )}
-      <div className="flex items-center justify-between text-18-600 text-text-primary">
-        <span className={isCompleted ? "line-through" : ""}>{task.name}</span>
-        <DropDown handleClose={closeDropdown}>
-          <DropDown.Trigger onClick={toggleDropdown}>
-            <IconKebab />
-          </DropDown.Trigger>
-          <DropDown.Menu isOpen={isDropdownOpen}>
-            <DropDown.Item onClick={() => console.log("수정")}>
-              수정하기
-            </DropDown.Item>
-            <DropDown.Item onClick={() => console.log("삭제")}>
-              삭제하기
-            </DropDown.Item>
-          </DropDown.Menu>
-        </DropDown>
-      </div>
-      <div className="flex flex-[1_0_0] items-center">
-        <IconProfile className="mr-12" />
-        <div className="flex flex-col gap-4">
-          <div className="text-12-500 text-text-secondary">작성자</div>
-          <div className="text-14-600 text-text-primary">
-            {task.user.nickname}
-          </div>
-        </div>
-        <time className="ml-auto text-14-400 text-text-secondary">
-          {formattedDate}
-        </time>
-      </div>
-      <div className="flex items-center text-12-400 text-text-default">
-        <IconCalendar
-          width={16}
-          height={16}
-          className="flex content-center items-center"
-        />
-        <time className="ml-6 mr-10 flex items-center">{formattedDate}</time>
-        <span>|</span>
-        <IconTime
-          width={16}
-          height={16}
-          className="ml-10 flex content-center items-center"
-        />
-        <time className="ml-6 mr-10 flex items-center">{formattedTime}</time>
-        <span>|</span>
-        <IconRepeat
-          width={16}
-          height={16}
-          className="ml-10 flex content-center items-center"
-        />
-        <span className="ml-6 flex items-center">
-          {getFrequencyText(task.frequency)}
-        </span>
-      </div>
-      <article className="overflow-wrap-anywhere min-h-200 whitespace-normal break-words text-14-400">
-        {task.description}
-        <div className="mt-150 flex justify-end">
-          <CheckButton
-            variant={isCompleted ? "white" : "primary"}
-            onClick={handleToggleComplete}
-          >
-            {isCompleted ? "완료취소하기" : "완료하기"}
-          </CheckButton>
-        </div>
-      </article>
+      <TaskHeader
+        taskName={task.name}
+        isCompleted={isCompleted}
+        isDropdownOpen={isDropdownOpen}
+        toggleDropdown={toggleDropdown}
+        closeDropdown={closeDropdown}
+      />
+      <TaskInfo
+        nickname={task.user.nickname}
+        date={taskDate.format("YYYY년 M월 D일")}
+        time={taskDate.format("A h:mm")}
+        frequency={task.frequency}
+      />
+      <TaskDescription
+        description={task.description}
+        isCompleted={isCompleted}
+        onToggleComplete={handleToggleComplete}
+      />
       <CommentInput />
     </div>
   );
