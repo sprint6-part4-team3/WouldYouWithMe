@@ -12,7 +12,7 @@ const CommentInput = () => {
   };
 
   return (
-    <div className="relative mt-16 border-y-[0.2px] border-text-disabled">
+    <div className="relative border-y-[0.2px] border-text-disabled">
       <input
         type="text"
         placeholder="댓글을 달아주세요"
@@ -25,6 +25,7 @@ const CommentInput = () => {
         icon="IconComment"
         variant={inputValue ? "green" : "darkest"}
         className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+        disabled={!inputValue}
       />
     </div>
   );
