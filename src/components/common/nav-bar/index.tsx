@@ -2,48 +2,27 @@
 
 import Link from "next/link";
 
+import { User } from "@/types/user";
+
 import { Logo, TeamDropdown, UserDropdown } from "./nav-component";
-
-// TODO - 임시로 넣었습니다. api 작업 후 수정할 예정입니다.
-interface User {
-  id: number;
-  email: string;
-  nickname: string;
-}
-
-interface Team {
-  id: number;
-  name: string;
-}
 
 interface NavBarProps {
   user: User | null;
-  team: Team | null;
 }
 
-const NavBar = ({ user, team }: NavBarProps) => {
-  const renderContent = () => {
-    if (user && team) {
-      return (
-        <>
-          <div className="flex items-center gap-20">
-            <Logo />
-            <div className="hidden items-center gap-20 md:flex">
-              <TeamDropdown teamName={team.name} />
-              <Link href="/">자유게시판</Link>
-            </div>
-          </div>
-          <UserDropdown userNickname={user.nickname} />
-        </>
-      );
-    }
+const NavBar = ({ user }: NavBarProps) => {
+  const firstTeamName = user?.memberships.length
+    ? user.memberships[0].group.name
+    : null;
 
+  const renderContent = () => {
     if (user) {
       return (
         <>
           <div className="flex items-center gap-20">
             <Logo />
             <div className="hidden items-center gap-20 md:flex">
+              {firstTeamName && <TeamDropdown teamName={firstTeamName} />}
               <Link href="/">자유게시판</Link>
             </div>
           </div>
