@@ -1,11 +1,10 @@
-"use client";
-
 import Link from "next/link";
-import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 
 import { DropDown, IconButton } from "@/components/common";
 import { useToggle } from "@/hooks";
 import { IconDoneCyan } from "@/public/assets/icons";
+
+import ProgressSign from "./progress-sign";
 
 interface TodoListCardProps {
   color?: "purple" | "blue" | "green" | "pink";
@@ -49,7 +48,7 @@ const TodoListCard = ({
   const colorClass = getColorClass(color);
 
   // TODO: 완료 개수에 따라 변경
-  const CHECKED_ITEMS = (completedItems / totalItems) * 100;
+  const CHECKED_ITEMS: number = (completedItems / totalItems) * 100;
 
   return (
     <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary pl-24 pr-30 text-16-500">
@@ -63,17 +62,7 @@ const TodoListCard = ({
           {totalItems === completedItems ? (
             <IconDoneCyan />
           ) : (
-            <div className="size-14">
-              <CircularProgressbar
-                styles={buildStyles({
-                  rotation: 0.25,
-                  pathColor: "#22b8cf",
-                  trailColor: "#334155",
-                })}
-                strokeWidth={17}
-                value={CHECKED_ITEMS}
-              />
-            </div>
+            <ProgressSign checkedItem={CHECKED_ITEMS} />
           )}
           <span className="text-14-400 text-brand-primary">
             {completedItems}&#47;{totalItems}

@@ -7,7 +7,7 @@ const TodoListBox = () => (
   <article className="m-auto my-10 w-full">
     <div className="flex justify-between">
       <div className="flex h-21 items-center gap-8">
-        <span className="text-16-500">할 일 목록</span>
+        <h3 className="text-16-500">할 일 목록</h3>
         <span className="text-16-400 text-text-default">(4개)</span>
       </div>
       <AddTodoListModal />
@@ -34,7 +34,7 @@ const TodoListBox = () => (
         color="green"
         link="/some-path3"
         totalItems={5}
-        completedItems={3}
+        completedItems={4}
       >
         정기 주총
       </TodoListCard>

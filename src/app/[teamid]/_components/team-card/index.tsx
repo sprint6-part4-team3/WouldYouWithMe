@@ -6,7 +6,7 @@ import { DropDown, IconButton } from "@/components/common";
 import { useToggle } from "@/hooks";
 import { TeamCardThumbnail } from "@/public/assets/images";
 
-const TeamCardDropdown = () => {
+const TeamCardDropdownButton = () => {
   const { value, handleToggle, handleOff } = useToggle();
 
   return (
@@ -26,9 +26,9 @@ const TeamCardDropdown = () => {
 
 const TeamCardBox = () => (
   <article className="relative m-auto my-24 flex h-64 w-full items-center justify-between rounded-12 border border-border-primary/10 bg-slate-50/10 px-24">
-    <div className="text-20-700">경영관리팀</div>
+    <h1 className="text-20-700">경영관리팀</h1>
     <div className="flex items-center gap-30">
-      <TeamCardDropdown />
+      <TeamCardDropdownButton />
     </div>
     <Image
       src={TeamCardThumbnail}
