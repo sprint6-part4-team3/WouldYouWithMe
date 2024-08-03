@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
+import LoginUserTestData from "@/app/user.json";
 import { useClickOutside, useIsMobile, useToggle } from "@/hooks";
 import { IconDropdown, IconPlusCurrent, IconUser } from "@/public/assets/icons";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
@@ -12,19 +13,17 @@ import LogoImage from "@/public/assets/images/logo-coworkers.png";
 import DropDown from "../drop-down";
 import IconButton from "../icon-button";
 
-interface TeamDropdownProps {
-  teamName: string;
-}
-
-const TeamDropdown = ({ teamName }: TeamDropdownProps) => {
+const TeamDropdown = () => {
   const teamDropdown = useToggle();
+  const teams = LoginUserTestData.memberships;
+  const firstTeamName = teams[0].group.name;
 
   return (
     <div className="mt-1 whitespace-nowrap text-16-500 text-text-primary">
       <DropDown handleClose={teamDropdown.handleOff}>
         <DropDown.Trigger onClick={teamDropdown.handleToggle}>
           <div className="flex items-center">
-            {teamName}
+            {firstTeamName}
             <IconDropdown className="ml-8" />
           </div>
         </DropDown.Trigger>
@@ -33,24 +32,14 @@ const TeamDropdown = ({ teamName }: TeamDropdownProps) => {
           position="top-50 right-0"
           className="w-140"
         >
-          <DropDown.Item>
-            <div className="flex items-center">
-              <div className="ml-12 size-32 rounded-md bg-point-blue" />
-              <span className="ml-12">테스트1팀</span>
-            </div>
-          </DropDown.Item>
-          <DropDown.Item>
-            <div className="flex items-center">
-              <div className="ml-12 size-32 rounded-md bg-point-green" />
-              <span className="ml-12">테스트2팀</span>
-            </div>
-          </DropDown.Item>
-          <DropDown.Item>
-            <div className="flex items-center">
-              <div className="ml-12 size-32 rounded-md bg-point-rose" />
-              <span className="ml-12">테스트3팀</span>
-            </div>
-          </DropDown.Item>
+          {teams.map((membership) => (
+            <DropDown.Item key={membership.group.id}>
+              <div className="flex items-center">
+                <div className="ml-12 size-32 rounded-md bg-point-blue" />
+                <span className="ml-12">{membership.group.name}</span>
+              </div>
+            </DropDown.Item>
+          ))}
           <DropDown.Item>
             <div className="flex items-center justify-center">
               <IconPlusCurrent className="mr-5 stroke-white" />팀 추가하기
@@ -99,6 +88,10 @@ interface SidebarProps {
 
 const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
   const sidebarRef = useClickOutside(onClose);
+  const teams = LoginUserTestData.memberships;
+  const handleLinkClick = () => {
+    onClose();
+  };
 
   return (
     <motion.div
@@ -117,18 +110,21 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
       />
       <div className="ml-16 mt-75">
         <ul className="space-y-24">
-          <li>
-            <Link href="/team1">테스트1팀</Link>
-          </li>
-          <li>
-            <Link href="/team2">테스트2팀</Link>
-          </li>
-          <li>
-            <Link href="/team3">테스트3팀</Link>
-          </li>
+          {teams.map((membership) => (
+            <li key={membership.group.id}>
+              <Link
+                href={`/team${membership.group.id}`}
+                onClick={handleLinkClick}
+              >
+                {membership.group.name}
+              </Link>
+            </li>
+          ))}
         </ul>
         <div className="mt-24">
-          <Link href="/">자유게시판</Link>
+          <Link href="/" onClick={handleLinkClick}>
+            자유게시판
+          </Link>
         </div>
       </div>
     </motion.div>

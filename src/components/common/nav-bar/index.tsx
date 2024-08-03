@@ -11,18 +11,16 @@ interface NavBarProps {
 }
 
 const NavBar = ({ user }: NavBarProps) => {
-  const firstTeamName = user?.memberships.length
-    ? user.memberships[0].group.name
-    : null;
-
   const renderContent = () => {
     if (user) {
+      const hasMemberships = user.memberships.length > 0;
+
       return (
         <>
           <div className="flex items-center gap-20">
             <Logo />
             <div className="hidden items-center gap-20 md:flex">
-              {firstTeamName && <TeamDropdown teamName={firstTeamName} />}
+              {hasMemberships && <TeamDropdown />}
               <Link href="/">자유게시판</Link>
             </div>
           </div>
