@@ -115,23 +115,33 @@ const NavSideBar = ({ isOpen, onClose, user }: SidebarProps) => {
         className="absolute right-22 top-22"
       />
       <div className="ml-16 mt-75">
-        <ul className="space-y-24">
-          {teams.map((membership) => (
-            <li key={membership.group.id}>
-              <Link
-                href={`/team${membership.group.id}`}
-                onClick={handleLinkClick}
-              >
-                {membership.group.name}
+        {user ? (
+          <>
+            <ul className="space-y-24">
+              {teams.map((membership) => (
+                <li key={membership.group.id}>
+                  <Link
+                    href={`/team${membership.group.id}`}
+                    onClick={handleLinkClick}
+                  >
+                    {membership.group.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-24">
+              <Link href="/" onClick={handleLinkClick}>
+                자유게시판
               </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-24">
-          <Link href="/" onClick={handleLinkClick}>
-            자유게시판
-          </Link>
-        </div>
+            </div>
+          </>
+        ) : (
+          <div className="mt-24">
+            <Link href="/" onClick={handleLinkClick}>
+              자유게시판
+            </Link>
+          </div>
+        )}
       </div>
     </motion.div>
   );
