@@ -11,6 +11,11 @@ import {
 } from "@/public/assets/icons";
 import { TeamAddEditInput } from "@/types/team-management";
 
+/**
+ * 이미지 삭제?
+ * 피그마에서는 이미지 삭제하는 기능이 없음
+ * 없어도 될까?
+ */
 const ImageInput = memo(() => {
   const { setValue, resetField, watch } = useFormContext<TeamAddEditInput>();
 
@@ -22,7 +27,7 @@ const ImageInput = memo(() => {
 
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
-        setErrorMessage("이미지는 1MB 이하여야 합니다");
+        setErrorMessage("이미지는 10MB 이하여야 합니다");
         resetField("image");
         setImgUrl(null);
         return;
