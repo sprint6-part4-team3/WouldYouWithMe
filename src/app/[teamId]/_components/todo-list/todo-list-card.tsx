@@ -3,15 +3,16 @@ import Link from "next/link";
 import { DropDown, IconButton } from "@/components/common";
 import { useToggle } from "@/hooks";
 import { IconDoneCyan } from "@/public/assets/icons";
+import { TaskList } from "@/types/group";
+import groupTaskTodoList from "@/utils/group-task-todo-list";
 
 import ProgressSign from "./progress-sign";
 
 interface TodoListCardProps {
-  color?: "purple" | "blue" | "green" | "pink";
+  color?: "purple" | "blue" | "green" | "pink" | "rose" | "orange" | "yellow";
   children: string;
   link: string;
-  totalItems: number;
-  completedItems: number;
+  tasks: TaskList[];
 }
 
 function getColorClass(color: TodoListCardProps["color"]) {
@@ -19,6 +20,9 @@ function getColorClass(color: TodoListCardProps["color"]) {
   if (color === "blue") return "bg-point-blue";
   if (color === "green") return "bg-point-green";
   if (color === "pink") return "bg-point-pink";
+  if (color === "rose") return "bg-point-rose";
+  if (color === "orange") return "bg-point-orange";
+  if (color === "yellow") return "bg-point-yellow";
   return "bg-point-purple";
 }
 
@@ -38,19 +42,10 @@ const TodoListDropDown = () => {
   );
 };
 
-const TodoListCard = ({
-  children,
-  color,
-  link,
-  totalItems,
-  completedItems,
-}: TodoListCardProps) => {
+const TodoListCard = ({ children, color, link, tasks }: TodoListCardProps) => {
   const colorClass = getColorClass(color);
-
-  // TODO: 완료 개수에 따라 변경
-  // const CHECKED_ITEMS: number = (completedItems / totalItems) * 100;
-  const CHECKED_ITEMS =
-    totalItems === 0 ? 0 : (completedItems / totalItems) * 100;
+  const { totalItems, completedItems, CHECKED_ITEMS } =
+    groupTaskTodoList(tasks);
 
   return (
     <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary pl-24 pr-30 text-16-500">
