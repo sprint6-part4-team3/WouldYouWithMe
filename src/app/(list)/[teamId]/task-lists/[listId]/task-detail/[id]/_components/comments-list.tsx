@@ -10,7 +10,7 @@ interface CommentListProps {
 }
 
 const CommentList = ({ comments }: CommentListProps) => (
-  <div className="flex flex-col gap-16 p-12">
+  <div className="flex min-w-350 flex-col gap-16 p-12">
     {comments.map((comment) => (
       <div
         key={comment.id}

@@ -1,11 +1,17 @@
+/* eslint-disable no-console */
+
 "use client";
 
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
+import { CheckButton } from "@/components/common";
+import DropDown from "@/components/common/drop-down/index";
+import useToggle from "@/hooks/use-toggle";
 import {
   IconCalendar,
+  IconCheckPrimary,
   IconKebab,
   IconProfile,
   IconRepeat,
@@ -32,6 +38,13 @@ const TaskContent = ({ task }: TaskContentProps) => {
   const taskDate = dayjs(task.date);
   const formattedDate = taskDate.format("YYYY년 M월 D일");
   const formattedTime = taskDate.format("A h:mm");
+  const {
+    value: isDropdownOpen,
+    handleToggle: toggleDropdown,
+    handleOff: closeDropdown,
+  } = useToggle();
+
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const getFrequencyText = (frequency: string) => {
     switch (frequency) {
@@ -46,12 +59,34 @@ const TaskContent = ({ task }: TaskContentProps) => {
     }
   };
 
+  const handleToggleComplete = () => {
+    setIsCompleted((prev) => !prev);
+  };
+
   return (
-    <div className="flex flex-col gap-16 p-12">
+    <div className="flex min-w-350 flex-col gap-16 p-12">
       <IconX className="mb-16 cursor-pointer" onClick={() => router.back()} />
+      {isCompleted && (
+        <div className="flex items-center gap-2 text-14-600 text-brand-primary">
+          <IconCheckPrimary />
+          <span>완료</span>
+        </div>
+      )}
       <div className="flex items-center justify-between text-18-600 text-text-primary">
-        {task.name}
-        <IconKebab />
+        <span className={isCompleted ? "line-through" : ""}>{task.name}</span>
+        <DropDown handleClose={closeDropdown}>
+          <DropDown.Trigger onClick={toggleDropdown}>
+            <IconKebab />
+          </DropDown.Trigger>
+          <DropDown.Menu isOpen={isDropdownOpen}>
+            <DropDown.Item onClick={() => console.log("수정")}>
+              수정하기
+            </DropDown.Item>
+            <DropDown.Item onClick={() => console.log("삭제")}>
+              삭제하기
+            </DropDown.Item>
+          </DropDown.Menu>
+        </DropDown>
       </div>
       <div className="flex flex-[1_0_0] items-center">
         <IconProfile className="mr-12" />
@@ -78,7 +113,7 @@ const TaskContent = ({ task }: TaskContentProps) => {
           height={16}
           className="ml-10 flex content-center items-center"
         />
-        <span className="ml-6 mr-10 flex items-center">{formattedTime}</span>
+        <time className="ml-6 mr-10 flex items-center">{formattedTime}</time>
         <span>|</span>
         <IconRepeat
           width={16}
@@ -89,8 +124,16 @@ const TaskContent = ({ task }: TaskContentProps) => {
           {getFrequencyText(task.frequency)}
         </span>
       </div>
-      <article className="overflow-wrap-anywhere mb-100 whitespace-normal break-words text-14-400">
+      <article className="overflow-wrap-anywhere min-h-200 whitespace-normal break-words text-14-400">
         {task.description}
+        <div className="mt-150 flex justify-end">
+          <CheckButton
+            variant={isCompleted ? "white" : "primary"}
+            onClick={handleToggleComplete}
+          >
+            {isCompleted ? "완료취소하기" : "완료하기"}
+          </CheckButton>
+        </div>
       </article>
       <CommentInput />
     </div>
