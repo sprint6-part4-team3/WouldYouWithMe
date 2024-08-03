@@ -26,6 +26,7 @@ const AddMemberModal = () => {
         <IconPlusCurrent stroke="#22b8cf" />
         멤버 추가하기
       </div>
+
       <ModalComponent
         showCloseButton
         isOpen={value}

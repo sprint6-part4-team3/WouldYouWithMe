@@ -4,13 +4,19 @@ import React, { useState } from "react";
 
 import { Task } from "@/types/task-list/index";
 
-import TaskCard from "./tasks-card";
+import TaskCard from "./task-card";
 
 interface TasksProps {
   initialTasks: Task[];
+  currentListId: number;
+  currentTeamId: number;
 }
 
-const TasksContainer = ({ initialTasks }: TasksProps) => {
+const TasksContainer = ({
+  initialTasks,
+  currentListId,
+  currentTeamId,
+}: TasksProps) => {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
 
   const handleEdit = (id: number) => {
@@ -32,6 +38,8 @@ const TasksContainer = ({ initialTasks }: TasksProps) => {
           frequency={task.frequency}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          currentListId={currentListId}
+          currentTeamId={currentTeamId}
         />
       ))}
     </div>
