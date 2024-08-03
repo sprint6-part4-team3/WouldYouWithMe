@@ -19,9 +19,17 @@ import {
   IconX,
 } from "@/public/assets/icons";
 
-import CommentInput from "./comment-input";
+import CommentInput from "../comments/comment-input";
 
 dayjs.locale("ko");
+
+const frequency = {
+  ONCE: "반복 없음",
+  DAILY: "매일 반복",
+  WEEKLY: "매주 반복",
+  MONTHLY: "매월 반복",
+} as const;
+
 interface TaskContentProps {
   task: {
     name: string;
@@ -47,18 +55,8 @@ const TaskContent = ({ task }: TaskContentProps) => {
 
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const getFrequencyText = (frequency: string) => {
-    switch (frequency) {
-      case "DAILY":
-        return "매일 반복";
-      case "WEEKLY":
-        return "매주 반복";
-      case "MONTHLY":
-        return "매월 반복";
-      default:
-        return "반복 없음";
-    }
-  };
+  const getFrequencyText = (freq: string): string =>
+    frequency[freq as keyof typeof frequency] || frequency.ONCE;
 
   const handleToggleComplete = () => {
     setIsCompleted((prev) => !prev);

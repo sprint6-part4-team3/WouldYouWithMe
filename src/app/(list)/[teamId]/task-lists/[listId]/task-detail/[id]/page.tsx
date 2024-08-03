@@ -2,17 +2,17 @@ import React from "react";
 
 import { Comment, TaskDetailData } from "@/types/task-detail/index";
 
-import commentMock from "./_components/comment-mock.json";
-import CommentList from "./_components/comments-list";
-import EmptyComment from "./_components/empty-comment";
-import TaskContent from "./_components/task-content";
-import taskMock from "./_components/task-mock.json";
+import commentMock from "./_components/comments/comment-mock.json";
+import CommentList from "./_components/comments/comments-list";
+import EmptyComment from "./_components/comments/empty-comment";
+import TaskContent from "./_components/task-detail/task-content";
+import taskMock from "./_components/task-detail/task-mock.json";
 
 interface PageProps {
   params: { id: string };
 }
 
-export default function Page({ params }: PageProps) {
+const TaskDetailPage = ({ params }: PageProps) => {
   const taskId = parseInt(params.id, 10);
   const taskData = taskMock.find((task: TaskDetailData) => task.id === taskId);
   const comments = commentMock.filter(
@@ -33,4 +33,5 @@ export default function Page({ params }: PageProps) {
       )}
     </div>
   );
-}
+};
+export default TaskDetailPage;
