@@ -47,7 +47,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className={clsx(
             "w-full rounded-xl px-16 py-15 text-16-500 text-text-primary outline-none ring-1 transition-all duration-300",
             isError
-              ? "ring-0.5 ring-offset-0.5 ring-status-danger ring-offset-status-danger"
+              ? "is-error ring-0.5 ring-offset-0.5 ring-status-danger ring-offset-status-danger"
               : "focus:ring-0.5 focus:ring-offset-0.5 ring-border-primary focus:shadow-lg focus:outline-none focus:ring-brand-primary focus:ring-offset-brand-primary/10",
             isDisabled
               ? "cursor-not-allowed bg-background-tertiary opacity-70"
