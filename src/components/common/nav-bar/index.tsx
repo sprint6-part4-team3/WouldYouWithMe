@@ -1,55 +1,44 @@
 "use server";
 
-import { Logo, TeamDropdown, UserDropdown } from "./nav-component";
+import Link from "next/link";
 
-// TODO - 임시로 넣었습니다. api 작업 후 수정할 예정입니다.
-interface User {
-  id: number;
-  email: string;
-  nickname: string;
-}
+import { User } from "@/types/user";
 
-interface Team {
-  id: number;
-  name: string;
-}
+import Logo from "./logo";
+import TeamDropdown from "./team-dropdown";
+import UserDropdown from "./user-dropdown";
 
 interface NavBarProps {
   user: User | null;
-  team: Team | null;
 }
 
-const NavBar = ({ user, team }: NavBarProps) => {
+const NavBar = ({ user }: NavBarProps) => {
   const renderContent = () => {
-    if (user && team) {
-      return (
-        <>
-          <TeamDropdown teamName={team.name} />
-          <UserDropdown userNickname={user.nickname} />
-        </>
-      );
-    }
-
     if (user) {
+      const hasMemberships = user.memberships.length > 0;
+
       return (
         <>
-          <Logo />
-          <UserDropdown userNickname={user.nickname} />
+          <div className="flex items-center gap-20">
+            <Logo user={user} />
+            <div className="hidden items-center gap-20 md:flex">
+              {hasMemberships && <TeamDropdown user={user} />}
+              <Link href="/" className="text-text-primary">
+                자유게시판
+              </Link>
+            </div>
+          </div>
+          <UserDropdown user={user} />
         </>
       );
     }
 
-    return (
-      <>
-        <Logo />
-        <span className="whitespace-nowrap text-text-primary">로그인</span>
-      </>
-    );
+    return <Logo user={user} />;
   };
 
   return (
-    <header className="sticky top-0 z-10 h-60 border-b border-border-primary bg-background-secondary">
-      <div className="mx-16 flex h-full items-center justify-between lg:mx-200 xl:mx-360">
+    <header className="sticky top-0 z-10 h-60 border-b border-border-secondary bg-background-secondary">
+      <div className="mx-24 flex h-full items-center justify-between lg:mx-120">
         {renderContent()}
       </div>
     </header>

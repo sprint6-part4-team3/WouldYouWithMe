@@ -1,0 +1,57 @@
+{
+  "id": 44,
+  "email": "test1@test1.com",
+  "nickname": "xxx",
+  "image": null,
+  "teamId": "6-3",
+  "memberships": [
+    {
+      "userId": 44,
+      "groupId": 30,
+      "userName": "xxx",
+      "userEmail": "test1@test1.com",
+      "userImage": null,
+      "role": "ADMIN",
+      "group": {
+        "id": 30,
+        "teamId": null,
+        "name": "테스트1팀",
+        "image": "https://example.com/...",
+        "createdAt": "2024-08-02T09:12:09.418Z",
+        "updatedAt": "2024-08-02T09:12:09.418Z"
+      }
+    },
+    {
+      "userId": 44,
+      "groupId": 31,
+      "userName": "xxx",
+      "userEmail": "test1@test1.com",
+      "userImage": null,
+      "role": "ADMIN",
+      "group": {
+        "id": 31,
+        "teamId": null,
+        "name": "테스트2팀",
+        "image": "https://example.com/...",
+        "createdAt": "2024-08-02T09:13:02.456Z",
+        "updatedAt": "2024-08-02T09:13:02.456Z"
+      }
+    },
+    {
+      "userId": 44,
+      "groupId": 32,
+      "userName": "xxx",
+      "userEmail": "test1@test1.com",
+      "userImage": null,
+      "role": "ADMIN",
+      "group": {
+        "id": 32,
+        "teamId": null,
+        "name": "테스트3팀",
+        "image": "https://example.com/...",
+        "createdAt": "2024-08-02T09:18:09.418Z",
+        "updatedAt": "2024-08-02T09:18:09.418Z"
+      }
+    }
+  ]
+}
