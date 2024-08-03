@@ -1,9 +1,9 @@
 export type TeamAddInput = {
   name: string;
-  image?: File;
+  image?: string;
 };
 
 export type TeamEditInput = {
   name: string;
-  image?: File;
+  image?: string;
 };

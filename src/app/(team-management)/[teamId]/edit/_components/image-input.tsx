@@ -12,9 +12,9 @@ import {
 import { TeamAddInput } from "@/types/team-management";
 
 const ImageInput = memo(() => {
-  const { setValue, resetField } = useFormContext<TeamAddInput>();
+  const { setValue, resetField, watch } = useFormContext<TeamAddInput>();
 
-  const [imgUrl, setImgUrl] = useState<string | null>(null);
+  const [imgUrl, setImgUrl] = useState<string | null>(watch("image") || null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
