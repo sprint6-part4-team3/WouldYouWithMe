@@ -36,7 +36,7 @@ const NavBar = ({ user }: NavBarProps) => {
 
   return (
     <header className="sticky top-0 z-10 h-60 border-b border-border-secondary bg-background-secondary">
-      <div className="mx-24 flex h-full items-center justify-between lg:mx-150">
+      <div className="mx-24 flex h-full items-center justify-between lg:mx-120">
         {renderContent()}
       </div>
     </header>

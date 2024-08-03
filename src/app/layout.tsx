@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className="dark">
       <body
-        className={`${inter.className} dark:bg-background-primary dark:text-text-primary`}
+        className={`${inter.className} min-w-330 dark:bg-background-primary dark:text-text-primary`}
       >
         <ToastContainer />
         <NavBar user={user} />
