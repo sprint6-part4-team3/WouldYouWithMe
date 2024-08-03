@@ -21,6 +21,7 @@ import {
 
 import CommentInput from "./comment-input";
 
+dayjs.locale("ko");
 interface TaskContentProps {
   task: {
     name: string;
