@@ -5,17 +5,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-import LoginUserTestData from "@/app/user.json";
 import { useClickOutside, useIsMobile, useToggle } from "@/hooks";
 import { IconDropdown, IconPlusCurrent, IconUser } from "@/public/assets/icons";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
+import { User } from "@/types/user";
 
 import DropDown from "../drop-down";
 import IconButton from "../icon-button";
 
-const TeamDropdown = () => {
+interface TeamDropdownProps {
+  user: User;
+}
+
+const TeamDropdown = ({ user }: TeamDropdownProps) => {
   const teamDropdown = useToggle();
-  const teams = LoginUserTestData.memberships;
+  const teams = user.memberships;
   const firstTeamName = teams[0].group.name;
 
   return (
@@ -52,11 +56,12 @@ const TeamDropdown = () => {
 };
 
 interface UserDropdownProps {
-  userNickname: string;
+  user: User;
 }
 
-const UserDropdown = ({ userNickname }: UserDropdownProps) => {
+const UserDropdown = ({ user }: UserDropdownProps) => {
   const userDropdown = useToggle();
+  const userNickname = user.nickname;
 
   return (
     <div className="text-md-medium flex items-center justify-center whitespace-nowrap text-text-primary">
@@ -84,11 +89,12 @@ const UserDropdown = ({ userNickname }: UserDropdownProps) => {
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  user: User | null;
 }
 
-const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
+const NavSideBar = ({ isOpen, onClose, user }: SidebarProps) => {
   const sidebarRef = useClickOutside(onClose);
-  const teams = LoginUserTestData.memberships;
+  const teams = user?.memberships ?? [];
   const handleLinkClick = () => {
     onClose();
   };
@@ -131,7 +137,11 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
   );
 };
 
-const Logo = () => {
+interface LogoProps {
+  user: User | null;
+}
+
+const Logo = ({ user }: LogoProps) => {
   const isMobile = useIsMobile();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -157,6 +167,7 @@ const Logo = () => {
       <NavSideBar
         isOpen={isSidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        user={user}
       />
     </>
   );

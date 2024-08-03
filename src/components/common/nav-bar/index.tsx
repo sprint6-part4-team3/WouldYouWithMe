@@ -18,18 +18,18 @@ const NavBar = ({ user }: NavBarProps) => {
       return (
         <>
           <div className="flex items-center gap-20">
-            <Logo />
+            <Logo user={user} />
             <div className="hidden items-center gap-20 md:flex">
-              {hasMemberships && <TeamDropdown />}
+              {hasMemberships && <TeamDropdown user={user} />}
               <Link href="/">자유게시판</Link>
             </div>
           </div>
-          <UserDropdown userNickname={user.nickname} />
+          <UserDropdown user={user} />
         </>
       );
     }
 
-    return <Logo />;
+    return <Logo user={user} />;
   };
 
   return (
