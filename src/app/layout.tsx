@@ -16,20 +16,18 @@ export const metadata: Metadata = {
 
 const user = LoginUserTestData;
 
-export default function RootLayout({
+const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="ko" className="dark">
-      <body
-        className={`${inter.className} min-w-330 dark:bg-background-primary dark:text-text-primary`}
-      >
-        <ToastContainer />
-        <NavBar user={user} />
-        <main className="mx-16">{children}</main>
-      </body>
-    </html>
-  );
-}
+}) => (
+  <html lang="ko" className="dark">
+    <body
+      className={`${inter.className} min-w-330 dark:bg-background-primary dark:text-text-primary`}
+    >
+      <ToastContainer />
+      <NavBar user={user} />
+      <main className="mx-16">{children}</main>
+    </body>
+  </html>
+);
+
+export default RootLayout;
