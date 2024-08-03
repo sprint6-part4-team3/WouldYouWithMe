@@ -3,7 +3,11 @@ import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/common";
 import { TeamAddEditInput } from "@/types/team-management";
 
-const SubmitButton = () => {
+interface SubmitButtonProps {
+  type?: "add" | "edit";
+}
+
+const SubmitButton = ({ type = "add" }: SubmitButtonProps) => {
   const {
     formState: { isValid },
   } = useFormContext<TeamAddEditInput>();
@@ -15,7 +19,7 @@ const SubmitButton = () => {
       variant="primary"
       className="mt-16 h-47 w-full"
     >
-      수정하기
+      {type === "add" ? "생성하기" : "수정하기"}
     </Button>
   );
 };
