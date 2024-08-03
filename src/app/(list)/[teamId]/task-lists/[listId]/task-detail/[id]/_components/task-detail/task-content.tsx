@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-import useToggle from "@/hooks/use-toggle";
+import { useToggle } from "@/hooks";
 import { IconCheckPrimary, IconX } from "@/public/assets/icons";
 import { TaskDetailData } from "@/types/task-detail/index";
 
@@ -19,7 +19,7 @@ interface TaskContentProps {
   task: TaskDetailData;
 }
 
-const TaskContent: React.FC<TaskContentProps> = ({ task }) => {
+const TaskContent = ({ task }: TaskContentProps) => {
   const router = useRouter();
   const taskDate = dayjs(task.date);
   const {
