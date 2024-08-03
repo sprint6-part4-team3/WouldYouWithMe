@@ -25,13 +25,60 @@
   ],
   "taskLists": [
     {
-      "groupId": 1,
+      "id": 37,
+      "name": "이것저것 하기",
+      "createdAt": "2024-08-03T01:01:57.521Z",
+      "updatedAt": "2024-08-03T01:01:57.521Z",
       "displayIndex": 0,
-      "updatedAt": "2024-08-01T06:50:14.090Z",
-      "createdAt": "2024-08-01T06:50:14.090Z",
-      "name": "저녁 밥 먹기",
-      "id": 0,
-      "tasks": ["밥 하기", "국 끓이기", "반찬 만들기"]
+      "groupId": 32,
+      "tasks": [
+        {
+          "id": 189,
+          "updatedAt": "2024-08-03T01:32:25.051Z",
+          "name": "하위 아이템 테스트1",
+          "description": null,
+          "doneAt": "2024-08-03T09:32:24.526Z",
+          "date": "2024-08-03T01:32:24.526Z",
+          "frequency": "MONTHLY",
+          "recurringId": 101,
+          "userId": null,
+          "deletedAt": null
+        },
+        {
+          "id": 200,
+          "updatedAt": "2024-08-03T01:32:25.051Z",
+          "name": "하위 아이템 테스트2",
+          "description": null,
+          "doneAt": null,
+          "date": "2024-08-03T01:32:24.526Z",
+          "frequency": "MONTHLY",
+          "recurringId": 101,
+          "userId": null,
+          "deletedAt": null
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "name": "이것저것 하기22",
+      "createdAt": "2024-08-03T01:01:57.521Z",
+      "updatedAt": "2024-08-03T01:01:57.521Z",
+      "displayIndex": 0,
+      "groupId": 32,
+      "tasks": [
+        {
+          "id": 190,
+          "updatedAt": "2024-08-03T01:32:25.051Z",
+          "name": "하위 아이템 테스트1",
+          "description": null,
+          "doneAt": "2024-08-03T09:32:24.526Z",
+          "date": "2024-08-03T01:32:24.526Z",
+          "frequency": "MONTHLY",
+          "recurringId": 101,
+          "userId": null,
+          "deletedAt": null
+        }
+      ]
     }
   ]
 }

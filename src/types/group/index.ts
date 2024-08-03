@@ -1,7 +1,26 @@
-import { Group, GroupMember } from "../user";
+import { GroupMember } from "../user";
 
-export type GroupTask = Group & {
-  tasks: string[];
+export type TaskList = {
+  id: number;
+  updatedAt: string | Date;
+  name: string;
+  description: null | string;
+  doneAt: null | string | Date;
+  date: string | Date;
+  frequency: "DAILY" | "WEEKLY" | "MONTHLY" | "ONCE";
+  recurringId: number;
+  userId: null | number;
+  deletedAt: null | string | Date;
+};
+
+export type GroupTask = {
+  id: number;
+  name: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
+  displayIndex: number;
+  groupId: number;
+  tasks: TaskList[];
 };
 
 export type GroupResponse = {
