@@ -9,3 +9,5 @@ export type Task = {
   deletedAt: string | null;
   recurringId: number;
 };
+
+export type RepeatType = "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
