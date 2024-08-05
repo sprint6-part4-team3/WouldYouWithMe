@@ -19,7 +19,7 @@ const RepeatSign = ({ repeatOption, MonthlyDate }: RepeatSignProp) => {
   }
   if (repeatOption === "MONTHLY") {
     return (
-      <div>
+      <div className="flex justify-center text-18-500">
         <p>매월 {MonthlyDate}일 반복됩니다</p>
       </div>
     );
@@ -28,7 +28,7 @@ const RepeatSign = ({ repeatOption, MonthlyDate }: RepeatSignProp) => {
   const message =
     repeatOption === "DAILY" ? "매일 반복됩니다." : "한 번만 수행합니다";
 
-  return <div>{message}</div>;
+  return <div className="flex justify-center text-18-500">{message}</div>;
 };
 
 export default RepeatSign;

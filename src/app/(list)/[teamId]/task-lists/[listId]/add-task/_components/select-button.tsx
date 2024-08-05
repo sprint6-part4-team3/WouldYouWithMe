@@ -21,7 +21,7 @@ const SelectButton = forwardRef<HTMLInputElement, SelectButtonProp>(
           {...rest}
         />
         <label
-          className="size-fit cursor-pointer rounded-12 bg-background-tertiary px-14 py-16 text-14-500 peer-checked:bg-brand-primary"
+          className="flex size-65 cursor-pointer items-center justify-center rounded-12 bg-background-tertiary  peer-checked:bg-brand-primary"
           htmlFor={id}
         >
           {children}

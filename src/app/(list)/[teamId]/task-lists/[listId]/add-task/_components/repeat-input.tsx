@@ -11,10 +11,13 @@ const RepeatInput = forwardRef<HTMLInputElement>((props, ref) => {
   const a = 0;
 
   return (
-    <fieldset className="flex items-center justify-evenly space-y-2 rounded-md border p-25">
+    <fieldset className="grid grid-cols-2 grid-rows-2 gap-y-20 rounded-md border p-25 md:flex md:items-center md:justify-evenly md:space-y-2">
       <legend className="text-14-500">반복 주기 선택</legend>
       {REPEAT_OPTIONS.map(({ value, label }, index) => (
-        <label key={value} className="flex cursor-pointer items-center gap-2">
+        <label
+          key={value}
+          className="mx-auto my-0 flex cursor-pointer items-center gap-2"
+        >
           <input
             type="radio"
             value={value}
