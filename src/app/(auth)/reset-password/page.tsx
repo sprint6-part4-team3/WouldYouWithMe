@@ -1,5 +1,3 @@
-"use server";
-
 import ResetPasswordForm from "../_components/reset-password-form";
 
 const ResetPassword = () => (
