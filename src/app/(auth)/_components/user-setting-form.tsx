@@ -14,8 +14,8 @@ import NameInput from "./name-input";
 import PasswordInput from "./password-input";
 
 type TestUserData = {
-  name: string;
   image?: string;
+  name: string;
   email: string;
   password: string;
 };
@@ -31,20 +31,22 @@ const UserSettingForm = ({ userData }: UserSettingFormProps) => {
     reValidateMode: "onChange",
     defaultValues: {
       name: userData.name,
+      email: userData.email,
+      password: userData.password,
       ...(userData.image && { image: userData.image }),
     },
   });
 
-  const handleSubmitTeam: SubmitHandler<UserSettingInput> = (data) => {
-    // TODO: API 연동 - 그룹 수정 patch 요청
+  const handleSubmitUser: SubmitHandler<UserSettingInput> = (data) => {
+    // TODO: API 연동 - 계정 수정 patch 요청
     console.log(data);
   };
 
   return (
     <FormProvider {...methods}>
       <form
-        className="my-24 flex w-full flex-col gap-24"
-        onSubmit={methods.handleSubmit(handleSubmitTeam)}
+        className="mt-80 flex w-full max-w-800 flex-col gap-24"
+        onSubmit={methods.handleSubmit(handleSubmitUser)}
       >
         <ImageInput />
         <NameInput />

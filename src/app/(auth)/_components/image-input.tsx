@@ -4,7 +4,7 @@ import { ChangeEvent, memo, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper } from "@/components/common";
-import { IconEdit, IconProfile } from "@/public/assets/icons";
+import { IconEdit, IconProfileDesktop } from "@/public/assets/icons";
 import { UserSettingInput } from "@/types/auth";
 
 const ImageInput = memo(() => {
@@ -41,35 +41,38 @@ const ImageInput = memo(() => {
   );
 
   return (
-    <FieldWrapper label="계정 설정" id="image" errorMessage={errorMessage}>
-      <input
-        id="image"
-        name="image"
-        className="hidden"
-        type="file"
-        accept=".png, .jpg, .jpeg"
-        onChange={handleImage}
-      />
-      <div className="w-70">
-        {imgUrl ? (
-          <div className="relative size-64">
-            <Image
-              src={imgUrl}
-              alt="유저 프로필 사진"
-              fill
-              style={{ objectFit: "cover", borderRadius: "50%" }}
-            />
-            <label htmlFor="image">
-              <IconEdit className="absolute -bottom-px -right-px cursor-pointer" />
+    <>
+      <p className="text-18-700 text-text-primary md:text-20-700">계정 설정</p>
+      <FieldWrapper label="" id="image" errorMessage={errorMessage}>
+        <input
+          id="image"
+          name="image"
+          className="hidden"
+          type="file"
+          accept=".png, .jpg, .jpeg"
+          onChange={handleImage}
+        />
+        <div className="w-70">
+          {imgUrl ? (
+            <div className="relative size-64">
+              <Image
+                src={imgUrl}
+                alt="유저 프로필 사진"
+                fill
+                style={{ objectFit: "cover", borderRadius: "50%" }}
+              />
+              <label htmlFor="image">
+                <IconEdit className="absolute -bottom-px -right-px cursor-pointer" />
+              </label>
+            </div>
+          ) : (
+            <label htmlFor="image" className="cursor-pointer">
+              <IconProfileDesktop />
             </label>
-          </div>
-        ) : (
-          <label htmlFor="image" className="cursor-pointer">
-            {errorMessage ? <IconProfile /> : <IconProfile />}
-          </label>
-        )}
-      </div>
-    </FieldWrapper>
+          )}
+        </div>
+      </FieldWrapper>
+    </>
   );
 });
 
