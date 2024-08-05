@@ -12,6 +12,7 @@ export { default as IconDone } from "./icon-done.svg";
 export { default as IconDoneCyan } from "./icon-done-cyan.svg";
 export { default as IconDonePanel } from "./icon-done-panel.svg";
 export { default as IconDropdown } from "./icon-dropdown.svg";
+export { default as IconEdit } from "./icon-edit.svg";
 export { default as IconGear } from "./icon-gear.svg";
 export { default as IconGnbMenu } from "./icon-gnb-menu.svg";
 export { default as IconHeart } from "./icon-heart.svg";

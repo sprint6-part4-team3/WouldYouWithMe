@@ -9,3 +9,10 @@ export type SignUpInput = {
   password: string;
   passwordConfirmation: string;
 };
+
+export type UserSettingInput = {
+  image?: string;
+  name: string;
+  email: string;
+  password: string;
+};
