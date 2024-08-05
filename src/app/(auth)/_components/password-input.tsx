@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
-import { FieldWrapper, Input } from "@/components/common";
+import { Button, FieldWrapper, Input } from "@/components/common";
 import { UserSettingInput } from "@/types/auth";
 
 const PasswordInput = () => {
@@ -16,13 +16,18 @@ const PasswordInput = () => {
       id="password"
       errorMessage={errors.password?.message || ""}
     >
-      <Input
-        {...register("password")}
-        id="password"
-        placeholder="비밀번호를 입력해주세요"
-        isError={!!errors.password}
-        value={watch("password")}
-      />
+      <div className="relative">
+        <Input
+          {...register("password")}
+          id="password"
+          placeholder="비밀번호를 입력해주세요"
+          isError={!!errors.password}
+          value={watch("password")}
+        />
+        <Button variant="primary" className="absolute right-16 top-9 h-32 w-74">
+          변경하기
+        </Button>
+      </div>
     </FieldWrapper>
   );
 };
