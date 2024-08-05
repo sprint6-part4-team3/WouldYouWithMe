@@ -31,8 +31,7 @@
     ".next/types/**/*.ts",
     ".eslintrc.json",
     "postcss.config.mjs",
-    "next.config.mjs",
-    "src/app/(auth)/reset-password"
+    "next.config.mjs"
   ],
   "exclude": ["node_modules"]
 }
