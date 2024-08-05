@@ -48,6 +48,7 @@ const config: Config = {
         },
         border: {
           primary: "#F8FAFC80",
+          secondary: "#F8FAFC10",
         },
         text: {
           primary: "#F8FAFC",
