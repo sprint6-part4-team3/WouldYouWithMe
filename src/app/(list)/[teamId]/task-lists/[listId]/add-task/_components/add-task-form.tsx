@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Input, PlusButton, TextArea } from "@/components/common";
+import { ErrorMessage, Input, PlusButton, TextArea } from "@/components/common";
 import newTaskSchema from "@/lib/schemas/task";
 import { NewTask } from "@/types/task-list";
 import convertStringArrayToNumberArray from "@/utils/convert-string-array-to-num";
@@ -25,7 +25,13 @@ const AddTaskForm = ({
   initialDay,
   currentListId,
 }: AddTaskFormProps) => {
-  const { register, handleSubmit, watch, control } = useForm<NewTask>({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors, isValid },
+  } = useForm<NewTask>({
     resolver: zodResolver(newTaskSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -52,12 +58,16 @@ const AddTaskForm = ({
       className="mt-30 flex flex-col justify-between pb-30"
     >
       <div className="flex flex-col gap-40">
-        <Input
-          id="task"
-          type="text"
-          placeholder="할일 제목을 지어주세요"
-          {...register("name")}
-        />
+        <div>
+          <Input
+            id="task"
+            type="text"
+            placeholder="할일 제목을 지어주세요"
+            {...register("name")}
+            isError={!!errors.name}
+          />
+          <ErrorMessage message={errors.name?.message} />
+        </div>
         <TextArea
           id="task-memo"
           placeholder="메모를 입력해 주세요"
@@ -76,7 +86,7 @@ const AddTaskForm = ({
         )}
       </div>
       <div className="mt-130 flex justify-end pb-20">
-        <PlusButton type="submit" onClick={() => {}}>
+        <PlusButton type="submit" onClick={() => {}} disabled={!isValid}>
           할 일 추가
         </PlusButton>
       </div>

@@ -3,7 +3,7 @@ import { z } from "zod";
 const repeatTypeSchema = z.enum(["ONCE", "DAILY", "WEEKLY", "MONTHLY"]);
 
 const newTaskBaseSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, "할 일 제목을 입력해 주세요"),
   frequencyType: repeatTypeSchema,
   description: z.string().optional(),
   displayIndex: z.number().optional(),
