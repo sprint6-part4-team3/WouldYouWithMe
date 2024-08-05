@@ -14,12 +14,20 @@ interface AddTaskProps {
 const AddTask = ({ params, searchParams }: AddTaskProps) => {
   const currentListId = Number(params.listId);
   const currentTeamId = Number(params.teamId);
-  const currentDate = new Date(searchParams.date);
+  let currentDate: Date;
+  if (!searchParams.date) {
+    currentDate = new Date();
+  } else {
+    currentDate = new Date(searchParams.date);
+  }
+  const initialDate = currentDate.getDate();
+  const initialDay = currentDate.getDay();
   return (
     <SidePage>
       <AddTaskForm
         currentTeamId={currentTeamId}
-        currentDate={currentDate}
+        initialDate={initialDate}
+        initialDay={initialDay}
         currentListId={currentListId}
       />
     </SidePage>

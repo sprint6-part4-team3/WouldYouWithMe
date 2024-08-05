@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 import IconButton from "../icon-button";
 
@@ -23,7 +23,7 @@ interface SidePageProp {
 const SidePage = ({ children }: SidePageProp) => {
   const router = useRouter();
   return (
-    <div className="fixed inset-0 z-30 flex justify-end">
+    <div className="fixed inset-0 flex justify-end">
       <motion.div
         initial={{ x: 800, opacity: 1 }}
         animate={{ x: 0, opacity: 1 }}
@@ -35,7 +35,7 @@ const SidePage = ({ children }: SidePageProp) => {
           icon="IconX"
           onClick={() => router.back()}
         />
-        <section className="relative size-full">{children}</section>
+        <section className="size-full overflow-y-auto px-1">{children}</section>
       </motion.div>
     </div>
   );
