@@ -45,7 +45,6 @@ const overlayVariants = {
  * 터치로 위 또는 아래로 드래그하여 닫을 수 있습니다.
  */
 const Drawer = ({
-  isOpen,
   onClose,
   title,
   description,
@@ -56,8 +55,20 @@ const Drawer = ({
 }: DrawerProps) => {
   const drawerRef = useRef<HTMLDivElement>(null);
   const [drawerHeight, setDrawerHeight] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   const titleMarginClass = description ? "mb-8" : "mb-24";
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  useEffect(() => {
+    if (drawerRef.current) {
+      setDrawerHeight(drawerRef.current.offsetHeight);
+    }
+  }, []);
 
   const handleDragEnd = (
     event: MouseEvent | TouchEvent | PointerEvent,
@@ -74,85 +85,80 @@ const Drawer = ({
     }
   };
 
-  useEffect(() => {
-    if (drawerRef.current) {
-      setDrawerHeight(drawerRef.current.offsetHeight);
-    }
-  }, [isOpen]);
+  if (!isMounted) {
+    return null;
+  }
 
   return createPortal(
     <AnimatePresence>
-      {isOpen && (
+      <motion.div
+        ref={drawerRef}
+        className="fixed inset-0 z-50 flex items-end justify-center bg-background-primary/50"
+        variants={overlayVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        onClick={(e) => e.target === drawerRef.current && onClose()}
+      >
         <motion.div
-          ref={drawerRef}
-          className="fixed inset-0 z-50 flex items-end justify-center bg-background-primary/50"
-          variants={overlayVariants}
+          className={clsx(
+            "z-51 w-full rounded-t-16 bg-background-secondary px-24 pb-32 pt-16 shadow-lg",
+            className,
+          )}
+          variants={drawerVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          onClick={(e) => e.target === drawerRef.current && onClose()}
+          drag="y"
+          dragConstraints={{ top: 0, bottom: 0 }}
+          dragElastic={0.2}
+          onDragEnd={handleDragEnd}
+          style={{ touchAction: "none" }}
         >
-          <motion.div
-            ref={drawerRef}
-            className={clsx(
-              "z-51 w-full rounded-t-16 bg-background-secondary px-24 pb-32 pt-16 shadow-lg",
-              className,
+          <div className="mb-16 flex justify-center">
+            <div className="h-4 w-32 rounded-full bg-gray-300" />
+          </div>
+          {showCloseButton && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute right-16 top-16 text-text-secondary hover:text-text-primary"
+            >
+              <IconX
+                width={20}
+                height={20}
+                className="text-gray-500 transition-colors duration-200"
+                transition-colors
+              />
+            </button>
+          )}
+
+          <div className="flex flex-col items-center">
+            {showWarningIcon && (
+              <div className="mb-16">
+                <IconAlert width={24} height={24} />
+              </div>
             )}
-            variants={drawerVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={0.2}
-            onDragEnd={handleDragEnd}
-            style={{ touchAction: "none" }}
-          >
-            <div className="mb-16 flex justify-center">
-              <div className="h-4 w-32 rounded-full bg-gray-300" />
-            </div>
-            {showCloseButton && (
-              <button
-                type="button"
-                onClick={onClose}
-                className="absolute right-16 top-16 text-text-secondary hover:text-text-primary"
+
+            {title && (
+              <h2
+                className={clsx(
+                  "text-center text-16-600 text-text-primary",
+                  titleMarginClass,
+                )}
               >
-                <IconX
-                  width={20}
-                  height={20}
-                  className="text-gray-500 transition-colors duration-200"
-                  transition-colors
-                />
-              </button>
+                {title}
+              </h2>
             )}
-
-            <div className="flex flex-col items-center">
-              {showWarningIcon && (
-                <div className="mb-16">
-                  <IconAlert width={24} height={24} />
-                </div>
-              )}
-
-              {title && (
-                <h2
-                  className={clsx(
-                    "text-center text-16-600 text-text-primary",
-                    titleMarginClass,
-                  )}
-                >
-                  {title}
-                </h2>
-              )}
-              {description && (
-                <p className="mb-24 text-center text-14-500 text-text-secondary">
-                  {description}
-                </p>
-              )}
-              {children}
-            </div>
-          </motion.div>
+            {description && (
+              <p className="mb-24 text-center text-14-500 text-text-secondary">
+                {description}
+              </p>
+            )}
+            {children}
+          </div>
         </motion.div>
-      )}
+      </motion.div>
     </AnimatePresence>,
     document.body,
   );
