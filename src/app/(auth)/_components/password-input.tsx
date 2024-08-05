@@ -1,6 +1,7 @@
 import { useFormContext } from "react-hook-form";
 
-import { Button, FieldWrapper, Input } from "@/components/common";
+import { Button, FieldWrapper, FloatButton, Input } from "@/components/common";
+import { IconSecession } from "@/public/assets/icons";
 import { UserSettingInput } from "@/types/auth";
 
 const PasswordInput = () => {
@@ -27,6 +28,13 @@ const PasswordInput = () => {
         <Button variant="primary" className="absolute right-16 top-9 h-32 w-74">
           변경하기
         </Button>
+        <FloatButton
+          variant="cancel"
+          Icon={<IconSecession />}
+          className="absolute top-70"
+        >
+          회원 탈퇴하기
+        </FloatButton>
       </div>
     </FieldWrapper>
   );
