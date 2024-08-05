@@ -15,10 +15,7 @@ interface ResetPasswordModalProps {
   onClose: () => void;
 }
 
-const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
-  isOpen,
-  onClose,
-}) => {
+const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -84,7 +81,7 @@ const ResetPasswordModal: React.FC<ResetPasswordModalProps> = ({
             disabled={!isValid || isLoading}
             className="mt-15 h-48 w-136"
           >
-            링크보내기
+            {isLoading ? "처리 중..." : "링크 보내기"}
           </Button>
         </div>
       </form>

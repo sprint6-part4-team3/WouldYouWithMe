@@ -15,10 +15,7 @@ interface ResetPasswordDrawerProps {
   onClose: () => void;
 }
 
-const ResetPasswordDrawer: React.FC<ResetPasswordDrawerProps> = ({
-  isOpen,
-  onClose,
-}) => {
+const ResetPasswordDrawer = ({ isOpen, onClose }: ResetPasswordDrawerProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
