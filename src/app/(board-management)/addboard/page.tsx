@@ -31,22 +31,29 @@ const AddBoardPage = () => {
 
   const handleSubmitBoard: SubmitHandler<BoardAddEditInput> = (data) => {
     // TODO: API 연동 - 게시물 작성 post 요청
-    console.log(data);
+    const contentString = JSON.stringify(data.content);
+
+    const submitData = {
+      ...data,
+      content: contentString,
+    };
+
+    console.log(submitData);
   };
 
   return (
     <FormProvider {...methods}>
       <form
         onSubmit={methods.handleSubmit(handleSubmitBoard)}
-        className="my-40"
+        className="my-40 md:mt-56"
       >
         <div className="mb-56 flex items-center justify-between">
-          <h1 className="text-18-500">게시글 쓰기</h1>
+          <h1 className="text-18-500 md:text-20-700">게시글 쓰기</h1>
           <Button
             disabled={!methods.formState.isValid}
             type="submit"
             variant="primary"
-            className="h-32 w-74"
+            className="h-32 w-74 md:h-48 md:w-184"
           >
             등록
           </Button>

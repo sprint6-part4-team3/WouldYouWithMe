@@ -67,7 +67,7 @@ const ImageInput = () => {
               src={imgUrl}
               alt="게시물 등록한 이미지"
               fill
-              className="rounded-12 object-cover opacity-40"
+              className="rounded-12 object-cover opacity-60"
             />
             <IconXBig
               onClick={handleClickCancel}

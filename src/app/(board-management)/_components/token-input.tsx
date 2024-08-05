@@ -16,7 +16,7 @@ const TokenInput = () => {
       label={
         <span>
           <span className="text-brand-tertiary">* </span>
-          참여 토큰
+          참여 토큰 or 참여 링크
         </span>
       }
       id="token"
