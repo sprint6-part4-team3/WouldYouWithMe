@@ -16,3 +16,13 @@ export type UserSettingInput = {
   email: string;
   password: string;
 };
+
+export type ResetPasswordInput = {
+  password: string;
+  passwordConfirmation: string;
+  token: string;
+};
+
+export type EmailInput = {
+  email: string;
+};

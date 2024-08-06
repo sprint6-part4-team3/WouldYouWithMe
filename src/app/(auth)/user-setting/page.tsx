@@ -1,4 +1,4 @@
-import UserSettingForm from "../_components/user-setting-form";
+import UserSettingForm from "../_components/user-setting/user-setting-form";
 
 const testUserData = {
   image:

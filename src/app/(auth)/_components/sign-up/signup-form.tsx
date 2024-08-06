@@ -9,13 +9,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
 import { useToast } from "@/hooks";
-import { loginSchema } from "@/lib/schemas/auth";
+import { signUpSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
-import { SignInInput } from "@/types/auth";
+import { SignUpInput } from "@/types/auth";
 
-import signIn from "../login/actions";
+import signUp from "../../sign-up/action";
 
-const SignInForm: React.FC = () => {
+const SignUpForm: React.FC = () => {
   const router = useRouter();
   const { success, error } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -24,29 +24,34 @@ const SignInForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<SignInInput>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<SignUpInput>({
+    resolver: zodResolver(signUpSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
   });
 
-  const onSubmit: SubmitHandler<SignInInput> = async (data) => {
+  const onSubmit: SubmitHandler<SignUpInput> = async (data) => {
     setIsLoading(true);
-    const { email, password } = data;
+    const { email, nickname, password, passwordConfirmation } = data;
 
     try {
-      const resData = await signIn(email, password);
+      const resData = await signUp(
+        email,
+        nickname,
+        password,
+        passwordConfirmation,
+      );
 
       if (!resData.success) {
         error(`${resData.data?.message}`);
       } else {
-        success("로그인 성공");
+        success("회원가입 성공");
         setTimeout(() => {
           router.push("/");
         }, 3000);
       }
     } catch (err) {
-      error("로그인 요청 중 오류가 발생했습니다.");
+      error("회원가입 요청 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
     }
@@ -55,21 +60,36 @@ const SignInForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-350 md:w-450">
       <p className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
-        로그인
+        회원가입
       </p>
       <FieldWrapper
-        id="email"
-        label="이메일"
-        errorMessage={errors.email?.message || ""}
+        id="nickname"
+        label="닉네임"
+        errorMessage={errors.nickname?.message || ""}
       >
         <Input
-          id="email"
+          id="nickname"
           type="text"
-          placeholder="이메일을 입력해주세요"
-          {...register("email")}
-          isError={!!errors.email}
+          placeholder="닉네임을 입력해주세요"
+          {...register("nickname")}
+          isError={!!errors.nickname}
         />
       </FieldWrapper>
+      <div className="mt-24">
+        <FieldWrapper
+          id="email"
+          label="이메일"
+          errorMessage={errors.email?.message || ""}
+        >
+          <Input
+            id="email"
+            type="text"
+            placeholder="이메일을 입력해주세요"
+            {...register("email")}
+            isError={!!errors.email}
+          />
+        </FieldWrapper>
+      </div>
       <div className="mt-24">
         <FieldWrapper
           id="password"
@@ -84,10 +104,21 @@ const SignInForm: React.FC = () => {
             isError={!!errors.password}
           />
         </FieldWrapper>
-        {/* 비밀번호 재설정 모달 띄우기  */}
-        <p className="mt-12 text-right text-16-500 text-brand-primary underline">
-          비밀번호를 잊으셨나요?
-        </p>
+      </div>
+      <div className="mt-24">
+        <FieldWrapper
+          id="passwordConfirmation"
+          label="비밀번호 확인"
+          errorMessage={errors.passwordConfirmation?.message || ""}
+        >
+          <Input
+            id="passwordConfirmation"
+            type="password"
+            placeholder="비밀번호를 다시 한 번 입력해주세요"
+            {...register("passwordConfirmation")}
+            isError={!!errors.passwordConfirmation}
+          />
+        </FieldWrapper>
       </div>
       <Button
         variant="primary"
@@ -95,13 +126,13 @@ const SignInForm: React.FC = () => {
         className="mt-40 h-47 w-full"
         disabled={!isValid || isLoading}
       >
-        로그인
+        회원가입
       </Button>
       <div className="flex justify-center">
         <p className="mt-24">
-          아직 계정이 없으신가요?
-          <Link href="/signup" className="ml-12 text-brand-primary underline">
-            가입하기
+          이미 계정이 있으신가요?
+          <Link href="/login" className="ml-12 text-brand-primary underline">
+            로그인하기
           </Link>
         </p>
       </div>
@@ -111,8 +142,7 @@ const SignInForm: React.FC = () => {
         <hr className="flex-1 border-t border-border-primary" />
       </div>
       <div className="mt-16 flex w-full justify-between">
-        <p className=" text-16-500">간편 로그인하기</p>
-        {/* 간편 로그인 작업 예정 */}
+        <p className="text-16-500">간편 회원가입하기</p>
         <div className="flex gap-4">
           <button
             type="button"
@@ -132,4 +162,4 @@ const SignInForm: React.FC = () => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;

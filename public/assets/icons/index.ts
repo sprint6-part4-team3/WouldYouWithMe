@@ -16,6 +16,8 @@ export { default as IconEdit } from "./icon-edit.svg";
 export { default as IconGear } from "./icon-gear.svg";
 export { default as IconGnbMenu } from "./icon-gnb-menu.svg";
 export { default as IconHeart } from "./icon-heart.svg";
+export { default as IconImageButton } from "./icon-image-button.svg";
+export { default as IconImageButtonError } from "./icon-image-button-error.svg";
 export { default as IconImgSelect } from "./icon-img-select.svg";
 export { default as IconKebab } from "./icon-kebab.svg";
 export { default as IconPlus } from "./icon-plus.svg";

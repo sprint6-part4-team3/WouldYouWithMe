@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { IconAlert, IconX } from "@/public/assets/icons";
@@ -28,10 +28,10 @@ const modalVariants = {
   exit: {
     opacity: 0,
     scale: 0.95,
+    y: 50,
     transition: {
-      type: "tween",
+      duration: 0.3,
       ease: "easeInOut",
-      duration: 0.2,
     },
   },
 };
@@ -39,14 +39,13 @@ const modalVariants = {
 const overlayVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.2 } },
-  exit: { opacity: 0, transition: { duration: 0.2 } },
+  exit: { opacity: 0, transition: { duration: 0.3 } },
 };
 
 /**
  * 모달 컴포넌트입니다.
  * 페이지 위에 오버레이와 함께 내용을 표시합니다.
- * `isOpen`,
-  `onClose`,
+ * `onClose`,
   `title`,
   `description`,
   `showCloseButton` = `false`,
@@ -55,8 +54,7 @@ const overlayVariants = {
   `children`,
   속성이 있습니다.
  */
-const Modal: React.FC<ModalProps> = ({
-  isOpen,
+const Modal = ({
   onClose,
   title,
   description,
@@ -64,18 +62,39 @@ const Modal: React.FC<ModalProps> = ({
   showWarningIcon = false,
   className,
   children,
-}) => {
+}: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  const handleClose = () => {
+    setIsClosing(true);
+  };
+
+  const handleAnimationComplete = () => {
+    if (isClosing) {
+      onClose();
+    }
+  };
 
   const titleMarginClass = description ? "mb-8" : "mb-24";
 
+  if (!isMounted) {
+    return null;
+  }
+
   return createPortal(
-    <AnimatePresence>
-      {isOpen && (
+    <AnimatePresence onExitComplete={handleAnimationComplete}>
+      {!isClosing && (
         <motion.div
           ref={modalRef}
-          onClick={(e) => e.target === modalRef.current && onClose()}
-          onKeyDown={(e) => e.key === "Escape" && onClose()}
+          onClick={(e) => e.target === modalRef.current && handleClose()}
+          onKeyDown={(e) => e.key === "Escape" && handleClose()}
           className="fixed inset-0 z-50 flex size-full items-center justify-center overflow-y-auto bg-background-primary/50"
           variants={overlayVariants}
           initial="hidden"
@@ -95,7 +114,7 @@ const Modal: React.FC<ModalProps> = ({
             {showCloseButton && (
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 className="absolute right-12 top-12 text-text-secondary hover:text-text-primary"
               >
                 <IconX
