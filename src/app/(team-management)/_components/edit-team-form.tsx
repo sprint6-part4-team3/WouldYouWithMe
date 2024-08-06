@@ -5,7 +5,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-import teamAddEditSchema from "@/lib/schemas/team-manage";
+import { teamAddEditSchema } from "@/lib/schemas/team-manage";
 import { TeamAddEditInput } from "@/types/team-management";
 
 import ImageInput from "./image-input";

@@ -5,4 +5,8 @@ const teamAddEditSchema = z.object({
   image: z.string().optional(),
 });
 
-export default teamAddEditSchema;
+const teamJoinSchema = z.object({
+  token: z.string().min(1, "팀 참여 링크를 입력해주세요."),
+});
+
+export { teamAddEditSchema, teamJoinSchema };
