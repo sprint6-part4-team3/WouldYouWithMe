@@ -99,7 +99,7 @@ const SignInForm: React.FC = () => {
       <div className="flex justify-center">
         <p className="mt-24">
           아직 계정이 없으신가요?
-          <Link href="/signup" className="ml-12 text-brand-primary underline">
+          <Link href="/sign-up" className="ml-12 text-brand-primary underline">
             가입하기
           </Link>
         </p>
