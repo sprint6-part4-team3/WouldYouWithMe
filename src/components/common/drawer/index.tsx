@@ -56,6 +56,7 @@ const Drawer = ({
   const drawerRef = useRef<HTMLDivElement>(null);
   const [drawerHeight, setDrawerHeight] = useState<number | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   const titleMarginClass = description ? "mb-8" : "mb-24";
 
@@ -70,6 +71,16 @@ const Drawer = ({
     }
   }, []);
 
+  const handleClose = () => {
+    setIsClosing(true);
+  };
+
+  const handleAnimationComplete = () => {
+    if (isClosing) {
+      onClose();
+    }
+  };
+
   const handleDragEnd = (
     event: MouseEvent | TouchEvent | PointerEvent,
     info: PanInfo,
@@ -78,10 +89,10 @@ const Drawer = ({
 
     if (info.velocity.y > 20 || info.offset.y > threshold) {
       // 아래로 빠르게 스와이프하거나 충분히 아래로 드래그
-      onClose();
+      handleClose();
     } else if (info.velocity.y < -20 || info.offset.y < -threshold) {
       // 위로 빠르게 스와이프하거나 충분히 위로 드래그
-      onClose();
+      handleClose();
     }
   };
 
@@ -90,75 +101,77 @@ const Drawer = ({
   }
 
   return createPortal(
-    <AnimatePresence>
-      <motion.div
-        ref={drawerRef}
-        className="fixed inset-0 z-50 flex items-end justify-center bg-background-primary/50"
-        variants={overlayVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        onClick={(e) => e.target === drawerRef.current && onClose()}
-      >
+    <AnimatePresence onExitComplete={handleAnimationComplete}>
+      {!isClosing && (
         <motion.div
-          className={clsx(
-            "z-51 w-full rounded-t-16 bg-background-secondary px-24 pb-32 pt-16 shadow-lg",
-            className,
-          )}
-          variants={drawerVariants}
+          ref={drawerRef}
+          className="fixed inset-0 z-50 flex items-end justify-center bg-background-primary/50"
+          variants={overlayVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          drag="y"
-          dragConstraints={{ top: 0, bottom: 0 }}
-          dragElastic={0.2}
-          onDragEnd={handleDragEnd}
-          style={{ touchAction: "none" }}
+          onClick={(e) => e.target === drawerRef.current && handleClose()}
         >
-          <div className="mb-16 flex justify-center">
-            <div className="h-4 w-32 rounded-full bg-gray-300" />
-          </div>
-          {showCloseButton && (
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute right-16 top-16 text-text-secondary hover:text-text-primary"
-            >
-              <IconX
-                width={20}
-                height={20}
-                className="text-gray-500 transition-colors duration-200"
-                transition-colors
-              />
-            </button>
-          )}
-
-          <div className="flex flex-col items-center">
-            {showWarningIcon && (
-              <div className="mb-16">
-                <IconAlert width={24} height={24} />
-              </div>
+          <motion.div
+            className={clsx(
+              "z-51 w-full rounded-t-16 bg-background-secondary px-24 pb-32 pt-16 shadow-lg",
+              className,
             )}
-
-            {title && (
-              <h2
-                className={clsx(
-                  "text-center text-16-600 text-text-primary",
-                  titleMarginClass,
-                )}
+            variants={drawerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            drag="y"
+            dragConstraints={{ top: 0, bottom: 0 }}
+            dragElastic={0.2}
+            onDragEnd={handleDragEnd}
+            style={{ touchAction: "none" }}
+          >
+            <div className="mb-16 flex justify-center">
+              <div className="h-4 w-32 rounded-full bg-gray-300" />
+            </div>
+            {showCloseButton && (
+              <button
+                type="button"
+                onClick={handleClose}
+                className="absolute right-16 top-16 text-text-secondary hover:text-text-primary"
               >
-                {title}
-              </h2>
+                <IconX
+                  width={20}
+                  height={20}
+                  className="text-gray-500 transition-colors duration-200"
+                  transition-colors
+                />
+              </button>
             )}
-            {description && (
-              <p className="mb-24 text-center text-14-500 text-text-secondary">
-                {description}
-              </p>
-            )}
-            {children}
-          </div>
+
+            <div className="flex flex-col items-center">
+              {showWarningIcon && (
+                <div className="mb-16">
+                  <IconAlert width={24} height={24} />
+                </div>
+              )}
+
+              {title && (
+                <h2
+                  className={clsx(
+                    "text-center text-16-600 text-text-primary",
+                    titleMarginClass,
+                  )}
+                >
+                  {title}
+                </h2>
+              )}
+              {description && (
+                <p className="mb-24 text-center text-14-500 text-text-secondary">
+                  {description}
+                </p>
+              )}
+              {children}
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
     </AnimatePresence>,
     document.body,
   );
