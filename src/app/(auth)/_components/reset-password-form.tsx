@@ -49,9 +49,9 @@ const ResetPasswordForm: React.FC = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-350 md:w-450">
-        <p className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
+        <h1 className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
           비밀번호 재설정
-        </p>
+        </h1>
         <FieldWrapper
           id="newpassword"
           label="새 비밀번호"
