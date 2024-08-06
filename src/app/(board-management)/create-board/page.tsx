@@ -14,7 +14,7 @@ import ImageInput from "../_components/image-input";
 import TitleInput from "../_components/title-input";
 import TokenInput from "../_components/token-input";
 
-const AddBoardPage = () => {
+const CreateBoardPage = () => {
   const methods = useForm<BoardAddEditInput>({
     resolver: zodResolver(boardAddEditSchema),
     mode: "onBlur",
@@ -59,4 +59,4 @@ const AddBoardPage = () => {
   );
 };
 
-export default AddBoardPage;
+export default CreateBoardPage;

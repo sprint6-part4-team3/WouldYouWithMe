@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 
-import { FieldWrapper, Input, TextArea } from "@/components/common";
+import { FieldWrapper, TextArea } from "@/components/common";
 import { BoardAddEditInput } from "@/types/article/add-edit";
 
 const ContentInput = () => {
