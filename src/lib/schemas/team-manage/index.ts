@@ -1,7 +1,12 @@
 import { z } from "zod";
 
+const teamAddEditSchema = z.object({
+  name: z.string().min(1, "팀 이름은 필수 입력입니다."),
+  image: z.string().optional(),
+});
+
 const teamJoinSchema = z.object({
   token: z.string().min(1, "팀 참여 링크를 입력해주세요."),
 });
 
-export default teamJoinSchema;
+export { teamAddEditSchema, teamJoinSchema };

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
-import teamJoinSchema from "@/lib/schemas/team-manage";
+import { teamJoinSchema } from "@/lib/schemas/team-manage";
 import { TeamJoinInput } from "@/types/team-management";
 
 const JoinTeamForm = () => {
