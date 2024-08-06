@@ -1,17 +1,25 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import { Button, Drawer, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import { IconProfileCurrent } from "@/public/assets/icons";
 import { GroupMember } from "@/types/user";
 
 interface ProfileModalProps {
-  isOpen: boolean;
   onClose: () => void;
   member: GroupMember;
 }
 
-const ProfileModal = ({ isOpen, onClose, member }: ProfileModalProps) => {
+const ProfileModal = ({ onClose, member }: ProfileModalProps) => {
   const toast = useToast();
   const isMobile = useIsMobile();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleClickCopy = () => {
     // TODO: 이메일 복사하기
@@ -19,12 +27,15 @@ const ProfileModal = ({ isOpen, onClose, member }: ProfileModalProps) => {
     onClose();
   };
 
+  if (!isClient) {
+    return null;
+  }
+
   const CommonComponent = isMobile ? Drawer : Modal;
 
   return (
-    <CommonComponent showCloseButton isOpen={isOpen} onClose={onClose} title="">
+    <CommonComponent showCloseButton onClose={onClose} title="">
       <div className="flex w-full flex-col items-center justify-center gap-24">
-        {/** TODO: 유저 프로필 있는 경우 이미지 넣기 */}
         {member.userImage ? (
           <IconProfileCurrent width={52} height={52} />
         ) : (
@@ -55,4 +66,5 @@ const ProfileModal = ({ isOpen, onClose, member }: ProfileModalProps) => {
     </CommonComponent>
   );
 };
+
 export default ProfileModal;

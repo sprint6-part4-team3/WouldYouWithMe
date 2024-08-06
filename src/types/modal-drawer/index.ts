@@ -2,11 +2,6 @@ import { ReactNode } from "react";
 
 export interface CommonProps {
   /**
-   * `오버레이(Drawer 또는 Modal)의 열림/닫힘 상태를 제어합니다.`
-   */
-  isOpen: boolean;
-
-  /**
    * `오버레이가 닫힐 때 호출되는 함수입니다.`
    */
   onClose: () => void;

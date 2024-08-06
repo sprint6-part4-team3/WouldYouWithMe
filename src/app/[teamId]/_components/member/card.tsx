@@ -30,14 +30,18 @@ interface MemberCardProps {
 }
 
 const Card = ({ member }: MemberCardProps) => {
-  const { value, handleOn, handleOff } = useToggle();
+  const {
+    value: isProfileModalOpen,
+    handleOn: openProfileModal,
+    handleOff: closeProfileModal,
+  } = useToggle();
 
   return (
     <div className="rounded-16 bg-background-secondary px-16 py-12  md:px-20 md:py-16 lg:px-24 lg:py-20">
       {/* PC, 테블릿 */}
       <div className="hidden items-center justify-between md:flex">
         <div
-          onClick={handleOn}
+          onClick={openProfileModal}
           className="group flex cursor-pointer items-center gap-12"
         >
           <div className="flex-1">
@@ -68,7 +72,7 @@ const Card = ({ member }: MemberCardProps) => {
       </div>
       {/* 모바일 */}
       <div className="flex items-center justify-between md:hidden">
-        <div onClick={handleOn} className="group cursor-pointer">
+        <div onClick={openProfileModal} className="group cursor-pointer">
           <div className="flex items-center gap-6">
             {/** TODO: 유저 프로필 있는 경우 이미지 넣기 */}
             {member.userImage ? (
@@ -85,7 +89,9 @@ const Card = ({ member }: MemberCardProps) => {
         {/** TODO: role이 ADMIN or 본인인 경우 나타나게 */}
         <MemberDropdown />
       </div>
-      <ProfileModal member={member} isOpen={value} onClose={handleOff} />
+      {isProfileModalOpen && (
+        <ProfileModal member={member} onClose={closeProfileModal} />
+      )}
     </div>
   );
 };
