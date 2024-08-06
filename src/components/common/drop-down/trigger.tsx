@@ -10,8 +10,7 @@ interface DropDownTriggerProps {
 }
 
 const DropDownTrigger = ({ children, onClick }: DropDownTriggerProps) => (
-  <button
-    type="button"
+  <div
     onClick={onClick}
     onKeyDown={(e) => {
       if (e.key === "Escape") {
@@ -20,7 +19,7 @@ const DropDownTrigger = ({ children, onClick }: DropDownTriggerProps) => (
     }}
   >
     {children}
-  </button>
+  </div>
 );
 
 export default DropDownTrigger;
