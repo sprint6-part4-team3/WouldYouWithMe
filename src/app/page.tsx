@@ -36,11 +36,12 @@ export default function Home() {
         <article className="w-full rounded-40 bg-gradient-to-r from-brand-primary to-brand-tertiary p-1">
           <div className="grid w-full rounded-40 bg-background-primary sm:gap-20 md:grid-cols-2 md:grid-rows-1 lg:grid-cols-2 lg:grid-rows-1 xl:grid-cols-2 xl:grid-rows-1">
             <div className="order-1 flex items-end justify-center px-25 sm:order-2 sm:px-60 md:pt-80 lg:pt-80 xl:pt-80">
-              <Image src={landingMockupFirst} alt="이미지1" />
+              <Image draggable="false" src={landingMockupFirst} alt="이미지1" />
             </div>
             <div className="order-2 flex flex-col items-center justify-center sm:order-1 sm:items-start sm:pt-50">
               <Image
                 className="mr-70 sm:ml-65 xl:mr-110"
+                draggable="false"
                 src={landingIconFirst}
                 alt="파일 아이콘"
               />
@@ -55,6 +56,7 @@ export default function Home() {
           <div className="order-1 flex flex-col items-center justify-center text-end sm:order-2 sm:items-start sm:pb-50 sm:text-start">
             <Image
               className="ml-75 mr-0 sm:mr-130 xl:ml-120"
+              draggable="false"
               src={landingIconSecond}
               alt="이메일 아이콘"
             />
@@ -64,16 +66,17 @@ export default function Home() {
             </span>
           </div>
           <div className="order-2 flex items-start justify-center px-25 sm:order-1 sm:px-60 md:pb-80 lg:pb-80 xl:pb-80">
-            <Image src={landingMockupSecond} alt="이미지2" />
+            <Image draggable="false" src={landingMockupSecond} alt="이미지2" />
           </div>
         </article>
         <article className="grid w-full rounded-40 bg-slate-950 sm:gap-20 md:grid-cols-2 md:grid-rows-1 lg:grid-cols-2 lg:grid-rows-1 xl:grid-cols-2 xl:grid-rows-1">
           <div className="flex items-start justify-center px-25 sm:px-60 md:pb-80 lg:pb-80 xl:pb-80">
-            <Image src={landingMockupThird} alt="이미지3" />
+            <Image draggable="false" src={landingMockupThird} alt="이미지3" />
           </div>
           <div className="flex flex-col items-center justify-center sm:items-start sm:pb-50">
             <Image
               className="mr-70 sm:ml-65 xl:mr-110"
+              draggable="false"
               src={landingIconThird}
               alt="완료 아이콘"
             />
