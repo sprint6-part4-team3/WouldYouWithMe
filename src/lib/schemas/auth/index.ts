@@ -63,7 +63,24 @@ const userSettingSchema = z.object({
   password: z.string().min(1, "비밀번호는 필수 입력입니다."),
 });
 
+const changePasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(1, "비밀번호를 입력해주세요.")
+      .regex(
+        /^[a-zA-Z0-9!@#$%^&*]+$/,
+        "비밀번호는 숫자, 영문, 특수문자로만 가능합니다.",
+      ),
+    newPasswordConfirmation: z.string().min(1, "비밀번호를 입력해주세요."),
+  })
+  .refine((data) => data.newPassword === data.newPasswordConfirmation, {
+    message: "비밀번호가 일치하지 않습니다.",
+    path: ["newPasswordConfirmation"],
+  });
+
 export {
+  changePasswordSchema,
   emailSchema,
   loginSchema,
   resetPasswordSchema,

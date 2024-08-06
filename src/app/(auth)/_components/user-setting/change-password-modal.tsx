@@ -7,8 +7,8 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input, Modal } from "@/components/common";
-import { emailSchema } from "@/lib/schemas/auth";
-import { EmailInput } from "@/types/auth";
+import { changePasswordSchema } from "@/lib/schemas/auth";
+import { ChangePasswordInput } from "@/types/auth";
 
 interface ResetPasswordModalProps {
   isOpen: boolean;
@@ -22,14 +22,17 @@ const ChangePasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<EmailInput>({
-    resolver: zodResolver(emailSchema),
+  } = useForm<ChangePasswordInput>({
+    resolver: zodResolver(changePasswordSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
   });
 
   // NOTE - api 작업 대신 넣었습니다.
-  const onSubmit: SubmitHandler<EmailInput> = async ({ email }) => {
+  const onSubmit: SubmitHandler<ChangePasswordInput> = async ({
+    newPassword,
+    newPasswordConfirmation,
+  }) => {
     setIsLoading(true);
 
     setTimeout(() => {
@@ -47,27 +50,37 @@ const ChangePasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
 
   return (
     isOpen && (
-      <Modal
-        onClose={onClose}
-        title="비밀번호 재설정"
-        description="비밀번호 재설정 링크를 보내드립니다."
-        showCloseButton
-      >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <Modal onClose={onClose} title="비밀번호 변경하기" description="">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <FieldWrapper
-            id="email"
-            label=""
-            errorMessage={errors.email?.message || ""}
+            id="newPassword"
+            label="새 비밀번호"
+            errorMessage={errors.newPassword?.message || ""}
           >
             <Input
-              id="email"
-              type="email"
-              placeholder="이메일을 입력하세요."
-              {...register("email")}
-              isError={!!errors.email}
+              id="newPassword"
+              type="password"
+              placeholder="새 비밀번호를 입력하세요."
+              {...register("newPassword")}
+              isError={!!errors.newPassword}
             />
           </FieldWrapper>
-          <div className="flex gap-8">
+          <div className="mt-16">
+            <FieldWrapper
+              id="newPasswordConfirmation"
+              label="새 비밀번호 확인"
+              errorMessage={errors.newPasswordConfirmation?.message || ""}
+            >
+              <Input
+                id="newPasswordConfirmation"
+                type="password"
+                placeholder="새 비밀번호를 다시 입력하세요."
+                {...register("newPasswordConfirmation")}
+                isError={!!errors.newPasswordConfirmation}
+              />
+            </FieldWrapper>
+          </div>
+          <div className="mt-24 flex gap-8">
             <Button
               onClick={onClose}
               variant="secondary"
@@ -81,7 +94,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
               disabled={!isValid || isLoading}
               className="mt-15 h-48 w-136"
             >
-              {isLoading ? "처리 중..." : "링크 보내기"}
+              {isLoading ? "처리 중..." : "변경하기"}
             </Button>
           </div>
         </form>

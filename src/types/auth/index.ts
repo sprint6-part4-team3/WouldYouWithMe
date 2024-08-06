@@ -26,3 +26,8 @@ export type ResetPasswordInput = {
 export type EmailInput = {
   email: string;
 };
+
+export type ChangePasswordInput = {
+  newPassword: string;
+  newPasswordConfirmation: string;
+};
