@@ -28,10 +28,10 @@ const modalVariants = {
   exit: {
     opacity: 0,
     scale: 0.95,
+    y: 50, // 아래로 내려가면서 사라짐
     transition: {
-      type: "tween",
+      duration: 0.3,
       ease: "easeInOut",
-      duration: 0.2,
     },
   },
 };
@@ -39,7 +39,7 @@ const modalVariants = {
 const overlayVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.2 } },
-  exit: { opacity: 0, transition: { duration: 0.2 } },
+  exit: { opacity: 0, transition: { duration: 0.3 } },
 };
 /**
  * 모달 컴포넌트입니다.
@@ -65,11 +65,22 @@ const Modal = ({
 }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
     return () => setIsMounted(false);
   }, []);
+
+  const handleClose = () => {
+    setIsClosing(true);
+  };
+
+  const handleAnimationComplete = () => {
+    if (isClosing) {
+      onClose();
+    }
+  };
 
   const titleMarginClass = description ? "mb-8" : "mb-24";
 
@@ -77,72 +88,75 @@ const Modal = ({
     return null;
   }
 
-  return createPortal(
-    <AnimatePresence>
-      <motion.div
-        ref={modalRef}
-        onClick={(e) => e.target === modalRef.current && onClose()}
-        onKeyDown={(e) => e.key === "Escape" && onClose()}
-        className="fixed inset-0 z-50 flex size-full items-center justify-center overflow-y-auto bg-background-primary/50"
-        variants={overlayVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-      >
+  const modalContent = (
+    <AnimatePresence onExitComplete={handleAnimationComplete}>
+      {!isClosing && (
         <motion.div
-          className={clsx(
-            "z-51 relative w-384 rounded-8 bg-background-secondary px-48 pb-32 pt-48 shadow-lg",
-            className,
-          )}
-          variants={modalVariants}
+          ref={modalRef}
+          onClick={(e) => e.target === modalRef.current && handleClose()}
+          onKeyDown={(e) => e.key === "Escape" && handleClose()}
+          className="fixed inset-0 z-50 flex size-full items-center justify-center overflow-y-auto bg-background-primary/50"
+          variants={overlayVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
         >
-          {showCloseButton && (
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute right-12 top-12 text-text-secondary hover:text-text-primary"
-            >
-              <IconX
-                width={20}
-                height={20}
-                className="text-gray-500 transition-colors duration-200"
-                transition-colors
-              />
-            </button>
-          )}
-
-          <div className="flex flex-col items-center">
-            {showWarningIcon && (
-              <div className="mb-16">
-                <IconAlert width={24} height={24} />
-              </div>
+          <motion.div
+            className={clsx(
+              "z-51 relative w-384 rounded-8 bg-background-secondary px-48 pb-32 pt-48 shadow-lg",
+              className,
             )}
-
-            {title && (
-              <h2
-                className={clsx(
-                  "text-center text-16-600 text-text-primary",
-                  titleMarginClass,
-                )}
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            {showCloseButton && (
+              <button
+                type="button"
+                onClick={handleClose}
+                className="absolute right-12 top-12 text-text-secondary hover:text-text-primary"
               >
-                {title}
-              </h2>
+                <IconX
+                  width={20}
+                  height={20}
+                  className="text-gray-500 transition-colors duration-200"
+                  transition-colors
+                />
+              </button>
             )}
-            {description && (
-              <p className="mb-24 text-center text-14-500 text-text-secondary">
-                {description}
-              </p>
-            )}
-            {children}
-          </div>
+
+            <div className="flex flex-col items-center">
+              {showWarningIcon && (
+                <div className="mb-16">
+                  <IconAlert width={24} height={24} />
+                </div>
+              )}
+
+              {title && (
+                <h2
+                  className={clsx(
+                    "text-center text-16-600 text-text-primary",
+                    titleMarginClass,
+                  )}
+                >
+                  {title}
+                </h2>
+              )}
+              {description && (
+                <p className="mb-24 text-center text-14-500 text-text-secondary">
+                  {description}
+                </p>
+              )}
+              {children}
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
-    </AnimatePresence>,
-    document.body,
+      )}
+    </AnimatePresence>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
 export default Modal;
