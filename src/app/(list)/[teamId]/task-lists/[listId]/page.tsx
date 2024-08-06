@@ -25,7 +25,6 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
 
   return (
     <>
-      <Calendar />
       <TaskNav currentDate={currentDate} />
       <TaskListNav
         currentTeamId={currentTeamId}

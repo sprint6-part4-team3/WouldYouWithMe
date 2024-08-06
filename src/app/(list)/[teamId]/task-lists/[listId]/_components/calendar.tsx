@@ -1,11 +1,14 @@
 "use client";
 
+import clsx from "clsx";
 import {
   addMonths,
   eachDayOfInterval,
   endOfMonth,
   endOfWeek,
   format,
+  isAfter,
+  isBefore,
   isSameDay,
   isToday,
   startOfMonth,
@@ -15,8 +18,24 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 
-const Calendar = () => {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+import { IconButton } from "@/components/common";
+
+// 날짜가 현재 달에 속한 날짜인지 검사하는 함수
+const isCurrentMonth = (day: Date, currentMonth: Date) =>
+  isSameDay(startOfMonth(day), startOfMonth(currentMonth)) ||
+  (isAfter(day, startOfMonth(currentMonth)) &&
+    isBefore(day, endOfMonth(currentMonth)));
+// 요일 맴 돌릴 배열
+const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+interface CalendarProps {
+  currentDate: Date;
+}
+
+// 컴포넌트 시작
+
+const Calendar = ({ currentDate }: CalendarProps) => {
+  const [currentMonth, setCurrentMonth] = useState(currentDate);
 
   const start = startOfMonth(currentMonth);
   const end = endOfMonth(currentMonth);
@@ -26,47 +45,53 @@ const Calendar = () => {
   const days = eachDayOfInterval({ start: startWeek, end: endWeek });
 
   return (
-    <div className="h-258 w-282 rounded-24 bg-background-secondary p-16 ">
+    <section className="h-258 w-282 rounded-24 bg-background-secondary p-16">
       <header className="mb-4 flex items-center justify-between">
-        <button
-          type="button"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        <IconButton
+          variant="none"
+          icon="IconCalendarArrowLeft"
           onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-        >
-          a
-        </button>
-        <h1 className="text-xl font-semibold">
+        />
+        <h1 className="text-14-500 text-text-inverse">
           {format(currentMonth, "MMMM yyyy")}
         </h1>
-        <button
-          type="button"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        <IconButton
+          variant="none"
+          icon="IconCalendarArrowRight"
           onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-        >
-          b
-        </button>
+        />
       </header>
-      <div className="grid grid-cols-7 gap-px">
-        <div className="p-2 text-center font-semibold text-gray-700">Sun</div>
-        <div className="p-2 text-center font-semibold text-gray-700">Mon</div>
-        <div className="p-2 text-center font-semibold text-gray-700">Tue</div>
-        <div className="p-2 text-center font-semibold text-gray-700">Wed</div>
-        <div className="p-2 text-center font-semibold text-gray-700">Thu</div>
-        <div className="p-2 text-center font-semibold text-gray-700">Fri</div>
-        <div className="p-2 text-center font-semibold text-gray-700">Sat</div>
+      <div className="grid grid-cols-7">
+        {weekdays.map((day) => (
+          <div
+            key={day}
+            className="px-3 py-7 text-center text-14-600 text-text-inverse"
+          >
+            {day}
+          </div>
+        ))}
         {days.map((day) => (
-          <Link key={day.toString()} href="/">
-            <time
-              className={`cursor-pointer p-2 text-center ${
-                isToday(day) ? "bg-blue-200" : ""
-              }`}
-            >
-              {format(day, "d")}
-            </time>
-          </Link>
+          <div
+            key={day.toString()}
+            className={clsx(
+              `flex h-32 w-35 items-center justify-center rounded-8`,
+              {
+                "bg-brand-primary": isSameDay(day, currentDate),
+              },
+              { " text-gray-400": !isCurrentMonth(day, currentMonth) },
+            )}
+          >
+            {isCurrentMonth(day, currentMonth) ? (
+              <Link href={`?date=${day.toISOString()}`}>
+                <time>{format(day, "d")}</time>
+              </Link>
+            ) : (
+              <time>{format(day, "d")}</time>
+            )}
+          </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

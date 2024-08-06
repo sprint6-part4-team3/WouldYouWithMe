@@ -4,6 +4,9 @@ import React from "react";
 import { AddListModalButton, IconButton } from "@/components/common";
 import formatDate from "@/utils/format-date";
 
+import Calendar from "./calendar";
+import CalendarButton from "./calendar-button";
+
 interface TaskNavProps {
   currentDate: Date;
 }
@@ -34,7 +37,9 @@ const TaskNav = ({ currentDate }: TaskNavProps) => {
           </Link>
         </div>
 
-        <IconButton variant="gray" icon="IconCalendar" className="p-6" />
+        <CalendarButton>
+          <Calendar currentDate={currentDate} />
+        </CalendarButton>
       </div>
 
       <AddListModalButton />
