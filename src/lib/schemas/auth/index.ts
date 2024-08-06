@@ -33,4 +33,24 @@ const signUpSchema = z
     path: ["passwordConfirmation"],
   });
 
-export { loginSchema, signUpSchema };
+const resetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(1, "비밀번호를 입력해주세요.")
+      .regex(
+        /^[a-zA-Z0-9!@#$%^&*]+$/,
+        "비밀번호는 숫자, 영문, 특수문자로만 가능합니다.",
+      ),
+    passwordConfirmation: z.string().min(1, "비밀번호를 입력해주세요."),
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: "비밀번호가 일치하지 않습니다.",
+    path: ["passwordConfirmation"],
+  });
+
+const emailSchema = z.object({
+  email: z.string().email("이메일 형식으로 작성해 주세요."),
+});
+
+export { emailSchema, loginSchema, resetPasswordSchema, signUpSchema };

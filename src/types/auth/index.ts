@@ -9,3 +9,13 @@ export type SignUpInput = {
   password: string;
   passwordConfirmation: string;
 };
+
+export type ResetPasswordInput = {
+  password: string;
+  passwordConfirmation: string;
+  token: string;
+};
+
+export type EmailInput = {
+  email: string;
+};

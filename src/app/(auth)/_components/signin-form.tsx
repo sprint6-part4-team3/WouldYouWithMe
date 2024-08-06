@@ -84,9 +84,8 @@ const SignInForm: React.FC = () => {
             isError={!!errors.password}
           />
         </FieldWrapper>
-        {/* 비밀번호 재설정 모달 띄우기  */}
         <p className="mt-12 text-right text-16-500 text-brand-primary underline">
-          비밀번호를 잊으셨나요?
+          <Link href="/reset-password">비밀번호를 잊으셨나요?</Link>
         </p>
       </div>
       <Button
@@ -100,7 +99,7 @@ const SignInForm: React.FC = () => {
       <div className="flex justify-center">
         <p className="mt-24">
           아직 계정이 없으신가요?
-          <Link href="/signup" className="ml-12 text-brand-primary underline">
+          <Link href="/sign-up" className="ml-12 text-brand-primary underline">
             가입하기
           </Link>
         </p>

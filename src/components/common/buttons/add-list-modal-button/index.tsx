@@ -37,12 +37,7 @@ const AddListModalButton = () => {
         새로운 목록 추가하기
       </button>
       {value && (
-        <ModalComponent
-          showCloseButton
-          isOpen={value}
-          onClose={handleOff}
-          title="할 일 목록"
-        >
+        <ModalComponent showCloseButton onClose={handleOff} title="할 일 목록">
           <OneInputForm
             id="create-list"
             btnText="만들기"
