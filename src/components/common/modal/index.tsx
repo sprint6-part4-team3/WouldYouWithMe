@@ -28,7 +28,7 @@ const modalVariants = {
   exit: {
     opacity: 0,
     scale: 0.95,
-    y: 50, // 아래로 내려가면서 사라짐
+    y: 50,
     transition: {
       duration: 0.3,
       ease: "easeInOut",
@@ -41,11 +41,11 @@ const overlayVariants = {
   visible: { opacity: 1, transition: { duration: 0.2 } },
   exit: { opacity: 0, transition: { duration: 0.3 } },
 };
+
 /**
  * 모달 컴포넌트입니다.
  * 페이지 위에 오버레이와 함께 내용을 표시합니다.
- * `isOpen`,
-  `onClose`,
+ * `onClose`,
   `title`,
   `description`,
   `showCloseButton` = `false`,
@@ -88,7 +88,7 @@ const Modal = ({
     return null;
   }
 
-  const modalContent = (
+  return createPortal(
     <AnimatePresence onExitComplete={handleAnimationComplete}>
       {!isClosing && (
         <motion.div
@@ -153,10 +153,9 @@ const Modal = ({
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
-
-  return createPortal(modalContent, document.body);
 };
 
 export default Modal;
