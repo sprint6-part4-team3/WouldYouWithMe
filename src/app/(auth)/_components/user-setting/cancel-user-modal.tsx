@@ -14,6 +14,23 @@ interface CancelUserModalProps {
 const CancelUserModal = ({ isOpen, onClose }: CancelUserModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
+  // NOTE - api 작업 대신 넣었습니다.
+  const onSubmit = async () => {
+    setIsLoading(true);
+
+    setTimeout(() => {
+      const success = true;
+
+      if (success) {
+        console.log("회원 탈퇴 성공");
+      } else {
+        console.log("회원 탈퇴 실패");
+      }
+
+      setIsLoading(false);
+    }, 1000);
+  };
+
   return (
     isOpen && (
       <Modal
@@ -31,6 +48,7 @@ const CancelUserModal = ({ isOpen, onClose }: CancelUserModalProps) => {
             variant="danger"
             disabled={isLoading}
             className="h-48 w-136"
+            onClick={onSubmit}
           >
             {isLoading ? "처리 중..." : "회원 탈퇴"}
           </Button>
