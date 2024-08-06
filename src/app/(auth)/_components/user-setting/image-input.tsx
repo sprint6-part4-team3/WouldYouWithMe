@@ -1,4 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+
+"use client";
+
 import Image from "next/image";
 import { ChangeEvent, memo, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
