@@ -12,8 +12,8 @@ import {
 
 export default function Home() {
   return (
-    <div className="relative">
-      <div
+    <main className="relative">
+      <section
         className="flex flex-col items-center justify-center bg-cover bg-center py-55 lg:py-100 xl:py-84"
         style={{
           backgroundImage: "url('/assets/images/img-landing-main.png')",
@@ -31,42 +31,60 @@ export default function Home() {
         >
           지금 시작하기
         </Button>
-      </div>
-      <div className="m-auto flex max-w-996 flex-col gap-80 px-16 lg:px-24">
-        <div className="w-full rounded-40 bg-gradient-to-r from-brand-primary to-brand-tertiary p-1">
-          <div className="grid max-h-419 w-full grid-cols-2 place-items-center rounded-40 bg-background-primary">
-            <Image src={landingMockupFirst} alt="이미지1" />
-            <div>
-              <Image src={landingIconFirst} alt="파일 아이콘" />
-              <span>
+      </section>
+      <section className="m-auto flex max-w-996 flex-col gap-80 px-16 lg:px-24">
+        <article className="w-full rounded-40 bg-gradient-to-r from-brand-primary to-brand-tertiary p-1">
+          <div className="grid w-full rounded-40 bg-background-primary sm:gap-20 md:grid-cols-2 md:grid-rows-1 lg:grid-cols-2 lg:grid-rows-1 xl:grid-cols-2 xl:grid-rows-1">
+            <div className="order-1 flex items-end justify-center px-25 sm:order-2 sm:px-60 md:pt-80 lg:pt-80 xl:pt-80">
+              <Image src={landingMockupFirst} alt="이미지1" />
+            </div>
+            <div className="order-2 flex flex-col items-center justify-center sm:order-1 sm:items-start sm:pt-50">
+              <Image
+                className="mr-70 sm:ml-65 xl:mr-110"
+                src={landingIconFirst}
+                alt="파일 아이콘"
+              />
+              <span className="text-18-500 sm:ml-80 xl:text-24-500">
                 그룹으로
                 <br /> 할 일을 관리해요
               </span>
             </div>
           </div>
-        </div>
-        <div className="grid max-h-419 w-full grid-cols-2 place-items-center rounded-40 border border-border-primary/10 bg-background-secondary">
-          <div>
-            <Image src={landingIconSecond} alt="이메일 아이콘" />
-            <span>
+        </article>
+        <article className="grid w-full rounded-40 border border-border-primary/10 bg-background-secondary sm:gap-20 md:grid-cols-2 md:grid-rows-1 lg:grid-cols-2 lg:grid-rows-1 xl:grid-cols-2 xl:grid-rows-1">
+          <div className="order-1 flex flex-col items-center justify-center text-end sm:order-2 sm:items-start sm:pb-50 sm:text-start">
+            <Image
+              className="ml-75 mr-0 sm:mr-130 xl:ml-120"
+              src={landingIconSecond}
+              alt="이메일 아이콘"
+            />
+            <span className="text-18-500 sm:ml-80 xl:text-24-500">
               간단하게 멤버들을
               <br /> 초대해요
             </span>
           </div>
-          <Image src={landingMockupSecond} alt="이미지2" />
-        </div>
-        <div className="grid max-h-419 w-full grid-cols-2 place-items-center rounded-40 bg-slate-950">
-          <Image src={landingMockupThird} alt="이미지3" />
-          <div>
-            <Image src={landingIconThird} alt="완료 아이콘" />
-            <span>
+          <div className="order-2 flex items-start justify-center px-25 sm:order-1 sm:px-60 md:pb-80 lg:pb-80 xl:pb-80">
+            <Image src={landingMockupSecond} alt="이미지2" />
+          </div>
+        </article>
+        <article className="grid w-full rounded-40 bg-slate-950 sm:gap-20 md:grid-cols-2 md:grid-rows-1 lg:grid-cols-2 lg:grid-rows-1 xl:grid-cols-2 xl:grid-rows-1">
+          <div className="flex items-start justify-center px-25 sm:px-60 md:pb-80 lg:pb-80 xl:pb-80">
+            <Image src={landingMockupThird} alt="이미지3" />
+          </div>
+          <div className="flex flex-col items-center justify-center sm:items-start sm:pb-50">
+            <Image
+              className="mr-70 sm:ml-65 xl:mr-110"
+              src={landingIconThird}
+              alt="완료 아이콘"
+            />
+            <span className="text-18-500 sm:ml-80 xl:text-24-500">
               할 일을 간편하게
               <br /> 체크해요
             </span>
           </div>
-        </div>
-      </div>
-      <div
+        </article>
+      </section>
+      <section
         className="bg-cover bg-center pb-343 pt-123 lg:pb-663 lg:pt-173 xl:pb-749 xl:pt-230"
         style={{
           backgroundImage: "url('/assets/images/img-landing-bottom.png')",
@@ -79,7 +97,7 @@ export default function Home() {
           <span>팀원 모두와 같은 방향,&nbsp;</span>
           <span>같은 속도로 나아가는 가장 쉬운 방법</span>
         </h4>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
