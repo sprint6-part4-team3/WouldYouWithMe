@@ -67,6 +67,11 @@ const config: Config = {
       },
     },
     fontSize: {
+      // landing
+      "40-600": ["40px", { lineHeight: "38px", fontWeight: "600" }],
+      "48-600": ["48px", { lineHeight: "38px", fontWeight: "600" }],
+      "64-600": ["64px", { lineHeight: "38px", fontWeight: "600" }],
+
       // 3xl (32px)
       "32-700": ["32px", { lineHeight: "38px", fontWeight: "700" }],
       "32-600": ["32px", { lineHeight: "38px", fontWeight: "600" }],

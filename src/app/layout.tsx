@@ -25,7 +25,7 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
     >
       <ToastContainer />
       <NavBar user={user} />
-      <main className="mx-16">{children}</main>
+      <main>{children}</main>
     </body>
   </html>
 );
