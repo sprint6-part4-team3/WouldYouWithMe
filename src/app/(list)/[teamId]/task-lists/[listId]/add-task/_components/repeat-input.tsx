@@ -24,7 +24,7 @@ const RepeatInput = forwardRef<HTMLInputElement>((props, ref) => {
             type="radio"
             value={value}
             ref={ref}
-            className="size-15 cursor-pointer appearance-none rounded-full border-2 border-solid border-white checked:border-8 checked:border-brand-primary"
+            className="size-15 cursor-pointer  accent-brand-primary"
             defaultChecked={index === 0}
             {...props}
           />
