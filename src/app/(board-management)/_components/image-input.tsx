@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -33,6 +35,7 @@ const ImageInput = () => {
   };
 
   const handleClickCancel = () => {
+    // FIXME: 사진 삭제 여부 모달이나 삭제되었다는 토스트 적용하면 좋을 듯
     resetField("image");
     setImgUrl(null);
     const imageInput = document.getElementById("image") as HTMLInputElement;
@@ -67,11 +70,11 @@ const ImageInput = () => {
               src={imgUrl}
               alt="게시물 등록한 이미지"
               fill
-              className="rounded-12 object-cover opacity-60"
+              className="rounded-12 object-cover opacity-50"
             />
             <IconXBig
               onClick={handleClickCancel}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer stroke-gray-400 hover:stroke-gray-200"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer stroke-white hover:stroke-gray-200"
             />
           </div>
         ) : (

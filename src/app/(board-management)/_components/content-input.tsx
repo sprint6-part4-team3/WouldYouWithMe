@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper, Input, TextArea } from "@/components/common";

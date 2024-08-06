@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper, Input } from "@/components/common";
@@ -16,7 +17,7 @@ const TokenInput = () => {
       label={
         <span>
           <span className="text-brand-tertiary">* </span>
-          참여 토큰 or 참여 링크
+          참여 토큰 or 참여 링크 (둘 중 아무거나 기획에 맟게)
         </span>
       }
       id="token"
