@@ -13,7 +13,7 @@ import { signUpSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { SignUpInput } from "@/types/auth";
 
-import signUp from "../signup/action";
+import signUp from "../sign-up/action";
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
