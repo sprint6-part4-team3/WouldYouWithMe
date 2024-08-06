@@ -1,5 +1,6 @@
+"use client";
+
 import { ComponentProps, forwardRef } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
 
 interface SelectButtonProp extends ComponentProps<"input"> {
   children: string;
@@ -8,27 +9,24 @@ interface SelectButtonProp extends ComponentProps<"input"> {
 }
 
 const SelectButton = forwardRef<HTMLInputElement, SelectButtonProp>(
-  ({ children, value, type, id, ...rest }, ref) => {
-    const a = 0;
-    return (
-      <div className="flex w-full items-center justify-center">
-        <input
-          id={id}
-          className="peer hidden"
-          type={type}
-          value={value}
-          ref={ref}
-          {...rest}
-        />
-        <label
-          className="flex size-65 cursor-pointer items-center justify-center rounded-12 bg-background-tertiary  peer-checked:bg-brand-primary"
-          htmlFor={id}
-        >
-          {children}
-        </label>
-      </div>
-    );
-  },
+  ({ children, value, type, id, ...rest }, ref) => (
+    <div className="flex w-full items-center justify-center">
+      <input
+        id={id}
+        className="peer hidden"
+        type={type}
+        value={value}
+        ref={ref}
+        {...rest}
+      />
+      <label
+        className="flex size-65 cursor-pointer items-center justify-center rounded-12 bg-background-tertiary  peer-checked:bg-brand-primary"
+        htmlFor={id}
+      >
+        {children}
+      </label>
+    </div>
+  ),
 );
 
 SelectButton.displayName = "SelectButton";

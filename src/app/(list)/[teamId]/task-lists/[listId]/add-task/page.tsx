@@ -24,6 +24,7 @@ const AddTask = ({ params, searchParams }: AddTaskProps) => {
   const initialDay = currentDate.getDay();
   return (
     <SidePage>
+      <h1 className="mt-16 text-18-500 md:text-20-700">할 일 추가</h1>
       <AddTaskForm
         currentTeamId={currentTeamId}
         initialDate={initialDate}

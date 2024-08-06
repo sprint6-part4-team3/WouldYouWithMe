@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { ErrorMessage, Input, PlusButton, TextArea } from "@/components/common";
+import { FieldWrapper, Input, PlusButton, TextArea } from "@/components/common";
 import newTaskSchema from "@/lib/schemas/task";
 import { NewTask } from "@/types/task-list";
 import convertStringArrayToNumberArray from "@/utils/convert-string-array-to-num";
@@ -40,7 +40,6 @@ const AddTaskForm = ({
     },
   });
   const selectedRepeat = watch("frequencyType");
-  const weekDays = watch("weekDays");
 
   const onSubmit: SubmitHandler<NewTask> = async (data) => {
     let numTypeWeekDays: number[];
@@ -59,27 +58,33 @@ const AddTaskForm = ({
     >
       <div className="flex flex-col gap-40">
         <div>
-          <Input
-            id="task"
-            type="text"
-            placeholder="할일 제목을 지어주세요"
-            {...register("name")}
-            isError={!!errors.name}
-          />
-          <ErrorMessage message={errors.name?.message} />
+          <FieldWrapper
+            id="name"
+            label="제목"
+            errorMessage={errors.name?.message}
+          >
+            <Input
+              id="name"
+              type="text"
+              placeholder="할일 제목을 지어주세요"
+              {...register("name")}
+              isError={!!errors.name}
+            />
+          </FieldWrapper>
         </div>
-        <TextArea
-          id="task-memo"
-          placeholder="메모를 입력해 주세요"
-          rows={7}
-          {...register("description")}
-        />
+        <FieldWrapper id="description" label="메모">
+          <TextArea
+            id="description"
+            placeholder="메모를 입력해 주세요"
+            rows={7}
+            {...register("description")}
+          />
+        </FieldWrapper>
         <RepeatInput {...register("frequencyType")} />
         {selectedRepeat === "WEEKLY" ? (
           <WeeklyOption
             register={register("weekDays")}
             defaultCheckDay={initialDay}
-            selected={weekDays}
           />
         ) : (
           <RepeatSign repeatOption={selectedRepeat} MonthlyDate={initialDate} />

@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 
 import IconButton from "../icon-button";
 
@@ -22,22 +22,33 @@ interface SidePageProp {
 
 const SidePage = ({ children }: SidePageProp) => {
   const router = useRouter();
+
+  const handleXButton = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    router.back();
+  };
+
   return (
-    <div className="fixed inset-0 flex justify-end">
-      <motion.div
-        initial={{ x: 800, opacity: 1 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        className="h-screen w-full bg-background-secondary px-40 pt-76 md:max-w-435 lg:max-w-779"
+    <AnimatePresence mode="wait">
+      <div
+        className="fixed inset-0 flex justify-end"
+        onClick={() => router.back()}
       >
-        <IconButton
-          variant="darkest"
-          icon="IconX"
-          onClick={() => router.back()}
-        />
-        <section className="size-full overflow-y-auto px-1">{children}</section>
-      </motion.div>
-    </div>
+        <motion.div
+          initial={{ x: 800, opacity: 1 }}
+          animate={{ x: 0, opacity: 1 }}
+          // exit={{ x: 800, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          className="h-screen w-full bg-background-secondary px-16 pt-76 md:w-9/12 md:px-24 lg:max-w-779 lg:px-40"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <IconButton variant="darkest" icon="IconX" onClick={handleXButton} />
+          <section className="size-full overflow-y-auto px-1">
+            {children}
+          </section>
+        </motion.div>
+      </div>
+    </AnimatePresence>
   );
 };
 
