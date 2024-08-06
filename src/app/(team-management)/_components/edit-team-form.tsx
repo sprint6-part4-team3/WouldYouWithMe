@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
-
 "use client";
+
+/* eslint-disable no-console */
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";

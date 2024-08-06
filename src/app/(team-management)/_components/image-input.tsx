@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import Image from "next/image";
 import { ChangeEvent, memo, useEffect, useState } from "react";
@@ -11,11 +13,6 @@ import {
 } from "@/public/assets/icons";
 import { TeamAddEditInput } from "@/types/team-management";
 
-/**
- * 이미지 삭제?
- * 피그마에서는 이미지 삭제하는 기능이 없음
- * 없어도 될까?
- */
 const ImageInput = memo(() => {
   const { setValue, resetField, watch } = useFormContext<TeamAddEditInput>();
 
