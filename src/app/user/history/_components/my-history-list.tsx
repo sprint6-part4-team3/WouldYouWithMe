@@ -1,6 +1,10 @@
 import React from "react";
 
-import { IconCheckBoxPrimary, IconKebab } from "@/public/assets/icons";
+import {
+  IconCheckBoxPrimary,
+  IconCheckPrimary,
+  IconKebab,
+} from "@/public/assets/icons";
 import { DayTasks } from "@/types/user-history/index";
 
 interface MyHistoryProps {
@@ -18,9 +22,8 @@ const MyHistory = ({ data }: MyHistoryProps) => (
             key={task.id}
             className="mb-10 flex items-center rounded-8 bg-background-secondary p-10"
           >
-            <IconCheckBoxPrimary className="mr-10 shrink-0" />
+            <IconCheckPrimary className="mr-10 shrink-0" />
             <span className="text-14-500 line-through">{task.name}</span>
-            <IconKebab className="ml-auto shrink-0" />
           </div>
         ))}
       </div>
