@@ -2,6 +2,8 @@ export { default as IconAlert } from "./icon-alert.svg";
 export { default as IconArrowLeft } from "./icon-arrow-left.svg";
 export { default as IconArrowRight } from "./icon-arrow-right.svg";
 export { default as IconCalendar } from "./icon-calendar.svg";
+export { default as IconCalendarArrowLeft } from "./icon-calendar-arrow-left.svg";
+export { default as IconCalendarArrowRight } from "./icon-calendar-arrow-right.svg";
 export { default as IconCheckCurrent } from "./icon-check-current.svg";
 export { default as IconCheckPrimary } from "./icon-check-primary.svg";
 export { default as IconCheckWhite } from "./icon-check-white.svg";

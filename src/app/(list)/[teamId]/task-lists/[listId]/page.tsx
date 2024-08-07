@@ -5,6 +5,7 @@ import { IconPlusCurrent } from "@/public/assets/icons";
 import { Task } from "@/types/task-list/index";
 
 import { TaskListNav, TaskNav, TasksContainer } from "./_components";
+import Calendar from "./_components/calendar";
 import mockData from "./_components/mock.json";
 
 interface TaskListProps {
