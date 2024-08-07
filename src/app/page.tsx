@@ -26,7 +26,7 @@ export default function Home() {
           Coworkers
         </h2>
         <Button
-          className="m-auto mt-421 h-45 w-343 rounded-full bg-gradient-to-r from-brand-primary to-brand-tertiary text-16-600 lg:mt-560 lg:h-48 lg:w-373 xl:mb-180 xl:mt-675 xl:w-373"
+          className="m-auto mt-421 h-45 w-300 rounded-full bg-gradient-to-r from-brand-primary to-brand-tertiary text-16-600 lg:mt-560 lg:h-48 lg:w-373 xl:mb-180 xl:mt-675 xl:w-373"
           variant="primary"
         >
           지금 시작하기
