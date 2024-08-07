@@ -3,8 +3,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { NavBar } from "@/components/common";
 import ToastContainer from "@/components/common/toast/container";
+import NavBar from "@/components/nav-bar";
 
 import LoginUserTestData from "./user.json";
 

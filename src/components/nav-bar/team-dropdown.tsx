@@ -4,7 +4,7 @@ import { useToggle } from "@/hooks";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { User } from "@/types/user";
 
-import DropDown from "../drop-down";
+import DropDown from "../common/drop-down";
 
 interface TeamDropdownProps {
   user: User;
