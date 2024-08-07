@@ -21,6 +21,7 @@ const ImageInput = memo(() => {
 
     if (file) {
       if (file.size > 10 * 1024 * 1024) {
+        e.target.value = "";
         setErrorMessage("이미지는 10MB 이하여야 합니다");
         resetField("image");
         setImgUrl(null);
