@@ -29,7 +29,6 @@ const AddTaskForm = ({
     register,
     handleSubmit,
     watch,
-    control,
     formState: { errors, isValid },
   } = useForm<NewTask>({
     resolver: zodResolver(newTaskSchema),

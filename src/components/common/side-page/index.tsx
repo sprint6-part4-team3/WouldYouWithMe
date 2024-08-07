@@ -1,8 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion, useAnimation } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 
 import IconButton from "../icon-button";
 
@@ -22,32 +22,46 @@ interface SidePageProp {
 
 const SidePage = ({ children }: SidePageProp) => {
   const router = useRouter();
+  const [isClosing, setIsClosing] = useState(false);
 
   const handleXButton = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    router.back();
+    setIsClosing(true);
+  };
+
+  const handleClose = () => {
+    setIsClosing(true);
+  };
+
+  const handleAnimationComplete = () => {
+    if (isClosing) {
+      router.back();
+    }
   };
 
   return (
-    <AnimatePresence mode="wait">
-      <div
-        className="fixed inset-0 flex justify-end"
-        onClick={() => router.back()}
-      >
-        <motion.div
-          initial={{ x: 800, opacity: 1 }}
-          animate={{ x: 0, opacity: 1 }}
-          // exit={{ x: 800, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className="h-screen w-full bg-background-secondary px-16 pt-76 md:w-9/12 md:px-24 lg:max-w-779 lg:px-40"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <IconButton variant="darkest" icon="IconX" onClick={handleXButton} />
-          <section className="size-full overflow-y-auto px-1">
-            {children}
-          </section>
-        </motion.div>
-      </div>
+    <AnimatePresence onExitComplete={handleAnimationComplete}>
+      {!isClosing && (
+        <div className="fixed inset-0 flex justify-end" onClick={handleClose}>
+          <motion.div
+            initial={{ x: 800, opacity: 1 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 800, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="h-screen w-full bg-background-secondary px-16 pt-76 md:w-9/12 md:px-24 lg:max-w-779 lg:px-40"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <IconButton
+              variant="darkest"
+              icon="IconX"
+              onClick={handleXButton}
+            />
+            <section className="size-full overflow-y-auto px-1">
+              {children}
+            </section>
+          </motion.div>
+        </div>
+      )}
     </AnimatePresence>
   );
 };
