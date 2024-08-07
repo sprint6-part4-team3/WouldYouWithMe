@@ -45,16 +45,16 @@ const Calendar = ({ currentDate }: CalendarProps) => {
   const days = eachDayOfInterval({ start: startWeek, end: endWeek });
 
   return (
-    <section className="h-258 w-282 rounded-24 bg-background-secondary p-16">
+    <section className="h-258 w-282 rounded-24 bg-background-tertiary p-16">
       <header className="mb-4 flex items-center justify-between">
         <IconButton
           variant="none"
           icon="IconCalendarArrowLeft"
           onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
         />
-        <h1 className="text-14-500 text-text-inverse">
+        <h3 className="text-14-500 text-text-inverse">
           {format(currentMonth, "MMMM yyyy")}
-        </h1>
+        </h3>
         <IconButton
           variant="none"
           icon="IconCalendarArrowRight"
