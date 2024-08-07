@@ -1,5 +1,3 @@
-/* eslint-disable import/no-cycle */
-
 "use client";
 
 import Link from "next/link";

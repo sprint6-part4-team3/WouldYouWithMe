@@ -1,5 +1,3 @@
-/* eslint-disable import/no-cycle */
-
 "use client";
 
 import { deleteCookie } from "cookies-next";

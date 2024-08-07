@@ -1,4 +1,3 @@
-export { default as NavBar } from "../nav-bar";
 export { default as AddListModalButton } from "./buttons/add-list-modal-button";
 export { default as Button } from "./buttons/button";
 export { default as CheckButton } from "./buttons/check-button";
