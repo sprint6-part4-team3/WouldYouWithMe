@@ -63,7 +63,7 @@ const ResetPasswordForm: React.FC = () => {
             placeholder={
               isMobile
                 ? "비밀번호를 입력해주세요"
-                : "비밀번호(영문, 숫자 포함, 12자 이내)를 입력해주세요."
+                : "비밀번호(영문, 숫자 포함, 최소 8자)를 입력해주세요."
             }
             {...register("password")}
             isError={!!errors.password}
