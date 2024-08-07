@@ -1,4 +1,4 @@
-import ResetPasswordForm from "../_components/reset-password-form";
+import ResetPasswordForm from "../_components/reset-password/reset-password-form";
 
 const ResetPassword = () => (
   <div className="flex w-full flex-col items-center justify-center">

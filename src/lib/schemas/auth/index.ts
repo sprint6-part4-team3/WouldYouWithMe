@@ -53,4 +53,37 @@ const emailSchema = z.object({
   email: z.string().email("이메일 형식으로 작성해 주세요."),
 });
 
-export { emailSchema, loginSchema, resetPasswordSchema, signUpSchema };
+const userSettingSchema = z.object({
+  image: z.string().optional(),
+  name: z.string().min(1, "이름은 필수 입력입니다."),
+  email: z
+    .string()
+    .min(1, "이메일은 필수 입력입니다.")
+    .email("이메일 형식으로 작성해 주세요."),
+  password: z.string().min(1, "비밀번호는 필수 입력입니다."),
+});
+
+const changePasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(1, "비밀번호를 입력해주세요.")
+      .regex(
+        /^[a-zA-Z0-9!@#$%^&*]+$/,
+        "비밀번호는 숫자, 영문, 특수문자로만 가능합니다.",
+      ),
+    newPasswordConfirmation: z.string().min(1, "비밀번호를 입력해주세요."),
+  })
+  .refine((data) => data.newPassword === data.newPasswordConfirmation, {
+    message: "비밀번호가 일치하지 않습니다.",
+    path: ["newPasswordConfirmation"],
+  });
+
+export {
+  changePasswordSchema,
+  emailSchema,
+  loginSchema,
+  resetPasswordSchema,
+  signUpSchema,
+  userSettingSchema,
+};

@@ -57,6 +57,7 @@ const config: Config = {
           default: "#64748B",
           inverse: "#FFFFFF",
           disabled: "#94A3B8",
+          danger: "#ef4444",
         },
         status: {
           danger: "#DC2626",

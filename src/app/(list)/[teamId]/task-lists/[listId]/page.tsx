@@ -5,6 +5,7 @@ import { IconPlusCurrent } from "@/public/assets/icons";
 import { Task } from "@/types/task-list/index";
 
 import { TaskListNav, TaskNav, TasksContainer } from "./_components";
+import Calendar from "./_components/calendar";
 import mockData from "./_components/mock.json";
 
 interface TaskListProps {
@@ -36,7 +37,7 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
         initialTasks={mockData as Task[]}
       />
       <Link
-        href={`/${currentTeamId}/task-lists/${currentListId}/create-task?date=${searchParams.date}`}
+        href={`/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
         className="group flex items-center gap-4 text-16-400 hover:text-brand-primary"
       >
         <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />

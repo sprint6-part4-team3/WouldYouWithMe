@@ -11,7 +11,7 @@ import ImageInput from "./image-input";
 import NameInput from "./name-input";
 import SubmitButton from "./submit-button";
 
-const AddTeamForm = () => {
+const CreateTeamForm = () => {
   const methods = useForm<TeamAddEditInput>({
     resolver: zodResolver(teamAddEditSchema),
     mode: "onBlur",
@@ -40,4 +40,4 @@ const AddTeamForm = () => {
   );
 };
 
-export default AddTeamForm;
+export default CreateTeamForm;

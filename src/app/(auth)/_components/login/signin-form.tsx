@@ -7,13 +7,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import signIn from "@/app/(auth)/login/actions";
 import { Button, FieldWrapper, Input } from "@/components/common";
 import { useToast } from "@/hooks";
 import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { SignInInput } from "@/types/auth";
-
-import signIn from "../login/actions";
 
 const SignInForm: React.FC = () => {
   const router = useRouter();

@@ -13,6 +13,24 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#22b8cf, #a3e635);
+  border-radius: 6px;
+  border: 3px solid #334155;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(#a3e635, #22b8cf);
+}
+
+::-webkit-scrollbar-track {
+  background-color: #334155;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -28,7 +46,9 @@ input:-webkit-autofill:active {
   border: 0.5px solid #4b5563 !important;
 }
 
-input {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   border: 0.5px solid #4b5563 !important;
 }
 

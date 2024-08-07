@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
 import { User } from "@/types/user";
@@ -28,7 +30,9 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
           position="top-50 right-0 lg:left-0"
         >
           <DropDown.Item>마이 히스토리</DropDown.Item>
-          <DropDown.Item>계정 설정</DropDown.Item>
+          <Link href="/user-setting">
+            <DropDown.Item>계정 설정</DropDown.Item>
+          </Link>
           <DropDown.Item>팀 참여</DropDown.Item>
           <DropDown.Item>로그아웃</DropDown.Item>
         </DropDown.Menu>

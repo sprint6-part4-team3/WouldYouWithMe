@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 
 import { NavBar } from "@/components/common";
 import ToastContainer from "@/components/common/toast/container";
+import ReactQueryProvider from "@/components/react-query-provider";
 
 import LoginUserTestData from "./user.json";
 
@@ -23,9 +24,11 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
     <body
       className={`${inter.className} min-w-330 dark:bg-background-primary dark:text-text-primary`}
     >
-      <ToastContainer />
-      <NavBar user={user} />
-      <main>{children}</main>
+      <ReactQueryProvider>
+        <ToastContainer />
+        <NavBar user={user} />
+        <main>{children}</main>
+      </ReactQueryProvider>
     </body>
   </html>
 );

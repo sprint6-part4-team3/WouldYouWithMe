@@ -11,7 +11,7 @@ const JoinTeamPage = () => (
     <JoinTeamForm />
     <p>
       팀을 생성하고 싶으신가요?
-      <Link className="ml-12 text-brand-primary underline" href="/addteam">
+      <Link className="ml-12 text-brand-primary underline" href="/create-team">
         팀 생성하기
       </Link>
     </p>
