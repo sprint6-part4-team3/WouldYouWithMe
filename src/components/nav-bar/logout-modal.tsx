@@ -1,10 +1,13 @@
-/* eslint-disable no-console */
+/* eslint-disable import/no-cycle */
 
 "use client";
 
+import { deleteCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button, Modal } from "@/components/common";
+import { useToast } from "@/hooks";
 
 interface LogoutModalProps {
   isOpen: boolean;
@@ -13,22 +16,23 @@ interface LogoutModalProps {
 
 const LogoutModal = ({ isOpen, onClose }: LogoutModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { success, error } = useToast();
+  const router = useRouter();
 
-  // NOTE - 로그아웃 api 예정
   const onSubmit = async () => {
     setIsLoading(true);
 
-    setTimeout(() => {
-      const success = true;
-
-      if (success) {
-        console.log("로그아웃 성공");
-      } else {
-        console.log("로그아웃 실패");
-      }
-
+    try {
+      deleteCookie("token");
+      deleteCookie("refreshToken");
+      success("로그아웃 성공");
+      router.push("/");
+    } catch (err) {
+      error("로그아웃 실패");
+    } finally {
       setIsLoading(false);
-    }, 1000);
+      onClose();
+    }
   };
 
   return (
