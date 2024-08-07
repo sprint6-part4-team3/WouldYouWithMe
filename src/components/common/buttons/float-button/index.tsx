@@ -5,7 +5,7 @@ import { ComponentProps, ReactNode } from "react";
 
 interface IconButtonProps extends ComponentProps<"button"> {
   children: string;
-  variant: "primary" | "white" | "danger" | "secondary" | "noFill";
+  variant: "primary" | "white" | "danger" | "secondary" | "noFill" | "cancel";
   Icon: ReactNode;
 }
 
@@ -35,6 +35,7 @@ interface IconButtonProps extends ComponentProps<"button"> {
   *   "danger"(빨간 배경색+ 하얀 글자) | 
   *   "secondary"(하얀 배경색+ 회색 글자)
   *   "noFill"(투명배경+primary 글자)
+  *   "cancel"(회원탈퇴)
   * @param className 기본적으로 넓이, 높이, 반응형 + 커스텀 
   * @param rest onClick,type 등 버튼 속성 사용 가능
   * @author ☯️채종민
@@ -62,6 +63,8 @@ const FloatButton = ({
           variant === "secondary",
         "border bg-transparent text-brand-primary border-primary hover:border-interaction-hover hover:text-interaction-hover disabled:border-interaction-inactive disabled:text-interaction-inactive":
           variant === "noFill",
+        "border border-transparent bg-transparent text-text-danger border-primary text-16-500":
+          variant === "cancel",
       },
       className,
     )}

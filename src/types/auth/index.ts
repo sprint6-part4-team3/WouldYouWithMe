@@ -10,6 +10,13 @@ export type SignUpInput = {
   passwordConfirmation: string;
 };
 
+export type UserSettingInput = {
+  image?: string;
+  name: string;
+  email: string;
+  password: string;
+};
+
 export type ResetPasswordInput = {
   password: string;
   passwordConfirmation: string;
@@ -18,4 +25,9 @@ export type ResetPasswordInput = {
 
 export type EmailInput = {
   email: string;
+};
+
+export type ChangePasswordInput = {
+  newPassword: string;
+  newPasswordConfirmation: string;
 };

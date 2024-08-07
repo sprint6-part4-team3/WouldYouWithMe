@@ -1,6 +1,6 @@
 "use server";
 
-import SignInForm from "../_components/signin-form";
+import SignInForm from "../_components/login/signin-form";
 
 const Login = () => (
   <div className="flex w-full flex-col items-center justify-center">

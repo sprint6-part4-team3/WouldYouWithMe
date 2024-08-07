@@ -30,6 +30,7 @@ export { default as IconProfile } from "./icon-profile.svg";
 export { default as IconProfileCurrent } from "./icon-profile-current.svg";
 export { default as IconProfileDesktop } from "./icon-profile-desktop.svg";
 export { default as IconRepeat } from "./icon-repeat.svg";
+export { default as IconSecession } from "./icon-secession.svg";
 export { default as IconTime } from "./icon-time.svg";
 export { default as IconToDo } from "./icon-todo.svg";
 export { default as IconToggle } from "./icon-toggle.svg";
