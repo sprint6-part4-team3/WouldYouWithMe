@@ -10,7 +10,6 @@ const meta: Meta<typeof Modal> = {
   component: Modal,
   tags: ["autodocs"],
   argTypes: {
-    isOpen: { control: "boolean" },
     onClose: { action: "닫힘" },
     title: { control: "text" },
     description: { control: "text" },
@@ -34,14 +33,15 @@ const ModalWrapper: React.FC<ModalProps> = (args) => {
       >
         모달 열기
       </button>
-      <Modal
-        {...args}
-        isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false);
-          args.onClose?.();
-        }}
-      />
+      {isOpen && (
+        <Modal
+          {...args}
+          onClose={() => {
+            setIsOpen(false);
+            args.onClose?.();
+          }}
+        />
+      )}
     </div>
   );
 };

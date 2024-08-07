@@ -45,7 +45,6 @@ const overlayVariants = {
  * 터치로 위 또는 아래로 드래그하여 닫을 수 있습니다.
  */
 const Drawer = ({
-  isOpen,
   onClose,
   title,
   description,
@@ -56,8 +55,31 @@ const Drawer = ({
 }: DrawerProps) => {
   const drawerRef = useRef<HTMLDivElement>(null);
   const [drawerHeight, setDrawerHeight] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   const titleMarginClass = description ? "mb-8" : "mb-24";
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  useEffect(() => {
+    if (drawerRef.current) {
+      setDrawerHeight(drawerRef.current.offsetHeight);
+    }
+  }, []);
+
+  const handleClose = () => {
+    setIsClosing(true);
+  };
+
+  const handleAnimationComplete = () => {
+    if (isClosing) {
+      onClose();
+    }
+  };
 
   const handleDragEnd = (
     event: MouseEvent | TouchEvent | PointerEvent,
@@ -67,22 +89,20 @@ const Drawer = ({
 
     if (info.velocity.y > 20 || info.offset.y > threshold) {
       // 아래로 빠르게 스와이프하거나 충분히 아래로 드래그
-      onClose();
+      handleClose();
     } else if (info.velocity.y < -20 || info.offset.y < -threshold) {
       // 위로 빠르게 스와이프하거나 충분히 위로 드래그
-      onClose();
+      handleClose();
     }
   };
 
-  useEffect(() => {
-    if (drawerRef.current) {
-      setDrawerHeight(drawerRef.current.offsetHeight);
-    }
-  }, [isOpen]);
+  if (!isMounted) {
+    return null;
+  }
 
   return createPortal(
-    <AnimatePresence>
-      {isOpen && (
+    <AnimatePresence onExitComplete={handleAnimationComplete}>
+      {!isClosing && (
         <motion.div
           ref={drawerRef}
           className="fixed inset-0 z-50 flex items-end justify-center bg-background-primary/50"
@@ -90,10 +110,9 @@ const Drawer = ({
           initial="hidden"
           animate="visible"
           exit="exit"
-          onClick={(e) => e.target === drawerRef.current && onClose()}
+          onClick={(e) => e.target === drawerRef.current && handleClose()}
         >
           <motion.div
-            ref={drawerRef}
             className={clsx(
               "z-51 w-full rounded-t-16 bg-background-secondary px-24 pb-32 pt-16 shadow-lg",
               className,
@@ -114,7 +133,7 @@ const Drawer = ({
             {showCloseButton && (
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 className="absolute right-16 top-16 text-text-secondary hover:text-text-primary"
               >
                 <IconX
