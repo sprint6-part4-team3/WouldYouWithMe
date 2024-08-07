@@ -11,7 +11,6 @@ const meta: Meta<typeof Drawer> = {
   component: Drawer,
   tags: ["autodocs"],
   argTypes: {
-    isOpen: { control: "boolean" },
     onClose: { action: "닫힘" },
     title: { control: "text" },
     description: { control: "text" },
@@ -41,14 +40,15 @@ const DrawerWrapper: React.FC<DrawerProps> = (args) => {
       >
         Drawer 열기
       </button>
-      <Drawer
-        {...args}
-        isOpen={isOpen}
-        onClose={() => {
-          setIsOpen(false);
-          args.onClose?.();
-        }}
-      />
+      {isOpen && (
+        <Drawer
+          {...args}
+          onClose={() => {
+            setIsOpen(false);
+            args.onClose?.();
+          }}
+        />
+      )}
     </div>
   );
 };

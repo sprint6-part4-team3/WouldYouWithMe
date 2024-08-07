@@ -2,7 +2,7 @@
 
 interface ErrorMessageProps {
   /** 에러메시지 입니다. */
-  message: string;
+  message?: string;
 }
 
 const ErrorMessage = ({ message }: ErrorMessageProps) => (
