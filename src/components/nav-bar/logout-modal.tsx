@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteCookie } from "cookies-next";
+import { deleteCookie } from "@/utils/next-cookies";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -21,8 +21,8 @@ const LogoutModal = ({ isOpen, onClose }: LogoutModalProps) => {
     setIsLoading(true);
 
     try {
-      deleteCookie("token");
-      deleteCookie("refreshToken");
+      await deleteCookie("token");
+      await deleteCookie("refreshToken");
       success("로그아웃 성공");
       router.push("/");
     } catch (err) {
