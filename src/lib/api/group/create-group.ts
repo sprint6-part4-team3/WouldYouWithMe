@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
+import { OTHER_TYPE_ERROR } from "@/constants/error-message";
 import {
   CreateEditTeamResponse,
   TeamAddEditInput,
@@ -19,7 +20,7 @@ const createGroup = async (data: TeamAddEditInput) => {
     if (axios.isAxiosError(error)) {
       throw error.response?.data;
     } else {
-      throw new Error("예상치 못한 에러가 발생하였습니다.");
+      throw new Error(OTHER_TYPE_ERROR);
     }
   }
 };
