@@ -14,9 +14,8 @@ const EditTeamPage = async ({ params }: { params: { teamId: number } }) => {
   try {
     const res = await getGroupData(teamId);
 
-    // 수정 권한이 없는 경우 404 페이지
     if (res.members[0]?.userId !== Number(userId)) {
-      redirect("/404");
+      return redirect("/not-found");
     }
 
     return (
@@ -29,7 +28,7 @@ const EditTeamPage = async ({ params }: { params: { teamId: number } }) => {
       </>
     );
   } catch (error) {
-    redirect("/500");
+    return redirect("/error");
   }
 };
 

@@ -7,6 +7,8 @@ import { ChangeEvent, memo, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper } from "@/components/common";
+import { IMAGE_SIZE_ERROR, IMAGE_TYPE_ERROR } from "@/constants/error-message";
+import MAX_IMAGE_SIZE from "@/constants/image-size";
 import imageUpload from "@/lib/api/image/image-upload";
 import {
   IconEdit,
@@ -31,15 +33,15 @@ const ImageInput = memo(() => {
 
     if (file) {
       if (!file.type.startsWith("image/")) {
-        setErrorMessage("이미지 파일만 업로드할 수 있습니다");
+        setErrorMessage(IMAGE_TYPE_ERROR);
         resetField("image");
         setImgUrl(null);
         e.target.value = "";
         return;
       }
 
-      if (file.size > 6 * 1024 * 1024) {
-        setErrorMessage("이미지는 6MB 이하여야 합니다");
+      if (file.size > MAX_IMAGE_SIZE) {
+        setErrorMessage(IMAGE_SIZE_ERROR);
         resetField("image");
         setImgUrl(null);
         e.target.value = "";

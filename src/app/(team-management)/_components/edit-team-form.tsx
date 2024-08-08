@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
+import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
 import { useToast } from "@/hooks";
 import editGroup from "@/lib/api/group/edit-group";
 import { teamAddEditSchema } from "@/lib/schemas/team-manage";
@@ -47,8 +48,8 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
         router.replace(`/${res.id}`);
       },
       onError: (error) => {
-        // FIXME: 얘는 존재하는 이름 에러 메시지 없음, 매니저님께 여쭤봐야지
-        if (error.message === "이미 존재하는 그룹 이름입니다.") {
+        // FIXME: 중복된 이름 에러 메시지 없음
+        if (error.message === DUPLICATE_TEAM_NAME) {
           methods.setError("name", {
             message: error.message,
           });
