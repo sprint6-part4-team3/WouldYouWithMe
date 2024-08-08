@@ -25,6 +25,9 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
 
   return (
     <>
+      <header className="mb-27">
+        <h1 className="text-20-700 text-text-primary">할 일</h1>
+      </header>
       <TaskNav currentDate={currentDate} />
       <TaskListNav
         currentTeamId={currentTeamId}
