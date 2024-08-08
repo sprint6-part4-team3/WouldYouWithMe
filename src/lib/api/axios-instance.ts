@@ -2,6 +2,7 @@
 import axios, { AxiosInstance } from "axios";
 
 import { deleteCookie, getCookie, setCookie } from "@/utils/next-cookie";
+import redirectTo from "@/utils/next-redirect";
 
 // authorization이라는 커스텀 속성 추가
 declare module "axios" {
@@ -64,6 +65,7 @@ instance.interceptors.response.use(
       } catch (refreshError) {
         await deleteCookie("refreshToken");
         await deleteCookie("token");
+        redirectTo("/login");
         return Promise.reject(refreshError);
       }
     }
