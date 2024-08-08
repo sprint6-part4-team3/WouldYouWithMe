@@ -23,6 +23,7 @@ const LogoutModal = ({ isOpen, onClose }: LogoutModalProps) => {
     try {
       await deleteCookie("token");
       await deleteCookie("refreshToken");
+      await deleteCookie("userId");
       success("로그아웃 성공");
       router.push("/");
     } catch (err) {
