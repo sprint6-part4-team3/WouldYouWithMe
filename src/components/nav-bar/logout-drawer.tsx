@@ -4,15 +4,15 @@ import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { Button, Modal } from "@/components/common";
+import { Button, Drawer } from "@/components/common";
 import { useToast } from "@/hooks";
 
-interface LogoutModalProps {
+interface LogoutDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const LogoutModal = ({ isOpen, onClose }: LogoutModalProps) => {
+const LogoutDrawer = ({ isOpen, onClose }: LogoutDrawerProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToast();
   const router = useRouter();
@@ -35,7 +35,7 @@ const LogoutModal = ({ isOpen, onClose }: LogoutModalProps) => {
 
   return (
     isOpen && (
-      <Modal
+      <Drawer
         onClose={onClose}
         title="로그아웃 하시겠어요?"
         className="h-171 w-384"
@@ -54,9 +54,9 @@ const LogoutModal = ({ isOpen, onClose }: LogoutModalProps) => {
             {isLoading ? "처리 중..." : "로그아웃"}
           </Button>
         </div>
-      </Modal>
+      </Drawer>
     )
   );
 };
 
-export default LogoutModal;
+export default LogoutDrawer;

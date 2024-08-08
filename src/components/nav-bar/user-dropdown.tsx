@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { useToggle } from "@/hooks";
+import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
 import { User } from "@/types/user";
 
 import DropDown from "../common/drop-down";
+import LogoutDrawer from "./logout-drawer";
 import LogoutModal from "./logout-modal";
 
 interface UserDropdownProps {
@@ -16,7 +17,9 @@ interface UserDropdownProps {
 
 const UserDropdown = ({ user }: UserDropdownProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const userDropdown = useToggle();
+  const isMobile = useIsMobile();
   const userNickname = user.nickname;
 
   const openModal = () => {
@@ -26,6 +29,15 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const openDrawer = () => {
+    setIsDrawerOpen(true);
+    userDropdown.handleOff();
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
   };
 
   return (
@@ -46,11 +58,16 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
             <DropDown.Item>계정 설정</DropDown.Item>
           </Link>
           <DropDown.Item>팀 참여</DropDown.Item>
-          <DropDown.Item onClick={openModal}>로그아웃</DropDown.Item>
+          <DropDown.Item onClick={isMobile ? openDrawer : openModal}>
+            로그아웃
+          </DropDown.Item>
         </DropDown.Menu>
       </DropDown>
-
-      <LogoutModal isOpen={isModalOpen} onClose={closeModal} />
+      {isMobile ? (
+        <LogoutDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
+      ) : (
+        <LogoutModal isOpen={isModalOpen} onClose={closeModal} />
+      )}
     </div>
   );
 };
