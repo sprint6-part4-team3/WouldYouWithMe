@@ -72,31 +72,30 @@ const ImageInput = memo(() => {
         accept=".png, .jpg, .jpeg"
         onChange={handleImage}
       />
-      <div className="w-70">
-        {imgUrl ? (
-          <div className="relative size-66">
-            <Image
-              src={imgUrl}
-              alt="팀 프로필 사진"
-              fill
-              style={{ objectFit: "cover", borderRadius: "50%" }}
-            />
-            <label htmlFor="image">
-              <IconEdit className="absolute -bottom-px -right-px cursor-pointer" />
-            </label>
-          </div>
-        ) : (
-          <div>
-            {isPending ? (
-              <LoadingSpinner width={66} height={66} />
-            ) : (
-              <label htmlFor="image" className="cursor-pointer">
-                {errorMessage ? <IconImageButtonError /> : <IconImageButton />}
+
+      {isPending ? (
+        <LoadingSpinner width={66} height={66} />
+      ) : (
+        <div className="w-70">
+          {imgUrl ? (
+            <div className="relative size-66">
+              <Image
+                src={imgUrl}
+                alt="팀 프로필 사진"
+                fill
+                style={{ objectFit: "cover", borderRadius: "50%" }}
+              />
+              <label htmlFor="image">
+                <IconEdit className="absolute -bottom-px -right-px cursor-pointer" />
               </label>
-            )}
-          </div>
-        )}
-      </div>
+            </div>
+          ) : (
+            <label htmlFor="image" className="cursor-pointer">
+              {errorMessage ? <IconImageButtonError /> : <IconImageButton />}
+            </label>
+          )}
+        </div>
+      )}
     </FieldWrapper>
   );
 });
