@@ -20,7 +20,7 @@ const TaskHeader = ({
   toggleDropdown,
   closeDropdown,
 }: TaskHeaderProps) => (
-  <div className="flex items-center justify-between text-18-600 text-text-primary">
+  <div className="mt-10 flex items-center justify-between text-18-600 text-text-primary">
     <span className={isCompleted ? "line-through" : ""}>{taskName}</span>
     <DropDown handleClose={closeDropdown}>
       <DropDown.Trigger onClick={toggleDropdown}>

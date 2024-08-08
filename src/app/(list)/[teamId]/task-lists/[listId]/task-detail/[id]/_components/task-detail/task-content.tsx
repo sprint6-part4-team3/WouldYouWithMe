@@ -22,7 +22,6 @@ interface TaskContentProps {
 }
 
 const TaskContent = ({ task }: TaskContentProps) => {
-  const router = useRouter();
   const taskDate = dayjs(task.date);
   const {
     value: isDropdownOpen,
@@ -36,8 +35,7 @@ const TaskContent = ({ task }: TaskContentProps) => {
   };
 
   return (
-    <div className="flex min-w-350 flex-col gap-16 p-12">
-      <IconX className="mb-16 cursor-pointer" onClick={() => router.back()} />
+    <div className="flex min-w-350 flex-col gap-16">
       {isCompleted && (
         <div className="flex items-center gap-2 text-14-600 text-brand-primary">
           <IconCheckPrimary />

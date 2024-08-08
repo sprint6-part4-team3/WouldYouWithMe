@@ -1,5 +1,6 @@
 import React from "react";
 
+import { SidePage } from "@/components/common";
 import { Comment, TaskDetailData } from "@/types/task-detail/index";
 
 import commentMock from "./_components/comments/comment-mock.json";
@@ -24,14 +25,14 @@ const TaskDetailPage = ({ params }: PageProps) => {
   }
 
   return (
-    <div>
+    <SidePage>
       <TaskContent task={taskData} />
       {comments.length > 0 ? (
         <CommentList comments={comments} />
       ) : (
         <EmptyComment />
       )}
-    </div>
+    </SidePage>
   );
 };
 export default TaskDetailPage;

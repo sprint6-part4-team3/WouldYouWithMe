@@ -55,6 +55,7 @@ const SidePage = ({ children }: SidePageProp) => {
               variant="darkest"
               icon="IconX"
               onClick={handleXButton}
+              className="p-0"
             />
             <section className="size-full overflow-y-auto px-1">
               {children}
