@@ -4,7 +4,7 @@ import { useToggle } from "@/hooks";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { User } from "@/types/user";
 
-import DropDown from "../drop-down";
+import DropDown from "../common/drop-down";
 
 interface TeamDropdownProps {
   user: User;
@@ -16,7 +16,7 @@ const TeamDropdown = ({ user }: TeamDropdownProps) => {
   const firstTeamName = teams[0].group.name;
 
   return (
-    <div className="mt-1 whitespace-nowrap text-16-500 text-text-primary">
+    <div className="mt-1 cursor-pointer whitespace-nowrap text-16-500 text-text-primary">
       <DropDown handleClose={teamDropdown.handleOff}>
         <DropDown.Trigger onClick={teamDropdown.handleToggle}>
           <div className="flex items-center">

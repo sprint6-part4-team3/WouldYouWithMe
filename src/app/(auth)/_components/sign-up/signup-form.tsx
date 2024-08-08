@@ -9,7 +9,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import signUp from "@/app/(auth)/sign-up/action";
 import { Button, FieldWrapper, Input } from "@/components/common";
-import { useToast } from "@/hooks";
+import { useIsMobile, useToast } from "@/hooks";
 import { signUpSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { SignUpInput } from "@/types/auth";
@@ -18,6 +18,8 @@ const SignUpForm: React.FC = () => {
   const router = useRouter();
   const { success, error } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+
+  const isMobile = useIsMobile();
 
   const {
     register,
@@ -57,7 +59,7 @@ const SignUpForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-350 md:w-450">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-315 md:w-470">
       <p className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
         회원가입
       </p>
@@ -98,7 +100,11 @@ const SignUpForm: React.FC = () => {
           <Input
             id="password"
             type="password"
-            placeholder="비밀번호를 입력해주세요"
+            placeholder={
+              isMobile
+                ? "비밀번호를 입력해주세요"
+                : "비밀번호(영문, 숫자, 특수문자 포함, 최소 8자)를 입력해주세요."
+            }
             {...register("password")}
             isError={!!errors.password}
           />
