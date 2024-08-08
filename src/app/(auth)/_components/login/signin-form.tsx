@@ -52,7 +52,7 @@ const SignInForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-350 md:w-450">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-315 md:w-470">
       <p className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
         로그인
       </p>

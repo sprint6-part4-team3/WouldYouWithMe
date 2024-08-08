@@ -1,20 +1,44 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
-import { useToggle } from "@/hooks";
+import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
 import { User } from "@/types/user";
 
-import DropDown from "../drop-down";
+import DropDown from "../common/drop-down";
+import LogoutDrawer from "./logout-drawer";
+import LogoutModal from "./logout-modal";
 
 interface UserDropdownProps {
   user: User;
 }
 
 const UserDropdown = ({ user }: UserDropdownProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const userDropdown = useToggle();
+  const isMobile = useIsMobile();
   const userNickname = user.nickname;
+
+  const openModal = () => {
+    setIsModalOpen(true);
+    userDropdown.handleOff();
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openDrawer = () => {
+    setIsDrawerOpen(true);
+    userDropdown.handleOff();
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+  };
 
   return (
     <div className="text-md-medium flex cursor-pointer items-center justify-center whitespace-nowrap text-text-primary">
@@ -34,9 +58,16 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
             <DropDown.Item>계정 설정</DropDown.Item>
           </Link>
           <DropDown.Item>팀 참여</DropDown.Item>
-          <DropDown.Item>로그아웃</DropDown.Item>
+          <DropDown.Item onClick={isMobile ? openDrawer : openModal}>
+            로그아웃
+          </DropDown.Item>
         </DropDown.Menu>
       </DropDown>
+      {isMobile ? (
+        <LogoutDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
+      ) : (
+        <LogoutModal isOpen={isModalOpen} onClose={closeModal} />
+      )}
     </div>
   );
 };

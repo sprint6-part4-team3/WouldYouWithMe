@@ -8,7 +8,7 @@ import { useIsMobile } from "@/hooks";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
 import { User } from "@/types/user";
 
-import IconButton from "../icon-button";
+import IconButton from "../common/icon-button";
 import NavSideBar from "./nav-sidebar";
 
 interface LogoProps {

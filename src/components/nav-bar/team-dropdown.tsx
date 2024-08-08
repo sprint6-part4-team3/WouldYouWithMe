@@ -1,23 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 import { useToggle } from "@/hooks";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { User } from "@/types/user";
 
-import DropDown from "../drop-down";
+import DropDown from "../common/drop-down";
 
 interface TeamDropdownProps {
   user: User;
 }
 
 const TeamDropdown = ({ user }: TeamDropdownProps) => {
-  const [teamNumber, setTeamNumber] = useState(0);
   const teamDropdown = useToggle();
   const teams = user.memberships;
-  const firstTeamName = teams[teamNumber].group.name;
+  const firstTeamName = teams[0].group.name;
 
   return (
     <div className="mt-1 cursor-pointer whitespace-nowrap text-16-500 text-text-primary">
@@ -33,12 +31,9 @@ const TeamDropdown = ({ user }: TeamDropdownProps) => {
           position="top-50 right-0"
           className="w-140"
         >
-          {teams.map((membership, index) => (
+          {teams.map((membership) => (
             <DropDown.Item
-              onClick={() => {
-                setTeamNumber(index);
-                teamDropdown.handleOff();
-              }}
+              onClick={teamDropdown.handleOff}
               key={membership.group.id}
             >
               <div className="flex items-center">
