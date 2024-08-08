@@ -3,8 +3,13 @@
 /* eslint-disable no-console */
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
+import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
+import { useToast } from "@/hooks";
+import editGroup from "@/lib/api/group/edit-group";
 import { teamAddEditSchema } from "@/lib/schemas/team-manage";
 import { TeamAddEditInput } from "@/types/team-management";
 
@@ -12,29 +17,47 @@ import ImageInput from "./image-input";
 import NameInput from "./name-input";
 import SubmitButton from "./submit-button";
 
-type TestTeamData = {
-  name: string;
-  image?: string;
-};
-
 interface EditTeamFormProps {
-  teamData: TestTeamData;
+  id: number;
+  name: string;
+  image: string | null;
 }
 
-const EditTeamForm = ({ teamData }: EditTeamFormProps) => {
+const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
+  const toast = useToast();
+  const router = useRouter();
+
   const methods = useForm<TeamAddEditInput>({
     resolver: zodResolver(teamAddEditSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
     defaultValues: {
-      name: teamData.name,
-      ...(teamData.image && { image: teamData.image }),
+      name,
+      ...(image && { image }),
     },
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: TeamAddEditInput) => editGroup(data, id),
+  });
+
   const handleSubmitTeam: SubmitHandler<TeamAddEditInput> = (data) => {
-    // TODO: API 연동 - 그룹 수정 patch 요청
-    console.log(data);
+    mutate(data, {
+      onSuccess: (res) => {
+        toast.success("그룹 정보가 수정되었습니다.");
+        router.replace(`/${res.id}`);
+      },
+      onError: (error) => {
+        // FIXME: 중복된 이름 에러 메시지 없음
+        if (error.message === DUPLICATE_TEAM_NAME) {
+          methods.setError("name", {
+            message: error.message,
+          });
+        } else {
+          toast.error(error.message);
+        }
+      },
+    });
   };
 
   return (
@@ -45,7 +68,7 @@ const EditTeamForm = ({ teamData }: EditTeamFormProps) => {
       >
         <ImageInput />
         <NameInput />
-        <SubmitButton type="edit" />
+        <SubmitButton type="edit" isPending={isPending} />
       </form>
     </FormProvider>
   );
