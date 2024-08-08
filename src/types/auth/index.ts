@@ -31,3 +31,7 @@ export type ChangePasswordInput = {
   newPassword: string;
   newPasswordConfirmation: string;
 };
+
+export type AccessToken = {
+  accessToken: string;
+};
