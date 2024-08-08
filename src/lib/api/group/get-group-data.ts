@@ -14,7 +14,7 @@ const getGroupData = async (id: number) => {
     return res.data;
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
-      throw e.response?.data.message;
+      throw e.response?.data;
     } else {
       throw new Error(OTHER_TYPE_ERROR);
     }
