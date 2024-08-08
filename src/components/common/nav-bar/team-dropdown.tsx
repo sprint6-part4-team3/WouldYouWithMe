@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { useState } from "react";
+
 import { useToggle } from "@/hooks";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { User } from "@/types/user";
@@ -11,12 +14,13 @@ interface TeamDropdownProps {
 }
 
 const TeamDropdown = ({ user }: TeamDropdownProps) => {
+  const [teamNumber, setTeamNumber] = useState(0);
   const teamDropdown = useToggle();
   const teams = user.memberships;
-  const firstTeamName = teams[0].group.name;
+  const firstTeamName = teams[teamNumber].group.name;
 
   return (
-    <div className="mt-1 whitespace-nowrap text-16-500 text-text-primary">
+    <div className="mt-1 cursor-pointer whitespace-nowrap text-16-500 text-text-primary">
       <DropDown handleClose={teamDropdown.handleOff}>
         <DropDown.Trigger onClick={teamDropdown.handleToggle}>
           <div className="flex items-center">
@@ -29,11 +33,21 @@ const TeamDropdown = ({ user }: TeamDropdownProps) => {
           position="top-50 right-0"
           className="w-140"
         >
-          {teams.map((membership) => (
-            <DropDown.Item key={membership.group.id}>
+          {teams.map((membership, index) => (
+            <DropDown.Item
+              onClick={() => {
+                setTeamNumber(index);
+                teamDropdown.handleOff();
+              }}
+              key={membership.group.id}
+            >
               <div className="flex items-center">
                 <div className="ml-12 size-32 rounded-md bg-point-blue" />
-                <span className="ml-12">{membership.group.name}</span>
+                <span className="ml-12">
+                  <Link href={`/team${membership.group.id}`}>
+                    {membership.group.name}
+                  </Link>
+                </span>
               </div>
             </DropDown.Item>
           ))}
