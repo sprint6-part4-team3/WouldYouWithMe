@@ -1,11 +1,11 @@
 "use client";
 
-import { deleteCookie } from "@/utils/next-cookies";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button, Drawer } from "@/components/common";
 import { useToast } from "@/hooks";
+import { deleteCookie } from "@/utils/next-cookies";
 
 interface LogoutDrawerProps {
   isOpen: boolean;
