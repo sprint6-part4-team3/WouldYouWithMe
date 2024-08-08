@@ -41,7 +41,7 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
   };
 
   return (
-    <div className="text-md-medium flex items-center justify-center whitespace-nowrap text-text-primary">
+    <div className="text-md-medium flex cursor-pointer items-center justify-center whitespace-nowrap text-text-primary">
       <DropDown handleClose={userDropdown.handleOff}>
         <DropDown.Trigger onClick={userDropdown.handleToggle}>
           <div className="flex items-center">
