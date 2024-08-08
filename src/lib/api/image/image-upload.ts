@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
+import { OTHER_TYPE_ERROR } from "@/constants/error-message";
+
 import instance from "../axios-instance";
 
 export type ImageResponse = {
@@ -25,7 +27,7 @@ const imageUpload = async (image: File) => {
     if (axios.isAxiosError(error)) {
       throw error;
     } else {
-      throw new Error("예상치 못한 에러가 발생하였습니다.");
+      throw new Error(OTHER_TYPE_ERROR);
     }
   }
 };
