@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import signUp from "@/app/(auth)/sign-up/action";
 import { Button, FieldWrapper, Input } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
+import signUp from "@/lib/api/auth/sign-up";
 import { signUpSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { SignUpInput } from "@/types/auth";

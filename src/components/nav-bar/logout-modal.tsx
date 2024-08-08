@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { Button, Modal } from "@/components/common";
 import { useToast } from "@/hooks";
-import { deleteCookie } from "@/utils/next-cookies";
+import { deleteCookie } from "@/utils/next-cookie";
 
 interface LogoutModalProps {
   isOpen: boolean;
