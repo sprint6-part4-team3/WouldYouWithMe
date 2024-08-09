@@ -1,18 +1,38 @@
-"use server";
+"use client";
 
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
+import getUserData from "@/lib/api/nav-bar/team-dropdown";
 import { User } from "@/types/user";
 
 import Logo from "./logo";
 import TeamDropdown from "./team-dropdown";
 import UserDropdown from "./user-dropdown";
 
-interface NavBarProps {
-  user: User | null;
-}
+const fetchUserData = async (): Promise<User> => {
+  const response = await getUserData();
+  return response;
+};
 
-const NavBar = ({ user }: NavBarProps) => {
+const NavBar = () => {
+  const {
+    data: user,
+    error,
+    isLoading,
+  } = useQuery<User>({
+    queryKey: ["userData"],
+    queryFn: fetchUserData,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading data</div>;
+  }
+
   const renderContent = () => {
     if (user) {
       const hasMemberships = user.memberships.length > 0;
@@ -33,7 +53,7 @@ const NavBar = ({ user }: NavBarProps) => {
       );
     }
 
-    return <Logo user={user} />;
+    return <Logo />;
   };
 
   return (

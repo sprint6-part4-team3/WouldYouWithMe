@@ -5,15 +5,13 @@
 import axios from "axios";
 
 import { OTHER_TYPE_ERROR } from "@/constants/error-message";
-import { Group } from "@/types/user";
+import { User } from "@/types/user";
 
 import instance from "../axios-instance";
 
-const getTeamData = async (): Promise<Group[]> => {
+const getUserData = async (): Promise<User> => {
   try {
-    const response = await instance.get<Group[]>(`/user/groups`);
-
-    console.log("Team Data:", response.data);
+    const response = await instance.get<User>(`/user`);
 
     return response.data;
   } catch (e: unknown) {
@@ -25,4 +23,4 @@ const getTeamData = async (): Promise<Group[]> => {
   }
 };
 
-export default getTeamData;
+export default getUserData;

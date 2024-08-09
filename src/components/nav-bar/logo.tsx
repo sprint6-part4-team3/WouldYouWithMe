@@ -12,10 +12,10 @@ import IconButton from "../common/icon-button";
 import NavSideBar from "./nav-sidebar";
 
 interface LogoProps {
-  user: User | null;
+  user?: User | null;
 }
 
-const Logo = ({ user }: LogoProps) => {
+const Logo = ({ user = null }: LogoProps) => {
   const isMobile = useIsMobile();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
