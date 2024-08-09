@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
 import { BoardAddEditInput } from "@/types/board/add-edit";
 
-import EditBoardForm from "./edit-board-form"; // 올바른 상대 경로
+import EditBoardForm from "./edit-board-form";
 
 const EditBoardPage = async ({ params }: { params: { boardId: number } }) => {
   const { boardId } = params;
@@ -28,7 +28,7 @@ const EditBoardPage = async ({ params }: { params: { boardId: number } }) => {
       ...(res.image && { image: res.image }),
     };
 
-    return <EditBoardForm initialData={initialData} />;
+    return <EditBoardForm initialData={initialData} boardId={boardId} />;
   } catch (error) {
     return redirect("/error");
   }

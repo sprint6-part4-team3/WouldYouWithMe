@@ -11,13 +11,13 @@ export type BoardAddEditInput = {
   image?: string;
 };
 
-export type BoardCreateRequest = {
+export type BoardCreateEditRequest = {
   title: string;
   content: string;
   image?: string;
 };
 
-export type BoardCreateResponse = {
+export type BoardCreateEditResponse = {
   updatedAt: string | Date;
   createdAt: string | Date;
   likeCount: number;

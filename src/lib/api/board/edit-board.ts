@@ -8,11 +8,11 @@ import {
 
 import instance from "../axios-instance";
 
-// 게시글 작성 POST 요청
-const createBoard = async (data: BoardCreateEditRequest) => {
+// 게시글 수정 PATCH 요청
+const editBoard = async (data: BoardCreateEditRequest, id: number) => {
   try {
-    const res: AxiosResponse<BoardCreateEditResponse> = await instance.post(
-      `/articles`,
+    const res: AxiosResponse<BoardCreateEditResponse> = await instance.patch(
+      `/articles/${id}`,
       data,
     );
     return res.data;
@@ -25,4 +25,4 @@ const createBoard = async (data: BoardCreateEditRequest) => {
   }
 };
 
-export default createBoard;
+export default editBoard;

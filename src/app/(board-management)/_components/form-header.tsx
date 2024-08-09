@@ -38,7 +38,7 @@ const BoardFormHeader = ({ type, isPending = false }: BoardFormHeaderProps) => {
           variant="primary"
           className="h-32 w-74 md:h-48 md:w-184"
         >
-          등록
+          {type === "write" ? "작성" : "수정"}
         </Button>
       )}
     </div>

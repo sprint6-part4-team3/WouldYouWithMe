@@ -8,7 +8,10 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useToast } from "@/hooks";
 import createBoard from "@/lib/api/board/create-board";
 import boardAddEditSchema from "@/lib/schemas/board";
-import { BoardAddEditInput, BoardCreateRequest } from "@/types/board/add-edit";
+import {
+  BoardAddEditInput,
+  BoardCreateEditRequest,
+} from "@/types/board/add-edit";
 
 import ContentInput from "../_components/content-input";
 import BoardFormHeader from "../_components/form-header";
@@ -34,7 +37,7 @@ const CreateBoardPage = () => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: BoardCreateRequest) => createBoard(data),
+    mutationFn: (data: BoardCreateEditRequest) => createBoard(data),
   });
 
   const handleSubmitBoard: SubmitHandler<BoardAddEditInput> = (data) => {
