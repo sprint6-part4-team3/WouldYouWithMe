@@ -1,7 +1,9 @@
+"use server";
+
 import axios from "axios";
+import { cookies } from "next/headers";
 
 import instance from "@/lib/api/axios-instance";
-import { setCookie } from "@/utils/next-cookie";
 
 const signUp = async (
   email: string,
@@ -20,8 +22,8 @@ const signUp = async (
     const { data } = response;
 
     if (response.status === 201) {
-      await setCookie("token", data.accessToken);
-      await setCookie("refreshToken", data.refreshToken);
+      cookies().set("token", data.accessToken);
+      cookies().set("refreshToken", data.refreshToken);
 
       return {
         success: true,

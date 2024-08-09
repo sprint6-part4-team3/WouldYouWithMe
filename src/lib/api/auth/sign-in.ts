@@ -1,18 +1,23 @@
-import axios from "axios";
+"use server";
 
-import instance from "@/lib/api/axios-instance";
-import { setCookie } from "@/utils/next-cookie";
+import axios from "axios";
+import { cookies } from "next/headers";
+
+import instance from "../axios-instance";
 
 const signIn = async (email: string, password: string) => {
   try {
-    const response = await instance.post(`/auth/signIn`, { email, password });
+    const response = await instance.post(`/auth/signIn`, {
+      email,
+      password,
+    });
 
     const { data } = response;
 
     if (response.status === 200) {
-      await setCookie("token", data.accessToken);
-      await setCookie("refreshToken", data.refreshToken);
-      await setCookie("userId", data.user.id);
+      cookies().set("token", data.accessToken);
+      cookies().set("refreshToken", data.refreshToken);
+      cookies().set("userId", data.user.id);
 
       return { success: true };
     }
