@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { useToggle } from "@/hooks";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { User } from "@/types/user";
@@ -32,7 +34,19 @@ const TeamDropdown = ({ user }: TeamDropdownProps) => {
           {teams.map((membership) => (
             <DropDown.Item key={membership.group.id}>
               <div className="flex items-center">
-                <div className="ml-12 size-32 rounded-md bg-point-blue" />
+                {membership.group.image ? (
+                  <div className="relative ml-12 size-32">
+                    <Image
+                      src={membership.group.image}
+                      alt={membership.group.name}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-md"
+                    />
+                  </div>
+                ) : (
+                  <div className="ml-12 size-32 rounded-md bg-point-blue" />
+                )}
                 <span className="ml-12">{membership.group.name}</span>
               </div>
             </DropDown.Item>
