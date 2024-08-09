@@ -16,7 +16,11 @@ const BoardPage = async ({ params }: { params: { boardId: number } }) => {
 
     return (
       <>
-        <BoardDetail boardData={res} userId={Number(userId)} />
+        <BoardDetail
+          boardData={res}
+          userId={Number(userId)}
+          boardId={boardId}
+        />
         <AddComment />
         <CommentList commentListData={CommentTestData} />
       </>

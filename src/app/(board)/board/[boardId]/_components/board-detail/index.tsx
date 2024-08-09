@@ -11,9 +11,10 @@ import BoardDropDown from "./board-drop-down";
 interface BoardDetailProps {
   boardData: BoardResponse;
   userId: number;
+  boardId: number;
 }
 
-const BoardDetail = ({ boardData, userId }: BoardDetailProps) => {
+const BoardDetail = ({ boardData, userId, boardId }: BoardDetailProps) => {
   const parsedContent = JSON.parse(boardData.content);
 
   return (
@@ -22,7 +23,7 @@ const BoardDetail = ({ boardData, userId }: BoardDetailProps) => {
         <h1 className="text-20-500 text-text-secondary md:text-24-500">
           {boardData.title}
         </h1>
-        {userId === boardData.writer.id && <BoardDropDown />}
+        {userId === boardData.writer.id && <BoardDropDown boardId={boardId} />}
       </div>
 
       <div className="my-16 h-1 w-full bg-border-primary/10" />
