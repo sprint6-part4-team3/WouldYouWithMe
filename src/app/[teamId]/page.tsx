@@ -1,4 +1,10 @@
-import { GroupTask } from "@/types/group";
+"use client";
+
+import { useEffect, useState } from "react";
+
+import getGroupData from "@/lib/api/group/get-group-data";
+import { LoadingSpinner } from "@/public/assets/icons";
+import { GroupResponse, GroupTask } from "@/types/group";
 import { GroupMember } from "@/types/user";
 
 import Empty from "./_components/empty";
@@ -6,23 +12,48 @@ import MemberBox from "./_components/member";
 import ReportBox from "./_components/report";
 import TeamCardBox from "./_components/team-card";
 import TodoListBox from "./_components/todo-list";
-// json test data
-import TeamTestData from "./team.json";
 
-const TeamPage = () => {
-  const members: GroupMember[] = TeamTestData.members as GroupMember[];
-  const tasks: GroupTask[] = TeamTestData.taskLists as GroupTask[];
-  const name: string = TeamTestData.name as string;
-  const teamId: number = TeamTestData.id as number;
+const TeamPage = ({ params }: { params: { teamId: number } }) => {
+  const [userData, setUserDate] = useState<GroupResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { teamId } = params;
 
-  // 빈배열이면 Empty 화면, 임시로 아무값 넣음
-  const MembershipsTestData = [1];
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res: GroupResponse = await getGroupData(teamId);
+        setUserDate(res);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("error:", e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  return MembershipsTestData.length === 0 ? (
-    <Empty />
-  ) : (
+    fetchUserData();
+  }, [teamId]);
+
+  if (isLoading) {
+    // 임시 로딩 화면
+    return (
+      <div className="m-auto mt-200 flex items-center justify-center gap-10">
+        <LoadingSpinner width={30} height={30} />
+        <div>Loading...</div>
+      </div>
+    );
+  }
+  if (!userData) {
+    return <Empty />;
+  }
+
+  const members: GroupMember[] = userData.members as GroupMember[];
+  const tasks: GroupTask[] = userData.taskLists as GroupTask[];
+  const name: string = userData.name as string;
+
+  return (
     <>
-      <TeamCardBox teamName={name} />
+      <TeamCardBox teamName={name} teamId={teamId} />
       <TodoListBox taskList={tasks} teamId={teamId} />
       <ReportBox taskList={tasks} />
       <MemberBox memberList={members} />
