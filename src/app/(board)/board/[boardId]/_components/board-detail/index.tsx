@@ -7,6 +7,7 @@ import { BoardResponse } from "@/types/board";
 import formatBoardDate from "@/utils/format-board-date";
 
 import BoardDropDown from "./board-drop-down";
+import CopyTeamToken from "./copy-team-token";
 
 interface BoardDetailProps {
   boardData: BoardResponse;
@@ -51,6 +52,8 @@ const BoardDetail = ({ boardData, userId, boardId }: BoardDetailProps) => {
           </div>
         </div>
       </div>
+
+      <CopyTeamToken token={parsedContent.token} />
 
       {boardData.image && (
         <div className="mt-40 flex">
