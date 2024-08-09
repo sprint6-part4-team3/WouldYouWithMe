@@ -1,21 +1,39 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-import { Button } from "@/components/common";
+import { Button, FloatButton } from "@/components/common";
+import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
 import { IconHeart, IconProfile } from "@/public/assets/icons";
 import { BoardResponse } from "@/types/board";
 import formatBoardDate from "@/utils/format-board-date";
 
 import BoardDropDown from "./board-drop-down";
+import BoardLike from "./board-like";
 import CopyTeamToken from "./copy-team-token";
 
 interface BoardDetailProps {
-  boardData: BoardResponse;
   userId: number;
   boardId: number;
 }
 
-const BoardDetail = ({ boardData, userId, boardId }: BoardDetailProps) => {
+const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
+  const { data: boardData, error } = useQuery({
+    queryKey: ["board", boardId],
+    queryFn: () => getBoardDetailData(boardId),
+  });
+
+  if (!boardData) {
+    return redirect("/not-found");
+  }
+
+  if (error) {
+    return redirect("/error");
+  }
+
   const parsedContent = JSON.parse(boardData.content);
 
   return (
@@ -45,12 +63,12 @@ const BoardDetail = ({ boardData, userId, boardId }: BoardDetailProps) => {
             <span className="text-text-default">(수정됨)</span>
           )}
         </div>
-        <div className="flex items-center gap-8 text-12-400 text-text-disabled md:text-14-400">
+        {/* <div className="flex items-center gap-8 text-12-400 text-text-disabled md:text-14-400">
           <div className="flex gap-4">
             <IconHeart />
             <span>{boardData.likeCount}</span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <CopyTeamToken token={parsedContent.token} />
@@ -71,7 +89,13 @@ const BoardDetail = ({ boardData, userId, boardId }: BoardDetailProps) => {
         {parsedContent.content}
       </p>
 
-      <div className="mb-24 flex justify-center">
+      <div className="mb-24 flex items-center justify-center gap-24">
+        <BoardLike
+          isLiked={boardData.isLiked}
+          boardId={boardId}
+          likeCount={boardData.likeCount}
+        />
+
         <Link href="/boards">
           <Button
             className="h-36 w-100 text-14 md:h-48 md:w-120 md:text-16"
