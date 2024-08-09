@@ -16,8 +16,7 @@ const TokenInput = () => {
     <FieldWrapper
       label={
         <span>
-          <span className="text-brand-tertiary">* </span>
-          참여 토큰 or 참여 링크 (둘 중 아무거나 기획에 맟게)
+          <span className="text-brand-tertiary">* </span>팀 참여 토큰
         </span>
       }
       id="token"

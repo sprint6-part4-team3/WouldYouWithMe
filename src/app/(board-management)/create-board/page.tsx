@@ -1,12 +1,14 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
+import { useToast } from "@/hooks";
+import createBoard from "@/lib/api/board/create-board";
 import boardAddEditSchema from "@/lib/schemas/board";
-import { BoardAddEditInput } from "@/types/board/add-edit";
+import { BoardAddEditInput, BoardCreateRequest } from "@/types/board/add-edit";
 
 import ContentInput from "../_components/content-input";
 import BoardFormHeader from "../_components/form-header";
@@ -15,6 +17,9 @@ import TitleInput from "../_components/title-input";
 import TokenInput from "../_components/token-input";
 
 const CreateBoardPage = () => {
+  const toast = useToast();
+  const router = useRouter();
+
   const methods = useForm<BoardAddEditInput>({
     resolver: zodResolver(boardAddEditSchema),
     mode: "onBlur",
@@ -23,14 +28,16 @@ const CreateBoardPage = () => {
       title: "",
       content: {
         content: "",
-        // link: "",
         token: "",
       },
     },
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: BoardCreateRequest) => createBoard(data),
+  });
+
   const handleSubmitBoard: SubmitHandler<BoardAddEditInput> = (data) => {
-    // TODO: API 연동 - 게시물 작성 post 요청
     const contentString = JSON.stringify(data.content);
 
     const submitData = {
@@ -38,7 +45,15 @@ const CreateBoardPage = () => {
       content: contentString,
     };
 
-    console.log(submitData);
+    mutate(submitData, {
+      onSuccess: (res) => {
+        toast.success("게시물이 작성되었습니다.");
+        router.replace(`/board/${res.id}`);
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
   };
 
   return (
@@ -47,7 +62,7 @@ const CreateBoardPage = () => {
         onSubmit={methods.handleSubmit(handleSubmitBoard)}
         className="my-40"
       >
-        <BoardFormHeader type="write" />
+        <BoardFormHeader type="write" isPending={isPending} />
         <div className="flex flex-col gap-40">
           <TitleInput />
           <TokenInput />
