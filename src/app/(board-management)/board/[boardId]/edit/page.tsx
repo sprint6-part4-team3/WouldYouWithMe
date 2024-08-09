@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import boardAddEditSchema from "@/lib/schemas/article";
-import { BoardAddEditInput } from "@/types/article/add-edit";
+import { BoardAddEditInput } from "@/types/board/add-edit";
 
 import ContentInput from "../../../_components/content-input";
 import BoardFormHeader from "../../../_components/form-header";
