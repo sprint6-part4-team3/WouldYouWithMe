@@ -7,7 +7,7 @@ import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper } from "@/components/common";
 import { IconPlusBig, IconXBig } from "@/public/assets/icons";
-import { BoardAddEditInput } from "@/types/article/add-edit";
+import { BoardAddEditInput } from "@/types/board/add-edit";
 
 const ImageInput = () => {
   const { setValue, resetField, watch } = useFormContext<BoardAddEditInput>();

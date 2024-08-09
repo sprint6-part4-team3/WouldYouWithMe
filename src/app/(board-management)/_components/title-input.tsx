@@ -3,7 +3,7 @@
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper, Input } from "@/components/common";
-import { BoardAddEditInput } from "@/types/article/add-edit";
+import { BoardAddEditInput } from "@/types/board/add-edit";
 
 const TitleInput = () => {
   const {

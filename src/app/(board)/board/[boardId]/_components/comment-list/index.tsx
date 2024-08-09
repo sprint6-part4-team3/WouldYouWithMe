@@ -1,10 +1,10 @@
-import { ArticleCommentListResponse } from "@/types/article/comment";
+import { BoardCommentListResponse } from "@/types/board/comment";
 
 import Comment from "./comment";
 import EmptyComment from "./empty-comment";
 
 interface CommentListProps {
-  commentListData: ArticleCommentListResponse;
+  commentListData: BoardCommentListResponse;
 }
 
 const CommentList = ({ commentListData }: CommentListProps) => (
