@@ -6,7 +6,10 @@ const boardContentTypeSchema = z.object({
 });
 
 const boardAddEditSchema = z.object({
-  title: z.string().min(1, "게시글 제목은 필수 입력입니다."),
+  title: z
+    .string()
+    .min(1, "게시글 제목은 필수 입력입니다.")
+    .max(200, "게시물 제목은 200자를 넘을 수 없습니다."),
   content: boardContentTypeSchema,
   image: z.string().optional(),
 });
