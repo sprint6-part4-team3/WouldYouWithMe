@@ -1,16 +1,19 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { useToast } from "@/hooks";
 
 const CopyTeamToken = ({ token }: { token: string }) => {
   const toast = useToast();
+  const router = useRouter();
 
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText(token)
       .then(() => {
+        router.push("/join-team");
         toast.success("토큰이 복사되었습니다.");
-        // 이러고 팀 참여하기 페이지로 가면 좋을까요?
       })
       .catch(() => {
         toast.error("토큰이 복사되지 않았습니다.");
