@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-import getUserData from "@/lib/api/nav-bar/team-dropdown";
+import getUserData from "@/lib/api/nav-bar/get-user";
 import { User } from "@/types/user";
 
 import Logo from "./logo";
@@ -16,22 +16,10 @@ const fetchUserData = async (): Promise<User> => {
 };
 
 const NavBar = () => {
-  const {
-    data: user,
-    error,
-    isLoading,
-  } = useQuery<User>({
+  const { data: user } = useQuery<User>({
     queryKey: ["userData"],
     queryFn: fetchUserData,
   });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error loading data</div>;
-  }
 
   const renderContent = () => {
     if (user) {
@@ -43,7 +31,7 @@ const NavBar = () => {
             <Logo user={user} />
             <div className="hidden items-center gap-20 md:flex">
               {hasMemberships && <TeamDropdown user={user} />}
-              <Link href="/" className="text-text-primary">
+              <Link href="/board" className="text-text-primary">
                 자유게시판
               </Link>
             </div>

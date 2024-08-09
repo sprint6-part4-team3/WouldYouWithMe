@@ -52,7 +52,7 @@ const TodoListCard = ({ children, color, link, tasks }: TodoListCardProps) => {
       <div className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`} />
       <Link
         href={link}
-        className="z-10 flex flex-1 items-center justify-between"
+        className="z-5 flex flex-1 items-center justify-between"
       >
         <span className="text-14-500">{children}</span>
         <div className="flex items-center gap-4 rounded-full bg-background-primary px-8 py-4">

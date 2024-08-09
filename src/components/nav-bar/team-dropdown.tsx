@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { useToggle } from "@/hooks";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
@@ -32,30 +33,39 @@ const TeamDropdown = ({ user }: TeamDropdownProps) => {
           className="w-140"
         >
           {teams.map((membership) => (
-            <DropDown.Item key={membership.group.id}>
-              <div className="flex items-center">
+            <Link
+              key={membership.group.id}
+              href={`/team/${membership.group.id}`}
+            >
+              <DropDown.Item onClick={teamDropdown.handleOff}>
                 {membership.group.image ? (
-                  <div className="relative ml-12 size-32">
-                    <Image
-                      src={membership.group.image}
-                      alt={membership.group.name}
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-md"
-                    />
+                  <div className="flex items-center">
+                    <div className="relative ml-12 size-32">
+                      <Image
+                        src={membership.group.image}
+                        alt={membership.group.name}
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-md"
+                      />
+                    </div>
+                    <span className="ml-12">{membership.group.name}</span>
                   </div>
                 ) : (
-                  <div className="ml-12 size-32 rounded-md bg-point-blue" />
+                  <div className="flex items-center justify-center">
+                    <span>{membership.group.name}</span>
+                  </div>
                 )}
-                <span className="ml-12">{membership.group.name}</span>
+              </DropDown.Item>
+            </Link>
+          ))}
+          <Link href="/create-team">
+            <DropDown.Item onClick={teamDropdown.handleOff}>
+              <div className="flex items-center justify-center">
+                <IconPlusCurrent className="mr-5 stroke-white" />팀 생성하기
               </div>
             </DropDown.Item>
-          ))}
-          <DropDown.Item>
-            <div className="flex items-center justify-center">
-              <IconPlusCurrent className="mr-5 stroke-white" />팀 추가하기
-            </div>
-          </DropDown.Item>
+          </Link>
         </DropDown.Menu>
       </DropDown>
     </div>

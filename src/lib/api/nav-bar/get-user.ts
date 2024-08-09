@@ -1,7 +1,3 @@
-/* eslint-disable no-console */
-
-"use server";
-
 import axios from "axios";
 
 import { OTHER_TYPE_ERROR } from "@/constants/error-message";
