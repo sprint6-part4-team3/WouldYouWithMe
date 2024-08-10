@@ -4,11 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+
 import { useToggle } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
-import { User } from "@/types/user";
 import { ImgPlanet } from "@/public/assets/images";
+import { User } from "@/types/user";
 
 import DropDown from "../common/drop-down";
 
@@ -91,7 +92,7 @@ const TeamDropdown = () => {
               </div>
             </DropDown.Item>
           )}
-          <div className="border-t-2 border-border-primary rounded-12" />
+          <div className="rounded-12 border-t-2 border-border-primary" />
           <Link href="/create-team">
             <DropDown.Item onClick={teamDropdown.handleOff}>
               <div className="flex items-center justify-center">
