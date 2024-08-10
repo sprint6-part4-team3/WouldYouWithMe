@@ -16,6 +16,7 @@ export type Recurring = {
   displayIndex: number;
   updatedAt: string;
   createdAt: string;
+  startDate: string;
   description: string;
   name: string;
   id: number;
