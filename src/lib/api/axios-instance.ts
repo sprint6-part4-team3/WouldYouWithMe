@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import axios, { AxiosInstance } from "axios";
+import { deleteCookie, setCookie } from "cookies-next";
 
-import { deleteCookie, getCookie, setCookie } from "@/utils/next-cookie";
+import { getCookie } from "@/utils/next-cookie";
 import redirectTo from "@/utils/next-redirect";
 
 // authorization이라는 커스텀 속성 추가
@@ -55,7 +56,7 @@ instance.interceptors.response.use(
         const newAccessToken = data.accessToken;
 
         // 토큰 갱신
-        await setCookie("token", newAccessToken);
+        setCookie("token", newAccessToken);
 
         // 갱신된 토큰으로 재시도
         instance.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
@@ -63,9 +64,9 @@ instance.interceptors.response.use(
 
         return await instance(originalRequest);
       } catch (refreshError) {
-        await deleteCookie("refreshToken");
-        await deleteCookie("token");
-        redirectTo("/login");
+        deleteCookie("refreshToken");
+        deleteCookie("token");
+        await redirectTo("/login");
         return Promise.reject(refreshError);
       }
     }
