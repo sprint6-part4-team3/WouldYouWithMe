@@ -7,6 +7,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
+import {
+  BoardFormHeader,
+  ContentInput,
+  ImageInput,
+  TitleInput,
+  TokenInput,
+} from "@/app/(board-management)/_components";
 import { useToast } from "@/hooks";
 import editBoard from "@/lib/api/board/edit-board";
 import boardAddEditSchema from "@/lib/schemas/board";
@@ -14,12 +21,6 @@ import {
   BoardAddEditInput,
   BoardCreateEditRequest,
 } from "@/types/board/add-edit";
-
-import ContentInput from "../../../_components/content-input";
-import BoardFormHeader from "../../../_components/form-header";
-import ImageInput from "../../../_components/image-input";
-import TitleInput from "../../../_components/title-input";
-import TokenInput from "../../../_components/token-input";
 
 interface EditBoardFormProps {
   initialData: BoardAddEditInput;
