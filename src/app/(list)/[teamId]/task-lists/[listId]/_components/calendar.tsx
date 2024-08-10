@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import {
+  addDays,
   addMonths,
   eachDayOfInterval,
   endOfMonth,
@@ -10,7 +11,6 @@ import {
   isAfter,
   isBefore,
   isSameDay,
-  isToday,
   startOfMonth,
   startOfWeek,
   subMonths,
@@ -82,7 +82,7 @@ const Calendar = ({ currentDate }: CalendarProps) => {
             )}
           >
             {isCurrentMonth(day, currentMonth) ? (
-              <Link href={`?date=${day.toISOString()}`}>
+              <Link href={`?date=${addDays(day, 1).toISOString()}`}>
                 <time>{format(day, "d")}</time>
               </Link>
             ) : (

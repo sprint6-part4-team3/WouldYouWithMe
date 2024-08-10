@@ -1,27 +1,44 @@
 import Link from "next/link";
 import React from "react";
 
+import getTasks from "@/lib/api/task-detail/get-tasks";
+import getTaskLists from "@/lib/api/task-lists/get-task-lists";
 import { IconPlusCurrent } from "@/public/assets/icons";
-import { Task } from "@/types/task-list/index";
 
 import { TaskListNav, TaskNav, TasksContainer } from "./_components";
-import Calendar from "./_components/calendar";
-import mockData from "./_components/mock.json";
 
 interface TaskListProps {
   params: { teamId: string; listId: string };
   searchParams: { date: string };
 }
 
-const TaskLists = ({ params, searchParams }: TaskListProps) => {
+const TaskLists = async ({ params, searchParams }: TaskListProps) => {
   let currentDate: Date;
   if (!searchParams.date) {
     currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0);
   } else {
     currentDate = new Date(searchParams.date);
+    currentDate.setUTCHours(0, 0, 0, 0);
   }
   const currentListId = Number(params.listId);
   const currentTeamId = Number(params.teamId);
+
+  const tasksPromise = getTasks({
+    groupId: currentTeamId,
+    taskListId: currentListId,
+    date: currentDate.toISOString(),
+  });
+
+  const taskListsPromise = getTaskLists({
+    groupId: currentTeamId,
+    taskListId: currentListId,
+    date: currentDate.toISOString(),
+  });
+  const [tasks, taskLists] = await Promise.all([
+    tasksPromise,
+    taskListsPromise,
+  ]);
 
   return (
     <>
@@ -33,11 +50,12 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
         currentTeamId={currentTeamId}
         currentDate={currentDate}
         currentListId={currentListId}
+        taskLists={taskLists}
       />
       <TasksContainer
         currentTeamId={currentTeamId}
         currentListId={currentListId}
-        initialTasks={mockData as Task[]}
+        initialTasks={tasks}
       />
       <Link
         href={`/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}

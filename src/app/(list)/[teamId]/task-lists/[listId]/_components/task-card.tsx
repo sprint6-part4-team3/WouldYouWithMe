@@ -23,7 +23,7 @@ dayjs.locale("ko");
 interface TaskCardProps {
   id: number;
   name: string;
-  date: string;
+  date: string | Date;
   frequency: string;
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;

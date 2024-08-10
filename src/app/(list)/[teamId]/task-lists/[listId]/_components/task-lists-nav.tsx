@@ -5,32 +5,18 @@ interface TaskListNavProps {
   currentTeamId: number;
   currentDate: Date;
   currentListId: number;
+  taskLists: {
+    id: number;
+    name: string;
+  }[];
 }
 
 const TaskListNav = ({
   currentTeamId,
   currentDate,
   currentListId,
+  taskLists,
 }: TaskListNavProps) => {
-  const taskLists = [
-    {
-      name: "법인 설립",
-      id: 0,
-    },
-    {
-      name: "법인 등기",
-      id: 1,
-    },
-    {
-      name: "정기 추종",
-      id: 2,
-    },
-    {
-      name: "기타",
-      id: 3,
-    },
-  ];
-  // @todo 여기서 api 쏴서 task list들 가져와야 함
   // 그리고 여 밑에 map 돌리기
   // 그리고 스와이퍼 넣기
   const stringCurrentDate = currentDate.toISOString();
