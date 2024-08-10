@@ -7,15 +7,11 @@ import ToastContainer from "@/components/common/toast/container";
 import NavBar from "@/components/nav-bar";
 import ReactQueryProvider from "@/components/react-query-provider";
 
-import LoginUserTestData from "./user.json";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Coworkers",
 };
-
-const user = LoginUserTestData;
 
 const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
   children,
@@ -26,7 +22,7 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
     >
       <ReactQueryProvider>
         <ToastContainer />
-        <NavBar user={user} />
+        <NavBar />
         <main className="px-16">{children}</main>
       </ReactQueryProvider>
     </body>

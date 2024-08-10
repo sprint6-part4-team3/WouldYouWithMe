@@ -1,15 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import signUp from "@/app/(auth)/sign-up/action";
 import { Button, FieldWrapper, Input } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
+import signUp from "@/lib/api/auth/sign-up";
 import { signUpSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { SignUpInput } from "@/types/auth";
@@ -20,6 +21,8 @@ const SignUpForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const isMobile = useIsMobile();
+
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -47,6 +50,9 @@ const SignUpForm: React.FC = () => {
         error(`${resData.data?.message}`);
       } else {
         success("회원가입 성공");
+
+        queryClient.invalidateQueries({ queryKey: ["userData"] });
+
         setTimeout(() => {
           router.push("/");
         }, 3000);
