@@ -1,36 +1,23 @@
-"use client";
+"use server";
 
-import { useQuery } from "@tanstack/react-query";
+import { cookies } from "next/headers";
 import Link from "next/link";
-
-import getUserData from "@/lib/api/nav-bar/get-user";
-import { User } from "@/types/user";
 
 import Logo from "./logo";
 import TeamDropdown from "./team-dropdown";
 import UserDropdown from "./user-dropdown";
 
-const fetchUserData = async (): Promise<User> => {
-  const response = await getUserData();
-  return response;
-};
-
 const NavBar = () => {
-  const { data: user } = useQuery<User>({
-    queryKey: ["userData"],
-    queryFn: fetchUserData,
-  });
+  const userId = cookies().get("userId");
 
   const renderContent = () => {
-    if (user) {
-      const hasMemberships = user.memberships.length > 0;
-
+    if (userId) {
       return (
         <>
           <div className="flex items-center gap-20">
             <Logo />
             <div className="hidden items-center gap-20 md:flex">
-              {hasMemberships && <TeamDropdown user={user} />}
+              <TeamDropdown />
               <Link href="/board" className="text-text-primary">
                 자유게시판
               </Link>

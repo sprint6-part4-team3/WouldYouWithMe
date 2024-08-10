@@ -1,22 +1,36 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 
 import { useToggle } from "@/hooks";
+import getUserData from "@/lib/api/nav-bar/get-user";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { User } from "@/types/user";
 
 import DropDown from "../common/drop-down";
 
-interface TeamDropdownProps {
-  user: User;
-}
+const fetchUserData = async (): Promise<User> => {
+  const response = await getUserData();
+  return response;
+};
 
-const TeamDropdown = ({ user }: TeamDropdownProps) => {
+const TeamDropdown = () => {
+  const { data: user } = useQuery<User>({
+    queryKey: ["userData"],
+    queryFn: fetchUserData,
+  });
+
   const teamDropdown = useToggle();
-  const teams = user.memberships;
-  const firstTeamName = teams[0].group.name;
+
+  const teams = user?.memberships ?? [];
+  // TODO - 최근 방문한 팀으로 변경 예정
+  const firstTeamName = teams.length > 0 ? teams[0].group.name : "";
+
+  if (teams.length === 0) {
+    return null;
+  }
 
   return (
     <div className="mt-1 cursor-pointer whitespace-nowrap text-16-500 text-text-primary">
