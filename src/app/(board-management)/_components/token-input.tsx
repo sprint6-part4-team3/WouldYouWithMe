@@ -16,7 +16,14 @@ const TokenInput = () => {
     <FieldWrapper
       label={
         <span>
-          <span className="text-brand-tertiary">* </span>팀 참여 토큰
+          <abbr
+            className="text-brand-tertiary no-underline"
+            title="필수입력"
+            aria-label="required"
+          >
+            *
+          </abbr>
+          &nbsp;팀 참여 토큰
         </span>
       }
       id="token"

@@ -16,8 +16,14 @@ const TitleInput = () => {
     <FieldWrapper
       label={
         <span>
-          <span className="text-brand-tertiary">* </span>
-          제목
+          <abbr
+            className="text-brand-tertiary no-underline"
+            title="필수입력"
+            aria-label="required"
+          >
+            *
+          </abbr>
+          &nbsp;제목
         </span>
       }
       id="title"
