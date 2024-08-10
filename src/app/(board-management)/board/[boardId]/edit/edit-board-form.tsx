@@ -1,7 +1,10 @@
+/* eslint-disable no-console */
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -13,14 +16,19 @@ import {
   TokenInput,
 } from "@/app/(board-management)/_components";
 import { useToast } from "@/hooks";
-import createBoard from "@/lib/api/board/create-board";
+import editBoard from "@/lib/api/board/edit-board";
 import boardAddEditSchema from "@/lib/schemas/board";
 import {
   BoardAddEditInput,
   BoardCreateEditRequest,
 } from "@/types/board/add-edit";
 
-const CreateBoardPage = () => {
+interface EditBoardFormProps {
+  initialData: BoardAddEditInput;
+  boardId: number;
+}
+
+const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
   const toast = useToast();
   const router = useRouter();
 
@@ -28,17 +36,11 @@ const CreateBoardPage = () => {
     resolver: zodResolver(boardAddEditSchema),
     mode: "onBlur",
     reValidateMode: "onBlur",
-    defaultValues: {
-      title: "",
-      content: {
-        content: "",
-        token: "",
-      },
-    },
+    defaultValues: initialData,
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: BoardCreateEditRequest) => createBoard(data),
+    mutationFn: (data: BoardCreateEditRequest) => editBoard(data, boardId),
   });
 
   const handleSubmitBoard: SubmitHandler<BoardAddEditInput> = (data) => {
@@ -51,8 +53,8 @@ const CreateBoardPage = () => {
 
     mutate(submitData, {
       onSuccess: (res) => {
-        router.push(`/board/${res.id}`);
-        toast.success("게시물이 작성되었습니다.");
+        router.replace(`/board/${res.id}`);
+        toast.success("게시물이 수정되었습니다.");
       },
       onError: (error) => {
         toast.error(error.message);
@@ -66,7 +68,7 @@ const CreateBoardPage = () => {
         onSubmit={methods.handleSubmit(handleSubmitBoard)}
         className="my-40"
       >
-        <BoardFormHeader type="write" isPending={isPending} />
+        <BoardFormHeader isPending={isPending} type="edit" />
         <div className="flex flex-col gap-40">
           <TitleInput />
           <TokenInput />
@@ -78,4 +80,4 @@ const CreateBoardPage = () => {
   );
 };
 
-export default CreateBoardPage;
+export default EditBoardForm;

@@ -1,11 +1,11 @@
 import { IconProfile } from "@/public/assets/icons";
-import { ArticleCommentResponse } from "@/types/board/comment";
+import { BoardCommentResponse } from "@/types/board/comment";
 import formatBoardDate from "@/utils/format-board-date";
 
 import CommentDropDown from "./comment-drop-down";
 
 interface CommentProps {
-  commentData: ArticleCommentResponse;
+  commentData: BoardCommentResponse;
 }
 
 const Comment = ({ commentData }: CommentProps) => (
