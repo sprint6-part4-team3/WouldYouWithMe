@@ -3,11 +3,12 @@
 import "dayjs/locale/ko";
 
 import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import React, { useState } from "react";
 
 import { useToggle } from "@/hooks";
-import { IconCheckPrimary, IconX } from "@/public/assets/icons";
+import { IconCheckPrimary } from "@/public/assets/icons";
 import { TaskDetailData } from "@/types/task-detail/index";
 
 import CommentInput from "../comments/comment-input";
@@ -15,6 +16,8 @@ import TaskDescription from "./task-description";
 import TaskHeader from "./task-header";
 import TaskInfo from "./task-info";
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.locale("ko");
 
 interface TaskContentProps {
@@ -22,8 +25,8 @@ interface TaskContentProps {
 }
 
 const TaskContent = ({ task }: TaskContentProps) => {
-  const router = useRouter();
-  const taskDate = dayjs(task.date);
+  const taskDate = dayjs.utc(task.recurring.startDate);
+
   const {
     value: isDropdownOpen,
     handleToggle: toggleDropdown,
@@ -36,8 +39,7 @@ const TaskContent = ({ task }: TaskContentProps) => {
   };
 
   return (
-    <div className="flex min-w-350 flex-col gap-16 p-12">
-      <IconX className="mb-16 cursor-pointer" onClick={() => router.back()} />
+    <div className="flex min-w-350 flex-col gap-16">
       {isCompleted && (
         <div className="flex items-center gap-2 text-14-600 text-brand-primary">
           <IconCheckPrimary />
@@ -52,13 +54,13 @@ const TaskContent = ({ task }: TaskContentProps) => {
         closeDropdown={closeDropdown}
       />
       <TaskInfo
-        nickname={task.user.nickname}
+        nickname={task.user?.nickname ?? "Unknown"}
         date={taskDate.format("YYYY년 M월 D일")}
         time={taskDate.format("A h:mm")}
         frequency={task.frequency}
       />
       <TaskDescription
-        description={task.description}
+        description={task.recurring.description}
         isCompleted={isCompleted}
         onToggleComplete={handleToggleComplete}
       />
