@@ -44,7 +44,7 @@ const SignInForm: React.FC = () => {
       } else {
         success("로그인 성공");
 
-        queryClient.invalidateQueries();
+        queryClient.invalidateQueries({ queryKey: ["userData"] });
 
         setTimeout(() => {
           router.push("/");

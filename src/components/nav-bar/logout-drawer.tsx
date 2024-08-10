@@ -30,7 +30,7 @@ const LogoutDrawer = ({ isOpen, onClose }: LogoutDrawerProps) => {
       await deleteCookie("userNickname");
       success("로그아웃 성공");
 
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ["userData"] });
 
       router.push("/");
     } catch (err) {

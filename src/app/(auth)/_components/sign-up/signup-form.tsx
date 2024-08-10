@@ -51,7 +51,7 @@ const SignUpForm: React.FC = () => {
       } else {
         success("회원가입 성공");
 
-        queryClient.invalidateQueries();
+        queryClient.invalidateQueries({ queryKey: ["userData"] });
 
         setTimeout(() => {
           router.push("/");
