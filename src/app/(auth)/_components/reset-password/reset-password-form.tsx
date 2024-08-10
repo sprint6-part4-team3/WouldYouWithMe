@@ -48,7 +48,7 @@ const ResetPasswordForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-350 md:w-450">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-315 md:w-470">
         <h1 className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
           비밀번호 재설정
         </h1>
@@ -63,7 +63,7 @@ const ResetPasswordForm: React.FC = () => {
             placeholder={
               isMobile
                 ? "비밀번호를 입력해주세요"
-                : "비밀번호(영문, 숫자 포함, 12자 이내)를 입력해주세요."
+                : "비밀번호(영문, 숫자, 특수문자 포함, 최소 8자)를 입력해주세요."
             }
             {...register("password")}
             isError={!!errors.password}

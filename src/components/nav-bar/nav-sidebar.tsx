@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useClickOutside } from "@/hooks";
 import { User } from "@/types/user";
 
-import IconButton from "../icon-button";
+import IconButton from "../common/icon-button";
 
 interface SidebarProps {
   isOpen: boolean;
