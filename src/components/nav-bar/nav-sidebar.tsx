@@ -1,9 +1,11 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 import { useClickOutside } from "@/hooks";
+import getUserData from "@/lib/api/nav-bar/get-user";
 import { User } from "@/types/user";
 
 import IconButton from "../common/icon-button";
@@ -11,12 +13,24 @@ import IconButton from "../common/icon-button";
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  user: User | null;
+  isUserLoggedIn: boolean;
 }
 
-const NavSideBar = ({ isOpen, onClose, user }: SidebarProps) => {
+const fetchUserData = async (): Promise<User> => {
+  const response = await getUserData();
+  return response;
+};
+
+const NavSideBar = ({ isOpen, onClose, isUserLoggedIn }: SidebarProps) => {
+  const { data: user } = useQuery<User>({
+    queryKey: ["userData"],
+    queryFn: fetchUserData,
+    enabled: isUserLoggedIn,
+  });
+
   const sidebarRef = useClickOutside(onClose);
-  const teams = user?.memberships ?? [];
+  const teams = isUserLoggedIn ? (user?.memberships ?? []) : [];
+
   const handleLinkClick = () => {
     onClose();
   };
@@ -37,7 +51,7 @@ const NavSideBar = ({ isOpen, onClose, user }: SidebarProps) => {
         className="absolute right-22 top-22"
       />
       <div className="ml-16 mt-75">
-        {user ? (
+        {isUserLoggedIn ? (
           <>
             <ul className="space-y-24">
               {teams.map((membership) => (

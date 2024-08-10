@@ -2,22 +2,27 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useIsMobile } from "@/hooks";
 import LogoImage from "@/public/assets/images/logo-coworkers.png";
-import { User } from "@/types/user";
+import { getCookie } from "@/utils/next-cookie";
 
 import IconButton from "../common/icon-button";
 import NavSideBar from "./nav-sidebar";
 
-interface LogoProps {
-  user?: User | null;
-}
-
-const Logo = ({ user = null }: LogoProps) => {
+const Logo = () => {
   const isMobile = useIsMobile();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const nickname = await getCookie("userNickname");
+      setIsUserLoggedIn(!!nickname);
+    };
+    checkUser();
+  }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -41,7 +46,7 @@ const Logo = ({ user = null }: LogoProps) => {
       <NavSideBar
         isOpen={isSidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        user={user}
+        isUserLoggedIn={isUserLoggedIn}
       />
     </>
   );

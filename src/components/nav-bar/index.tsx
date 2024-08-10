@@ -28,7 +28,7 @@ const NavBar = () => {
       return (
         <>
           <div className="flex items-center gap-20">
-            <Logo user={user} />
+            <Logo />
             <div className="hidden items-center gap-20 md:flex">
               {hasMemberships && <TeamDropdown user={user} />}
               <Link href="/board" className="text-text-primary">
