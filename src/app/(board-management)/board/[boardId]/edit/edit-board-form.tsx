@@ -52,8 +52,8 @@ const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
 
     mutate(submitData, {
       onSuccess: (res) => {
-        toast.success("게시물이 수정되었습니다.");
         router.replace(`/board/${res.id}`);
+        toast.success("게시물이 수정되었습니다.");
       },
       onError: (error) => {
         toast.error(error.message);

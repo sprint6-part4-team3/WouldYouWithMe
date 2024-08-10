@@ -51,8 +51,8 @@ const CreateBoardPage = () => {
 
     mutate(submitData, {
       onSuccess: (res) => {
-        toast.success("게시물이 작성되었습니다.");
         router.push(`/board/${res.id}`);
+        toast.success("게시물이 작성되었습니다.");
       },
       onError: (error) => {
         toast.error(error.message);
