@@ -25,7 +25,7 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
             ({taskList.length}개)
           </span>
         </div>
-        <AddListModalButton />
+        <AddListModalButton groupId={teamId} />
       </div>
       <section>
         {taskList.length === 0 ? (

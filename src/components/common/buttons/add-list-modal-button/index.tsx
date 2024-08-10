@@ -1,10 +1,18 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+
+import Button from "@/components/common/buttons/button";
 import Drawer from "@/components/common/drawer";
+import Input from "@/components/common/forms/input";
 import Modal from "@/components/common/modal";
-import OneInputForm from "@/components/common/modal/one-input-form";
 import { useIsMobile, useToast, useToggle } from "@/hooks";
+import createTaskList from "@/lib/api/tast-list/create-tast-list";
+import taskListAddEditSchema from "@/lib/schemas/task-list";
 import { IconPlusCurrent } from "@/public/assets/icons";
+import { TaskListAddEditInput } from "@/types/task-list";
 
 /**
  * 새로운 목록 추가하기 버튼
@@ -14,14 +22,39 @@ import { IconPlusCurrent } from "@/public/assets/icons";
  * @author ☯️채종민
  */
 
-const AddListModalButton = () => {
+type AddListModalButtonProps = {
+  groupId: number;
+};
+
+const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
   const { value, handleOn, handleOff } = useToggle();
   const toast = useToast();
   const isMobile = useIsMobile();
 
-  const createList = () => {
-    toast.success("등록이 완료되었습니다");
-    handleOff();
+  const { register, handleSubmit, reset } = useForm<TaskListAddEditInput>({
+    resolver: zodResolver(taskListAddEditSchema),
+    mode: "onBlur",
+    reValidateMode: "onChange",
+  });
+
+  const createList = async (data: TaskListAddEditInput) => {
+    try {
+      await createTaskList(data, groupId);
+      toast.success("등록이 완료되었습니다");
+      handleOff();
+      reset();
+    } catch (error) {
+      let errorMessage = "목록 생성 중 문제가 발생했습니다";
+      // 서버에서 처리된 에러 메시지 확인
+      if (axios.isAxiosError(error)) {
+        if (error.response && error.response.data) {
+          // 서버 응답에서 에러 메시지 추출
+          errorMessage =
+            error.response.data.message || "서버에서 에러가 발생했습니다";
+        }
+      }
+      toast.error(errorMessage);
+    }
   };
 
   const ModalComponent = isMobile ? Drawer : Modal;
@@ -38,12 +71,19 @@ const AddListModalButton = () => {
       </button>
       {value && (
         <ModalComponent showCloseButton onClose={handleOff} title="할 일 목록">
-          <OneInputForm
-            id="create-list"
-            btnText="만들기"
-            placeholder="목록을 입력해주세요"
-            onSubmit={createList}
-          />
+          <form
+            className="flex flex-col gap-16"
+            onSubmit={handleSubmit(createList)}
+          >
+            <Input
+              {...register("name")}
+              id="create-list"
+              placeholder="목록을 입력해주세요"
+            />
+            <Button variant="primary" className="h-48 w-full" type="submit">
+              만들기
+            </Button>
+          </form>
         </ModalComponent>
       )}
     </>
