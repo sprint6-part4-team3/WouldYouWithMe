@@ -6,8 +6,8 @@ export type BoardCommentWriter = {
 
 export type BoardCommentResponse = {
   writer: BoardCommentWriter;
-  updatedAt: string | Date;
-  createdAt: string | Date;
+  updatedAt: string;
+  createdAt: string;
   content: string;
   id: number;
 };

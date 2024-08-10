@@ -4,8 +4,8 @@ export type BoardWriter = {
 };
 
 export type BoardResponse = {
-  updatedAt: string | Date;
-  createdAt: string | Date;
+  updatedAt: string;
+  createdAt: string;
   likeCount: number;
   writer: BoardWriter;
   image: string | null;
