@@ -5,10 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { Button, FloatButton } from "@/components/common";
+import { Button } from "@/components/common";
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
-import { IconHeart, IconProfile } from "@/public/assets/icons";
-import { BoardResponse } from "@/types/board";
+import { IconProfile } from "@/public/assets/icons";
 import formatBoardDate from "@/utils/format-board-date";
 
 import BoardDropDown from "./board-drop-down";
@@ -49,7 +48,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-8 text-12-500 md:text-14-500">
-          {/** FIXME: 작성자의 프로필 사진이 API에 없음 */}
+          {/** API에 작성자 이미지 없음 */}
           <IconProfile />
           <span>{boardData.writer.nickname}</span>
           <div className="h-12 w-1 bg-background-tertiary" />
@@ -63,12 +62,11 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
             <span className="text-text-default">(수정됨)</span>
           )}
         </div>
-        {/* <div className="flex items-center gap-8 text-12-400 text-text-disabled md:text-14-400">
+        <div className="flex items-center gap-8 text-12-400 text-text-disabled md:text-14-400">
           <div className="flex gap-4">
-            <IconHeart />
-            <span>{boardData.likeCount}</span>
+            <span>♥ {boardData.likeCount}</span>
           </div>
-        </div> */}
+        </div>
       </div>
 
       <CopyTeamToken token={parsedContent.token} />

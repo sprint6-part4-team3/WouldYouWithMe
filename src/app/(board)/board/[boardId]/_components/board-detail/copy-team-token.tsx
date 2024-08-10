@@ -22,7 +22,7 @@ const CopyTeamToken = ({ token }: { token: string }) => {
 
   return (
     <div className="relative">
-      <div className="mt-40 w-full truncate rounded-2xl border-2 border-border-primary p-16 text-text-secondary">
+      <div className="mt-40 w-full truncate rounded-2xl border border-brand-primary p-16 text-text-secondary">
         <span
           className="cursor-pointer hover:text-brand-primary hover:underline"
           onClick={copyToClipboard}
