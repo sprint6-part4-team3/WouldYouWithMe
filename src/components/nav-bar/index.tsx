@@ -8,10 +8,10 @@ import TeamDropdown from "./team-dropdown";
 import UserDropdown from "./user-dropdown";
 
 const NavBar = () => {
-  const userId = cookies().get("userId");
+  const userNickname = cookies().get("userNickname");
 
   const renderContent = () => {
-    if (userId) {
+    if (userNickname) {
       return (
         <>
           <div className="flex items-center gap-20">

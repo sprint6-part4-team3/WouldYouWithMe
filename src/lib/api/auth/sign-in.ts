@@ -3,7 +3,7 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 
-import instance from "../axios-instance";
+import instance from "@/lib/api/axios-instance";
 
 const signIn = async (email: string, password: string) => {
   try {
