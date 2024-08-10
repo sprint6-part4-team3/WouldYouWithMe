@@ -12,9 +12,11 @@ export type Comment = {
   updatedAt: string;
   taskId: number;
   userId: number;
-  user: User;
+  user?: User;
 };
 
 export type GetCommentsResponse = {
   comments: Comment[];
 };
+
+export type PostCommentRequest = Omit<Comment, "user">;

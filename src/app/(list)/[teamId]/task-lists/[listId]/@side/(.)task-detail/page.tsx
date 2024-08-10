@@ -4,10 +4,7 @@ import React from "react";
 import { SidePage } from "@/components/common";
 import getComments from "@/lib/api/task-comments/get-comments";
 import getTaskDetail from "@/lib/api/task-detail/get-task-detail";
-import { Comment } from "@/types/comments/index";
 
-import CommentList from "./_components/comments/comments-list";
-import EmptyComment from "./_components/comments/empty-comment";
 import TaskContent from "./_components/task-detail/task-content";
 
 interface PageProps {
@@ -36,12 +33,7 @@ const TaskDetailPage = async ({ params }: PageProps) => {
 
   return (
     <SidePage>
-      <TaskContent task={taskData} />
-      {comments.length > 0 ? (
-        <CommentList comments={comments} />
-      ) : (
-        <EmptyComment />
-      )}
+      <TaskContent task={taskData} initialComments={comments} />
     </SidePage>
   );
 };

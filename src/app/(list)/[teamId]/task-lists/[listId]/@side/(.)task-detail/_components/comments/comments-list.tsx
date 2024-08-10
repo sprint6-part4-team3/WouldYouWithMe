@@ -23,7 +23,7 @@ const CommentList = ({ comments }: CommentListProps) => (
         </div>
         <div className="mb-12 flex items-center justify-between self-stretch text-14-500 text-text-primary">
           <div className="flex items-center">
-            {comment.user.image ? (
+            {comment.user?.image ? (
               <Image
                 src={comment.user.image}
                 alt={`${comment.user.nickname}'s profile`}
@@ -35,7 +35,7 @@ const CommentList = ({ comments }: CommentListProps) => (
               <IconProfile className="mr-12" />
             )}
             <span className="text-14-500 text-text-primary">
-              {comment.user.nickname}
+              {comment.user?.nickname || "Unknown User"}
             </span>
           </div>
           <time className="text-14-400 text-text-secondary">

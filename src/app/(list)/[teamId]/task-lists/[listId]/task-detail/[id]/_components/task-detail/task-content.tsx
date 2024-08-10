@@ -1,17 +1,24 @@
+/* eslint-disable no-console */
+
 "use client";
 
 import "dayjs/locale/ko";
 
+import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import React, { useState } from "react";
 
 import { useToggle } from "@/hooks";
+import postComment from "@/lib/api/task-comments/post-comment";
 import { IconCheckPrimary } from "@/public/assets/icons";
+import { Comment } from "@/types/comments/index";
 import { TaskDetailData } from "@/types/task-detail/index";
 
 import CommentInput from "../comments/comment-input";
+import CommentList from "../comments/comments-list";
+import EmptyComment from "../comments/empty-comment";
 import TaskDescription from "./task-description";
 import TaskHeader from "./task-header";
 import TaskInfo from "./task-info";
@@ -22,9 +29,10 @@ dayjs.locale("ko");
 
 interface TaskContentProps {
   task: TaskDetailData;
+  initialComments: Comment[];
 }
 
-const TaskContent = ({ task }: TaskContentProps) => {
+const TaskContent = ({ task, initialComments }: TaskContentProps) => {
   const taskDate = dayjs.utc(task.recurring.startDate);
 
   const {
@@ -33,9 +41,24 @@ const TaskContent = ({ task }: TaskContentProps) => {
     handleOff: closeDropdown,
   } = useToggle();
   const [isCompleted, setIsCompleted] = useState(task.doneAt !== null);
+  const [comments, setComments] = useState<Comment[]>(initialComments);
+
+  const addCommentMutation = useMutation({
+    mutationFn: (content: string) => postComment(task.id, content),
+    onSuccess: (newComment) => {
+      setComments((prevComments) => [newComment, ...prevComments]);
+    },
+    onError: (error: Error) => {
+      console.error("댓글 추가에러:", error);
+    },
+  });
 
   const handleToggleComplete = () => {
     setIsCompleted((prev) => !prev);
+  };
+
+  const handleAddComment = async (content: string): Promise<void> => {
+    await addCommentMutation.mutateAsync(content);
   };
 
   return (
@@ -64,7 +87,12 @@ const TaskContent = ({ task }: TaskContentProps) => {
         isCompleted={isCompleted}
         onToggleComplete={handleToggleComplete}
       />
-      <CommentInput />
+      <CommentInput onAddComment={handleAddComment} />
+      {comments && comments.length > 0 ? (
+        <CommentList comments={comments} />
+      ) : (
+        <EmptyComment />
+      )}
     </div>
   );
 };
