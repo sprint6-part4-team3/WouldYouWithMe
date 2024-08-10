@@ -12,3 +12,4 @@ export { default as landingMockupThird } from "./img-landing-mockup-3.png";
 export { default as TeamCardThumbnail } from "./img-thumbnail-team.png";
 export { default as ImgTodo } from "./img-todo.png";
 export { default as LogoCoworkers } from "./logo-coworkers.png";
+export { default as ImgPlanet } from "./img-planet.png";

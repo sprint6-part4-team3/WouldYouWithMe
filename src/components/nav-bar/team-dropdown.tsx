@@ -3,11 +3,12 @@
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useState } from "react";
 import { useToggle } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { User } from "@/types/user";
+import { ImgPlanet } from "@/public/assets/images";
 
 import DropDown from "../common/drop-down";
 
@@ -27,6 +28,12 @@ const TeamDropdown = () => {
   const teams = user?.memberships ?? [];
   // TODO - 최근 방문한 팀으로 변경 예정
   const firstTeamName = teams.length > 0 ? teams[0].group.name : "";
+  const [isExpanded, setIsExpanded] = useState(false);
+  const visibleTeams = isExpanded ? teams : teams.slice(0, 4);
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   if (teams.length === 0) {
     return null;
@@ -46,15 +53,15 @@ const TeamDropdown = () => {
           position="top-50 right-0"
           className="w-140"
         >
-          {teams.map((membership) => (
+          {visibleTeams.map((membership) => (
             <Link
               key={membership.group.id}
               href={`/team/${membership.group.id}`}
             >
               <DropDown.Item onClick={teamDropdown.handleOff}>
-                {membership.group.image ? (
-                  <div className="flex items-center">
-                    <div className="relative ml-12 size-32">
+                <div className="flex items-center">
+                  <div className="relative ml-12 size-32">
+                    {membership.group.image ? (
                       <Image
                         src={membership.group.image}
                         alt={membership.group.name}
@@ -62,17 +69,29 @@ const TeamDropdown = () => {
                         objectFit="cover"
                         className="rounded-md"
                       />
-                    </div>
-                    <span className="ml-12">{membership.group.name}</span>
+                    ) : (
+                      <Image
+                        src={ImgPlanet}
+                        alt="팀 기본이미지"
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-md"
+                      />
+                    )}
                   </div>
-                ) : (
-                  <div className="flex items-center justify-center">
-                    <span>{membership.group.name}</span>
-                  </div>
-                )}
+                  <span className="ml-12">{membership.group.name}</span>
+                </div>
               </DropDown.Item>
             </Link>
           ))}
+          {teams.length > 4 && (
+            <DropDown.Item onClick={toggleExpand}>
+              <div className="flex items-center justify-center">
+                {isExpanded ? "접기" : "팀 더보기"}
+              </div>
+            </DropDown.Item>
+          )}
+          <div className="border-t-2 border-border-primary rounded-12" />
           <Link href="/create-team">
             <DropDown.Item onClick={teamDropdown.handleOff}>
               <div className="flex items-center justify-center">
