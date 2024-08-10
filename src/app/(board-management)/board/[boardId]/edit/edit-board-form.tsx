@@ -34,7 +34,7 @@ const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
   const methods = useForm<BoardAddEditInput>({
     resolver: zodResolver(boardAddEditSchema),
     mode: "onBlur",
-    reValidateMode: "onChange",
+    reValidateMode: "onBlur",
     defaultValues: initialData,
   });
 

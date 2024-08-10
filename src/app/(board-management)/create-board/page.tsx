@@ -27,7 +27,7 @@ const CreateBoardPage = () => {
   const methods = useForm<BoardAddEditInput>({
     resolver: zodResolver(boardAddEditSchema),
     mode: "onBlur",
-    reValidateMode: "onChange",
+    reValidateMode: "onBlur",
     defaultValues: {
       title: "",
       content: {
