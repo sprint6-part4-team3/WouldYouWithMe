@@ -39,3 +39,4 @@ export { default as IconVisibilityOff } from "./icon-visibility-off.svg";
 export { default as IconVisibilityOn } from "./icon-visibility-on.svg";
 export { default as IconX } from "./icon-x.svg";
 export { default as IconXBig } from "./icon-x-big.svg";
+export { default as LoadingSpinner } from "./loading-spinner.svg";

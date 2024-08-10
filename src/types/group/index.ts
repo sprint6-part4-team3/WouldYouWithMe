@@ -2,30 +2,30 @@ import { GroupMember } from "../user";
 
 export type TaskList = {
   id: number;
-  updatedAt: string | Date;
+  updatedAt: string;
   name: string;
   description: null | string;
-  doneAt: null | string | Date;
-  date: string | Date;
+  doneAt: null | string;
+  date: string;
   frequency: "DAILY" | "WEEKLY" | "MONTHLY" | "ONCE";
   recurringId: number;
   userId: null | number;
-  deletedAt: null | string | Date;
+  deletedAt: null | string;
 };
 
 export type GroupTask = {
   id: number;
   name: string;
-  createdAt: string | Date;
-  updatedAt: string | Date;
+  createdAt: string;
+  updatedAt: string;
   displayIndex: number;
   groupId: number;
   tasks: TaskList[];
 };
 
 export type GroupResponse = {
-  updatedAt: string | Date;
-  createdAt: string | Date;
+  updatedAt: string;
+  createdAt: string;
   image: string | null;
   name: string;
   teamId: string;

@@ -14,6 +14,7 @@ const signIn = async (email: string, password: string) => {
     if (response.status === 200) {
       cookies().set("token", data.accessToken);
       cookies().set("refreshToken", data.refreshToken);
+      cookies().set("userId", data.user.id);
 
       return { success: true };
     }

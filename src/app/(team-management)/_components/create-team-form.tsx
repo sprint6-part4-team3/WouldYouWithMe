@@ -1,9 +1,13 @@
 "use client";
 
-/* eslint-disable no-console */
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
+import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
+import { useToast } from "@/hooks";
+import createGroup from "@/lib/api/group/create-group";
 import { teamAddEditSchema } from "@/lib/schemas/team-manage";
 import { TeamAddEditInput } from "@/types/team-management";
 
@@ -12,6 +16,9 @@ import NameInput from "./name-input";
 import SubmitButton from "./submit-button";
 
 const CreateTeamForm = () => {
+  const toast = useToast();
+  const router = useRouter();
+
   const methods = useForm<TeamAddEditInput>({
     resolver: zodResolver(teamAddEditSchema),
     mode: "onBlur",
@@ -21,9 +28,26 @@ const CreateTeamForm = () => {
     },
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: TeamAddEditInput) => createGroup(data),
+  });
+
   const handleSubmitTeam: SubmitHandler<TeamAddEditInput> = (data) => {
-    // TODO: API 연동 - 그룹 생성 POST 요청
-    console.log(data);
+    mutate(data, {
+      onSuccess: (res) => {
+        toast.success("그룹이 생성되었습니다.");
+        router.push(`/${res.id}`);
+      },
+      onError: (error) => {
+        if (error.message === DUPLICATE_TEAM_NAME) {
+          methods.setError("name", {
+            message: error.message,
+          });
+        } else {
+          toast.error(error.message);
+        }
+      },
+    });
   };
 
   return (
@@ -34,7 +58,7 @@ const CreateTeamForm = () => {
       >
         <ImageInput />
         <NameInput />
-        <SubmitButton />
+        <SubmitButton isPending={isPending} />
       </form>
     </FormProvider>
   );
