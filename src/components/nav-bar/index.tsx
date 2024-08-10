@@ -36,7 +36,7 @@ const NavBar = () => {
               </Link>
             </div>
           </div>
-          <UserDropdown user={user} />
+          <UserDropdown />
         </>
       );
     }

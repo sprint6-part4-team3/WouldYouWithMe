@@ -1,26 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
-import { User } from "@/types/user";
+import { getCookie } from "@/utils/next-cookie";
 
 import DropDown from "../common/drop-down";
 import LogoutDrawer from "./logout-drawer";
 import LogoutModal from "./logout-modal";
 
-interface UserDropdownProps {
-  user: User;
-}
-
-const UserDropdown = ({ user }: UserDropdownProps) => {
+const UserDropdown = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [userNickname, setUserNickname] = useState<string>("");
   const userDropdown = useToggle();
   const isMobile = useIsMobile();
-  const userNickname = user.nickname;
+
+  useEffect(() => {
+    const fetchNickname = async () => {
+      const nickname = await getCookie("userNickname");
+      if (nickname) {
+        setUserNickname(nickname);
+      }
+    };
+
+    fetchNickname();
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
