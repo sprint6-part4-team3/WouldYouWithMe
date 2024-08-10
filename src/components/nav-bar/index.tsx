@@ -8,7 +8,8 @@ import TeamDropdown from "./team-dropdown";
 import UserDropdown from "./user-dropdown";
 
 const NavBar = () => {
-  const userNickname = cookies().get("userNickname");
+  const userNicknameCookie = cookies().get("userNickname");
+  const userNickname = userNicknameCookie ? userNicknameCookie.value : "";
 
   const renderContent = () => {
     if (userNickname) {
@@ -23,7 +24,7 @@ const NavBar = () => {
               </Link>
             </div>
           </div>
-          <UserDropdown />
+          <UserDropdown user={userNickname} />
         </>
       );
     }
