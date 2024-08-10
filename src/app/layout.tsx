@@ -27,7 +27,7 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
       <ReactQueryProvider>
         <ToastContainer />
         <NavBar user={user} />
-        <main className="mx-16">{children}</main>
+        <main className="px-16">{children}</main>
       </ReactQueryProvider>
     </body>
   </html>
