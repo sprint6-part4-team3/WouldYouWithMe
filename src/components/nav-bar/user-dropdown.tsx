@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
-import { getCookie } from "@/utils/next-cookie";
 
 import DropDown from "../common/drop-down";
 import LogoutDrawer from "./logout-drawer";

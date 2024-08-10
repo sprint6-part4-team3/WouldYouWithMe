@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-import { useClickOutside } from "@/hooks";
+import { useClickOutside, useIsMobile } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
 import { User } from "@/types/user";
 
@@ -29,18 +29,23 @@ const NavSideBar = ({ isOpen, onClose, isUserLoggedIn }: SidebarProps) => {
   });
 
   const sidebarRef = useClickOutside(onClose);
+  const isMobile = useIsMobile();
   const teams = isUserLoggedIn ? (user?.memberships ?? []) : [];
 
   const handleLinkClick = () => {
     onClose();
   };
 
+  if (!isMobile && isOpen) {
+    onClose();
+  }
+
   return (
     <motion.div
       ref={sidebarRef}
-      className="fixed left-0 top-0 h-full w-1/2 bg-background-secondary"
+      className="fixed left-0 top-0 h-full w-204 bg-background-secondary"
       initial={{ x: "-100%" }}
-      animate={{ x: isOpen ? "0%" : "-100%" }}
+      animate={{ x: isOpen && isMobile ? "0%" : "-100%" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       <IconButton
