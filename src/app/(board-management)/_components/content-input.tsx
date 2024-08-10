@@ -3,7 +3,7 @@
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper, TextArea } from "@/components/common";
-import { BoardAddEditInput } from "@/types/article/add-edit";
+import { BoardAddEditInput } from "@/types/board/add-edit";
 
 const ContentInput = () => {
   const {
@@ -16,8 +16,14 @@ const ContentInput = () => {
     <FieldWrapper
       label={
         <span>
-          <span className="text-brand-tertiary">* </span>
-          내용
+          <abbr
+            className="text-brand-tertiary no-underline"
+            title="필수입력"
+            aria-label="required"
+          >
+            *
+          </abbr>
+          &nbsp;내용
         </span>
       }
       id="content"

@@ -2,13 +2,13 @@ import Link from "next/link";
 
 import { Button } from "@/components/common";
 import { IconComment, IconHeart, IconProfile } from "@/public/assets/icons";
-import { ArticleResponse } from "@/types/article";
+import { BoardResponse } from "@/types/board";
 import formatBoardDate from "@/utils/format-board-date";
 
 import BoardDropDown from "./board-drop-down";
 
 interface BoardDetailProps {
-  articleData: ArticleResponse;
+  articleData: BoardResponse;
   commentCount: number;
 }
 

@@ -1,13 +1,13 @@
-export type ArticleWriter = {
+export type BoardWriter = {
   nickname: string;
   id: number;
 };
 
-export type ArticleResponse = {
-  updatedAt: string | Date;
-  createdAt: string | Date;
+export type BoardResponse = {
+  updatedAt: string;
+  createdAt: string;
   likeCount: number;
-  writer: ArticleWriter;
+  writer: BoardWriter;
   image: string | null;
   title: string;
   id: number;
