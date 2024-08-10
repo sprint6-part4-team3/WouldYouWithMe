@@ -8,6 +8,7 @@ import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper } from "@/components/common";
 import { IMAGE_SIZE_ERROR, IMAGE_TYPE_ERROR } from "@/constants/error-message";
+import DEFAULT_IMAGE from "@/constants/image";
 import MAX_IMAGE_SIZE from "@/constants/image-size";
 import { useToast } from "@/hooks";
 import imageUpload from "@/lib/api/image/image-upload";
@@ -18,7 +19,10 @@ const ImageInput = () => {
   const toast = useToast();
   const { setValue, resetField, watch } = useFormContext<BoardAddEditInput>();
 
-  const [imgUrl, setImgUrl] = useState<string | null>(watch("image") || null);
+  const watchedImage = watch("image") || "";
+  const [imgUrl, setImgUrl] = useState<string | null>(
+    watchedImage && watchedImage !== DEFAULT_IMAGE ? watchedImage : null,
+  );
   const [errorMessage, setErrorMessage] = useState("");
 
   const { mutate, isPending } = useMutation({
@@ -62,7 +66,7 @@ const ImageInput = () => {
   };
 
   const handleClickCancel = () => {
-    resetField("image");
+    setValue("image", DEFAULT_IMAGE);
     setImgUrl(null);
     toast.success("이미지가 삭제되었습니다.");
     const imageInput = document.getElementById("image") as HTMLInputElement;
