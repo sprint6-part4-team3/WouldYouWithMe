@@ -1,14 +1,12 @@
 import { isAxiosError } from "axios";
 
-import { GroupResponse, TaskList } from "@/types/group";
+import { OTHER_TYPE_ERROR } from "@/constants/error-message";
+import { GroupResponse } from "@/types/group";
 
 import instance from "../axios-instance";
-import getTasks from "../task-detail/get-tasks";
 
 interface Params {
   groupId: number;
-  taskListId: number;
-  date: string;
 }
 
 type Response = {
@@ -18,7 +16,7 @@ type Response = {
 
 type GetTaskLists = (params: Params) => Promise<Response>;
 
-const getTaskLists: GetTaskLists = async ({ groupId, taskListId, date }) => {
+const getTaskLists: GetTaskLists = async ({ groupId }) => {
   try {
     const { data: listData } = await instance.get<GroupResponse>(
       `/groups/${groupId}`,
@@ -34,7 +32,7 @@ const getTaskLists: GetTaskLists = async ({ groupId, taskListId, date }) => {
     if (isAxiosError(error)) {
       throw error.response?.data;
     } else {
-      throw new Error("알 수 없는 에러 발생");
+      throw new Error(OTHER_TYPE_ERROR);
     }
   }
 };

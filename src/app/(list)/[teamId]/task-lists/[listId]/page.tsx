@@ -24,16 +24,16 @@ const TaskLists = async ({ params, searchParams }: TaskListProps) => {
   const currentListId = Number(params.listId);
   const currentTeamId = Number(params.teamId);
 
+  // 투두 리스트 받아오기
   const tasksPromise = getTasks({
     groupId: currentTeamId,
     taskListId: currentListId,
     date: currentDate.toISOString(),
   });
 
+  // 투두 종류 받아오기
   const taskListsPromise = getTaskLists({
     groupId: currentTeamId,
-    taskListId: currentListId,
-    date: currentDate.toISOString(),
   });
   const [tasks, taskLists] = await Promise.all([
     tasksPromise,

@@ -1,7 +1,7 @@
 import { isAxiosError } from "axios";
 
+import { OTHER_TYPE_ERROR } from "@/constants/error-message";
 import { TaskList } from "@/types/group";
-import { Tasks } from "@/types/task-list";
 
 import instance from "../axios-instance";
 
@@ -29,7 +29,7 @@ const getTasks: GetTasks = async ({ groupId, taskListId, date }) => {
     if (isAxiosError(error)) {
       throw error.response?.data;
     } else {
-      throw new Error("알 수 없는 에러 발생");
+      throw new Error(OTHER_TYPE_ERROR);
     }
   }
 };
