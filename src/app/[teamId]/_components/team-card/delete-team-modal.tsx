@@ -1,11 +1,12 @@
 "use client";
 
-import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 
 import { Button, Drawer, Input, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import deleteGroup from "@/lib/api/group/delete-group";
+import { LoadingSpinner } from "@/public/assets/icons";
 
 interface TeamDeleteModalProps {
   teamId: number;
@@ -20,26 +21,38 @@ const TeamDeleteModal = ({
 }: TeamDeleteModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState("");
+  const router = useRouter();
   const toast = useToast();
   const isMobile = useIsMobile();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const deleteTeam = async () => {
-    if (value === teamName) {
-      setIsLoading(true);
+    if (value !== teamName) return;
+    setIsLoading(true);
+    toast.success("팀이 삭제되고 있습니다!");
+
+    timeoutRef.current = setTimeout(async () => {
       try {
-        toast.success("팀이 삭제되고 있습니다!");
-        const timerId = setTimeout(() => {
-          toast.success("팀이 삭제 되었습니다.");
-        }, 5000);
         await deleteGroup(teamId);
         onClose();
-        redirect("/not-found");
+        toast.success("팀이 삭제 되었습니다.");
+        router.push("/not-found");
       } catch (error) {
         toast.error("팀 삭제에 실패했습니다.");
       } finally {
         setIsLoading(false);
       }
+    }, 8000);
+  };
+
+  // 팀 삭제 타이머 취소
+  const cancelDeletion = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
+    setIsLoading(false);
+    onClose();
+    toast.error("팀 삭제가 취소되었습니다.");
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,14 +76,30 @@ const TeamDeleteModal = ({
           value={value}
           onChange={handleChange}
         />
-        <Button
-          onClick={deleteTeam}
-          variant={buttonVariant}
-          className="mt-16 h-47 w-full"
-          disabled={value !== teamName}
-        >
-          {isLoading ? "처리 중..." : "팀 삭제하기"}
-        </Button>
+        {isLoading ? (
+          <>
+            <Button
+              onClick={cancelDeletion}
+              variant="danger"
+              className="mt-16 h-47 w-full"
+            >
+              팀 삭제 취소
+            </Button>
+            <div className="m-auto mt-15 flex items-center justify-center">
+              <div>처리 중...</div>
+              <LoadingSpinner width={30} height={30} />
+            </div>
+          </>
+        ) : (
+          <Button
+            onClick={deleteTeam}
+            variant={buttonVariant}
+            className="mt-16 h-47 w-full"
+            disabled={value !== teamName || isLoading}
+          >
+            팀 삭제하기
+          </Button>
+        )}
       </div>
     </ModalComponent>
   );
