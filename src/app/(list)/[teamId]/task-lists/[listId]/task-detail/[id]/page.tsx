@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import React from "react";
 
 import { SidePage } from "@/components/common";
+import getComments from "@/lib/api/task-comments/get-comments";
 import getTaskDetail from "@/lib/api/task-detail/get-task-detail";
-import { Comment, TaskDetailData } from "@/types/task-detail/index";
+import { Comment } from "@/types/comments/index";
 
-import commentMock from "./_components/comments/comment-mock.json";
 import CommentList from "./_components/comments/comments-list";
 import EmptyComment from "./_components/comments/empty-comment";
 import TaskContent from "./_components/task-detail/task-content";
@@ -17,6 +17,7 @@ interface PageProps {
     id: string;
   };
 }
+
 const TaskDetailPage = async ({ params }: PageProps) => {
   const { groupId, taskListId, id } = params;
 
@@ -30,14 +31,12 @@ const TaskDetailPage = async ({ params }: PageProps) => {
     notFound();
   }
 
-  const comments = commentMock.filter(
-    (comment: Comment) => comment.taskId === taskId,
-  );
+  const comments: Comment[] = await getComments(taskId);
 
   return (
     <SidePage>
       <TaskContent task={taskData} />
-      {comments.length > 0 ? (
+      {comments && comments.length > 0 ? (
         <CommentList comments={comments} />
       ) : (
         <EmptyComment />
@@ -45,4 +44,5 @@ const TaskDetailPage = async ({ params }: PageProps) => {
     </SidePage>
   );
 };
+
 export default TaskDetailPage;

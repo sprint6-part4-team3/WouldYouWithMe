@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import Image from "next/image";
 import React from "react";
 
 import { IconButton } from "@/components/common";
@@ -22,8 +23,17 @@ const CommentList = ({ comments }: CommentListProps) => (
         </div>
         <div className="mb-12 flex items-center justify-between self-stretch text-14-500 text-text-primary">
           <div className="flex items-center">
-            {/* TODO - 추후 프로필 이미지 추가 */}
-            <IconProfile className="mr-12" />
+            {comment.user.image ? (
+              <Image
+                src={comment.user.image}
+                alt={`${comment.user.nickname}'s profile`}
+                width={24}
+                height={24}
+                className="mr-12 rounded-full"
+              />
+            ) : (
+              <IconProfile className="mr-12" />
+            )}
             <span className="text-14-500 text-text-primary">
               {comment.user.nickname}
             </span>
