@@ -25,18 +25,19 @@ const TaskDetailPage = async ({ params }: PageProps) => {
   const groupIdNum = Number(groupId);
   const taskListIdNum = Number(taskListId);
 
-  const taskData = await getTaskDetail(groupIdNum, taskListIdNum, taskId);
+  const [taskData, comments] = await Promise.all([
+    getTaskDetail(groupIdNum, taskListIdNum, taskId),
+    getComments(taskId),
+  ]);
 
   if (!taskData) {
     notFound();
   }
 
-  const comments: Comment[] = await getComments(taskId);
-
   return (
     <SidePage>
       <TaskContent task={taskData} />
-      {comments && comments.length > 0 ? (
+      {comments.length > 0 ? (
         <CommentList comments={comments} />
       ) : (
         <EmptyComment />
