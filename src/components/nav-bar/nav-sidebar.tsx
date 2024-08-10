@@ -13,7 +13,6 @@ import IconButton from "../common/icon-button";
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  isUserLoggedIn: boolean;
 }
 
 const fetchUserData = async (): Promise<User> => {
@@ -21,16 +20,17 @@ const fetchUserData = async (): Promise<User> => {
   return response;
 };
 
-const NavSideBar = ({ isOpen, onClose, isUserLoggedIn }: SidebarProps) => {
+const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
   const { data: user } = useQuery<User>({
     queryKey: ["userData"],
     queryFn: fetchUserData,
-    enabled: isUserLoggedIn,
   });
 
   const sidebarRef = useClickOutside(onClose);
   const isMobile = useIsMobile();
-  const teams = isUserLoggedIn ? (user?.memberships ?? []) : [];
+
+  const teams = user?.memberships ?? [];
+  const hasTeams = teams.length > 0;
 
   const handleLinkClick = () => {
     onClose();
@@ -43,7 +43,7 @@ const NavSideBar = ({ isOpen, onClose, isUserLoggedIn }: SidebarProps) => {
   return (
     <motion.div
       ref={sidebarRef}
-      className="fixed left-0 top-0 h-full w-204 bg-background-secondary"
+      className="fixed left-0 top-0 z-10 h-full w-204 bg-background-secondary"
       initial={{ x: "-100%" }}
       animate={{ x: isOpen && isMobile ? "0%" : "-100%" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -56,33 +56,26 @@ const NavSideBar = ({ isOpen, onClose, isUserLoggedIn }: SidebarProps) => {
         className="absolute right-22 top-22"
       />
       <div className="ml-16 mt-75">
-        {isUserLoggedIn ? (
-          <>
-            <ul className="space-y-24">
-              {teams.map((membership) => (
-                <li key={membership.group.id}>
-                  <Link
-                    href={`/team${membership.group.id}`}
-                    onClick={handleLinkClick}
-                  >
-                    {membership.group.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-24">
-              <Link href="/" onClick={handleLinkClick}>
-                자유게시판
-              </Link>
-            </div>
-          </>
-        ) : (
-          <div className="mt-24">
-            <Link href="/" onClick={handleLinkClick}>
-              자유게시판
-            </Link>
-          </div>
+        {hasTeams && (
+          <ul className="space-y-24">
+            {teams.map((membership) => (
+              <li key={membership.group.id}>
+                <Link
+                  href={`/team${membership.group.id}`}
+                  onClick={handleLinkClick}
+                >
+                  {membership.group.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         )}
+
+        <div className="mt-24">
+          <Link href="/" onClick={handleLinkClick}>
+            자유게시판
+          </Link>
+        </div>
       </div>
     </motion.div>
   );
