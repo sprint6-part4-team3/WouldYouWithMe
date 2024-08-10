@@ -21,7 +21,7 @@ const BoardLike = ({ isLiked, boardId, likeCount }: BoardLikeProps) => {
   const [showLottie, setShowLottie] = useState(false);
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async (userAction: "UNLIKE" | "LIKE") => {
       if (userAction === "LIKE") {
         await likeBoard(boardId);
@@ -54,8 +54,6 @@ const BoardLike = ({ isLiked, boardId, likeCount }: BoardLikeProps) => {
   });
 
   const handleLikeClick = (userAction: "UNLIKE" | "LIKE") => {
-    if (isPending) return;
-
     setShowLottie(true);
     mutate(userAction);
 
@@ -68,9 +66,8 @@ const BoardLike = ({ isLiked, boardId, likeCount }: BoardLikeProps) => {
     <div className="relative flex min-w-50 items-center gap-8">
       <button
         type="submit"
-        className={`text-30 ${isPending ? "cursor-not-allowed" : "cursor-pointer"} ${isLiked ? "text-brand-primary" : "text-text-disabled"}`}
+        className={`text-30 cursor-pointer ${isLiked ? "text-brand-primary" : "text-text-disabled"}`}
         onClick={() => handleLikeClick(isLiked ? "UNLIKE" : "LIKE")}
-        disabled={isPending}
       >
         ♥
       </button>
