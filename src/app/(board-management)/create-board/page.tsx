@@ -52,7 +52,7 @@ const CreateBoardPage = () => {
     mutate(submitData, {
       onSuccess: (res) => {
         toast.success("게시물이 작성되었습니다.");
-        router.replace(`/board/${res.id}`);
+        router.push(`/board/${res.id}`);
       },
       onError: (error) => {
         toast.error(error.message);
