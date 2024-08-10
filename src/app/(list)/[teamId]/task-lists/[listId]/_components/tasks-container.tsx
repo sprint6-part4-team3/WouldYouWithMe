@@ -1,9 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-
 import { TaskList } from "@/types/group";
-import { Tasks } from "@/types/task-list/index";
 
 import TaskCard from "./task-card";
 
