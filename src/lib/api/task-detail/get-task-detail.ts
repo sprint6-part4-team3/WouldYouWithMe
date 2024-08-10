@@ -7,15 +7,11 @@ const getTaskDetail = async (
   taskListId: number,
   taskId: number,
 ): Promise<TaskDetailData | null> => {
-  const token = "";
-
   try {
     const response = await instance.get(
-      `/6-3/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
+      `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        authorization: true,
       },
     );
 
