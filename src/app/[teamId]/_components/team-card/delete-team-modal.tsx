@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-import { Button, Drawer, Input, Modal } from "@/components/common";
+import { Button, Drawer, FloatButton, Input, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import deleteGroup from "@/lib/api/group/delete-group";
 import { LoadingSpinner } from "@/public/assets/icons";
@@ -66,7 +66,7 @@ const TeamDeleteModal = ({
     <ModalComponent
       showCloseButton
       onClose={onClose}
-      title="팀 삭제 하실건가요?"
+      title="팀을 삭제 하실건가요?"
       description="삭제할 팀 이름을 적어주세요."
     >
       <div>
@@ -78,7 +78,7 @@ const TeamDeleteModal = ({
         />
         {isLoading ? (
           <>
-            <Button
+            {/* <Button
               onClick={cancelDeletion}
               variant="danger"
               className="mt-16 h-47 w-full"
@@ -88,7 +88,15 @@ const TeamDeleteModal = ({
             <div className="m-auto mt-15 flex items-center justify-center">
               <div>처리 중...</div>
               <LoadingSpinner width={30} height={30} />
-            </div>
+            </div> */}
+            <FloatButton
+              onClick={cancelDeletion}
+              variant="danger"
+              className="mt-16 h-47 w-full"
+              Icon={<LoadingSpinner width={30} height={30} />}
+            >
+              팀 삭제 취소
+            </FloatButton>
           </>
         ) : (
           <Button

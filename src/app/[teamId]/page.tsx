@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 
 import getGroupData from "@/lib/api/group/get-group-data";
-import { LoadingSpinner } from "@/public/assets/icons";
 import { GroupResponse, GroupTask } from "@/types/group";
 import { GroupMember } from "@/types/user";
 
 import Empty from "./_components/empty";
+import TeamPageLoading from "./_components/loading";
 import MemberBox from "./_components/member";
 import ReportBox from "./_components/report";
 import TeamCardBox from "./_components/team-card";
@@ -35,13 +35,7 @@ const TeamPage = ({ params }: { params: { teamId: number } }) => {
   }, [teamId]);
 
   if (isLoading) {
-    // 임시 로딩 화면
-    return (
-      <div className="m-auto mt-200 flex items-center justify-center gap-10">
-        <LoadingSpinner width={30} height={30} />
-        <div>Loading...</div>
-      </div>
-    );
+    return <TeamPageLoading />;
   }
   if (!userData) {
     return <Empty />;
