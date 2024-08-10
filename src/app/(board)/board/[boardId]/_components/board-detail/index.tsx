@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -63,8 +64,11 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
           )}
         </div>
         <div className="flex items-center gap-8 text-12-400 text-text-disabled md:text-14-400">
-          <div className="flex gap-4">
-            <span>♥ {boardData.likeCount}</span>
+          <div className="flex min-w-30 gap-4">
+            <span className={clsx({ "text-brand-primary": boardData.isLiked })}>
+              ♥
+            </span>
+            <span>{boardData.likeCount}</span>
           </div>
         </div>
       </div>
