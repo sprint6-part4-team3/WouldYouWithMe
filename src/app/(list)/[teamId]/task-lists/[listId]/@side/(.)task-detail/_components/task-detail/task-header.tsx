@@ -24,7 +24,7 @@ const TaskHeader = ({
     <span className={isCompleted ? "line-through" : ""}>{taskName}</span>
     <DropDown handleClose={closeDropdown}>
       <DropDown.Trigger onClick={toggleDropdown}>
-        <IconKebab />
+        <IconKebab className="cursor-pointer" />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={isDropdownOpen}>
         <DropDown.Item onClick={() => console.log("수정")}>
