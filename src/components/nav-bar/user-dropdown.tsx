@@ -3,7 +3,7 @@
 import { useAtom } from "jotai";
 import Link from "next/link";
 import { useState } from "react";
-
+import Image from "next/image";
 import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
@@ -42,7 +42,18 @@ const UserDropdown = () => {
       <DropDown handleClose={userDropdown.handleOff}>
         <DropDown.Trigger onClick={userDropdown.handleToggle}>
           <div className="flex items-center">
-            <IconUser className="mr-12" />
+            {user.image ? (
+              <Image
+                src={user.image}
+                alt={user.nickname}
+                width={32}
+                height={32}
+                objectFit="cover"
+                className="rounded-md mr-12"
+              />
+            ) : (
+              <IconUser className="mr-12" />
+            )}
             <span className="hidden lg:inline">{user.nickname}</span>
           </div>
         </DropDown.Trigger>
