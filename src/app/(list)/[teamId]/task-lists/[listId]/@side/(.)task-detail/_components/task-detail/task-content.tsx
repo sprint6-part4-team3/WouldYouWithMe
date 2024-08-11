@@ -11,7 +11,8 @@ import utc from "dayjs/plugin/utc";
 import React, { useState } from "react";
 
 import { useToggle } from "@/hooks";
-import postComment from "@/lib/api/task-comments/post-comment";
+import useToast from "@/hooks/use-toast";
+import createComment from "@/lib/api/task-comments/post-comment";
 import { IconCheckPrimary } from "@/public/assets/icons";
 import { Comment } from "@/types/comments/index";
 import { TaskDetailData } from "@/types/task-detail/index";
@@ -43,13 +44,16 @@ const TaskContent = ({ task, initialComments }: TaskContentProps) => {
   const [isCompleted, setIsCompleted] = useState(task.doneAt !== null);
   const [comments, setComments] = useState<Comment[]>(initialComments);
 
+  const toast = useToast();
+
   const addCommentMutation = useMutation({
-    mutationFn: (content: string) => postComment(task.id, content),
+    mutationFn: (content: string) => createComment(task.id, content),
     onSuccess: (newComment) => {
       setComments((prevComments) => [newComment, ...prevComments]);
+      toast.success("댓글이 성공적으로 추가되었습니다.");
     },
     onError: (error: Error) => {
-      console.error("댓글 추가에러:", error);
+      toast.error(`댓글 추가 실패: ${error.message}`);
     },
   });
 
@@ -81,6 +85,7 @@ const TaskContent = ({ task, initialComments }: TaskContentProps) => {
         date={taskDate.format("YYYY년 M월 D일")}
         time={taskDate.format("A h:mm")}
         frequency={task.frequency}
+        profileImage={task.user?.image}
       />
       <TaskDescription
         description={task.recurring.description}

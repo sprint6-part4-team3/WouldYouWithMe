@@ -7,12 +7,7 @@ import instance from "../axios-instance";
 
 const getComments = async (taskId: number): Promise<Comment[]> => {
   try {
-    const response = await instance.get<Comment[]>(
-      `/tasks/${taskId}/comments`,
-      {
-        authorization: true,
-      },
-    );
+    const response = await instance.get<Comment[]>(`/tasks/${taskId}/comments`);
     return response.data;
   } catch (error) {
     console.error("Error in getComments:", error);

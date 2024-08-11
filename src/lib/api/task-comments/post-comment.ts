@@ -5,7 +5,7 @@ import { PostCommentRequest } from "@/types/comments/index";
 
 import instance from "../axios-instance";
 
-const postComment = async (
+const createComment = async (
   taskId: number,
   content: string,
 ): Promise<PostCommentRequest> => {
@@ -14,9 +14,6 @@ const postComment = async (
       `/tasks/${taskId}/comments`,
       {
         content,
-      },
-      {
-        authorization: true,
       },
     );
     return response.data;
@@ -37,4 +34,4 @@ const postComment = async (
   }
 };
 
-export default postComment;
+export default createComment;
