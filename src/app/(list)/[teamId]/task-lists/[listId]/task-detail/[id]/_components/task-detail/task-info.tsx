@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 import {
@@ -12,6 +13,7 @@ interface TaskInfoProps {
   date: string;
   time: string;
   frequency: string;
+  profileImage?: string;
 }
 
 const frequencyMap = {
@@ -21,14 +23,30 @@ const frequencyMap = {
   MONTHLY: "매월 반복",
 } as const;
 
-const TaskInfo = ({ nickname, date, time, frequency }: TaskInfoProps) => {
+const TaskInfo = ({
+  nickname,
+  date,
+  time,
+  frequency,
+  profileImage,
+}: TaskInfoProps) => {
   const getFrequencyText = (freqKey: string): string =>
     frequencyMap[freqKey as keyof typeof frequencyMap] || frequencyMap.ONCE;
 
   return (
     <div className="flex flex-col gap-16">
       <div className="flex flex-[1_0_0] items-center">
-        <IconProfile className="mr-12" />
+        {profileImage ? (
+          <Image
+            src={profileImage}
+            alt={`${nickname}'s profile`}
+            width={32}
+            height={32}
+            className="mr-12 rounded-full"
+          />
+        ) : (
+          <IconProfile className="mr-12" />
+        )}
         <div className="flex flex-col gap-4">
           <div className="text-12-500 text-text-secondary">작성자</div>
           <div className="text-14-600 text-text-primary">{nickname}</div>
