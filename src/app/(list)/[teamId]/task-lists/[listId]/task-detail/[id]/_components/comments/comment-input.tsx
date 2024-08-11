@@ -39,12 +39,11 @@ const CommentInput = ({ onAddComment }: CommentInputProps) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative border-y-[0.2px] border-text-disabled"
+      className="relative h-49 border-y-[0.2px] border-text-disabled"
     >
-      <input
-        type="text"
+      <textarea
         placeholder="댓글을 달아주세요"
-        className="w-full !border-0 bg-background-primary p-13 placeholder:text-gray-400 focus:!outline-none"
+        className=" size-full resize-none overflow-hidden !border-0 bg-background-secondary p-13 placeholder:text-gray-400 focus:!outline-none"
         {...register("content", {
           required: true,
           validate: (value) => value.trim() !== "",
