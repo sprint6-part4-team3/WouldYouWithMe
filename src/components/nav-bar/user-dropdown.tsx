@@ -1,20 +1,19 @@
 "use client";
 
+import { useAtom } from "jotai";
 import Link from "next/link";
 import { useState } from "react";
 
 import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
+import userAtom from "@/stores/user-atom";
 
 import DropDown from "../common/drop-down";
 import LogoutDrawer from "./logout-drawer";
 import LogoutModal from "./logout-modal";
 
-interface UserDropdownProps {
-  user: string;
-}
-
-const UserDropdown = ({ user }: UserDropdownProps) => {
+const UserDropdown = () => {
+  const [user] = useAtom(userAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const userDropdown = useToggle();
@@ -44,7 +43,7 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
         <DropDown.Trigger onClick={userDropdown.handleToggle}>
           <div className="flex items-center">
             <IconUser className="mr-12" />
-            <span className="hidden lg:inline">{user}</span>
+            <span className="hidden lg:inline">{user.nickname}</span>
           </div>
         </DropDown.Trigger>
         <DropDown.Menu

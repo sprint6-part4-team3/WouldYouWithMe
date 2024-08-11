@@ -11,14 +11,14 @@ import TeamDropdown from "./team-dropdown";
 import UserDropdown from "./user-dropdown";
 
 const NavBar = () => {
-  const userNicknameCookie = cookies().get("userNickname");
-  const userNickname = userNicknameCookie ? userNicknameCookie.value : "";
+  const userIdCookie = cookies().get("userId");
+  const userId = userIdCookie ? userIdCookie.value : "";
 
   return (
     <header className="sticky top-0 z-10 h-60 border-b border-border-secondary bg-background-secondary">
       <div className="mx-24 flex h-full items-center justify-between lg:mx-120">
         <div className="flex items-center gap-20">
-          {userNickname && <GnbButton />}
+          {userId && <GnbButton />}
           <div className="relative w-158 shrink-0">
             <Link href="/">
               <Image
@@ -28,7 +28,7 @@ const NavBar = () => {
               />
             </Link>
           </div>
-          {userNickname && (
+          {userId && (
             <div className="hidden items-center gap-20 md:flex">
               <TeamDropdown />
               <Link href="/board" className="text-text-primary">
@@ -37,7 +37,7 @@ const NavBar = () => {
             </div>
           )}
         </div>
-        {userNickname && <UserDropdown user={userNickname} />}
+        {userId && <UserDropdown />}
       </div>
     </header>
   );
