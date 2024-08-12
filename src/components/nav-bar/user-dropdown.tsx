@@ -5,14 +5,13 @@ import { useState } from "react";
 
 import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
-import { User } from "@/types/user";
 
 import DropDown from "../common/drop-down";
 import LogoutDrawer from "./logout-drawer";
 import LogoutModal from "./logout-modal";
 
 interface UserDropdownProps {
-  user: User;
+  user: string;
 }
 
 const UserDropdown = ({ user }: UserDropdownProps) => {
@@ -20,7 +19,6 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const userDropdown = useToggle();
   const isMobile = useIsMobile();
-  const userNickname = user.nickname;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -46,7 +44,7 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
         <DropDown.Trigger onClick={userDropdown.handleToggle}>
           <div className="flex items-center">
             <IconUser className="mr-12" />
-            <span className="hidden lg:inline">{userNickname}</span>
+            <span className="hidden lg:inline">{user}</span>
           </div>
         </DropDown.Trigger>
         <DropDown.Menu

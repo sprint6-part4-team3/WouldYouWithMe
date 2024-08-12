@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -17,13 +18,20 @@ const LogoutDrawer = ({ isOpen, onClose }: LogoutDrawerProps) => {
   const { success, error } = useToast();
   const router = useRouter();
 
+  const queryClient = useQueryClient();
+
   const onSubmit = async () => {
     setIsLoading(true);
 
     try {
       await deleteCookie("token");
       await deleteCookie("refreshToken");
+      await deleteCookie("userId");
+      await deleteCookie("userNickname");
       success("로그아웃 성공");
+
+      queryClient.invalidateQueries({ queryKey: ["userData"] });
+
       router.push("/");
     } catch (err) {
       error("로그아웃 실패");

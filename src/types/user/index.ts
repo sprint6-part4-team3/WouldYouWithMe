@@ -23,8 +23,8 @@ export type User = {
 };
 
 export type Group = {
-  updatedAt: string | Date;
-  createdAt: string | Date;
+  updatedAt: string;
+  createdAt: string;
   image: string | null;
   name: string;
   teamId: string;
