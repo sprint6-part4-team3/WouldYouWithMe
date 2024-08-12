@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import getBoardComment from "@/lib/api/board-comment/get-comment";
 import { LoadingSpinner } from "@/public/assets/icons";
+import scrollToTop from "@/utils/\bscroll-to-top";
 
 import Comment from "./comment";
 import EmptyComment from "./empty-comment";
@@ -43,13 +44,6 @@ const CommentList = ({ boardId }: CommentListProps) => {
     }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   useEffect(() => {
     const throttledScrollHandler = () => {
       handleScroll();
@@ -87,13 +81,16 @@ const CommentList = ({ boardId }: CommentListProps) => {
           )}
 
           {isVisibleScrollTop && !hasNextPage && (
-            <button
-              className="mx-auto mt-30 flex size-50 items-center justify-center rounded-full border-4 border-brand-primary"
-              type="button"
-              onClick={scrollToTop}
-            >
-              ▲
-            </button>
+            <div className="mx-auto mt-30 flex items-center justify-center gap-12 ">
+              <button
+                className="size-50 rounded-full border-4 border-brand-primary"
+                type="button"
+                onClick={scrollToTop}
+              >
+                ▲
+              </button>
+              <span>맨 위로</span>
+            </div>
           )}
         </>
       ) : (
