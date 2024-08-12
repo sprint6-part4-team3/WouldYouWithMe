@@ -6,7 +6,15 @@ import { IconKebab } from "@/public/assets/icons";
 
 import CommentDeleteModal from "./comment-delete-modal";
 
-const CommentDropDown = ({ commentId }: { commentId: number }) => {
+interface CommentDropDownProps {
+  commentId: number;
+  setIsEditMode: (id: number | null) => void;
+}
+
+const CommentDropDown = ({
+  commentId,
+  setIsEditMode,
+}: CommentDropDownProps) => {
   const { value, handleToggle, handleOff } = useToggle();
   const {
     value: modalIsOpen,
@@ -28,7 +36,9 @@ const CommentDropDown = ({ commentId }: { commentId: number }) => {
         >
           삭제하기
         </DropDown.Item>
-        <DropDown.Item>수정하기</DropDown.Item>
+        <DropDown.Item onClick={() => setIsEditMode(commentId)}>
+          수정하기
+        </DropDown.Item>
       </DropDown.Menu>
       {modalIsOpen && (
         <CommentDeleteModal commentId={commentId} onClose={modalOff} />

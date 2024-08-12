@@ -1,7 +1,7 @@
 "use client";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import getBoardComment from "@/lib/api/board-comment/get-comment";
 import { LoadingSpinner } from "@/public/assets/icons";
@@ -14,6 +14,8 @@ interface CommentListProps {
 }
 
 const CommentList = ({ boardId }: CommentListProps) => {
+  const [editMode, setEditMode] = useState<number | null>(null);
+
   const {
     data: commentListData,
     fetchNextPage,
@@ -56,7 +58,12 @@ const CommentList = ({ boardId }: CommentListProps) => {
         <>
           {commentListData.pages.map((page) =>
             page.list.map((comment) => (
-              <Comment key={comment.id} commentData={comment} />
+              <Comment
+                key={comment.id}
+                commentData={comment}
+                isEditMode={editMode === comment.id}
+                setEditMode={setEditMode}
+              />
             )),
           )}
 
