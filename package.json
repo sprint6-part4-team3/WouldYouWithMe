@@ -22,6 +22,7 @@
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
+    "cookies-next": "^4.2.1",
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.12",
     "eslint-plugin-tailwindcss": "^3.17.4",

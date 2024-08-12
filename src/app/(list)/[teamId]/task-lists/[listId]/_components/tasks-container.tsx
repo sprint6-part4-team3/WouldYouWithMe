@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-
-import { Task } from "@/types/task-list/index";
+import { TaskList } from "@/types/group";
 
 import TaskCard from "./task-card";
 
 interface TasksProps {
-  initialTasks: Task[];
+  initialTasks: TaskList[];
   currentListId: number;
   currentTeamId: number;
 }
@@ -17,19 +15,17 @@ const TasksContainer = ({
   currentListId,
   currentTeamId,
 }: TasksProps) => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
-
   const handleEdit = (id: number) => {
     // 수정 로직 구현
   };
 
   const handleDelete = (id: number) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+    // 삭제 로직 구현
   };
 
   return (
     <div>
-      {tasks.map((task) => (
+      {initialTasks.map((task) => (
         <TaskCard
           key={task.id}
           id={task.id}
