@@ -1,9 +1,10 @@
 "use client";
 
 import { useAtom } from "jotai";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import Image from "next/image";
+
 import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
@@ -49,7 +50,7 @@ const UserDropdown = () => {
                 width={32}
                 height={32}
                 objectFit="cover"
-                className="rounded-md mr-12"
+                className="mr-12 rounded-md"
               />
             ) : (
               <IconUser className="mr-12" />

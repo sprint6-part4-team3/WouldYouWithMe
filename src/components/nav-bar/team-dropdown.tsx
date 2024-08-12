@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -9,6 +10,7 @@ import { useToggle } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { ImgPlanet } from "@/public/assets/images";
+import recentTeamAtom from "@/stores/recent-team-atom";
 import { User } from "@/types/user";
 
 import DropDown from "../common/drop-down";
@@ -25,10 +27,12 @@ const TeamDropdown = () => {
   });
 
   const teamDropdown = useToggle();
+  const setRecentTeam = useSetAtom(recentTeamAtom);
 
   const teams = user?.memberships ?? [];
-  // TODO - 최근 방문한 팀으로 변경 예정
-  const firstTeamName = teams.length > 0 ? teams[0].group.name : "";
+  const dropdownTeamName =
+    useAtomValue(recentTeamAtom) ||
+    (teams.length > 0 ? teams[0].group.name : "");
   const [isExpanded, setIsExpanded] = useState(false);
   const visibleTeams = isExpanded ? teams : teams.slice(0, 4);
 
@@ -45,7 +49,7 @@ const TeamDropdown = () => {
       <DropDown handleClose={teamDropdown.handleOff}>
         <DropDown.Trigger onClick={teamDropdown.handleToggle}>
           <div className="flex items-center">
-            {firstTeamName}
+            {dropdownTeamName}
             <IconDropdown className="ml-8" />
           </div>
         </DropDown.Trigger>
@@ -57,7 +61,8 @@ const TeamDropdown = () => {
           {visibleTeams.map((membership) => (
             <Link
               key={membership.group.id}
-              href={`/team/${membership.group.id}`}
+              href={`${membership.group.id}`}
+              onClick={() => setRecentTeam(membership.group.name)}
             >
               <DropDown.Item onClick={teamDropdown.handleOff}>
                 <div className="flex items-center">
