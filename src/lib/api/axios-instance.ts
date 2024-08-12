@@ -66,7 +66,6 @@ instance.interceptors.response.use(
       } catch (refreshError) {
         deleteCookie("refreshToken");
         deleteCookie("token");
-        await redirectTo("/login");
         return Promise.reject(refreshError);
       }
     }
