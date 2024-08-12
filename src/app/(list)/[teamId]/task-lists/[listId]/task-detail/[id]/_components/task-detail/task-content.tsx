@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import "dayjs/locale/ko";
@@ -35,12 +33,7 @@ interface TaskContentProps {
 
 const TaskContent = ({ task, initialComments }: TaskContentProps) => {
   const taskDate = dayjs.utc(task.recurring.startDate);
-
-  const {
-    value: isDropdownOpen,
-    handleToggle: toggleDropdown,
-    handleOff: closeDropdown,
-  } = useToggle();
+  const dropdownUseToggle = useToggle();
   const [isCompleted, setIsCompleted] = useState(task.doneAt !== null);
   const [comments, setComments] = useState<Comment[]>(initialComments);
 
@@ -76,9 +69,7 @@ const TaskContent = ({ task, initialComments }: TaskContentProps) => {
       <TaskHeader
         taskName={task.name}
         isCompleted={isCompleted}
-        isDropdownOpen={isDropdownOpen}
-        toggleDropdown={toggleDropdown}
-        closeDropdown={closeDropdown}
+        dropdownUseToggle={dropdownUseToggle}
       />
       <TaskInfo
         nickname={task.user?.nickname ?? "Unknown"}

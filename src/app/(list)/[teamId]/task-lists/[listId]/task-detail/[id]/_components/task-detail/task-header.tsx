@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import React from "react";
 
 import DropDown from "@/components/common/drop-down/index";
@@ -8,22 +7,22 @@ import { IconKebab } from "@/public/assets/icons";
 interface TaskHeaderProps {
   taskName: string;
   isCompleted: boolean;
-  isDropdownOpen: boolean;
-  toggleDropdown: () => void;
-  closeDropdown: () => void;
+  dropdownUseToggle: {
+    value: boolean;
+    handleToggle: () => void;
+    handleOff: () => void;
+  };
 }
 
 const TaskHeader = ({
   taskName,
   isCompleted,
-  isDropdownOpen,
-  toggleDropdown,
-  closeDropdown,
+  dropdownUseToggle: { value: isDropdownOpen, handleToggle, handleOff },
 }: TaskHeaderProps) => (
   <div className="mt-10 flex items-center justify-between text-18-600 text-text-primary">
     <span className={isCompleted ? "line-through" : ""}>{taskName}</span>
-    <DropDown handleClose={closeDropdown}>
-      <DropDown.Trigger onClick={toggleDropdown}>
+    <DropDown handleClose={handleOff}>
+      <DropDown.Trigger onClick={handleToggle}>
         <IconKebab className="cursor-pointer" />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={isDropdownOpen}>
