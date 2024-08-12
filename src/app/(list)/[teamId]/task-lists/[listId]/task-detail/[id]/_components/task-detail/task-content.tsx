@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useToggle } from "@/hooks";
 import useToast from "@/hooks/use-toast";
@@ -65,31 +65,20 @@ const TaskContent = ({
   const editTaskMutation = useMutation({
     mutationFn: (data: TaskEditData) =>
       editTaskDetail(groupId, taskListId, task.id, data),
-    onMutate: async (newTaskData) => {
-      await queryClient.cancelQueries({ queryKey: ["task", task.id] });
-      const previousTask = queryClient.getQueryData<TaskDetailData>([
-        "task",
-        task.id,
-      ]);
-
+    onSuccess: (data, variables) => {
+      setIsCompleted(variables.done);
       queryClient.setQueryData<TaskDetailData>(["task", task.id], (old) => ({
         ...old!,
-        ...newTaskData,
-        doneAt: newTaskData.done ? new Date().toISOString() : null,
+        ...variables,
+        doneAt: variables.done ? new Date().toISOString() : null,
       }));
-
-      setIsCompleted(newTaskData.done);
       toast.success(
-        newTaskData.done
+        variables.done
           ? "작업이 완료되었습니다."
           : "작업이 미완료 상태로 변경되었습니다.",
       );
-
-      return { previousTask };
     },
-    onError: (err, newTaskData, context) => {
-      queryClient.setQueryData(["task", task.id], context?.previousTask);
-      setIsCompleted(context?.previousTask?.doneAt !== null);
+    onError: (err) => {
       toast.error(`작업 상태 업데이트 실패: ${err.message}`);
     },
     onSettled: () => {
@@ -97,8 +86,16 @@ const TaskContent = ({
     },
   });
 
+  useEffect(() => {
+    if (editTaskMutation.isPending) {
+      toast.success("완료 처리중입니다...");
+    }
+  }, [editTaskMutation.isPending, toast]);
+
   const handleToggleComplete = useCallback(() => {
-    editTaskMutation.mutate({ done: !isCompleted });
+    if (!editTaskMutation.isPending) {
+      editTaskMutation.mutate({ done: !isCompleted });
+    }
   }, [isCompleted, editTaskMutation]);
 
   const handleAddComment = useCallback(
@@ -122,7 +119,7 @@ const TaskContent = ({
   return (
     <div className="flex min-w-350 flex-col gap-16">
       {isCompleted && (
-        <div className="mt-5 flex items-center gap-5 text-14-600 text-brand-primary">
+        <div className="flex items-center text-14-600 text-brand-primary">
           <IconCheckPrimary />
           <span>완료</span>
         </div>
@@ -137,6 +134,7 @@ const TaskContent = ({
         description={task.recurring.description}
         isCompleted={isCompleted}
         onToggleComplete={handleToggleComplete}
+        isPending={editTaskMutation.isPending}
       />
       <CommentInput onAddComment={handleAddComment} />
       {comments.length > 0 ? (
