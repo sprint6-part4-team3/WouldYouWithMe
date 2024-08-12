@@ -30,8 +30,10 @@ const Comment = ({ commentData, isEditMode, setEditMode }: CommentProps) => {
         />
       ) : (
         <div className="flex flex-col gap-32 rounded-8 bg-background-secondary p-16">
-          <div className="flex items-center justify-between gap-12">
-            <span className="text-14-400 leading-[21px]">
+          <div className="flex justify-between gap-12">
+            <span
+              className={`w-full whitespace-pre-wrap break-words text-14-400 leading-[21px] ${user.id === commentData.writer.id ? "w-[97%]" : "w-full"}`}
+            >
               {commentData.content}
             </span>
             {user.id === commentData.writer.id && (

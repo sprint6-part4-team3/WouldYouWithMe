@@ -25,7 +25,7 @@ const CommentDropDown = ({
   return (
     <DropDown handleClose={handleOff}>
       <DropDown.Trigger onClick={handleToggle}>
-        <IconKebab className="cursor-pointer" />
+        <IconKebab className="mt-4 cursor-pointer items-center" />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value}>
         <DropDown.Item
