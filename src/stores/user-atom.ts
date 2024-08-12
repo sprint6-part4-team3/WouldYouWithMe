@@ -1,4 +1,5 @@
 import { atomWithStorage } from "jotai/utils";
+
 import { LoginUser } from "@/types/user";
 
 const userAtom = atomWithStorage<LoginUser>("user", {
