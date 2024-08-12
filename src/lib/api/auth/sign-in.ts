@@ -18,9 +18,8 @@ const signIn = async (email: string, password: string) => {
       cookies().set("token", data.accessToken);
       cookies().set("refreshToken", data.refreshToken);
       cookies().set("userId", data.user.id);
-      cookies().set("userNickname", data.user.nickname);
 
-      return { success: true };
+      return { success: true, data };
     }
     return { success: false, data };
   } catch (error) {

@@ -2,10 +2,12 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { useSetAtom } from "jotai";
 import Link from "next/link";
 
 import { useClickOutside, useIsMobile } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
+import recentTeamAtom from "@/stores/recent-team-atom";
 import { User } from "@/types/user";
 
 import IconButton from "../common/icon-button";
@@ -28,11 +30,13 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
 
   const sidebarRef = useClickOutside(onClose);
   const isMobile = useIsMobile();
+  const setRecentTeam = useSetAtom(recentTeamAtom);
 
   const teams = user?.memberships ?? [];
   const hasTeams = teams.length > 0;
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (teamName: string) => {
+    setRecentTeam(teamName);
     onClose();
   };
 
@@ -61,8 +65,8 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
             {teams.map((membership) => (
               <li key={membership.group.id}>
                 <Link
-                  href={`/team${membership.group.id}`}
-                  onClick={handleLinkClick}
+                  href={`/${membership.group.id}`}
+                  onClick={() => handleLinkClick(membership.group.name)}
                 >
                   {membership.group.name}
                 </Link>
@@ -72,7 +76,7 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
         )}
 
         <div className="mt-24">
-          <Link href="/" onClick={handleLinkClick}>
+          <Link href="/board" onClick={onClose}>
             자유게시판
           </Link>
         </div>

@@ -66,7 +66,7 @@ const BoardLike = ({ isLiked, boardId, likeCount }: BoardLikeProps) => {
     <div className="relative flex min-w-50 items-center gap-8">
       <button
         type="submit"
-        className={`text-30 cursor-pointer ${isLiked ? "text-brand-primary" : "text-text-disabled"}`}
+        className={`cursor-pointer text-30 ${isLiked ? "text-brand-primary" : "text-text-disabled"}`}
         onClick={() => handleLikeClick(isLiked ? "UNLIKE" : "LIKE")}
       >
         ♥

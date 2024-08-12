@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,12 +14,14 @@ import { useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
+import userAtom from "@/stores/user-atom";
 import { SignInInput } from "@/types/auth";
 
 const SignInForm: React.FC = () => {
   const router = useRouter();
   const { success, error } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [, setUser] = useAtom(userAtom);
 
   const queryClient = useQueryClient();
 
@@ -43,6 +46,18 @@ const SignInForm: React.FC = () => {
         error(`${resData.data?.message}`);
       } else {
         success("로그인 성공");
+
+        setUser({
+          id: resData.data.user.id,
+          nickname: resData.data.user.nickname,
+          createdAt: resData.data.user.createdAt,
+          updatedAt: resData.data.user.updatedAt,
+          image: resData.data.user.image,
+          teamId: resData.data.user.teamId,
+          email: resData.data.user.email,
+          accessToken: resData.data.accessToken,
+          refreshToken: resData.data.refreshToken,
+        });
 
         queryClient.invalidateQueries({ queryKey: ["userData"] });
 
@@ -99,7 +114,7 @@ const SignInForm: React.FC = () => {
         className="mt-40 h-47 w-full"
         disabled={!isValid || isLoading}
       >
-        로그인
+        {isLoading ? "처리 중..." : "로그인"}
       </Button>
       <div className="flex justify-center">
         <p className="mt-24">
