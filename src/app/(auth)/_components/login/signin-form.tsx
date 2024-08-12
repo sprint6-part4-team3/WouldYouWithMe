@@ -10,18 +10,24 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
-import { useToast } from "@/hooks";
+import { useIsMobile, useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import userAtom from "@/stores/user-atom";
 import { SignInInput } from "@/types/auth";
 
+import ResetPasswordDrawer from "../reset-password/reset-password-drawer";
+import ResetPasswordModal from "../reset-password/reset-password-modal";
+
 const SignInForm: React.FC = () => {
   const router = useRouter();
   const { success, error } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [, setUser] = useAtom(userAtom);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const isMobile = useIsMobile();
 
   const queryClient = useQueryClient();
 
@@ -72,6 +78,12 @@ const SignInForm: React.FC = () => {
     }
   };
 
+  const CommonComponent = isMobile ? ResetPasswordDrawer : ResetPasswordModal;
+
+  const handlePasswordResetClick = () => {
+    setIsOpen(true);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-315 md:w-470">
       <p className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
@@ -104,9 +116,16 @@ const SignInForm: React.FC = () => {
             isError={!!errors.password}
           />
         </FieldWrapper>
-        <p className="mt-12 text-right text-16-500 text-brand-primary underline">
-          <Link href="/reset-password">비밀번호를 잊으셨나요?</Link>
-        </p>
+        <div className="mt-12 text-right">
+          <button
+            type="button"
+            className="text-16-500 text-brand-primary underline"
+            onClick={handlePasswordResetClick}
+          >
+            비밀번호를 잊으셨나요?
+          </button>
+          <CommonComponent isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        </div>
       </div>
       <Button
         variant="primary"
