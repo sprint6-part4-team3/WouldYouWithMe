@@ -30,10 +30,10 @@ const AddComment = ({ boardId }: { boardId: number }) => {
     mutate(submitData, {
       onSuccess: () => {
         queryClient.invalidateQueries({
-          queryKey: ["comment", boardId],
+          queryKey: ["board-comment", boardId],
         });
-        toast.success("댓글이 작성되었습니다.");
         reset();
+        toast.success("댓글이 작성되었습니다.");
       },
       onError: (error) => {
         toast.error(error.message);
