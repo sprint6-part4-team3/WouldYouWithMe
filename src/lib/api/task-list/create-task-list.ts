@@ -7,11 +7,16 @@ import { TaskListAddEditInput } from "@/types/task-list";
 import instance from "../axios-instance";
 
 // 팀 목록 생성 POST 요청
-const createTaskList = async (data: TaskListAddEditInput, groupId: number) => {
+const createTaskList = async (
+  data: TaskListAddEditInput,
+  groupId: number,
+  options: { signal?: AbortSignal },
+): Promise<GroupTask> => {
   try {
     const res: AxiosResponse<GroupTask> = await instance.post(
       `/groups/${groupId}/task-lists`,
       data,
+      options,
     );
     return res.data;
   } catch (e: unknown) {

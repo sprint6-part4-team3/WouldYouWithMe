@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Button from "@/components/common/buttons/button";
@@ -11,8 +12,10 @@ import Modal from "@/components/common/modal";
 import { useIsMobile, useToast, useToggle } from "@/hooks";
 import createTaskList from "@/lib/api/task-list/create-task-list";
 import taskListAddEditSchema from "@/lib/schemas/task-list";
-import { IconPlusCurrent } from "@/public/assets/icons";
+import { IconPlusCurrent, LoadingSpinner } from "@/public/assets/icons";
 import { TaskListAddEditInput } from "@/types/task-list";
+
+import FloatButton from "../float-button";
 
 /**
  * 새로운 목록 추가하기 버튼
@@ -28,6 +31,9 @@ type AddListModalButtonProps = {
 
 const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
   const { value, handleOn, handleOff } = useToggle();
+  const [isLoading, setIsLoading] = useState(false);
+  const [abortController, setAbortController] =
+    useState<AbortController | null>(null);
   const toast = useToast();
   const isMobile = useIsMobile();
 
@@ -38,23 +44,36 @@ const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
   });
 
   const createList = async (data: TaskListAddEditInput) => {
+    const controller = new AbortController();
+    setAbortController(controller);
+
+    setIsLoading(true);
     try {
-      await createTaskList(data, groupId);
+      await createTaskList(data, groupId, { signal: controller.signal });
       toast.success("등록이 완료되었습니다");
       handleOff();
       reset();
-    } catch (error) {
-      let errorMessage = "목록 생성 중 문제가 발생했습니다";
-      // 서버에서 처리된 에러 메시지 확인
-      if (axios.isAxiosError(error)) {
-        if (error.response && error.response.data) {
-          // 서버 응답에서 에러 메시지 추출
-          errorMessage =
-            error.response.data.message || "서버에서 에러가 발생했습니다";
-        }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        const errorMessage =
+          error.response.data.message || "서버에서 에러가 발생했습니다";
+        toast.error(errorMessage);
+      } else if (error instanceof Error && error.name === "AbortError") {
+        toast.error("목록 생성이 취소되었습니다.");
+      } else {
+        toast.error("중복된 목록 이름입니다.");
       }
-      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+      setAbortController(null);
     }
+  };
+
+  const cancelDeletion = () => {
+    if (abortController) {
+      abortController.abort();
+    }
+    setIsLoading(false);
   };
 
   const ModalComponent = isMobile ? Drawer : Modal;
@@ -70,7 +89,12 @@ const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
         새로운 목록 추가하기
       </button>
       {value && (
-        <ModalComponent showCloseButton onClose={handleOff} title="할 일 목록">
+        <ModalComponent
+          showCloseButton
+          onClose={handleOff}
+          title="새로운 목록 추가"
+          description="할 일에 대한 목록을 추가하고 목록별 할 일을 만들 수 있습니다."
+        >
           <form
             className="flex flex-col gap-16"
             onSubmit={handleSubmit(createList)}
@@ -78,11 +102,22 @@ const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
             <Input
               {...register("name")}
               id="create-list"
-              placeholder="목록을 입력해주세요"
+              placeholder="목록 이름을 입력해주세요."
             />
-            <Button variant="primary" className="h-48 w-full" type="submit">
-              만들기
-            </Button>
+            {isLoading ? (
+              <FloatButton
+                onClick={cancelDeletion}
+                variant="danger"
+                className="h-48 w-full"
+                Icon={<LoadingSpinner width={30} height={30} />}
+              >
+                목록 생성 취소
+              </FloatButton>
+            ) : (
+              <Button variant="primary" className="h-48 w-full" type="submit">
+                만들기
+              </Button>
+            )}
           </form>
         </ModalComponent>
       )}

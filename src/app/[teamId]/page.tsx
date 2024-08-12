@@ -6,8 +6,8 @@ import getGroupData from "@/lib/api/group/get-group-data";
 import { GroupResponse, GroupTask } from "@/types/group";
 import { GroupMember } from "@/types/user";
 
+import PageLoading from "../../components/loading";
 import Empty from "./_components/empty";
-import TeamPageLoading from "./_components/loading";
 import MemberBox from "./_components/member";
 import ReportBox from "./_components/report";
 import TeamCardBox from "./_components/team-card";
@@ -35,7 +35,7 @@ const TeamPage = ({ params }: { params: { teamId: number } }) => {
   }, [teamId]);
 
   if (isLoading) {
-    return <TeamPageLoading />;
+    return <PageLoading />;
   }
   if (!userData) {
     return <Empty />;
