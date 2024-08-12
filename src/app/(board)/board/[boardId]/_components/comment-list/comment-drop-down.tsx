@@ -9,7 +9,7 @@ const CommentDropDown = () => {
   return (
     <DropDown handleClose={handleOff}>
       <DropDown.Trigger onClick={handleToggle}>
-        <IconKebab />
+        <IconKebab className="cursor-pointer" />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value}>
         <DropDown.Item>삭제하기</DropDown.Item>
