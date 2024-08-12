@@ -152,7 +152,7 @@ const SignUpForm: React.FC = () => {
         className="mt-40 h-47 w-full"
         disabled={!isValid || isLoading}
       >
-        회원가입
+        {isLoading ? "처리 중..." : "회원가입"}
       </Button>
       <div className="flex justify-center">
         <p className="mt-24">
