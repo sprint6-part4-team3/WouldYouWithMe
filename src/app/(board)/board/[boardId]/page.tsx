@@ -26,7 +26,7 @@ const BoardPage = async ({ params }: { params: { boardId: number } }) => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <BoardDetail userId={Number(userId)} boardId={boardId} />
-      <AddComment />
+      <AddComment boardId={boardId} />
       <CommentList commentListData={CommentTestData} />
     </HydrationBoundary>
   );
