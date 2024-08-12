@@ -1,12 +1,8 @@
 export type User = {
   id: number;
   email: string;
-  encryptedPassword: string;
   nickname: string;
-  image: string;
-  teamId: string;
-  createdAt: string;
-  updatedAt: string;
+  image: string | null;
 };
 
 export type Comment = {
@@ -16,5 +12,11 @@ export type Comment = {
   updatedAt: string;
   taskId: number;
   userId: number;
-  user: User;
+  user?: User;
 };
+
+export type GetCommentsResponse = {
+  comments: Comment[];
+};
+
+export type PostCommentRequest = Omit<Comment, "user">;
