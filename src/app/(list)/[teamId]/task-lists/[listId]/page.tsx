@@ -1,6 +1,7 @@
 import Link from "next/link";
-import React from "react";
+import { Suspense } from "react";
 
+import Loading from "@/components/loading";
 import getTaskLists from "@/lib/api/task-lists/get-task-lists";
 import getTasks from "@/lib/api/task-lists/get-tasks";
 import { IconPlusCurrent } from "@/public/assets/icons";
@@ -63,4 +64,15 @@ const TaskLists = async ({ params, searchParams }: TaskListProps) => {
   );
 };
 
-export default TaskLists;
+const TaskListWrapper = (props: TaskListProps) => {
+  const { searchParams } = props;
+  const { params } = props;
+  const key = `${params}/${searchParams.date}`;
+  return (
+    <Suspense key={key} fallback={<Loading />}>
+      <TaskLists {...props} />
+    </Suspense>
+  );
+};
+
+export default TaskListWrapper;
