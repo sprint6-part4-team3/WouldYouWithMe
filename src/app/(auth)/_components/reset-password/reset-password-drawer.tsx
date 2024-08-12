@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +5,8 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, Drawer, FieldWrapper, Input } from "@/components/common";
+import { useToast } from "@/hooks";
+import SendEmail from "@/lib/api/reset-password/send-email";
 import { emailSchema } from "@/lib/schemas/auth";
 import { EmailInput } from "@/types/auth";
 
@@ -17,6 +17,7 @@ interface ResetPasswordDrawerProps {
 
 const ResetPasswordDrawer = ({ isOpen, onClose }: ResetPasswordDrawerProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { success, error } = useToast();
 
   const {
     register,
@@ -28,21 +29,20 @@ const ResetPasswordDrawer = ({ isOpen, onClose }: ResetPasswordDrawerProps) => {
     reValidateMode: "onChange",
   });
 
-  // NOTE - api 작업 대신 넣었습니다.
   const onSubmit: SubmitHandler<EmailInput> = async ({ email }) => {
     setIsLoading(true);
 
-    setTimeout(() => {
-      const success = true;
+    const redirectUrl = "https://3team-coworkers.netlify.app";
 
-      if (success) {
-        console.log("성공");
-      } else {
-        console.log("실패");
-      }
+    const { success: apiSuccess, data } = await SendEmail(email, redirectUrl);
 
-      setIsLoading(false);
-    }, 1000);
+    if (apiSuccess) {
+      success(data.message);
+    } else {
+      error(data.message);
+    }
+
+    setIsLoading(false);
   };
 
   return (

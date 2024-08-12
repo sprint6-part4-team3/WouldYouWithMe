@@ -17,6 +17,12 @@ const SendEmail = async (email: string, redirectUrl: string) => {
     return { success: false, data: response.data };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
+      if (error.response.status === 400) {
+        return {
+          success: false,
+          data: { message: "존재하지 않는 유저입니다." },
+        };
+      }
       return {
         success: false,
         data: error.response.data,
