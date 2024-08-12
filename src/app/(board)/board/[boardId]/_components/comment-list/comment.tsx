@@ -1,3 +1,5 @@
+"use client";
+
 import { useAtom } from "jotai";
 import Image from "next/image";
 
@@ -21,7 +23,9 @@ const Comment = ({ commentData }: CommentProps) => {
         <span className="text-14-400 leading-[21px]">
           {commentData.content}
         </span>
-        {user.id === commentData.writer.id && <CommentDropDown />}
+        {user.id === commentData.writer.id && (
+          <CommentDropDown commentId={commentData.id} />
+        )}
       </div>
       <div className="flex items-center">
         {commentData.writer.image ? (
