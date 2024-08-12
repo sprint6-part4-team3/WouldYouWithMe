@@ -27,7 +27,6 @@ const LogoutModal = ({ isOpen, onClose }: LogoutModalProps) => {
       await deleteCookie("token");
       await deleteCookie("refreshToken");
       await deleteCookie("userId");
-      await deleteCookie("userNickname");
       success("로그아웃 성공");
 
       queryClient.invalidateQueries({ queryKey: ["userData"] });
