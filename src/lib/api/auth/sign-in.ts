@@ -5,30 +5,22 @@ import { cookies } from "next/headers";
 
 import instance from "@/lib/api/axios-instance";
 
-const signUp = async (
-  email: string,
-  nickname: string,
-  password: string,
-  passwordConfirmation: string,
-) => {
+const signIn = async (email: string, password: string) => {
   try {
-    const response = await instance.post(`/auth/signUp`, {
+    const response = await instance.post(`/auth/signIn`, {
       email,
-      nickname,
       password,
-      passwordConfirmation,
     });
 
     const { data } = response;
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       cookies().set("token", data.accessToken);
       cookies().set("refreshToken", data.refreshToken);
+      cookies().set("userId", data.user.id);
+      cookies().set("userNickname", data.user.nickname);
 
-      return {
-        success: true,
-        user: data.user,
-      };
+      return { success: true };
     }
     return { success: false, data };
   } catch (error) {
@@ -41,9 +33,9 @@ const signUp = async (
 
     return {
       success: false,
-      data: { message: "회원가입 요청 중 오류가 발생했습니다." },
+      data: { message: "로그인 요청 중 오류가 발생했습니다." },
     };
   }
 };
 
-export default signUp;
+export default signIn;
