@@ -1,20 +1,21 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
-import { useIsMobile } from "@/hooks";
+import { useIsMobile, useToast } from "@/hooks";
+import ResetPassword from "@/lib/api/reset-password/reset-password";
 import { resetPasswordSchema } from "@/lib/schemas/auth";
 import { ResetPasswordInput } from "@/types/auth";
 
 const ResetPasswordForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
   const isMobile = useIsMobile();
+  const { success, error } = useToast();
+  const router = useRouter();
 
   const {
     register,
@@ -26,21 +27,36 @@ const ResetPasswordForm: React.FC = () => {
     reValidateMode: "onChange",
   });
 
-  // NOTE - api 작업 대신 넣었습니다.
-  const onSubmit: SubmitHandler<ResetPasswordInput> = async (data) => {
+  const onSubmit: SubmitHandler<ResetPasswordInput> = async ({
+    passwordConfirmation,
+    password,
+  }) => {
     setIsLoading(true);
 
-    setTimeout(() => {
-      const success = true;
-      if (success) {
-        if (isMobile) {
-          setIsDrawerOpen(true);
-        } else {
-          setIsModalOpen(true);
-        }
+    try {
+      const token = new URLSearchParams(window.location.search).get("token");
+
+      if (!token) {
+        throw new Error("유효하지 않은 요청입니다.");
       }
+
+      const { success: apiSuccess, data } = await ResetPassword(
+        passwordConfirmation,
+        password,
+        token,
+      );
+
+      if (apiSuccess) {
+        success("비밀번호를 변경했습니다.");
+        setTimeout(() => {
+          router.push("/login");
+        }, 2000);
+      } else {
+        error(data.message);
+      }
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -86,7 +102,7 @@ const ResetPasswordForm: React.FC = () => {
         className="mt-40 h-47 w-full"
         disabled={!isValid || isLoading}
       >
-        재설정
+        {isLoading ? "처리 중..." : "재설정"}
       </Button>
     </form>
   );
