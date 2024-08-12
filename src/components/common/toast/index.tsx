@@ -40,7 +40,7 @@ const Toast = ({ type, message = "test", id }: ToastProps) => {
     <motion.div
       key={id}
       className={clsx(
-        "inline-flex cursor-pointer items-center rounded-lg border bg-background-tertiary p-8 text-center shadow-md transition-all duration-300 ease-in-out sm:w-full ",
+        "inline-flex cursor-pointer items-center rounded-lg border bg-background-tertiary px-24 py-16 text-center shadow-md transition-all duration-300 ease-in-out sm:w-full ",
         {
           "text-point-green border-point-green": type === "success",
           "text-point-rose border-point-rose": type === "error",

@@ -1,9 +1,7 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -28,6 +26,7 @@ interface EditBoardFormProps {
 }
 
 const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
+  const queryClient = useQueryClient();
   const toast = useToast();
   const router = useRouter();
 
@@ -52,6 +51,9 @@ const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
 
     mutate(submitData, {
       onSuccess: (res) => {
+        queryClient.invalidateQueries({
+          queryKey: ["board", res.id],
+        });
         router.replace(`/board/${res.id}`);
         toast.success("게시물이 수정되었습니다.");
       },

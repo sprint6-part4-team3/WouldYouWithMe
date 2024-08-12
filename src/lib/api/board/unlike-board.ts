@@ -5,11 +5,11 @@ import { BoardResponse } from "@/types/board";
 
 import instance from "../axios-instance";
 
-// 게시물 상세 정보 GET 요청
-const getBoardDetailData = async (boardId: number) => {
+// 게시물 좋아요 취소 delete 요청
+const unlikeBoard = async (boardId: number) => {
   try {
-    const res: AxiosResponse<BoardResponse> = await instance.get(
-      `/articles/${boardId}`,
+    const res: AxiosResponse<BoardResponse> = await instance.delete(
+      `/articles/${boardId}/like`,
     );
     return res.data;
   } catch (error: unknown) {
@@ -21,4 +21,4 @@ const getBoardDetailData = async (boardId: number) => {
   }
 };
 
-export default getBoardDetailData;
+export default unlikeBoard;
