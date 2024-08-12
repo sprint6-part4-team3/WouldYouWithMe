@@ -12,7 +12,7 @@ const getBoardComment = async (boardId: number, cursor?: number) => {
       `/articles/${boardId}/comments`,
       {
         params: {
-          limit: 5,
+          limit: 7,
           cursor,
         },
         authorization: false,

@@ -15,6 +15,7 @@ interface CommentListProps {
 
 const CommentList = ({ boardId }: CommentListProps) => {
   const [editMode, setEditMode] = useState<number | null>(null);
+  const [isVisibleScrollTop, setIsVisibleScrollTop] = useState(false);
 
   const {
     data: commentListData,
@@ -30,13 +31,24 @@ const CommentList = ({ boardId }: CommentListProps) => {
 
   const handleScroll = useCallback(() => {
     if (
-      window.scrollY + window.innerHeight >= document.body.scrollHeight - 5 &&
+      window.scrollY + window.innerHeight >= document.body.scrollHeight - 1 &&
       hasNextPage &&
       !isFetchingNextPage
     ) {
       fetchNextPage();
     }
+
+    if (window.innerHeight < document.body.scrollHeight) {
+      setIsVisibleScrollTop(true);
+    }
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
     const throttledScrollHandler = () => {
@@ -52,7 +64,7 @@ const CommentList = ({ boardId }: CommentListProps) => {
 
   return (
     <section
-      className={`flex flex-col gap-16 ${isFetchingNextPage ? "mb-20" : "mb-70"}`}
+      className={`flex flex-col gap-16 ${isFetchingNextPage ? "mb-20" : "mb-50"}`}
     >
       {commentListData?.pages[0].list.length ? (
         <>
@@ -72,6 +84,16 @@ const CommentList = ({ boardId }: CommentListProps) => {
               <LoadingSpinner width={40} height={40} />
               <span>댓글 불러오는 중...</span>
             </div>
+          )}
+
+          {isVisibleScrollTop && !hasNextPage && (
+            <button
+              className="mx-auto mt-30 flex size-50 items-center justify-center rounded-full border-4 border-brand-primary"
+              type="button"
+              onClick={scrollToTop}
+            >
+              ▲
+            </button>
           )}
         </>
       ) : (
