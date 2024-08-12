@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -9,6 +10,7 @@ import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
 import { useToast } from "@/hooks";
 import createGroup from "@/lib/api/group/create-group";
 import { teamAddEditSchema } from "@/lib/schemas/team-manage";
+import recentTeamAtom from "@/stores/recent-team-atom";
 import { TeamAddEditInput } from "@/types/team-management";
 
 import ImageInput from "./image-input";
@@ -18,6 +20,8 @@ import SubmitButton from "./submit-button";
 const CreateTeamForm = () => {
   const toast = useToast();
   const router = useRouter();
+
+  const setRecentTeam = useSetAtom(recentTeamAtom);
 
   const methods = useForm<TeamAddEditInput>({
     resolver: zodResolver(teamAddEditSchema),
@@ -36,6 +40,7 @@ const CreateTeamForm = () => {
     mutate(data, {
       onSuccess: (res) => {
         toast.success("그룹이 생성되었습니다.");
+        setRecentTeam(res.name);
         router.push(`/${res.id}`);
       },
       onError: (error) => {
