@@ -75,7 +75,7 @@ const CommentList = ({ boardId }: CommentListProps) => {
         className={`flex flex-col gap-16 ${isFetchingNextPage ? "mb-20" : "mb-50"}`}
       >
         {sampleComment && (
-          <div className="opacity-40 transition-opacity duration-300">
+          <div className="opacity-40">
             <Comment
               commentData={sampleComment}
               isEditMode={false}
