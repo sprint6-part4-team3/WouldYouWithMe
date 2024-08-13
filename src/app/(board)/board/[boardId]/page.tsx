@@ -6,11 +6,10 @@ import {
 import { cookies } from "next/headers";
 
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
+import getBoardComment from "@/lib/api/board-comment/get-comment";
 
-import AddComment from "./_components/add-comment";
 import BoardDetail from "./_components/board-detail";
 import CommentList from "./_components/comment-list";
-import CommentTestData from "./comment.json";
 
 const BoardPage = async ({ params }: { params: { boardId: number } }) => {
   const queryClient = new QueryClient();
@@ -18,16 +17,22 @@ const BoardPage = async ({ params }: { params: { boardId: number } }) => {
   const { boardId } = params;
   const userId = cookies().get("userId")?.value;
 
-  await queryClient.prefetchQuery({
-    queryKey: ["board", boardId],
-    queryFn: () => getBoardDetailData(boardId),
-  });
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ["board", boardId],
+      queryFn: () => getBoardDetailData(boardId),
+    }),
+    queryClient.prefetchInfiniteQuery({
+      queryKey: ["board-comment", boardId],
+      queryFn: ({ pageParam }) => getBoardComment(boardId, pageParam),
+      initialPageParam: 0,
+    }),
+  ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <BoardDetail userId={Number(userId)} boardId={boardId} />
-      <AddComment />
-      <CommentList commentListData={CommentTestData} />
+      <CommentList boardId={boardId} />
     </HydrationBoundary>
   );
 };
