@@ -14,6 +14,7 @@ import { useIsMobile, useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
+import pwLengthAtom from "@/stores/pw-length-atom";
 import userAtom from "@/stores/user-atom";
 import { SignInInput } from "@/types/auth";
 
@@ -25,6 +26,7 @@ const SignInForm: React.FC = () => {
   const { success, error } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [, setUser] = useAtom(userAtom);
+  const [, setPwLength] = useAtom(pwLengthAtom);
   const [isOpen, setIsOpen] = useState(false);
 
   const isMobile = useIsMobile();
@@ -44,6 +46,7 @@ const SignInForm: React.FC = () => {
   const onSubmit: SubmitHandler<SignInInput> = async (data) => {
     setIsLoading(true);
     const { email, password } = data;
+    const passwordLength = password.length;
 
     try {
       const resData = await signIn(email, password);
@@ -65,11 +68,13 @@ const SignInForm: React.FC = () => {
           refreshToken: resData.data.refreshToken,
         });
 
+        setPwLength(passwordLength);
+
         queryClient.invalidateQueries({ queryKey: ["userData"] });
 
         setTimeout(() => {
           router.push("/");
-        }, 3000);
+        }, 2000);
       }
     } catch (err) {
       error("로그인 요청 중 오류가 발생했습니다.");

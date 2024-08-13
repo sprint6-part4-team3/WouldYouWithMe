@@ -1,12 +1,12 @@
 "use client";
 
+import { useAtomValue } from "jotai";
 import { useState } from "react";
-import { useFormContext } from "react-hook-form";
 
 import { Button, FieldWrapper, FloatButton, Input } from "@/components/common";
 import { useIsMobile } from "@/hooks";
 import { IconSecession } from "@/public/assets/icons";
-import { UserSettingInput } from "@/types/auth";
+import pwLengthAtom from "@/stores/pw-length-atom";
 
 import CancelUserDrawer from "./cancel-user-drawer";
 import CancelUserModal from "./cancel-user-modal";
@@ -14,47 +14,35 @@ import ChangePasswordDrawer from "./change-password-drawer";
 import ChangePasswordModal from "./change-password-modal";
 
 const PasswordInput = () => {
-  const {
-    register,
-    watch,
-    formState: { errors },
-  } = useFormContext<UserSettingInput>();
-
-  const [isChangeModalOpen, setIsChangeModalOpen] = useState(false);
-  const [isChangeDrawerOpen, setIsChangeDrawerOpen] = useState(false);
-  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-  const [isCancelDrawerOpen, setIsCancelDrawerOpen] = useState(false);
+  const [isChangeOpen, setIsChangeOpen] = useState(false);
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
   const isMobile = useIsMobile();
 
+  const passwordLength = useAtomValue(pwLengthAtom) || 0;
+  const defaultPassword = "•".repeat(passwordLength);
+
+  const CommonChangeComponent = isMobile
+    ? ChangePasswordDrawer
+    : ChangePasswordModal;
+  const CommonCancelComponent = isMobile ? CancelUserDrawer : CancelUserModal;
+
   const handleChangePasswordClick = () => {
-    if (isMobile) {
-      setIsChangeDrawerOpen(true);
-    } else {
-      setIsChangeModalOpen(true);
-    }
+    setIsChangeOpen(true);
   };
 
   const handleCancelUserClick = () => {
-    if (isMobile) {
-      setIsCancelDrawerOpen(true);
-    } else {
-      setIsCancelModalOpen(true);
-    }
+    setIsCancelOpen(true);
   };
 
   return (
-    <FieldWrapper
-      label="비밀번호"
-      id="password"
-      errorMessage={errors.password?.message || ""}
-    >
+    <FieldWrapper label="비밀번호" id="password">
       <div className="relative">
         <Input
-          {...register("password")}
           id="password"
-          placeholder="비밀번호를 입력해주세요"
-          isError={!!errors.password}
-          value={watch("password")}
+          placeholder=""
+          value={defaultPassword}
+          readOnly
+          className="w-full rounded-xl bg-background-tertiary px-16 py-15 text-16-500 text-text-primary  outline-none ring-1 transition-all duration-300"
         />
         <Button
           variant="primary"
@@ -63,17 +51,10 @@ const PasswordInput = () => {
         >
           변경하기
         </Button>
-        {isMobile ? (
-          <ChangePasswordDrawer
-            isOpen={isChangeDrawerOpen}
-            onClose={() => setIsChangeDrawerOpen(false)}
-          />
-        ) : (
-          <ChangePasswordModal
-            isOpen={isChangeModalOpen}
-            onClose={() => setIsChangeModalOpen(false)}
-          />
-        )}
+        <CommonChangeComponent
+          isOpen={isChangeOpen}
+          onClose={() => setIsChangeOpen(false)}
+        />
         <FloatButton
           variant="cancel"
           Icon={<IconSecession />}
@@ -82,17 +63,10 @@ const PasswordInput = () => {
         >
           회원 탈퇴하기
         </FloatButton>
-        {isMobile ? (
-          <CancelUserDrawer
-            isOpen={isCancelDrawerOpen}
-            onClose={() => setIsCancelDrawerOpen(false)}
-          />
-        ) : (
-          <CancelUserModal
-            isOpen={isCancelModalOpen}
-            onClose={() => setIsCancelModalOpen(false)}
-          />
-        )}
+        <CommonCancelComponent
+          isOpen={isCancelOpen}
+          onClose={() => setIsCancelOpen(false)}
+        />
       </div>
     </FieldWrapper>
   );

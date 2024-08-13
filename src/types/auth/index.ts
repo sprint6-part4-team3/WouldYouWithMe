@@ -11,10 +11,8 @@ export type SignUpInput = {
 };
 
 export type UserSettingInput = {
-  image?: string;
+  image: string | null;
   name: string;
-  email: string;
-  password: string;
 };
 
 export type ResetPasswordInput = {

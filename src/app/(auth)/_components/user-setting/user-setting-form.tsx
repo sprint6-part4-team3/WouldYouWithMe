@@ -1,11 +1,15 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useAtomValue, useSetAtom } from "jotai";
+import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
+import { useToast } from "@/hooks";
+import editUser from "@/lib/api/user-setting/edit-user";
 import { userSettingSchema } from "@/lib/schemas/auth";
+import userAtom from "@/stores/user-atom";
 import { UserSettingInput } from "@/types/auth";
 
 import EmailInput from "./email-input";
@@ -13,33 +17,48 @@ import ImageInput from "./image-input";
 import NameInput from "./name-input";
 import PasswordInput from "./password-input";
 
-type TestUserData = {
-  image?: string;
-  name: string;
-  email: string;
-  password: string;
-};
+const UserSettingForm = () => {
+  const router = useRouter();
+  const setUser = useSetAtom(userAtom);
+  const user = useAtomValue(userAtom);
+  const { success, error } = useToast();
 
-interface UserSettingFormProps {
-  userData: TestUserData;
-}
-
-const UserSettingForm = ({ userData }: UserSettingFormProps) => {
-  const methods = useForm<UserSettingInput>({
+  const methods = useForm({
     resolver: zodResolver(userSettingSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
     defaultValues: {
-      name: userData.name,
-      email: userData.email,
-      password: userData.password,
-      ...(userData.image && { image: userData.image }),
+      image: user.image || "",
+      name: user.nickname || "",
+      email: user.email || "",
     },
   });
 
+  const { mutate } = useMutation({
+    mutationFn: (data: { name: string; image: string | null }) =>
+      editUser(data),
+  });
+
   const handleSubmitUser: SubmitHandler<UserSettingInput> = (data) => {
-    // TODO: API 연동 - 계정 수정 patch 요청
-    console.log(data);
+    const { image, name } = data;
+
+    mutate(
+      { image, name },
+      {
+        onSuccess: () => {
+          success("유저 정보가 수정되었습니다.");
+          setUser((prevUser) => ({
+            ...prevUser,
+            nickname: data.name,
+            image: data.image || prevUser.image,
+          }));
+          router.replace(`/user-setting`);
+        },
+        onError: () => {
+          error("수정에 실패했습니다.");
+        },
+      },
+    );
   };
 
   return (
