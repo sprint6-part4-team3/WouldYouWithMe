@@ -4,20 +4,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-import { useToast } from "@/hooks";
-import editUser from "@/lib/api/user-setting/edit-user";
+import { useIsMobile, useToast } from "@/hooks";
+import EditUser from "@/lib/api/user-setting/edit-user";
 import { userSettingSchema } from "@/lib/schemas/auth";
 import userAtom from "@/stores/user-atom";
 import { UserSettingInput } from "@/types/auth";
 
+import CancelUserDrawer from "./cancel-user-drawer";
+import CancelUserModal from "./cancel-user-modal";
+import ChangePasswordDrawer from "./change-password-drawer";
+import ChangePasswordModal from "./change-password-modal";
 import EmailInput from "./email-input";
 import ImageInput from "./image-input";
 import NameInput from "./name-input";
 import PasswordInput from "./password-input";
 
 const UserSettingForm = () => {
+  const [isChangeOpen, setIsChangeOpen] = useState(false);
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
+  const isMobile = useIsMobile();
   const router = useRouter();
   const setUser = useSetAtom(userAtom);
   const user = useAtomValue(userAtom);
@@ -35,7 +43,7 @@ const UserSettingForm = () => {
 
   const { mutate } = useMutation({
     mutationFn: (data: { nickname: string; image: string | null }) =>
-      editUser(data),
+      EditUser(data),
   });
 
   const handleSubmitUser: SubmitHandler<UserSettingInput> = (data) => {
@@ -60,18 +68,44 @@ const UserSettingForm = () => {
     );
   };
 
+  const CommonChangeComponent = isMobile
+    ? ChangePasswordDrawer
+    : ChangePasswordModal;
+  const CommonCancelComponent = isMobile ? CancelUserDrawer : CancelUserModal;
+
+  const handleChangePasswordClick = () => {
+    setIsChangeOpen(true);
+  };
+
+  const handleCancelUserClick = () => {
+    setIsCancelOpen(true);
+  };
+
   return (
-    <FormProvider {...methods}>
-      <form
-        className="mt-80 flex w-full max-w-800 flex-col gap-24"
-        onSubmit={methods.handleSubmit(handleSubmitUser)}
-      >
-        <ImageInput />
-        <NameInput />
-        <EmailInput />
-        <PasswordInput />
-      </form>
-    </FormProvider>
+    <>
+      <FormProvider {...methods}>
+        <form
+          className="mt-80 flex w-full max-w-800 flex-col gap-24"
+          onSubmit={methods.handleSubmit(handleSubmitUser)}
+        >
+          <ImageInput />
+          <NameInput />
+          <EmailInput />
+          <PasswordInput
+            onChangePasswordClick={handleChangePasswordClick}
+            onCancelUserClick={handleCancelUserClick}
+          />
+        </form>
+      </FormProvider>
+      <CommonCancelComponent
+        isOpen={isCancelOpen}
+        onClose={() => setIsCancelOpen(false)}
+      />
+      <CommonChangeComponent
+        isOpen={isChangeOpen}
+        onClose={() => setIsChangeOpen(false)}
+      />
+    </>
   );
 };
 

@@ -26,8 +26,8 @@ export type EmailInput = {
 };
 
 export type ChangePasswordInput = {
-  newPassword: string;
-  newPasswordConfirmation: string;
+  password: string;
+  passwordConfirmation: string;
 };
 
 export type AccessToken = {

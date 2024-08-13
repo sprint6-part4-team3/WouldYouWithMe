@@ -1,38 +1,22 @@
 "use client";
 
 import { useAtomValue } from "jotai";
-import { useState } from "react";
 
 import { Button, FieldWrapper, FloatButton, Input } from "@/components/common";
-import { useIsMobile } from "@/hooks";
 import { IconSecession } from "@/public/assets/icons";
 import pwLengthAtom from "@/stores/pw-length-atom";
 
-import CancelUserDrawer from "./cancel-user-drawer";
-import CancelUserModal from "./cancel-user-modal";
-import ChangePasswordDrawer from "./change-password-drawer";
-import ChangePasswordModal from "./change-password-modal";
+interface PasswordInputProps {
+  onChangePasswordClick: () => void;
+  onCancelUserClick: () => void;
+}
 
-const PasswordInput = () => {
-  const [isChangeOpen, setIsChangeOpen] = useState(false);
-  const [isCancelOpen, setIsCancelOpen] = useState(false);
-  const isMobile = useIsMobile();
-
+const PasswordInput = ({
+  onChangePasswordClick,
+  onCancelUserClick,
+}: PasswordInputProps) => {
   const passwordLength = useAtomValue(pwLengthAtom) || 0;
   const defaultPassword = "•".repeat(passwordLength);
-
-  const CommonChangeComponent = isMobile
-    ? ChangePasswordDrawer
-    : ChangePasswordModal;
-  const CommonCancelComponent = isMobile ? CancelUserDrawer : CancelUserModal;
-
-  const handleChangePasswordClick = () => {
-    setIsChangeOpen(true);
-  };
-
-  const handleCancelUserClick = () => {
-    setIsCancelOpen(true);
-  };
 
   return (
     <FieldWrapper label="비밀번호" id="password">
@@ -47,26 +31,18 @@ const PasswordInput = () => {
         <Button
           variant="primary"
           className="absolute right-16 top-9 z-[5] h-32 w-100"
-          onClick={handleChangePasswordClick}
+          onClick={onChangePasswordClick}
         >
           비밀번호 변경
         </Button>
-        <CommonChangeComponent
-          isOpen={isChangeOpen}
-          onClose={() => setIsChangeOpen(false)}
-        />
         <FloatButton
           variant="cancel"
           Icon={<IconSecession />}
           className="absolute top-80"
-          onClick={handleCancelUserClick}
+          onClick={onCancelUserClick}
         >
           회원 탈퇴하기
         </FloatButton>
-        <CommonCancelComponent
-          isOpen={isCancelOpen}
-          onClose={() => setIsCancelOpen(false)}
-        />
       </div>
     </FieldWrapper>
   );

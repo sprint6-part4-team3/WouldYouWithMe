@@ -4,7 +4,7 @@ import { UserSettingInput } from "@/types/auth";
 
 import instance from "../axios-instance";
 
-const editUser = async (data: UserSettingInput) => {
+const EditUser = async (data: UserSettingInput) => {
   try {
     const response = await instance.patch(`/user`, data);
 
@@ -24,4 +24,4 @@ const editUser = async (data: UserSettingInput) => {
   }
 };
 
-export default editUser;
+export default EditUser;

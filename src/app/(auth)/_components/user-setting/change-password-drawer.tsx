@@ -1,13 +1,15 @@
-/* eslint-disable no-console */
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, Drawer, FieldWrapper, Input } from "@/components/common";
-import { changePasswordSchema } from "@/lib/schemas/auth";
+import { useToast } from "@/hooks";
+import ChangePassword from "@/lib/api/user-setting/change-password";
+import { resetPasswordSchema } from "@/lib/schemas/auth";
 import { ChangePasswordInput } from "@/types/auth";
 
 interface ChangePasswordDrawerProps {
@@ -20,35 +22,44 @@ const ChangePasswordDrawer = ({
   onClose,
 }: ChangePasswordDrawerProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { success, error } = useToast();
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<ChangePasswordInput>({
-    resolver: zodResolver(changePasswordSchema),
+    resolver: zodResolver(resetPasswordSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
   });
 
-  // NOTE - api 작업 대신 넣었습니다.
-  const onSubmit: SubmitHandler<ChangePasswordInput> = async ({
-    newPassword,
-    newPasswordConfirmation,
-  }) => {
+  const { mutate } = useMutation({
+    mutationFn: (data: { passwordConfirmation: string; password: string }) =>
+      ChangePassword(data),
+  });
+
+  const onSubmit: SubmitHandler<ChangePasswordInput> = (data) => {
     setIsLoading(true);
 
-    setTimeout(() => {
-      const success = true;
+    const { passwordConfirmation, password } = data;
 
-      if (success) {
-        console.log("성공");
-      } else {
-        console.log("실패");
-      }
-
-      setIsLoading(false);
-    }, 1000);
+    mutate(
+      { passwordConfirmation, password },
+      {
+        onSuccess: () => {
+          success("비밀번호가 변경되었습니다.");
+          router.replace(`/user-setting`);
+          setIsLoading(false);
+          onClose();
+        },
+        onError: () => {
+          error("비밀번호 변경에 실패했습니다.");
+          setIsLoading(false);
+        },
+      },
+    );
   };
 
   return (
@@ -56,30 +67,30 @@ const ChangePasswordDrawer = ({
       <Drawer onClose={onClose} title="비밀번호 변경하기" description="">
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldWrapper
-            id="newPassword"
+            id="password"
             label="새 비밀번호"
-            errorMessage={errors.newPassword?.message || ""}
+            errorMessage={errors.password?.message || ""}
           >
             <Input
-              id="newPassword"
+              id="password"
               type="password"
               placeholder="새 비밀번호를 입력하세요."
-              {...register("newPassword")}
-              isError={!!errors.newPassword}
+              {...register("password")}
+              isError={!!errors.password}
             />
           </FieldWrapper>
           <div className="mt-16">
             <FieldWrapper
-              id="newPasswordConfirmation"
+              id="passwordConfirmation"
               label="새 비밀번호 확인"
-              errorMessage={errors.newPasswordConfirmation?.message || ""}
+              errorMessage={errors.passwordConfirmation?.message || ""}
             >
               <Input
-                id="newPasswordConfirmation"
+                id="passwordConfirmation"
                 type="password"
                 placeholder="새 비밀번호를 다시 입력하세요."
-                {...register("newPasswordConfirmation")}
-                isError={!!errors.newPasswordConfirmation}
+                {...register("passwordConfirmation")}
+                isError={!!errors.passwordConfirmation}
               />
             </FieldWrapper>
           </div>
