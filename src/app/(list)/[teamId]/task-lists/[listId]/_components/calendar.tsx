@@ -11,6 +11,7 @@ import {
   isAfter,
   isBefore,
   isSameDay,
+  isToday,
   startOfMonth,
   startOfWeek,
   subMonths,
@@ -45,7 +46,7 @@ const Calendar = ({ currentDate }: CalendarProps) => {
   const days = eachDayOfInterval({ start: startWeek, end: endWeek });
 
   return (
-    <section className="h-fit w-282 rounded-24 bg-background-tertiary p-16">
+    <section className="h-fit w-full rounded-24 bg-background-tertiary p-16">
       <header className="mb-4 flex items-center justify-between">
         <IconButton
           variant="none"
@@ -83,7 +84,15 @@ const Calendar = ({ currentDate }: CalendarProps) => {
           >
             {isCurrentMonth(day, currentMonth) ? (
               <Link href={`?date=${addDays(day, 1).toISOString()}`}>
-                <time>{format(day, "d")}</time>
+                <time
+                  className={clsx({
+                    "text-brand-primary": isToday(day),
+                    "text-text-inverse":
+                      isToday(day) && isSameDay(day, currentDate),
+                  })}
+                >
+                  {format(day, "d")}
+                </time>
               </Link>
             ) : (
               <time>{format(day, "d")}</time>

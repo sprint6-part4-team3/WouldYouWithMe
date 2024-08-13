@@ -22,7 +22,7 @@ const CalendarButton = ({ children }: CalendarButtonProps) => {
         onClick={handleToggle}
       />
       {value && (
-        <div className="absolute left-[-135px] md:left-5">{children}</div>
+        <div className="absolute left-[-135px] w-282 md:left-5">{children}</div>
       )}
     </div>
   );
