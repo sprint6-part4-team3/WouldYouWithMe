@@ -72,9 +72,7 @@ const SignInForm: React.FC = () => {
 
         queryClient.invalidateQueries({ queryKey: ["userData"] });
 
-        setTimeout(() => {
-          router.push("/");
-        }, 2000);
+        router.push("/");
       }
     } catch (err) {
       error("로그인 요청 중 오류가 발생했습니다.");

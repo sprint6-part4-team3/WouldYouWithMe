@@ -55,7 +55,7 @@ const emailSchema = z.object({
 
 const userSettingSchema = z.object({
   image: z.string().optional(),
-  name: z.string().min(1, "이름은 필수 입력입니다."),
+  nickname: z.string().min(1, "이름은 필수 입력입니다."),
 });
 
 const changePasswordSchema = z

@@ -12,7 +12,7 @@ export type SignUpInput = {
 
 export type UserSettingInput = {
   image: string | null;
-  name: string;
+  nickname: string;
 };
 
 export type ResetPasswordInput = {

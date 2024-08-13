@@ -46,10 +46,10 @@ const PasswordInput = () => {
         />
         <Button
           variant="primary"
-          className="absolute right-16 top-9 z-[5] h-32 w-74"
+          className="absolute right-16 top-9 z-[5] h-32 w-100"
           onClick={handleChangePasswordClick}
         >
-          변경하기
+          비밀번호 변경
         </Button>
         <CommonChangeComponent
           isOpen={isChangeOpen}

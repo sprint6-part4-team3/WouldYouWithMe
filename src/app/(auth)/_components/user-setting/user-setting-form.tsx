@@ -23,33 +23,32 @@ const UserSettingForm = () => {
   const user = useAtomValue(userAtom);
   const { success, error } = useToast();
 
-  const methods = useForm({
+  const methods = useForm<UserSettingInput>({
     resolver: zodResolver(userSettingSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
     defaultValues: {
       image: user.image || "",
-      name: user.nickname || "",
-      email: user.email || "",
+      nickname: user.nickname || "",
     },
   });
 
   const { mutate } = useMutation({
-    mutationFn: (data: { name: string; image: string | null }) =>
+    mutationFn: (data: { nickname: string; image: string | null }) =>
       editUser(data),
   });
 
   const handleSubmitUser: SubmitHandler<UserSettingInput> = (data) => {
-    const { image, name } = data;
+    const { image, nickname } = data;
 
     mutate(
-      { image, name },
+      { image, nickname },
       {
         onSuccess: () => {
           success("유저 정보가 수정되었습니다.");
           setUser((prevUser) => ({
             ...prevUser,
-            nickname: data.name,
+            nickname: data.nickname,
             image: data.image || prevUser.image,
           }));
           router.replace(`/user-setting`);
