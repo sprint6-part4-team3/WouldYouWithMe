@@ -10,7 +10,7 @@ interface CalendarButtonProps {
 }
 
 const CalendarButton = ({ children }: CalendarButtonProps) => {
-  const { value, handleOff, handleOn, handleToggle } = useToggle();
+  const { value, handleOff, handleToggle } = useToggle();
   const ref = useClickOutside(handleOff);
 
   return (
