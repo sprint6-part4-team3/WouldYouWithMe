@@ -11,6 +11,9 @@ const deleteBoardComment = async (commentId: number) => {
     return res.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
+      if (error.response?.status === 400) {
+        throw new Error("로그인 후 댓글 삭제가 가능합니다.");
+      }
       throw error.response?.data;
     } else {
       throw new Error(OTHER_TYPE_ERROR);

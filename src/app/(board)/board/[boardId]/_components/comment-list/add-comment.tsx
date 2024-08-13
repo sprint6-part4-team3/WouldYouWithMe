@@ -82,14 +82,14 @@ const AddComment = ({ boardId, setSampleComment }: AddCommentProps) => {
             type="submit"
             disabled
             variant="primary"
-            className="h-35 w-82 self-end text-14 md:h-48 md:w-184 md:text-16"
+            className="h-35 w-82 self-end md:h-48 md:w-184"
           >
             등록중
           </FloatButton>
         ) : (
           <Button
             type="submit"
-            className="h-35 w-82 self-end text-14 md:h-48 md:w-184 md:text-16"
+            className="h-35 w-82 self-end md:h-48 md:w-184"
             variant="primary"
             disabled={!isValid}
           >
