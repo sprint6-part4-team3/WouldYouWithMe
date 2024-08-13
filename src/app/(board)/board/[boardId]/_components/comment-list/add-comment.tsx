@@ -1,17 +1,25 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FloatButton, TextArea } from "@/components/common";
 import { useToast } from "@/hooks";
 import createBoardComment from "@/lib/api/board-comment/create-comment";
 import { LoadingSpinner } from "@/public/assets/icons";
-import { BoardCommentInput } from "@/types/board/comment";
+import userAtom from "@/stores/user-atom";
+import { BoardCommentInput, BoardCommentResponse } from "@/types/board/comment";
 
-const AddComment = ({ boardId }: { boardId: number }) => {
+interface AddCommentProps {
+  boardId: number;
+  setSampleComment: (value: BoardCommentResponse | null) => void;
+}
+
+const AddComment = ({ boardId, setSampleComment }: AddCommentProps) => {
   const queryClient = useQueryClient();
   const toast = useToast();
+  const [user] = useAtom(userAtom);
 
   const {
     register,
@@ -27,16 +35,28 @@ const AddComment = ({ boardId }: { boardId: number }) => {
   const handleSubmitComment: SubmitHandler<BoardCommentInput> = (data) => {
     const submitData = { content: data.content.trim() };
 
+    const sampleComment = {
+      writer: { image: user.image, nickname: user.nickname, id: user.id },
+      updatedAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+      content: submitData.content,
+      id: 10000,
+    };
+
+    setSampleComment(sampleComment);
+
     mutate(submitData, {
       onSuccess: () => {
         queryClient.invalidateQueries({
           queryKey: ["board-comment", boardId],
         });
+
         reset();
         toast.success("댓글이 작성되었습니다.");
       },
       onError: (error) => {
         toast.error(error.message);
+        setSampleComment(null);
       },
     });
   };

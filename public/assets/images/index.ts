@@ -1,3 +1,4 @@
+export { default as BackGroundImage } from "./img-background.png";
 export { default as ImgDone } from "./img-done.png";
 export { default as ImgGoogle } from "./img-google.png";
 export { default as ImgKakao } from "./img-kakaotalk.png";
@@ -10,6 +11,7 @@ export { default as landingMockupFirst } from "./img-landing-mockup-1.png";
 export { default as landingMockupSecond } from "./img-landing-mockup-2.png";
 export { default as landingMockupThird } from "./img-landing-mockup-3.png";
 export { default as ImgPlanet } from "./img-planet.png";
+export { default as SpaceShipImage } from "./img-spaceship.png";
 export { default as TeamCardThumbnail } from "./img-thumbnail-team.png";
 export { default as ImgTodo } from "./img-todo.png";
 export { default as LogoCoworkers } from "./logo-coworkers.png";
