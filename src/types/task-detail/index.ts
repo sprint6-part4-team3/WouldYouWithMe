@@ -43,3 +43,6 @@ export type TaskDetailData = {
   updatedAt: string;
   id: number;
 };
+
+export type TaskEdit = { name?: string; description?: string; done: boolean };
+export type TaskEditData = { done: boolean };
