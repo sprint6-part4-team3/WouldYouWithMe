@@ -20,3 +20,8 @@ export type GetCommentsResponse = {
 };
 
 export type PostCommentRequest = Omit<Comment, "user">;
+
+export type DeleteCommentResponse = {
+  success: boolean;
+  message?: string;
+};
