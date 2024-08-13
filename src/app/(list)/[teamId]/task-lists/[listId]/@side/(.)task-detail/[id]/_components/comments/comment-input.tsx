@@ -36,8 +36,10 @@ const CommentInput = ({ onAddComment }: CommentInputProps) => {
 
   const onSubmit: SubmitHandler<CommentFormInputs> = async (data) => {
     try {
-      await onAddComment(data.content, currentUser.nickname, currentUser.image);
+      const { content } = data;
       reset();
+
+      await onAddComment(content, currentUser.nickname, currentUser.image);
     } catch (error) {
       console.error("Error submitting comment:", error);
     }

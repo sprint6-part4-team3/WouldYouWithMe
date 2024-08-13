@@ -7,10 +7,9 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useAtom } from "jotai";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { useToggle } from "@/hooks";
-import useToast from "@/hooks/use-toast";
 import createComment from "@/lib/api/task-comments/post-comment";
 import editTaskDetail from "@/lib/api/task-detail/edit-task-detail";
 import { IconCheckPrimary } from "@/public/assets/icons";
@@ -28,7 +27,6 @@ import TaskInfo from "./task-info";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.locale("ko");
-
 interface TaskContentProps {
   task: TaskDetailData;
   initialComments: Comment[];
@@ -50,8 +48,10 @@ const TaskContent = ({
   const [isCompleted, setIsCompleted] = useState(task.doneAt !== null);
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [currentUser] = useAtom(userAtom);
+  const [optimisticComment, setOptimisticComment] = useState<Comment | null>(
+    null,
+  );
 
-  const toast = useToast();
   const queryClient = useQueryClient();
 
   const addCommentMutation = useMutation({
@@ -65,15 +65,15 @@ const TaskContent = ({
         },
       };
       setComments((prevComments) => [commentWithUser, ...prevComments]);
-      toast.success("댓글이 성공적으로 추가되었습니다.");
+      setOptimisticComment(null);
       queryClient.setQueryData(
         ["comments", task.id],
         (oldData: Comment[] | undefined) =>
           oldData ? [commentWithUser, ...oldData] : [commentWithUser],
       );
     },
-    onError: (error: Error) => {
-      toast.error(`댓글 추가 실패: ${error.message}`);
+    onError: () => {
+      setOptimisticComment(null);
     },
   });
 
@@ -87,25 +87,11 @@ const TaskContent = ({
         ...variables,
         doneAt: variables.done ? new Date().toISOString() : null,
       }));
-      toast.success(
-        variables.done
-          ? "작업이 완료되었습니다."
-          : "작업이 미완료 상태로 변경되었습니다.",
-      );
-    },
-    onError: (err) => {
-      toast.error(`작업 상태 업데이트 실패: ${err.message}`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["task", task.id] });
     },
   });
-
-  useEffect(() => {
-    if (editTaskMutation.isPending) {
-      toast.success("완료 처리중입니다...");
-    }
-  }, [editTaskMutation.isPending, toast]);
 
   const handleToggleComplete = () => {
     if (!editTaskMutation.isPending) {
@@ -114,6 +100,20 @@ const TaskContent = ({
   };
 
   const handleAddComment = async (content: string): Promise<void> => {
+    const now = new Date().toISOString();
+    const tempComment = {
+      id: Date.now(),
+      taskId: task.id,
+      content,
+      createdAt: now,
+      updatedAt: now,
+      userId: currentUser.id,
+      user: {
+        nickname: currentUser.nickname,
+        image: currentUser.image,
+      },
+    };
+    setOptimisticComment(tempComment);
     await addCommentMutation.mutateAsync(content);
   };
 
@@ -162,11 +162,14 @@ const TaskContent = ({
         isPending={editTaskMutation.isPending}
       />
       <CommentInput onAddComment={handleAddComment} />
-      {comments.length > 0 ? (
+      {comments.length > 0 || optimisticComment ? (
         <CommentList
-          comments={comments}
+          comments={
+            optimisticComment ? [optimisticComment, ...comments] : comments
+          }
           taskId={task.id}
           onDeleteComment={handleDeleteComment}
+          optimisticCommentId={optimisticComment?.id}
         />
       ) : (
         <EmptyComment />
