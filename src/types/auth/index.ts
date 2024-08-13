@@ -18,8 +18,8 @@ export type UserSettingInput = {
 };
 
 export type ResetPasswordInput = {
-  password: string;
   passwordConfirmation: string;
+  password: string;
   token: string;
 };
 

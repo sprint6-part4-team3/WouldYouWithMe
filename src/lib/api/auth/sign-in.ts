@@ -7,7 +7,10 @@ import instance from "@/lib/api/axios-instance";
 
 const signIn = async (email: string, password: string) => {
   try {
-    const response = await instance.post(`/auth/signIn`, { email, password });
+    const response = await instance.post(`/auth/signIn`, {
+      email,
+      password,
+    });
 
     const { data } = response;
 
@@ -16,7 +19,7 @@ const signIn = async (email: string, password: string) => {
       cookies().set("refreshToken", data.refreshToken);
       cookies().set("userId", data.user.id);
 
-      return { success: true };
+      return { success: true, data };
     }
     return { success: false, data };
   } catch (error) {

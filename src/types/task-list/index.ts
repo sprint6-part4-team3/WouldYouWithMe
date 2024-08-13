@@ -1,14 +1,7 @@
-export type Task = {
-  id: number;
-  name: string;
-  date: string;
-  frequency: string;
-  userId: number;
-  doneAt: string | null;
-  updatedAt: string;
-  deletedAt: string | null;
-  recurringId: number;
-};
+/* eslint-disable import/no-cycle */
+import { TaskDetailData } from "../task-detail";
+
+export type Tasks = TaskDetailData[];
 
 export type TaskListAddEditInput = {
   name: string;

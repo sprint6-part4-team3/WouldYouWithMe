@@ -1,25 +1,31 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import signUp from "@/app/(auth)/sign-up/action";
 import { Button, FieldWrapper, Input } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
+import signUp from "@/lib/api/auth/sign-up";
 import { signUpSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
+import userAtom from "@/stores/user-atom";
 import { SignUpInput } from "@/types/auth";
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
   const { success, error } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [, setUser] = useAtom(userAtom);
 
   const isMobile = useIsMobile();
+
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -47,6 +53,21 @@ const SignUpForm: React.FC = () => {
         error(`${resData.data?.message}`);
       } else {
         success("회원가입 성공");
+
+        setUser({
+          id: resData.data.user.id,
+          nickname: resData.data.user.nickname,
+          createdAt: resData.data.user.createdAt,
+          updatedAt: resData.data.user.updatedAt,
+          image: resData.data.user.image,
+          teamId: resData.data.user.teamId,
+          email: resData.data.user.email,
+          accessToken: resData.data.accessToken,
+          refreshToken: resData.data.refreshToken,
+        });
+
+        queryClient.invalidateQueries({ queryKey: ["userData"] });
+
         setTimeout(() => {
           router.push("/");
         }, 3000);
@@ -131,7 +152,7 @@ const SignUpForm: React.FC = () => {
         className="mt-40 h-47 w-full"
         disabled={!isValid || isLoading}
       >
-        회원가입
+        {isLoading ? "처리 중..." : "회원가입"}
       </Button>
       <div className="flex justify-center">
         <p className="mt-24">

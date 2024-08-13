@@ -1,9 +1,8 @@
 "use client";
 
-/* eslint-disable no-console */
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -11,6 +10,7 @@ import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
 import { useToast } from "@/hooks";
 import editGroup from "@/lib/api/group/edit-group";
 import { teamAddEditSchema } from "@/lib/schemas/team-manage";
+import recentTeamAtom from "@/stores/recent-team-atom";
 import { TeamAddEditInput } from "@/types/team-management";
 
 import ImageInput from "./image-input";
@@ -26,6 +26,7 @@ interface EditTeamFormProps {
 const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
   const toast = useToast();
   const router = useRouter();
+  const setRecentTeam = useSetAtom(recentTeamAtom);
 
   const methods = useForm<TeamAddEditInput>({
     resolver: zodResolver(teamAddEditSchema),
@@ -45,6 +46,7 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
     mutate(data, {
       onSuccess: (res) => {
         toast.success("그룹 정보가 수정되었습니다.");
+        setRecentTeam(res.name);
         router.replace(`/${res.id}`);
       },
       onError: (error) => {

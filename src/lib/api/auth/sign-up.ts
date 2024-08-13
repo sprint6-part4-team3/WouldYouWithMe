@@ -24,6 +24,7 @@ const signUp = async (
     if (response.status === 201) {
       cookies().set("token", data.accessToken);
       cookies().set("refreshToken", data.refreshToken);
+      cookies().set("userNickname", data.user.nickname);
 
       return {
         success: true,

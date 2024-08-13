@@ -1,26 +1,24 @@
 "use client";
 
+import { useAtom } from "jotai";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
 import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
-import { User } from "@/types/user";
+import userAtom from "@/stores/user-atom";
 
 import DropDown from "../common/drop-down";
 import LogoutDrawer from "./logout-drawer";
 import LogoutModal from "./logout-modal";
 
-interface UserDropdownProps {
-  user: User;
-}
-
-const UserDropdown = ({ user }: UserDropdownProps) => {
+const UserDropdown = () => {
+  const [user] = useAtom(userAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const userDropdown = useToggle();
   const isMobile = useIsMobile();
-  const userNickname = user.nickname;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -45,8 +43,19 @@ const UserDropdown = ({ user }: UserDropdownProps) => {
       <DropDown handleClose={userDropdown.handleOff}>
         <DropDown.Trigger onClick={userDropdown.handleToggle}>
           <div className="flex items-center">
-            <IconUser className="mr-12" />
-            <span className="hidden lg:inline">{userNickname}</span>
+            {user.image ? (
+              <Image
+                src={user.image}
+                alt={user.nickname}
+                width={32}
+                height={32}
+                objectFit="cover"
+                className="mr-12 rounded-md"
+              />
+            ) : (
+              <IconUser className="mr-12" />
+            )}
+            <span className="hidden lg:inline">{user.nickname}</span>
           </div>
         </DropDown.Trigger>
         <DropDown.Menu

@@ -22,9 +22,21 @@ export type User = {
   }[];
 };
 
+export type LoginUser = {
+  id: number;
+  nickname: string;
+  createdAt: string;
+  updatedAt: string;
+  image: string | null;
+  teamId: string;
+  email: string;
+  accessToken: string;
+  refreshToken: string;
+};
+
 export type Group = {
-  updatedAt: string | Date;
-  createdAt: string | Date;
+  updatedAt: string;
+  createdAt: string;
   image: string | null;
   name: string;
   teamId: string;
