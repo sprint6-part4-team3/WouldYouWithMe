@@ -56,6 +56,12 @@ const TaskContent = ({
     onSuccess: (newComment) => {
       setComments((prevComments) => [newComment, ...prevComments]);
       toast.success("댓글이 성공적으로 추가되었습니다.");
+      // 댓글 추가 후 쿼리 캐시 업데이트
+      queryClient.setQueryData(
+        ["comments", task.id],
+        (oldData: Comment[] | undefined) =>
+          oldData ? [newComment, ...oldData] : [newComment],
+      );
     },
     onError: (error: Error) => {
       toast.error(`댓글 추가 실패: ${error.message}`);
@@ -105,6 +111,23 @@ const TaskContent = ({
     [addCommentMutation],
   );
 
+  const handleDeleteComment = useCallback(
+    (deletedCommentId: number) => {
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.id !== deletedCommentId),
+      );
+      // 댓글 삭제 후 쿼리 캐시 업데이트
+      queryClient.setQueryData(
+        ["comments", task.id],
+        (oldData: Comment[] | undefined) =>
+          oldData
+            ? oldData.filter((comment) => comment.id !== deletedCommentId)
+            : [],
+      );
+    },
+    [queryClient, task.id],
+  );
+
   const taskInfoProps = useMemo(
     () => ({
       nickname: task.user?.nickname ?? "Unknown",
@@ -138,7 +161,11 @@ const TaskContent = ({
       />
       <CommentInput onAddComment={handleAddComment} />
       {comments.length > 0 ? (
-        <CommentList comments={comments} />
+        <CommentList
+          comments={comments}
+          taskId={task.id}
+          onDeleteComment={handleDeleteComment}
+        />
       ) : (
         <EmptyComment />
       )}
