@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 
+"use client";
+
 import { useAtom } from "jotai";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
