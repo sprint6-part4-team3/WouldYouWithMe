@@ -1,11 +1,14 @@
 import Link from "next/link";
+import { useState } from "react";
 
 import { DropDown, IconButton } from "@/components/common";
 import { useToggle } from "@/hooks";
 import { IconDoneCyan } from "@/public/assets/icons";
-import { TaskList } from "@/types/group";
+import { GroupTask, TaskList } from "@/types/group";
 import groupTaskTodoList from "@/utils/group-task-todo-list";
 
+import DeleteTaskListModal from "./delete-todo-list-modal";
+import EditTodoListModal from "./edit-todo-list-modal";
 import ProgressSign from "./progress-sign";
 
 interface TodoListCardProps {
@@ -13,7 +16,14 @@ interface TodoListCardProps {
   children: string;
   link: string;
   tasks: TaskList[];
+  task: GroupTask;
 }
+
+type TodoListDropDownProps = {
+  groupId: number;
+  id: number;
+  name: string;
+};
 
 function getColorClass(color: TodoListCardProps["color"]) {
   if (color === "purple") return "bg-point-purple";
@@ -26,8 +36,25 @@ function getColorClass(color: TodoListCardProps["color"]) {
   return "bg-point-purple";
 }
 
-const TodoListDropDown = () => {
+const TodoListDropDown = ({ groupId, id, name }: TodoListDropDownProps) => {
   const { value, handleOff, handleToggle } = useToggle();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+    handleOff();
+  };
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+  const openEditModal = () => {
+    setIsEditModalOpen(true);
+    handleOff();
+  };
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
 
   return (
     <DropDown handleClose={handleOff}>
@@ -35,18 +62,43 @@ const TodoListDropDown = () => {
         <IconButton icon="IconKebab" variant="none" />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value} className="z-50">
-        <DropDown.Item>수정하기</DropDown.Item>
-        <DropDown.Item>삭제하기</DropDown.Item>
+        <DropDown.Item>
+          <div onClick={openEditModal}>수정하기</div>
+        </DropDown.Item>
+        <DropDown.Item>
+          <div onClick={openDeleteModal}>삭제하기</div>
+        </DropDown.Item>
       </DropDown.Menu>
+      {isDeleteModalOpen && (
+        <DeleteTaskListModal
+          onClose={closeDeleteModal}
+          groupId={groupId}
+          id={id}
+          name={name}
+        />
+      )}
+      {isEditModalOpen && (
+        <EditTodoListModal
+          onClose={closeEditModal}
+          groupId={groupId}
+          id={id}
+          name={name}
+        />
+      )}
     </DropDown>
   );
 };
 
-const TodoListCard = ({ children, color, link, tasks }: TodoListCardProps) => {
+const TodoListCard = ({
+  children,
+  color,
+  link,
+  tasks,
+  task,
+}: TodoListCardProps) => {
   const colorClass = getColorClass(color);
   const { totalItems, completedItems, CHECKED_ITEMS } =
     groupTaskTodoList(tasks);
-
   return (
     <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary pl-24 pr-30 text-16-500">
       <div className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`} />
@@ -67,7 +119,11 @@ const TodoListCard = ({ children, color, link, tasks }: TodoListCardProps) => {
         </div>
       </Link>
       <div className="absolute right-10">
-        <TodoListDropDown />
+        <TodoListDropDown
+          name={task.name}
+          groupId={task.groupId}
+          id={task.id}
+        />
       </div>
     </div>
   );

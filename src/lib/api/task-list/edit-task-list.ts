@@ -6,14 +6,15 @@ import { TaskListAddEditInput } from "@/types/task-list";
 
 import instance from "../axios-instance";
 
-// 팀 목록 생성 POST 요청
-const createTaskList = async (
+// 팀 목록 수정 PATCH 요청
+const editTaskList = async (
   data: TaskListAddEditInput,
   groupId: number,
+  id: number,
 ): Promise<GroupTask> => {
   try {
-    const res: AxiosResponse<GroupTask> = await instance.post(
-      `/groups/${groupId}/task-lists`,
+    const res: AxiosResponse<GroupTask> = await instance.patch(
+      `/groups/${groupId}/task-lists/${id}`,
       data,
     );
     return res.data;
@@ -26,4 +27,4 @@ const createTaskList = async (
   }
 };
 
-export default createTaskList;
+export default editTaskList;

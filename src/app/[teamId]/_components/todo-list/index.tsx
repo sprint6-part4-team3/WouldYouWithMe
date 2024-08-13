@@ -43,6 +43,7 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
                 color={selectedColor}
                 link={`/${[teamId]}/task-lists/${item.id}`}
                 tasks={item.tasks}
+                task={item}
               >
                 {item.name}
               </TodoListCard>

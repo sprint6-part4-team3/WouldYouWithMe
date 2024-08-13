@@ -77,27 +77,14 @@ const TeamDeleteModal = ({
           onChange={handleChange}
         />
         {isLoading ? (
-          <>
-            {/* <Button
-              onClick={cancelDeletion}
-              variant="danger"
-              className="mt-16 h-47 w-full"
-            >
-              팀 삭제 취소
-            </Button>
-            <div className="m-auto mt-15 flex items-center justify-center">
-              <div>처리 중...</div>
-              <LoadingSpinner width={30} height={30} />
-            </div> */}
-            <FloatButton
-              onClick={cancelDeletion}
-              variant="danger"
-              className="mt-16 h-47 w-full"
-              Icon={<LoadingSpinner width={30} height={30} />}
-            >
-              팀 삭제 취소
-            </FloatButton>
-          </>
+          <FloatButton
+            onClick={cancelDeletion}
+            variant="danger"
+            className="mt-16 h-47 w-full"
+            Icon={<LoadingSpinner width={30} height={30} />}
+          >
+            팀 삭제 취소
+          </FloatButton>
         ) : (
           <Button
             onClick={deleteTeam}

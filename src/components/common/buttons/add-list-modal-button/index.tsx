@@ -32,8 +32,6 @@ type AddListModalButtonProps = {
 const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
   const { value, handleOn, handleOff } = useToggle();
   const [isLoading, setIsLoading] = useState(false);
-  const [abortController, setAbortController] =
-    useState<AbortController | null>(null);
   const toast = useToast();
   const isMobile = useIsMobile();
 
@@ -44,12 +42,9 @@ const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
   });
 
   const createList = async (data: TaskListAddEditInput) => {
-    const controller = new AbortController();
-    setAbortController(controller);
-
     setIsLoading(true);
     try {
-      await createTaskList(data, groupId, { signal: controller.signal });
+      await createTaskList(data, groupId);
       toast.success("등록이 완료되었습니다");
       handleOff();
       reset();
@@ -58,25 +53,17 @@ const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
         const errorMessage =
           error.response.data.message || "서버에서 에러가 발생했습니다";
         toast.error(errorMessage);
-      } else if (error instanceof Error && error.name === "AbortError") {
-        toast.error("목록 생성이 취소되었습니다.");
       } else {
-        toast.error("중복된 목록 이름입니다.");
+        toast.error("목록 생성이 취소되었습니다.");
       }
     } finally {
       setIsLoading(false);
-      setAbortController(null);
     }
-  };
-
-  const cancelDeletion = () => {
-    if (abortController) {
-      abortController.abort();
-    }
-    setIsLoading(false);
   };
 
   const ModalComponent = isMobile ? Drawer : Modal;
+  const description =
+    "<>할 일에 대한 목록을 추가하고<br />목록별 할 일을 만들 수 있습니다.</>";
 
   return (
     <>
@@ -93,7 +80,7 @@ const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
           showCloseButton
           onClose={handleOff}
           title="새로운 목록 추가"
-          description="할 일에 대한 목록을 추가하고 목록별 할 일을 만들 수 있습니다."
+          description={description}
         >
           <form
             className="flex flex-col gap-16"
@@ -102,16 +89,15 @@ const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
             <Input
               {...register("name")}
               id="create-list"
-              placeholder="목록 이름을 입력해주세요."
+              placeholder="목록 명을 입력해주세요."
             />
             {isLoading ? (
               <FloatButton
-                onClick={cancelDeletion}
                 variant="danger"
                 className="h-48 w-full"
                 Icon={<LoadingSpinner width={30} height={30} />}
               >
-                목록 생성 취소
+                목록 생성 중...
               </FloatButton>
             ) : (
               <Button variant="primary" className="h-48 w-full" type="submit">
