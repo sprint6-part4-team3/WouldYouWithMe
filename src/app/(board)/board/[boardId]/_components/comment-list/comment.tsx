@@ -6,7 +6,7 @@ import Image from "next/image";
 import { IconProfile } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
 import { BoardCommentResponse } from "@/types/board/comment";
-import formatBoardDate from "@/utils/format-board-date";
+import formatCommentDate from "@/utils/format-comment-date";
 
 import CommentDropDown from "./comment-drop-down";
 import CommentEditMode from "./comment-edit-mode";
@@ -61,9 +61,9 @@ const Comment = ({ commentData, isEditMode, setEditMode }: CommentProps) => {
             <div className="mx-8 h-12 w-1 bg-background-tertiary md:mx-16" />
             <time
               className="text-disabled text-14-500"
-              dateTime={formatBoardDate(commentData.createdAt)}
+              dateTime={formatCommentDate(commentData.createdAt)}
             >
-              {formatBoardDate(commentData.createdAt)}
+              {formatCommentDate(commentData.createdAt)}
             </time>
             {commentData.createdAt !== commentData.updatedAt && (
               <span className="ml-6 text-12-400 text-text-default">
