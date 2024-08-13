@@ -1,23 +1,21 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
-import { useIsMobile } from "@/hooks";
+import { useIsMobile, useToast } from "@/hooks";
+import ResetPassword from "@/lib/api/reset-password/reset-password";
 import { resetPasswordSchema } from "@/lib/schemas/auth";
 import { ResetPasswordInput } from "@/types/auth";
 
-import ResetPasswordDrawer from "./reset-password-drawer";
-import ResetPasswordModal from "./reset-password-modal";
-
 const ResetPasswordForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
   const isMobile = useIsMobile();
+  const { success, error } = useToast();
+  const router = useRouter();
 
   const {
     register,
@@ -29,82 +27,84 @@ const ResetPasswordForm: React.FC = () => {
     reValidateMode: "onChange",
   });
 
-  // NOTE - api 작업 대신 넣었습니다.
-  const onSubmit: SubmitHandler<ResetPasswordInput> = async (data) => {
+  const onSubmit: SubmitHandler<ResetPasswordInput> = async ({
+    passwordConfirmation,
+    password,
+  }) => {
     setIsLoading(true);
 
-    setTimeout(() => {
-      const success = true;
-      if (success) {
-        if (isMobile) {
-          setIsDrawerOpen(true);
-        } else {
-          setIsModalOpen(true);
-        }
+    try {
+      const token = new URLSearchParams(window.location.search).get("token");
+
+      if (!token) {
+        throw new Error("유효하지 않은 요청입니다.");
       }
+
+      const { success: apiSuccess, data } = await ResetPassword(
+        passwordConfirmation,
+        password,
+        token,
+      );
+
+      if (apiSuccess) {
+        success("비밀번호를 변경했습니다.");
+        setTimeout(() => {
+          router.push("/login");
+        }, 2000);
+      } else {
+        error(data.message);
+      }
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-315 md:w-470">
-        <h1 className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
-          비밀번호 재설정
-        </h1>
-        <FieldWrapper
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-315 md:w-470">
+      <h1 className="mb-80 flex justify-center text-24 font-medium text-text-primary lg:text-40">
+        비밀번호 재설정
+      </h1>
+      <FieldWrapper
+        id="newpassword"
+        label="새 비밀번호"
+        errorMessage={errors.password?.message || ""}
+      >
+        <Input
           id="newpassword"
-          label="새 비밀번호"
-          errorMessage={errors.password?.message || ""}
+          type="password"
+          placeholder={
+            isMobile
+              ? "비밀번호를 입력해주세요"
+              : "비밀번호(영문, 숫자, 특수문자 포함, 최소 8자)를 입력해주세요."
+          }
+          {...register("password")}
+          isError={!!errors.password}
+        />
+      </FieldWrapper>
+      <div className="mt-24">
+        <FieldWrapper
+          id="passwordConfirmation"
+          label="비밀번호 확인"
+          errorMessage={errors.passwordConfirmation?.message || ""}
         >
           <Input
-            id="newpassword"
+            id="passwordConfirmation"
             type="password"
-            placeholder={
-              isMobile
-                ? "비밀번호를 입력해주세요"
-                : "비밀번호(영문, 숫자, 특수문자 포함, 최소 8자)를 입력해주세요."
-            }
-            {...register("password")}
-            isError={!!errors.password}
+            placeholder="새 비밀번호를 다시 한 번 입력해주세요"
+            {...register("passwordConfirmation")}
+            isError={!!errors.passwordConfirmation}
           />
         </FieldWrapper>
-        <div className="mt-24">
-          <FieldWrapper
-            id="passwordConfirmation"
-            label="비밀번호 확인"
-            errorMessage={errors.passwordConfirmation?.message || ""}
-          >
-            <Input
-              id="passwordConfirmation"
-              type="password"
-              placeholder="새 비밀번호를 다시 한 번 입력해주세요"
-              {...register("passwordConfirmation")}
-              isError={!!errors.passwordConfirmation}
-            />
-          </FieldWrapper>
-        </div>
-        <Button
-          variant="primary"
-          type="submit"
-          className="mt-40 h-47 w-full"
-          disabled={!isValid || isLoading}
-        >
-          재설정
-        </Button>
-      </form>
-      {isMobile ? (
-        <ResetPasswordDrawer
-          isOpen={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
-        />
-      ) : (
-        <ResetPasswordModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
-    </>
+      </div>
+      <Button
+        variant="primary"
+        type="submit"
+        className="mt-40 h-47 w-full"
+        disabled={!isValid || isLoading}
+      >
+        {isLoading ? "처리 중..." : "재설정"}
+      </Button>
+    </form>
   );
 };
 
