@@ -12,12 +12,18 @@ import CommentDropDown from "./comment-drop-down";
 import CommentEditMode from "./comment-edit-mode";
 
 interface CommentProps {
+  isSampleMode?: boolean;
   commentData: BoardCommentResponse;
   isEditMode: boolean;
   setEditMode: (id: number | null) => void;
 }
 
-const Comment = ({ commentData, isEditMode, setEditMode }: CommentProps) => {
+const Comment = ({
+  isSampleMode = false,
+  commentData,
+  isEditMode,
+  setEditMode,
+}: CommentProps) => {
   const [user] = useAtom(userAtom);
 
   return (
@@ -32,11 +38,11 @@ const Comment = ({ commentData, isEditMode, setEditMode }: CommentProps) => {
         <div className="flex flex-col gap-32 rounded-8 bg-background-secondary p-16">
           <div className="flex justify-between gap-12">
             <span
-              className={`w-full whitespace-pre-wrap break-words text-14-400 leading-[21px] ${user.id === commentData.writer.id ? "w-[97%]" : "w-full"}`}
+              className={`w-full whitespace-pre-wrap break-words text-14-400 leading-[21px] ${user.id === commentData.writer.id ? "w-[96%]" : "w-full"}`}
             >
               {commentData.content}
             </span>
-            {user.id === commentData.writer.id && (
+            {user.id === commentData.writer.id && !isSampleMode && (
               <CommentDropDown
                 commentId={commentData.id}
                 setIsEditMode={setEditMode}

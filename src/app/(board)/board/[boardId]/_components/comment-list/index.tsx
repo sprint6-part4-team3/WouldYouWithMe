@@ -77,6 +77,7 @@ const CommentList = ({ boardId }: CommentListProps) => {
         {sampleComment && (
           <div className="opacity-40">
             <Comment
+              isSampleMode
               commentData={sampleComment}
               isEditMode={false}
               setEditMode={setEditMode}

@@ -50,9 +50,7 @@ const AddComment = ({ boardId, setSampleComment }: AddCommentProps) => {
         queryClient.invalidateQueries({
           queryKey: ["board-comment", boardId],
         });
-
         reset();
-        toast.success("댓글이 작성되었습니다.");
       },
       onError: (error) => {
         toast.error(error.message);
@@ -84,14 +82,14 @@ const AddComment = ({ boardId, setSampleComment }: AddCommentProps) => {
             type="submit"
             disabled
             variant="primary"
-            className="h-32 w-74 self-end text-14 md:h-48 md:w-184 md:text-16"
+            className="h-35 w-82 self-end text-14 md:h-48 md:w-184 md:text-16"
           >
             등록중
           </FloatButton>
         ) : (
           <Button
             type="submit"
-            className="h-32 w-74 self-end text-14 md:h-48 md:w-184 md:text-16"
+            className="h-35 w-82 self-end text-14 md:h-48 md:w-184 md:text-16"
             variant="primary"
             disabled={!isValid}
           >
