@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
@@ -44,9 +43,6 @@ const CommentEditMode = ({
 
   const handleEditComment: SubmitHandler<BoardCommentInput> = (data) => {
     const submitData = { content: data.content.trim() };
-
-    console.log(submitData);
-    console.log(commentId);
 
     mutate(submitData, {
       onSuccess: () => {
