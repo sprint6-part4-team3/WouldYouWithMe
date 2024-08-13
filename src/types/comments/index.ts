@@ -12,7 +12,7 @@ export type Comment = {
   updatedAt: string;
   taskId: number;
   userId: number;
-  user?: User;
+  user: User | { nickname: string; image: string | null };
 };
 
 export type GetCommentsResponse = {

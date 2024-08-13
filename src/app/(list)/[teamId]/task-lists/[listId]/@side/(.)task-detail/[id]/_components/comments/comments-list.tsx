@@ -1,5 +1,3 @@
-"use client";
-
 import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
@@ -24,7 +22,16 @@ const CommentItem = ({
   taskId,
   onDelete,
 }: {
-  comment: Comment;
+  comment:
+    | Comment
+    | {
+        id: number;
+        content: string;
+        createdAt: string;
+        updatedAt: string;
+        userId: number;
+        user: { nickname: string; image: string | null };
+      };
   taskId: number;
   onDelete: (commentId: number) => void;
 }) => {
@@ -93,7 +100,7 @@ const CommentItem = ({
             <IconProfile className="mr-12" />
           )}
           <span className="text-14-500 text-text-primary">
-            {comment.user?.nickname || "Unknown User"}
+            {comment.user?.nickname}
           </span>
         </div>
         <time className="text-14-400 text-text-secondary">

@@ -6,13 +6,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useAtom } from "jotai";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { useToggle } from "@/hooks";
 import useToast from "@/hooks/use-toast";
 import createComment from "@/lib/api/task-comments/post-comment";
 import editTaskDetail from "@/lib/api/task-detail/edit-task-detail";
 import { IconCheckPrimary } from "@/public/assets/icons";
+import userAtom from "@/stores/user-atom";
 import { Comment } from "@/types/comments/index";
 import { TaskDetailData, TaskEditData } from "@/types/task-detail/index";
 
@@ -47,6 +49,7 @@ const TaskContent = ({
   const dropdownUseToggle = useToggle();
   const [isCompleted, setIsCompleted] = useState(task.doneAt !== null);
   const [comments, setComments] = useState<Comment[]>(initialComments);
+  const [currentUser] = useAtom(userAtom);
 
   const toast = useToast();
   const queryClient = useQueryClient();
@@ -54,13 +57,19 @@ const TaskContent = ({
   const addCommentMutation = useMutation({
     mutationFn: (content: string) => createComment(task.id, content),
     onSuccess: (newComment) => {
-      setComments((prevComments) => [newComment, ...prevComments]);
+      const commentWithUser = {
+        ...newComment,
+        user: {
+          nickname: currentUser.nickname,
+          image: currentUser.image,
+        },
+      };
+      setComments((prevComments) => [commentWithUser, ...prevComments]);
       toast.success("댓글이 성공적으로 추가되었습니다.");
-      // 댓글 추가 후 쿼리 캐시 업데이트
       queryClient.setQueryData(
         ["comments", task.id],
         (oldData: Comment[] | undefined) =>
-          oldData ? [newComment, ...oldData] : [newComment],
+          oldData ? [commentWithUser, ...oldData] : [commentWithUser],
       );
     },
     onError: (error: Error) => {
@@ -98,35 +107,28 @@ const TaskContent = ({
     }
   }, [editTaskMutation.isPending, toast]);
 
-  const handleToggleComplete = useCallback(() => {
+  const handleToggleComplete = () => {
     if (!editTaskMutation.isPending) {
       editTaskMutation.mutate({ done: !isCompleted });
     }
-  }, [isCompleted, editTaskMutation]);
+  };
 
-  const handleAddComment = useCallback(
-    async (content: string): Promise<void> => {
-      await addCommentMutation.mutateAsync(content);
-    },
-    [addCommentMutation],
-  );
+  const handleAddComment = async (content: string): Promise<void> => {
+    await addCommentMutation.mutateAsync(content);
+  };
 
-  const handleDeleteComment = useCallback(
-    (deletedCommentId: number) => {
-      setComments((prevComments) =>
-        prevComments.filter((comment) => comment.id !== deletedCommentId),
-      );
-      // 댓글 삭제 후 쿼리 캐시 업데이트
-      queryClient.setQueryData(
-        ["comments", task.id],
-        (oldData: Comment[] | undefined) =>
-          oldData
-            ? oldData.filter((comment) => comment.id !== deletedCommentId)
-            : [],
-      );
-    },
-    [queryClient, task.id],
-  );
+  const handleDeleteComment = (deletedCommentId: number) => {
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment.id !== deletedCommentId),
+    );
+    queryClient.setQueryData(
+      ["comments", task.id],
+      (oldData: Comment[] | undefined) =>
+        oldData
+          ? oldData.filter((comment) => comment.id !== deletedCommentId)
+          : [],
+    );
+  };
 
   const taskInfoProps = useMemo(
     () => ({
