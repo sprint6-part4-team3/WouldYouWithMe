@@ -5,19 +5,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-import { useIsMobile, useToggle } from "@/hooks";
+import { useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
 import { userAtom } from "@/stores";
 
 import DropDown from "../common/drop-down";
-import LogoutDrawer from "./logout-drawer";
-import LogoutModal from "./logout-modal";
+import LogoutComponent from "./logout-component";
 
 const UserDropdown = () => {
   const [user] = useAtom(userAtom);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userDropdown = useToggle();
-  const isMobile = useIsMobile();
 
   const openLogout = () => {
     setIsLogoutOpen(true);
@@ -27,8 +25,6 @@ const UserDropdown = () => {
   const closeLogout = () => {
     setIsLogoutOpen(false);
   };
-
-  const LogoutComponent = isMobile ? LogoutDrawer : LogoutModal;
 
   return (
     <div className="text-md-medium flex cursor-pointer items-center justify-center whitespace-nowrap text-text-primary">
