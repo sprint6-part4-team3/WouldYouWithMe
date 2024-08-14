@@ -1,6 +1,5 @@
 import "dayjs/locale/ko";
 
-import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useAtom } from "jotai";
@@ -8,11 +7,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 import DropDown from "@/components/common/drop-down/index";
-import useToast from "@/hooks/use-toast";
-import deleteComment from "@/lib/api/task-comments/delete-comments";
 import { IconKebab, IconProfile } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
 import { Comment } from "@/types/comments/index";
+
+import CommentDeleteModal from "./comment-delete-modal";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
@@ -30,34 +29,14 @@ const CommentItem = ({
   onDelete,
   isOptimistic,
 }: {
-  comment:
-    | Comment
-    | {
-        id: number;
-        content: string;
-        createdAt: string;
-        updatedAt: string;
-        userId: number;
-        user: { nickname: string; image: string | null };
-      };
+  comment: Comment;
   taskId: number;
   onDelete: (commentId: number) => void;
   isOptimistic: boolean;
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const toast = useToast();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [currentUser] = useAtom(userAtom);
-
-  const deleteCommentMutation = useMutation({
-    mutationFn: () => deleteComment(taskId, comment.id),
-    onSuccess: () => {
-      onDelete(comment.id);
-      toast.success("댓글이 성공적으로 삭제되었습니다.");
-    },
-    onError: (error: Error) => {
-      toast.error(`댓글 삭제 실패: ${error.message}`);
-    },
-  });
 
   const handleEdit = () => {
     setIsDropdownOpen(false);
@@ -66,7 +45,7 @@ const CommentItem = ({
 
   const handleDelete = () => {
     setIsDropdownOpen(false);
-    deleteCommentMutation.mutate();
+    setIsDeleteModalOpen(true);
   };
 
   const handleClose = () => {
@@ -127,6 +106,14 @@ const CommentItem = ({
           {getRelativeTime(comment.createdAt)}
         </time>
       </div>
+      {isDeleteModalOpen && (
+        <CommentDeleteModal
+          onClose={() => setIsDeleteModalOpen(false)}
+          commentId={comment.id}
+          taskId={taskId}
+          onDeleteSuccess={onDelete}
+        />
+      )}
     </div>
   );
 };
