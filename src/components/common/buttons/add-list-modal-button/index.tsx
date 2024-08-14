@@ -13,6 +13,7 @@ import { useIsMobile, useToast, useToggle } from "@/hooks";
 import createTaskList from "@/lib/api/task-list/create-task-list";
 import taskListAddEditSchema from "@/lib/schemas/task-list";
 import { IconPlusCurrent, LoadingSpinner } from "@/public/assets/icons";
+import { GroupTask } from "@/types/group";
 import { TaskListAddEditInput } from "@/types/task-list";
 
 import FloatButton from "../float-button";
@@ -27,9 +28,13 @@ import FloatButton from "../float-button";
 
 type AddListModalButtonProps = {
   groupId: number;
+  onAddTask: (newTask: GroupTask) => void;
 };
 
-const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
+const AddListModalButton = ({
+  groupId,
+  onAddTask: onAddTodo,
+}: AddListModalButtonProps) => {
   const { value, handleOn, handleOff } = useToggle();
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
@@ -44,8 +49,19 @@ const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
   const createList = async (data: TaskListAddEditInput) => {
     setIsLoading(true);
     try {
-      await createTaskList(data, groupId);
+      const createdTask = await createTaskList(data, groupId);
+
+      const newTask: GroupTask = {
+        id: createdTask.id,
+        name: data.name,
+        createdAt: createdTask.createdAt,
+        updatedAt: createdTask.updatedAt,
+        displayIndex: createdTask.displayIndex,
+        groupId: createdTask.groupId,
+        tasks: [],
+      };
       toast.success("등록이 완료되었습니다");
+      onAddTodo(newTask);
       handleOff();
       reset();
     } catch (error: unknown) {

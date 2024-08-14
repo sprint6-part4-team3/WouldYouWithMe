@@ -6,19 +6,18 @@ import { Button, Drawer, FloatButton, Input, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import deleteTaskList from "@/lib/api/task-list/delete-task-list";
 import { LoadingSpinner } from "@/public/assets/icons";
+import { GroupTask } from "@/types/group";
 
 interface TeamDeleteModalProps {
-  groupId: number;
-  id: number;
-  name: string;
+  task: GroupTask;
   onClose: () => void;
+  onDeleteTask: (newTask: GroupTask) => void;
 }
 
 const TeamDeleteModal = ({
-  groupId,
-  id,
-  name,
+  task,
   onClose,
+  onDeleteTask,
 }: TeamDeleteModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
@@ -27,7 +26,8 @@ const TeamDeleteModal = ({
   const deleteTeam = async () => {
     try {
       setIsLoading(true);
-      await deleteTaskList(groupId, id);
+      await deleteTaskList(task.groupId, task.id);
+      onDeleteTask(task);
       onClose();
       toast.success("목록이 삭제 되었습니다.");
     } catch (error) {
@@ -44,7 +44,7 @@ const TeamDeleteModal = ({
       showCloseButton
       onClose={onClose}
       title="목록을 삭제 하실건가요?"
-      description={name}
+      description={task.name}
     >
       <div>
         {isLoading ? (

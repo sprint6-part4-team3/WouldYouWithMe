@@ -10,20 +10,19 @@ import { useIsMobile, useToast } from "@/hooks";
 import editTaskList from "@/lib/api/task-list/edit-task-list";
 import taskListAddEditSchema from "@/lib/schemas/task-list";
 import { LoadingSpinner } from "@/public/assets/icons";
+import { GroupTask } from "@/types/group";
 import { TaskListAddEditInput } from "@/types/task-list";
 
 interface EditTodoListModalProps {
-  groupId: number;
-  id: number;
-  name: string;
+  task: GroupTask;
   onClose: () => void;
+  onEditTask: (newTask: GroupTask) => void;
 }
 
 const EditTodoListModal = ({
-  groupId,
-  id,
-  name,
+  task,
   onClose,
+  onEditTask,
 }: EditTodoListModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
@@ -38,7 +37,17 @@ const EditTodoListModal = ({
   const deleteTeam = async (data: TaskListAddEditInput) => {
     try {
       setIsLoading(true);
-      await editTaskList(data, groupId, id);
+      const editTask = await editTaskList(data, task.groupId, task.id);
+      const newTask: GroupTask = {
+        id: editTask.id,
+        name: data.name,
+        createdAt: editTask.createdAt,
+        updatedAt: editTask.updatedAt,
+        displayIndex: editTask.displayIndex,
+        groupId: editTask.groupId,
+        tasks: [],
+      };
+      onEditTask(newTask);
       onClose();
       reset();
       toast.success("목록이 수정 되었습니다.");
@@ -67,7 +76,7 @@ const EditTodoListModal = ({
       showCloseButton
       onClose={onClose}
       title="목록을 수정 하실건가요?"
-      description={name}
+      description={task.name}
     >
       <form
         className="flex flex-col gap-16"

@@ -2,17 +2,22 @@ import { useState } from "react";
 
 import { DropDown, IconButton } from "@/components/common";
 import { useToggle } from "@/hooks";
+import { GroupTask } from "@/types/group";
 
 import DeleteTaskListModal from "./delete-todo-list-modal";
 import EditTodoListModal from "./edit-todo-list-modal";
 
 type TodoListDropDownProps = {
-  groupId: number;
-  id: number;
-  name: string;
+  task: GroupTask;
+  onEditTask: (newTask: GroupTask) => void;
+  onDeleteTask: (newTask: GroupTask) => void;
 };
 
-const TodoListDropDown = ({ groupId, id, name }: TodoListDropDownProps) => {
+const TodoListDropDown = ({
+  task,
+  onEditTask,
+  onDeleteTask,
+}: TodoListDropDownProps) => {
   const { value, handleOff, handleToggle } = useToggle();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -48,17 +53,15 @@ const TodoListDropDown = ({ groupId, id, name }: TodoListDropDownProps) => {
       {isDeleteModalOpen && (
         <DeleteTaskListModal
           onClose={closeDeleteModal}
-          groupId={groupId}
-          id={id}
-          name={name}
+          task={task}
+          onDeleteTask={onDeleteTask}
         />
       )}
       {isEditModalOpen && (
         <EditTodoListModal
           onClose={closeEditModal}
-          groupId={groupId}
-          id={id}
-          name={name}
+          task={task}
+          onEditTask={onEditTask}
         />
       )}
     </DropDown>
