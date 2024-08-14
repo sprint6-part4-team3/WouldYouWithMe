@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -42,7 +43,18 @@ const EditTodoListModal = ({
       reset();
       toast.success("목록이 수정 되었습니다.");
     } catch (error) {
-      toast.error("목록 수정에 실패했습니다.");
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          const errorMessage = error.response.data.message;
+          toast.error(errorMessage);
+        } else {
+          toast.error("서버에서 에러가 발생했습니다");
+        }
+      } else {
+        const errorMessage =
+          (error as Error).message || "알 수 없는 에러가 발생했습니다";
+        toast.error(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }

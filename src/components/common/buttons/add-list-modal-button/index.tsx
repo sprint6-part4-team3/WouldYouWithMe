@@ -49,12 +49,17 @@ const AddListModalButton = ({ groupId }: AddListModalButtonProps) => {
       handleOff();
       reset();
     } catch (error: unknown) {
-      if (axios.isAxiosError(error) && error.response) {
-        const errorMessage =
-          error.response.data.message || "서버에서 에러가 발생했습니다";
-        toast.error(errorMessage);
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          const errorMessage = error.response.data.message;
+          toast.error(errorMessage);
+        } else {
+          toast.error("서버에서 에러가 발생했습니다");
+        }
       } else {
-        toast.error("목록 생성이 취소되었습니다.");
+        const errorMessage =
+          (error as Error).message || "알 수 없는 에러가 발생했습니다";
+        toast.error(errorMessage);
       }
     } finally {
       setIsLoading(false);
