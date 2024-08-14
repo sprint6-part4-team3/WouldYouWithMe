@@ -7,12 +7,11 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useAtom } from "jotai";
-import { useRouter } from "next/navigation";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { useToggle } from "@/hooks";
+import useTaskParams from "@/hooks/use-task-params";
 import createComment from "@/lib/api/task-comments/post-comment";
-import deleteTaskDetail from "@/lib/api/task-detail/delete-task-detail";
 import editTaskDetail from "@/lib/api/task-detail/edit-task-detail";
 import { IconCheckPrimary } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
@@ -33,17 +32,10 @@ dayjs.locale("ko");
 interface TaskContentProps {
   task: TaskDetailData;
   initialComments: Comment[];
-  groupId: number;
-  taskListId: number;
 }
 
-const TaskContent = ({
-  task,
-  initialComments,
-  groupId,
-  taskListId,
-}: TaskContentProps) => {
-  const router = useRouter();
+const TaskContent = ({ task, initialComments }: TaskContentProps) => {
+  const { groupId, taskListId, taskId } = useTaskParams();
   const taskDate = useMemo(
     () => dayjs.utc(task.recurring.startDate),
     [task.recurring.startDate],
@@ -58,15 +50,8 @@ const TaskContent = ({
 
   const queryClient = useQueryClient();
 
-  const navigateBackAndRefresh = useCallback(() => {
-    router.back();
-    setTimeout(() => {
-      router.refresh();
-    }, 50);
-  }, [router]);
-
   const addCommentMutation = useMutation({
-    mutationFn: (content: string) => createComment(task.id, content),
+    mutationFn: (content: string) => createComment(taskId, content),
     onSuccess: (newComment) => {
       const commentWithUser = {
         ...newComment,
@@ -78,7 +63,7 @@ const TaskContent = ({
       setComments((prevComments) => [commentWithUser, ...prevComments]);
       setOptimisticComment(null);
       queryClient.setQueryData(
-        ["comments", task.id],
+        ["comments", taskId],
         (oldData: Comment[] | undefined) =>
           oldData ? [commentWithUser, ...oldData] : [commentWithUser],
       );
@@ -90,34 +75,20 @@ const TaskContent = ({
 
   const editTaskMutation = useMutation({
     mutationFn: (data: TaskEditData) =>
-      editTaskDetail(groupId, taskListId, task.id, data),
+      editTaskDetail(groupId, taskListId, taskId, data),
     onSuccess: (data, variables) => {
       setIsCompleted(variables.done);
-      queryClient.setQueryData<TaskDetailData>(["task", task.id], (old) => ({
+      queryClient.setQueryData<TaskDetailData>(["task", taskId], (old) => ({
         ...old!,
         ...variables,
         doneAt: variables.done ? new Date().toISOString() : null,
       }));
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["task", task.id] });
+      queryClient.invalidateQueries({ queryKey: ["task", taskId] });
     },
   });
 
-  const deleteTaskMutation = useMutation({
-    mutationFn: () =>
-      deleteTaskDetail(
-        task.id.toString(),
-        groupId.toString(),
-        taskListId.toString(),
-      ),
-    onSuccess: () => {
-      navigateBackAndRefresh();
-    },
-    onError: (error) => {
-      throw new Error(`Failed to delete task: ${error.message}`);
-    },
-  });
   const handleToggleComplete = () => {
     if (!editTaskMutation.isPending) {
       editTaskMutation.mutate({ done: !isCompleted });
@@ -128,7 +99,7 @@ const TaskContent = ({
     const now = new Date().toISOString();
     const tempComment = {
       id: Date.now(),
-      taskId: task.id,
+      taskId,
       content,
       createdAt: now,
       updatedAt: now,
@@ -147,7 +118,7 @@ const TaskContent = ({
       prevComments.filter((comment) => comment.id !== deletedCommentId),
     );
     queryClient.setQueryData(
-      ["comments", task.id],
+      ["comments", taskId],
       (oldData: Comment[] | undefined) =>
         oldData
           ? oldData.filter((comment) => comment.id !== deletedCommentId)
@@ -155,19 +126,13 @@ const TaskContent = ({
     );
   };
 
-  const handleDeleteTask = () => {
-    if (window.confirm("정말로 이 태스크를 삭제하시겠습니까?")) {
-      deleteTaskMutation.mutate();
-    }
-  };
-
   const taskInfoProps = useMemo(
     () => ({
-      nickname: task.writer.nickname ?? "Unknown",
+      nickname: task.writer?.nickname ?? "Unknown",
       date: taskDate.format("YYYY년 M월 D일"),
       time: taskDate.format("A h:mm"),
       frequency: task.frequency,
-      profileImage: task.writer.image,
+      profileImage: task.writer?.image,
     }),
     [task.writer, taskDate, task.frequency],
   );
@@ -184,7 +149,6 @@ const TaskContent = ({
         taskName={task.name}
         isCompleted={isCompleted}
         dropdownUseToggle={dropdownUseToggle}
-        onDelete={handleDeleteTask}
       />
       <TaskInfo {...taskInfoProps} />
       <TaskDescription
@@ -199,7 +163,7 @@ const TaskContent = ({
           comments={
             optimisticComment ? [optimisticComment, ...comments] : comments
           }
-          taskId={task.id}
+          taskId={taskId}
           onDeleteComment={handleDeleteComment}
           optimisticCommentId={optimisticComment?.id}
         />
