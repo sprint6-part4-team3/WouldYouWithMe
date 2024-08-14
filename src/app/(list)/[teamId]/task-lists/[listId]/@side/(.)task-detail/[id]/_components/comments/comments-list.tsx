@@ -1,3 +1,5 @@
+import "dayjs/locale/ko";
+
 import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -12,8 +14,8 @@ import { IconKebab, IconProfile } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
 import { Comment } from "@/types/comments/index";
 
-// dayjs에 relativeTime 플러그인 추가
 dayjs.extend(relativeTime);
+dayjs.locale("ko");
 
 interface CommentListProps {
   comments: Comment[];
@@ -77,23 +79,13 @@ const CommentItem = ({
 
   const isCommentOwner = currentUser?.id === comment.userId;
 
-  // 상대적 시간 계산 함수
   const getRelativeTime = (date: string) => {
-    const now = dayjs();
     const commentDate = dayjs(date);
-    const diffInHours = now.diff(commentDate, "hour");
-    const diffInDays = now.diff(commentDate, "day");
-
-    if (diffInHours < 1) {
-      return "방금 전";
+    const now = dayjs();
+    if (now.diff(commentDate, "day") >= 7) {
+      return commentDate.format("YYYY.MM.DD");
     }
-    if (diffInHours < 24) {
-      return `${diffInHours}시간 전`;
-    }
-    if (diffInDays < 7) {
-      return `${diffInDays}일 전`;
-    }
-    return commentDate.format("YYYY.MM.DD");
+    return commentDate.fromNow();
   };
 
   return (
