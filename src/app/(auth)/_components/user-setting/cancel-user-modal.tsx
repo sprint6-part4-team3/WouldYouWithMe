@@ -36,7 +36,12 @@ const CancelUserModal = ({ isOpen, onClose }: CancelUserModalProps) => {
       <Modal
         onClose={onClose}
         title="회원 탈퇴를 진행하시겠어요?"
-        description="그룹장으로 있는 그룹은 자동으로 삭제되고, 모든 그룹에서 나가집니다."
+        description={
+          <>
+            그룹장으로 있는 그룹은 자동으로 삭제되고 <br />
+            모든 그룹에서 나가집니다.
+          </>
+        }
         showWarningIcon
       >
         <div className="flex gap-8">
