@@ -18,13 +18,12 @@ const REPEAT_OPTIONS = [
 const FrequencyInput = () => {
   const { register, watch, setValue } = useFormContext<NewTask>();
   const selectedFrequency = watch("frequencyType");
-  const searchParams = useSearchParams();
-  const date = searchParams.get("date");
-  const dateObj = new Date(date!);
-  const day = dateObj.getDate();
+  const startDate = watch("startDate");
+  const monthDay = new Date(startDate).getDate();
+  const initialDay = new Date(startDate).getDay();
 
   if (selectedFrequency === "MONTHLY") {
-    setValue("monthDay", day);
+    setValue("monthDay", monthDay);
   }
 
   return (
@@ -41,7 +40,7 @@ const FrequencyInput = () => {
               value={value}
               {...register("frequencyType")}
               className="size-15 cursor-pointer  accent-brand-primary"
-              defaultChecked={index === 0}
+              defaultChecked={value === selectedFrequency}
             />
             <span className="align-middle text-14-500 md:text-18-500">
               {label}
@@ -50,9 +49,12 @@ const FrequencyInput = () => {
         ))}
       </fieldset>
       {selectedFrequency === "WEEKLY" ? (
-        <WeeklyOption register={register("weekDays")} />
+        <WeeklyOption register={register("weekDays")} initialDay={initialDay} />
       ) : (
-        <FrequencySign frequencyOption={selectedFrequency} />
+        <FrequencySign
+          frequencyOption={selectedFrequency}
+          monthDay={monthDay}
+        />
       )}
     </>
   );

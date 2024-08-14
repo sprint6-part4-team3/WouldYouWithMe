@@ -7,7 +7,9 @@ import { NewTask } from "@/types/task-list";
 import Calendar from "./calendar";
 
 const DateInput = () => {
-  const { setValue } = useFormContext<NewTask>();
+  const { setValue, watch } = useFormContext<NewTask>();
+  const startDate = watch("startDate");
+  const initialDate = new Date(startDate);
 
   return (
     <section>
@@ -19,6 +21,7 @@ const DateInput = () => {
       <div className="mx-auto my-0 w-full md:w-400">
         <Calendar
           setValue={(value: string): void => setValue("startDate", value)}
+          initialDate={initialDate}
         />
       </div>
     </section>

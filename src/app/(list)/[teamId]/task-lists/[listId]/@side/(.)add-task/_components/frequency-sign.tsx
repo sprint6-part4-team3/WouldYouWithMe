@@ -6,18 +6,14 @@ import { FrequencyType } from "@/types/task-list";
 
 interface FrequencySignProp {
   frequencyOption: Extract<FrequencyType, "DAILY" | "ONCE" | "MONTHLY">;
+  monthDay: number;
 }
 
-const FrequencySign = ({ frequencyOption }: FrequencySignProp) => {
-  const searchParams = useSearchParams();
-  const date = searchParams.get("date");
-  const dateObj = new Date(date!);
-  const day = dateObj.getDate();
-
+const FrequencySign = ({ frequencyOption, monthDay }: FrequencySignProp) => {
   if (frequencyOption === "MONTHLY") {
     return (
       <div className="flex justify-center text-18-500">
-        <p>매월 {day}일 반복됩니다</p>
+        <p>매월 {monthDay}일 반복됩니다</p>
       </div>
     );
   }

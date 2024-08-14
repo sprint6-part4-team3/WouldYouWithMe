@@ -8,7 +8,6 @@ import { NewTask } from "@/types/task-list";
 const NameInput = () => {
   const {
     register,
-    watch,
     formState: { errors },
   } = useFormContext<NewTask>();
   return (

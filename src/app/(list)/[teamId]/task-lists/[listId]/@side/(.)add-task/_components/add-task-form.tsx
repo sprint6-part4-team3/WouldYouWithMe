@@ -1,11 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import { PlusButton } from "@/components/common";
+import { useToast } from "@/hooks";
 import newTaskSchema from "@/lib/schemas/task";
 import { NewTask } from "@/types/task-list";
 import convertStringArrayToNumberArray from "@/utils/convert-string-array-to-num";
@@ -29,17 +32,18 @@ const tapButtons: { value: Tap; label: string }[] = [
   { value: "frequency", label: "Frequency" },
 ];
 
-const AddTaskForm = ({
-  currentTeamId,
-  initialDate,
-  currentListId,
-}: AddTaskFormProps) => {
+const AddTaskForm = () => {
+  const toast = useToast();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialDate = searchParams.get("date");
+  const params = useParams<{ teamId: string; listId: string }>();
   const methods = useForm<NewTask>({
     resolver: zodResolver(newTaskSchema),
     mode: "onBlur",
     reValidateMode: "onBlur",
     defaultValues: {
-      startDate: initialDate.toISOString(),
+      startDate: initialDate!,
       frequencyType: "ONCE",
     },
   });
@@ -55,14 +59,36 @@ const AddTaskForm = ({
 
   const SelectedInput = Inputs[tap];
 
+  const { mutate, isPending } = useMutation({
+    // mutationFn: () => {},
+  });
+
   const onSubmit: SubmitHandler<NewTask> = async (data) => {
-    let numTypeWeekDays: number[];
+    let submitData;
+
     // data.monthlyDay number type으로 바꿔서 쏴야함
     if (data.frequencyType === "WEEKLY" && Array.isArray(data.weekDays)) {
-      numTypeWeekDays = convertStringArrayToNumberArray(data.weekDays);
+      const numTypeWeekDays = convertStringArrayToNumberArray(data.weekDays);
+      submitData = {
+        ...data,
+        weekDays: numTypeWeekDays,
+      };
+    } else {
+      submitData = data;
     }
+
     // eslint-disable-next-line no-console
-    console.log(data);
+    console.log(submitData);
+
+    // mutate(submitData, {
+    //   onSuccess: (res) => {
+    //     router.push(`/${params.teamId}/task-lists/?date=${initialDate}`);
+    //     toast.success("등록되었습니다");
+    //   },
+    //   onError: (error) => {
+    //     toast.error("등록 오류");
+    //   },
+    // });
   };
 
   const handleTapChange = (e: MouseEvent<HTMLButtonElement>) => {
@@ -78,7 +104,6 @@ const AddTaskForm = ({
       >
         <div className="flex flex-col gap-40">
           <NameInput />
-          {/* Tap 선택 버튼 그룹 */}
           <nav className="flex h-25 gap-12">
             {tapButtons.map(({ value, label }) => (
               <button

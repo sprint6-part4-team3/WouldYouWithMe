@@ -21,13 +21,10 @@ import isSameMonth from "@/utils/is-same-month";
 
 interface CalendarProps {
   setValue: (value: string) => void;
+  initialDate: Date;
 }
 
-const Calendar = ({ setValue }: CalendarProps) => {
-  const searchParams = useSearchParams();
-  const date = searchParams.get("date");
-  const initialDate = new Date(date!);
-
+const Calendar = ({ setValue, initialDate }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(initialDate);
 
   const start = startOfMonth(currentDate);
