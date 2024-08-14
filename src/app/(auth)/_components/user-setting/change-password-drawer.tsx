@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -10,6 +11,7 @@ import { Button, Drawer, FieldWrapper, Input } from "@/components/common";
 import { useToast } from "@/hooks";
 import ChangePassword from "@/lib/api/user-setting/change-password";
 import { resetPasswordSchema } from "@/lib/schemas/auth";
+import { pwLengthAtom } from "@/stores";
 import { ChangePasswordInput } from "@/types/auth";
 
 interface ChangePasswordDrawerProps {
@@ -23,6 +25,7 @@ const ChangePasswordDrawer = ({
 }: ChangePasswordDrawerProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToast();
+  const [, setPwLength] = useAtom(pwLengthAtom);
   const router = useRouter();
 
   const {
@@ -42,14 +45,15 @@ const ChangePasswordDrawer = ({
 
   const onSubmit: SubmitHandler<ChangePasswordInput> = (data) => {
     setIsLoading(true);
-
     const { passwordConfirmation, password } = data;
+    const passwordLength = password.length;
 
     mutate(
       { passwordConfirmation, password },
       {
         onSuccess: () => {
           success("비밀번호가 변경되었습니다.");
+          setPwLength(passwordLength);
           router.replace(`/user-setting`);
           setIsLoading(false);
           onClose();
