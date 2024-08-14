@@ -23,7 +23,8 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
       <ReactQueryProvider>
         <ToastContainer />
         <NavBar />
-        <main className="px-16">{children}</main>
+        <div className="fixed inset-0 -z-10 bg-[url('/assets/images/img-background.png')] bg-cover bg-center bg-repeat opacity-20" />
+        <main className="px-16 ">{children}</main>
       </ReactQueryProvider>
     </body>
   </html>
