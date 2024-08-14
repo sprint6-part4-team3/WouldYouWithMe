@@ -1,5 +1,6 @@
 import { IconCodeit } from "@/public/assets/icons";
 
+import BoardListInfo from "./_components/board-list-info";
 import Carousel from "./_components/carousel";
 
 const carouselItem = [
@@ -51,6 +52,8 @@ const BoardPage = () => (
     </div>
 
     <Carousel items={carouselItem} />
+
+    <BoardListInfo />
   </div>
 );
 

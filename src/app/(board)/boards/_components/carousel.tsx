@@ -40,7 +40,7 @@ const Carousel = ({ items }: CarouselProps) => {
   }, [currentIndex]);
 
   return (
-    <div className="relative h-200 w-full rounded-2xl md:h-240 lg:h-280">
+    <section className="relative h-200 w-full rounded-2xl md:h-240 lg:h-280">
       <div className="h-full overflow-hidden rounded-2xl">
         <div
           className="flex transition-transform duration-500"
@@ -81,7 +81,7 @@ const Carousel = ({ items }: CarouselProps) => {
       >
         &#8250;
       </button>
-    </div>
+    </section>
   );
 };
 
