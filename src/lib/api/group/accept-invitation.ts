@@ -15,6 +15,9 @@ const acceptInvitation = async (data: InvitationRequestType) => {
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      if (error.response?.data.message === "Validation Failed") {
+        throw new Error("로그인 후 팀 참여가 가능합니다.");
+      }
       throw error.response?.data;
     } else {
       throw new Error(OTHER_TYPE_ERROR);
