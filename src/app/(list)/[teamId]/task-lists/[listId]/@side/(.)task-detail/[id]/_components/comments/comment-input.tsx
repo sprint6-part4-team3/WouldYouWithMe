@@ -2,20 +2,27 @@
 
 "use client";
 
+import { useAtom } from "jotai";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { IconButton } from "@/components/common";
+import userAtom from "@/stores/user-atom";
 
 interface CommentFormInputs {
   content: string;
 }
 
 interface CommentInputProps {
-  onAddComment: (content: string) => Promise<void>;
+  onAddComment: (
+    content: string,
+    nickname: string,
+    image: string | null,
+  ) => Promise<void>;
 }
 
 const CommentInput = ({ onAddComment }: CommentInputProps) => {
+  const [currentUser] = useAtom(userAtom);
   const {
     register,
     handleSubmit,
@@ -29,8 +36,10 @@ const CommentInput = ({ onAddComment }: CommentInputProps) => {
 
   const onSubmit: SubmitHandler<CommentFormInputs> = async (data) => {
     try {
-      await onAddComment(data.content);
+      const { content } = data;
       reset();
+
+      await onAddComment(content, currentUser.nickname, currentUser.image);
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
@@ -43,7 +52,7 @@ const CommentInput = ({ onAddComment }: CommentInputProps) => {
     >
       <textarea
         placeholder="댓글을 달아주세요"
-        className=" size-full resize-none overflow-hidden !border-0 bg-background-secondary p-13 placeholder:text-gray-400 focus:!outline-none"
+        className="size-full resize-none overflow-hidden !border-0 bg-background-secondary p-13 placeholder:text-gray-400 focus:!outline-none"
         {...register("content", {
           required: true,
           validate: (value) => value.trim() !== "",

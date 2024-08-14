@@ -16,3 +16,7 @@ export type BoardCommentListResponse = {
   nextCursor: number;
   list: BoardCommentResponse[];
 };
+
+export type BoardCommentInput = {
+  content: string;
+};

@@ -10,7 +10,7 @@ interface CalendarButtonProps {
 }
 
 const CalendarButton = ({ children }: CalendarButtonProps) => {
-  const { value, handleOff, handleOn, handleToggle } = useToggle();
+  const { value, handleOff, handleToggle } = useToggle();
   const ref = useClickOutside(handleOff);
 
   return (
@@ -22,7 +22,7 @@ const CalendarButton = ({ children }: CalendarButtonProps) => {
         onClick={handleToggle}
       />
       {value && (
-        <div className="absolute left-[-135px] md:left-5">{children}</div>
+        <div className="absolute left-[-105px] w-282 md:left-5">{children}</div>
       )}
     </div>
   );
