@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 
 import { useToast } from "@/hooks";
 import isTokenExpire from "@/utils/get-token-expire";
@@ -10,7 +11,7 @@ const CopyTeamToken = ({ token }: { token: string }) => {
   const toast = useToast();
   const router = useRouter();
 
-  const isExpire = isTokenExpire(token);
+  const isExpire = useMemo(() => isTokenExpire(token), [token]);
 
   const copyToClipboard = () => {
     navigator.clipboard
