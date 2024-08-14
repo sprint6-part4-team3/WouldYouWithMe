@@ -9,12 +9,20 @@ import { useIsMobile, useToast, useToggle } from "@/hooks";
 import createInvitationToken from "@/lib/api/group/create-invitation-token";
 import { IconPlusCurrent, LoadingSpinner } from "@/public/assets/icons";
 
+import RedirectBoardModal from "./redirect-board-modal";
+
 const AddMemberModal = () => {
   const pathname = usePathname();
 
   const boardId = useMemo(() => pathname.split("/")[1], [pathname]);
 
   const { value: isOpen, handleOn, handleOff } = useToggle();
+  const {
+    value: isOpenBoard,
+    handleOn: boardHandleOn,
+    handleOff: boardHandleOff,
+  } = useToggle();
+
   const toast = useToast();
   const isMobile = useIsMobile();
 
@@ -33,13 +41,14 @@ const AddMemberModal = () => {
     mutationFn: () => createInvitationToken(Number(boardId)),
     onSuccess: (res) => {
       copyToClipboard(res);
+      boardHandleOn();
     },
     onError: (error) => {
       toast.error(error.message);
     },
-    // onSettled: () => {
-    //   handleOff();
-    // },
+    onSettled: () => {
+      handleOff();
+    },
   });
 
   const handleClickCopy = () => {
@@ -84,6 +93,9 @@ const AddMemberModal = () => {
             </Button>
           )}
         </ModalComponent>
+      )}
+      {isOpenBoard && (
+        <RedirectBoardModal isMobile={isMobile} handleOff={boardHandleOff} />
       )}
     </>
   );
