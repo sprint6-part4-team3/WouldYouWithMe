@@ -7,26 +7,36 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Button, Drawer, FieldWrapper, Input } from "@/components/common";
-import { useToast } from "@/hooks";
+import {
+  Button,
+  Drawer,
+  FieldWrapper,
+  Input,
+  Modal,
+} from "@/components/common";
+import { useIsMobile, useToast } from "@/hooks";
 import ChangePassword from "@/lib/api/user-setting/change-password";
 import { resetPasswordSchema } from "@/lib/schemas/auth";
 import { pwLengthAtom } from "@/stores";
 import { ChangePasswordInput } from "@/types/auth";
 
-interface ChangePasswordDrawerProps {
+interface ChangePasswordComponentProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const ChangePasswordDrawer = ({
+const ChangePasswordComponent = ({
   isOpen,
   onClose,
-}: ChangePasswordDrawerProps) => {
+}: ChangePasswordComponentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToast();
-  const [, setPwLength] = useAtom(pwLengthAtom);
   const router = useRouter();
+  const isMobile = useIsMobile();
+
+  const [, setPwLength] = useAtom(pwLengthAtom);
+
+  const CommonChangePassword = isMobile ? Drawer : Modal;
 
   const {
     register,
@@ -68,7 +78,11 @@ const ChangePasswordDrawer = ({
 
   return (
     isOpen && (
-      <Drawer onClose={onClose} title="비밀번호 변경하기" description="">
+      <CommonChangePassword
+        onClose={onClose}
+        title="비밀번호 변경하기"
+        description=""
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldWrapper
             id="password"
@@ -116,9 +130,9 @@ const ChangePasswordDrawer = ({
             </Button>
           </div>
         </form>
-      </Drawer>
+      </CommonChangePassword>
     )
   );
 };
 
-export default ChangePasswordDrawer;
+export default ChangePasswordComponent;

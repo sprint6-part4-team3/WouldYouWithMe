@@ -7,16 +7,14 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-import { useIsMobile, useToast } from "@/hooks";
+import { useToast } from "@/hooks";
 import EditUser from "@/lib/api/user-setting/edit-user";
 import { userSettingSchema } from "@/lib/schemas/auth";
 import { userAtom } from "@/stores";
 import { UserSettingInput } from "@/types/auth";
 
-import CancelUserDrawer from "./cancel-user-drawer";
-import CancelUserModal from "./cancel-user-modal";
-import ChangePasswordDrawer from "./change-password-drawer";
-import ChangePasswordModal from "./change-password-modal";
+import CancelUserComponent from "./cancel-user-component";
+import ChangePasswordComponent from "./change-password-component";
 import EmailInput from "./email-input";
 import ImageInput from "./image-input";
 import NameInput from "./name-input";
@@ -25,7 +23,6 @@ import PasswordInput from "./password-input";
 const UserSettingForm = () => {
   const [isChangeOpen, setIsChangeOpen] = useState(false);
   const [isCancelOpen, setIsCancelOpen] = useState(false);
-  const isMobile = useIsMobile();
   const router = useRouter();
   const setUser = useSetAtom(userAtom);
   const user = useAtomValue(userAtom);
@@ -68,11 +65,6 @@ const UserSettingForm = () => {
     );
   };
 
-  const CommonChangeComponent = isMobile
-    ? ChangePasswordDrawer
-    : ChangePasswordModal;
-  const CommonCancelComponent = isMobile ? CancelUserDrawer : CancelUserModal;
-
   const handleChangePasswordClick = () => {
     setIsChangeOpen(true);
   };
@@ -97,11 +89,11 @@ const UserSettingForm = () => {
           />
         </form>
       </FormProvider>
-      <CommonCancelComponent
+      <CancelUserComponent
         isOpen={isCancelOpen}
         onClose={() => setIsCancelOpen(false)}
       />
-      <CommonChangeComponent
+      <ChangePasswordComponent
         isOpen={isChangeOpen}
         onClose={() => setIsChangeOpen(false)}
       />
