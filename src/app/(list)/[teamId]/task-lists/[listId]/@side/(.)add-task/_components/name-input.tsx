@@ -3,13 +3,13 @@
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper, Input } from "@/components/common";
-import { NewTask } from "@/types/task-list";
+import { NewTaskForm } from "@/types/task-list";
 
 const NameInput = () => {
   const {
     register,
     formState: { errors },
-  } = useFormContext<NewTask>();
+  } = useFormContext<NewTaskForm>();
   return (
     <FieldWrapper id="name" label="제목" errorMessage={errors.name?.message}>
       <Input

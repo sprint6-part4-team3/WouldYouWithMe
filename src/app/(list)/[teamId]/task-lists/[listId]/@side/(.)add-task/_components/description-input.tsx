@@ -3,10 +3,10 @@
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper, TextArea } from "@/components/common";
-import { NewTask } from "@/types/task-list";
+import { NewTaskForm } from "@/types/task-list";
 
 const DescriptionInput = () => {
-  const { register, watch } = useFormContext<NewTask>();
+  const { register, watch } = useFormContext<NewTaskForm>();
   return (
     <FieldWrapper id="description" label="메모">
       <TextArea

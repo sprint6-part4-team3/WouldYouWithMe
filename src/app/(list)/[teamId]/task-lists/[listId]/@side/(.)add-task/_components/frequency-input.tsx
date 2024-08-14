@@ -1,9 +1,8 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { useFormContext } from "react-hook-form";
 
-import { NewTask } from "@/types/task-list";
+import { NewTaskForm } from "@/types/task-list";
 
 import FrequencySign from "./frequency-sign";
 import WeeklyOption from "./weekly-option";
@@ -16,7 +15,7 @@ const REPEAT_OPTIONS = [
 ];
 
 const FrequencyInput = () => {
-  const { register, watch, setValue } = useFormContext<NewTask>();
+  const { register, watch, setValue } = useFormContext<NewTaskForm>();
   const selectedFrequency = watch("frequencyType");
   const startDate = watch("startDate");
   const monthDay = new Date(startDate).getDate();
@@ -30,7 +29,7 @@ const FrequencyInput = () => {
     <>
       <fieldset className="grid grid-cols-2 grid-rows-2 gap-y-20 rounded-md border p-25 md:flex md:items-center md:justify-evenly md:space-y-2">
         <legend className="text-16-500 md:text-18-500">반복 주기 선택</legend>
-        {REPEAT_OPTIONS.map(({ value, label }, index) => (
+        {REPEAT_OPTIONS.map(({ value, label }) => (
           <label
             key={value}
             className="mx-auto my-0 flex cursor-pointer items-center gap-2"

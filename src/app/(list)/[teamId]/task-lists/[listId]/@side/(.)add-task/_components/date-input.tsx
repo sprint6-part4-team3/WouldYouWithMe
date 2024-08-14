@@ -2,12 +2,12 @@
 
 import { useFormContext } from "react-hook-form";
 
-import { NewTask } from "@/types/task-list";
+import { NewTaskForm } from "@/types/task-list";
 
 import Calendar from "./calendar";
 
 const DateInput = () => {
-  const { setValue, watch } = useFormContext<NewTask>();
+  const { setValue, watch } = useFormContext<NewTaskForm>();
   const startDate = watch("startDate");
   const initialDate = new Date(startDate);
 

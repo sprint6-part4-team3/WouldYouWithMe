@@ -1,7 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-
 import { FrequencyType } from "@/types/task-list";
 
 interface FrequencySignProp {

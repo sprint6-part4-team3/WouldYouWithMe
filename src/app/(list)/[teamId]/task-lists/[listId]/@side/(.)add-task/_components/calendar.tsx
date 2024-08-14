@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import {
+  addHours,
   addMonths,
   eachDayOfInterval,
   endOfMonth,
@@ -12,7 +13,6 @@ import {
   startOfWeek,
   subMonths,
 } from "date-fns";
-import { useSearchParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
 
 import { IconButton } from "@/components/common";
@@ -81,7 +81,7 @@ const Calendar = ({ setValue, initialDate }: CalendarProps) => {
               <button
                 type="button"
                 onClick={handleDayClick}
-                value={day.toISOString()}
+                value={addHours(day, 9).toISOString()}
               >
                 <time>{format(day, "d")}</time>
               </button>

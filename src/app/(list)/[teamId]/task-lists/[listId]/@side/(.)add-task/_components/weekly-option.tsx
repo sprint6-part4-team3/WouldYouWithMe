@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 import SelectButton from "./select-button";

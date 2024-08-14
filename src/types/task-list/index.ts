@@ -12,9 +12,13 @@ export type NewTaskBase = {
   startDate: string;
 };
 
-export type WeeklyTask = NewTaskBase & {
+export type WeeklyTaskForm = NewTaskBase & {
   frequencyType: "WEEKLY";
   weekDays: string[];
+};
+export type WeeklyTask = NewTaskBase & {
+  frequencyType: "WEEKLY";
+  weekDays: number[];
 };
 
 export type MonthlyTask = NewTaskBase & {
@@ -26,4 +30,5 @@ export type OtherTask = NewTaskBase & {
   frequencyType: "ONCE" | "DAILY";
 };
 
+export type NewTaskForm = WeeklyTaskForm | MonthlyTask | OtherTask;
 export type NewTask = WeeklyTask | MonthlyTask | OtherTask;

@@ -3,26 +3,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
+import { isToday } from "date-fns";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import { PlusButton } from "@/components/common";
 import { useToast } from "@/hooks";
+import addTask from "@/lib/api/task-lists/add-task";
 import newTaskSchema from "@/lib/schemas/task";
-import { NewTask } from "@/types/task-list";
+import { NewTask, NewTaskForm } from "@/types/task-list";
 import convertStringArrayToNumberArray from "@/utils/convert-string-array-to-num";
 
 import DateInput from "./date-input";
 import DescriptionInput from "./description-input";
 import RepeatInput from "./frequency-input";
 import NameInput from "./name-input";
-
-interface AddTaskFormProps {
-  currentTeamId: number;
-  initialDate: Date;
-  currentListId: number;
-}
 
 type Tap = "memo" | "date" | "frequency";
 
@@ -38,7 +34,7 @@ const AddTaskForm = () => {
   const searchParams = useSearchParams();
   const initialDate = searchParams.get("date");
   const params = useParams<{ teamId: string; listId: string }>();
-  const methods = useForm<NewTask>({
+  const methods = useForm<NewTaskForm>({
     resolver: zodResolver(newTaskSchema),
     mode: "onBlur",
     reValidateMode: "onBlur",
@@ -60,35 +56,63 @@ const AddTaskForm = () => {
   const SelectedInput = Inputs[tap];
 
   const { mutate, isPending } = useMutation({
-    // mutationFn: () => {},
+    mutationFn: ({
+      groupId,
+      taskListId,
+      newTask,
+    }: {
+      groupId: number;
+      taskListId: number;
+      newTask: NewTask;
+    }) => addTask({ groupId, taskListId, newTask }),
   });
 
-  const onSubmit: SubmitHandler<NewTask> = async (data) => {
-    let submitData;
+  const onSubmit: SubmitHandler<NewTaskForm> = async (data) => {
+    let submitData: NewTask;
+    let submitStartDate: string;
+
+    if (isToday(data.startDate)) {
+      const date = new Date(data.startDate);
+      date.setUTCHours(23, 59, 59, 999);
+      submitStartDate = date.toISOString();
+    } else {
+      submitStartDate = data.startDate;
+    }
 
     // data.monthlyDay number type으로 바꿔서 쏴야함
-    if (data.frequencyType === "WEEKLY" && Array.isArray(data.weekDays)) {
+    if (data.frequencyType === "WEEKLY") {
       const numTypeWeekDays = convertStringArrayToNumberArray(data.weekDays);
       submitData = {
         ...data,
         weekDays: numTypeWeekDays,
+        startDate: submitStartDate,
       };
     } else {
-      submitData = data;
+      submitData = {
+        ...data,
+        startDate: submitStartDate,
+      };
     }
 
     // eslint-disable-next-line no-console
     console.log(submitData);
 
-    // mutate(submitData, {
-    //   onSuccess: (res) => {
-    //     router.push(`/${params.teamId}/task-lists/?date=${initialDate}`);
-    //     toast.success("등록되었습니다");
-    //   },
-    //   onError: (error) => {
-    //     toast.error("등록 오류");
-    //   },
-    // });
+    mutate(
+      {
+        groupId: Number(params.teamId),
+        taskListId: Number(params.listId),
+        newTask: submitData,
+      },
+      {
+        onSuccess: () => {
+          router.refresh();
+          toast.success("등록되었습니다");
+        },
+        onError: () => {
+          toast.error("등록 오류");
+        },
+      },
+    );
   };
 
   const handleTapChange = (e: MouseEvent<HTMLButtonElement>) => {
@@ -126,7 +150,7 @@ const AddTaskForm = () => {
           <SelectedInput />
         </div>
         <div className="mt-130 flex justify-end pb-20">
-          <PlusButton type="submit" onClick={() => {}} disabled={!isValid}>
+          <PlusButton type="submit" disabled={!isValid}>
             할 일 추가
           </PlusButton>
         </div>

@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import {
+  addHours,
   addMonths,
   eachDayOfInterval,
   endOfMonth,
@@ -14,7 +15,7 @@ import {
   subMonths,
 } from "date-fns";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { IconButton } from "@/components/common";
 import DAYS_OF_WEEK from "@/constants/weeks";
@@ -72,7 +73,7 @@ const Calendar = ({ currentDate }: CalendarProps) => {
             )}
           >
             {isSameMonth(day, newDate) ? (
-              <Link href={`?date=${day.toISOString()}`}>
+              <Link href={`?date=${addHours(day, 9).toISOString()}`}>
                 <time
                   className={clsx({
                     "text-brand-primary": isToday(day),

@@ -16,12 +16,13 @@ interface TaskListProps {
 const TaskLists = async ({ params, searchParams }: TaskListProps) => {
   let currentDate: Date;
   if (!searchParams.date) {
-    const newDate = new Date();
-    const timeZoneOffset = 9 * 60 * 60 * 1000;
-
-    const kstDate = new Date(newDate.getTime() + timeZoneOffset);
-    kstDate.setUTCHours(0, 0, 0, 0);
-    currentDate = new Date(kstDate.getTime() - timeZoneOffset);
+    const koreaOffset = 9 * 60;
+    const now = new Date();
+    const koreanDate = new Date(
+      now.getTime() + (koreaOffset - now.getTimezoneOffset()) * 60 * 1000,
+    );
+    currentDate = new Date(koreanDate.getTime() - koreaOffset * 60 * 1000);
+    currentDate.setUTCHours(0, 0, 0, 0);
   } else {
     currentDate = new Date(searchParams.date);
   }
