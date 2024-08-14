@@ -1,15 +1,11 @@
 import Link from "next/link";
-import { useState } from "react";
 
-import { DropDown, IconButton } from "@/components/common";
-import { useToggle } from "@/hooks";
 import { IconDoneCyan } from "@/public/assets/icons";
 import { GroupTask, TaskList } from "@/types/group";
 import groupTaskTodoList from "@/utils/group-task-todo-list";
 
-import DeleteTaskListModal from "./delete-todo-list-modal";
-import EditTodoListModal from "./edit-todo-list-modal";
 import ProgressSign from "./progress-sign";
+import TodoListDropDown from "./todo-list-drop-down";
 
 interface TodoListCardProps {
   color?: "purple" | "blue" | "green" | "pink" | "rose" | "orange" | "yellow";
@@ -18,12 +14,6 @@ interface TodoListCardProps {
   tasks: TaskList[];
   task: GroupTask;
 }
-
-type TodoListDropDownProps = {
-  groupId: number;
-  id: number;
-  name: string;
-};
 
 function getColorClass(color: TodoListCardProps["color"]) {
   if (color === "purple") return "bg-point-purple";
@@ -35,59 +25,6 @@ function getColorClass(color: TodoListCardProps["color"]) {
   if (color === "yellow") return "bg-point-yellow";
   return "bg-point-purple";
 }
-
-const TodoListDropDown = ({ groupId, id, name }: TodoListDropDownProps) => {
-  const { value, handleOff, handleToggle } = useToggle();
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  const openDeleteModal = () => {
-    setIsDeleteModalOpen(true);
-    handleOff();
-  };
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false);
-  };
-  const openEditModal = () => {
-    setIsEditModalOpen(true);
-    handleOff();
-  };
-  const closeEditModal = () => {
-    setIsEditModalOpen(false);
-  };
-
-  return (
-    <DropDown handleClose={handleOff}>
-      <DropDown.Trigger onClick={handleToggle}>
-        <IconButton icon="IconKebab" variant="none" />
-      </DropDown.Trigger>
-      <DropDown.Menu isOpen={value} className="z-50">
-        <DropDown.Item>
-          <div onClick={openEditModal}>수정하기</div>
-        </DropDown.Item>
-        <DropDown.Item>
-          <div onClick={openDeleteModal}>삭제하기</div>
-        </DropDown.Item>
-      </DropDown.Menu>
-      {isDeleteModalOpen && (
-        <DeleteTaskListModal
-          onClose={closeDeleteModal}
-          groupId={groupId}
-          id={id}
-          name={name}
-        />
-      )}
-      {isEditModalOpen && (
-        <EditTodoListModal
-          onClose={closeEditModal}
-          groupId={groupId}
-          id={id}
-          name={name}
-        />
-      )}
-    </DropDown>
-  );
-};
 
 const TodoListCard = ({
   children,
