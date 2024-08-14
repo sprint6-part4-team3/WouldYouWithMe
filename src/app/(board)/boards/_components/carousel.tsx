@@ -1,3 +1,7 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
+/* eslint-disable react/no-array-index-key */
+
 "use client";
 
 import { ReactNode, useCallback, useEffect, useState } from "react";
@@ -15,22 +19,20 @@ interface CarouselProps {
 }
 
 const Carousel = ({ items }: CarouselProps) => {
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [transition, setTransition] = useState(true);
+
   const extendedItems = [items[items.length - 1], ...items, items[0]];
 
-  const [currentIndex, setCurrentIndex] = useState(1); // Start at the first real item
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
   const goToPrevious = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => prevIndex - 1);
+    setTransition(true);
+    setCurrentIndex((prevIndex) => (prevIndex -= 1));
   };
 
   const goToNext = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => prevIndex + 1);
-  }, [isTransitioning]); // 의존성 배열 추가
+    setTransition(true);
+    setCurrentIndex((prevIndex) => (prevIndex += 1));
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,41 +40,40 @@ const Carousel = ({ items }: CarouselProps) => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [goToNext]);
+  }, [currentIndex, goToNext]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
+
     if (currentIndex === 0) {
       timeoutId = setTimeout(() => {
-        setIsTransitioning(false);
-        setCurrentIndex(items.length);
+        setCurrentIndex(extendedItems.length - 2);
+        setTransition(false);
       }, 500);
     } else if (currentIndex === extendedItems.length - 1) {
       timeoutId = setTimeout(() => {
-        setIsTransitioning(false);
         setCurrentIndex(1);
+        setTransition(false);
       }, 500);
-    } else {
-      timeoutId = setTimeout(() => setIsTransitioning(false), 500);
     }
 
-    return () => clearTimeout(timeoutId);
-  }, [currentIndex, extendedItems.length, items.length]);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [currentIndex, extendedItems.length]);
 
   return (
     <div className="relative h-200 w-full rounded-2xl md:h-240 lg:h-280">
       <div className="h-full overflow-hidden rounded-2xl">
         <div
-          className={`flex transition-transform duration-500 ${
-            isTransitioning ? "" : "duration-0"
-          }`}
+          className={`flex ${transition && "transition-transform duration-500"}`}
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
           }}
         >
           {extendedItems.map((item, index) => (
             <div
-              key={item.title}
+              key={`${item.description} ${index}`}
               className={`${item.background} flex h-200 w-full shrink-0 justify-between gap-16 rounded-2xl px-100 md:h-240 lg:h-280`}
             >
               <div className="flex h-full flex-col justify-center">
