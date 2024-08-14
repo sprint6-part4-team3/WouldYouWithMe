@@ -6,7 +6,6 @@ export type TeamAddEditInput = {
 
 // 팀 참여 input
 export type TeamJoinInput = {
-  email: string;
   token: string;
 };
 
@@ -17,4 +16,10 @@ export type CreateEditTeamResponse = {
   updatedAt: string;
   createdAt: string;
   id: number;
+};
+
+// 팀 참여 request
+export type InvitationRequestType = {
+  userEmail: string;
+  token: string;
 };

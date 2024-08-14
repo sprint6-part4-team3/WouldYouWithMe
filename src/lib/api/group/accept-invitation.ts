@@ -1,13 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 
 import { OTHER_TYPE_ERROR } from "@/constants/error-message";
+import { InvitationRequestType } from "@/types/team-management";
 
 import instance from "../axios-instance";
-
-type InvitationRequestType = {
-  userEmail: string;
-  token: string;
-};
 
 // 초대 수락 생성 POST 요청
 const acceptInvitation = async (data: InvitationRequestType) => {
