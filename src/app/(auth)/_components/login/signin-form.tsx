@@ -10,15 +10,14 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
-import { useIsMobile, useToast } from "@/hooks";
+import { useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { pwLengthAtom, userAtom } from "@/stores";
 import { SignInInput } from "@/types/auth";
 
-import ResetPasswordDrawer from "../reset-password/reset-password-drawer";
-import ResetPasswordModal from "../reset-password/reset-password-modal";
+import ResetPasswordComponent from "../reset-password/reset-password-component";
 
 const SignInForm: React.FC = () => {
   const router = useRouter();
@@ -27,8 +26,6 @@ const SignInForm: React.FC = () => {
   const [, setUser] = useAtom(userAtom);
   const [, setPwLength] = useAtom(pwLengthAtom);
   const [isOpen, setIsOpen] = useState(false);
-
-  const isMobile = useIsMobile();
 
   const queryClient = useQueryClient();
 
@@ -79,8 +76,6 @@ const SignInForm: React.FC = () => {
       setIsLoading(false);
     }
   };
-
-  const CommonComponent = isMobile ? ResetPasswordDrawer : ResetPasswordModal;
 
   const handlePasswordResetClick = () => {
     setIsOpen(true);
@@ -172,7 +167,10 @@ const SignInForm: React.FC = () => {
           </div>
         </div>
       </form>
-      <CommonComponent isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <ResetPasswordComponent
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 };
