@@ -1,10 +1,11 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useFormContext } from "react-hook-form";
 
 import { NewTask } from "@/types/task-list";
 
-import RepeatSign from "./repeat-sign";
+import FrequencySign from "./frequency-sign";
 import WeeklyOption from "./weekly-option";
 
 const REPEAT_OPTIONS = [
@@ -14,19 +15,22 @@ const REPEAT_OPTIONS = [
   { value: "MONTHLY", label: "월 반복" },
 ];
 
-interface RepeatInputProps {
-  initialDate: number;
-  initialDay: number;
-}
+const FrequencyInput = () => {
+  const { register, watch, setValue } = useFormContext<NewTask>();
+  const selectedFrequency = watch("frequencyType");
+  const searchParams = useSearchParams();
+  const date = searchParams.get("date");
+  const dateObj = new Date(date!);
+  const day = dateObj.getDate();
 
-const RepeatInput = ({ initialDate, initialDay }: RepeatInputProps) => {
-  const { register, watch } = useFormContext<NewTask>();
-  const selectedRepeat = watch("frequencyType");
+  if (selectedFrequency === "MONTHLY") {
+    setValue("monthDay", day);
+  }
 
   return (
     <>
       <fieldset className="grid grid-cols-2 grid-rows-2 gap-y-20 rounded-md border p-25 md:flex md:items-center md:justify-evenly md:space-y-2">
-        <legend className="text-14-500">반복 주기 선택</legend>
+        <legend className="text-16-500 md:text-18-500">반복 주기 선택</legend>
         {REPEAT_OPTIONS.map(({ value, label }, index) => (
           <label
             key={value}
@@ -45,17 +49,13 @@ const RepeatInput = ({ initialDate, initialDay }: RepeatInputProps) => {
           </label>
         ))}
       </fieldset>
-      {selectedRepeat === "WEEKLY" ? (
-        <WeeklyOption
-          register={register("weekDays")}
-          defaultCheckDay={initialDay}
-        />
+      {selectedFrequency === "WEEKLY" ? (
+        <WeeklyOption register={register("weekDays")} />
       ) : (
-        <RepeatSign repeatOption={selectedRepeat} MonthlyDate={initialDate} />
+        <FrequencySign frequencyOption={selectedFrequency} />
       )}
     </>
   );
 };
-RepeatInput.displayName = "RepeatInput";
 
-export default RepeatInput;
+export default FrequencyInput;

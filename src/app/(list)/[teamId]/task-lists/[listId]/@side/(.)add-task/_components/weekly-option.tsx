@@ -1,12 +1,12 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 import SelectButton from "./select-button";
 
 interface WeeklyOptionProp {
   register: UseFormRegisterReturn;
-  defaultCheckDay: number;
 }
 
 const REPEAT_DAYS = [
@@ -19,21 +19,28 @@ const REPEAT_DAYS = [
   { value: 6, label: "토" },
 ];
 
-const WeeklyOption = ({ register, defaultCheckDay }: WeeklyOptionProp) => (
-  <fieldset className="grid grid-cols-3 grid-rows-3 gap-y-6 md:flex md:items-center md:justify-evenly ">
-    {REPEAT_DAYS.map(({ value, label }) => (
-      <SelectButton
-        key={value}
-        id={label}
-        value={value}
-        type="checkbox"
-        defaultChecked={value === defaultCheckDay}
-        {...register}
-      >
-        {label}
-      </SelectButton>
-    ))}
-  </fieldset>
-);
+const WeeklyOption = ({ register }: WeeklyOptionProp) => {
+  const searchParams = useSearchParams();
+  const date = searchParams.get("date");
+  const dateObj = new Date(date!);
+  const defaultCheckDay = dateObj.getDay();
+
+  return (
+    <fieldset className="grid grid-cols-3 grid-rows-3 gap-y-6 md:flex md:items-center md:justify-evenly ">
+      {REPEAT_DAYS.map(({ value, label }) => (
+        <SelectButton
+          key={value}
+          id={label}
+          value={value}
+          type="checkbox"
+          defaultChecked={value === defaultCheckDay}
+          {...register}
+        >
+          {label}
+        </SelectButton>
+      ))}
+    </fieldset>
+  );
+};
 
 export default WeeklyOption;

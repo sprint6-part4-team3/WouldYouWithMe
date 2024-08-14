@@ -3,13 +3,13 @@ import { TaskDetailData } from "../task-detail";
 
 export type Tasks = TaskDetailData[];
 
-export type RepeatType = "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
+export type FrequencyType = "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
 
 export type NewTaskBase = {
   name: string;
-  frequencyType: RepeatType;
   description?: string;
-  displayIndex?: number;
+  frequencyType: FrequencyType;
+  startDate: string;
 };
 
 export type WeeklyTask = NewTaskBase & {

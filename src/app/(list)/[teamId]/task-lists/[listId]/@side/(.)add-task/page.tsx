@@ -3,8 +3,6 @@ import React from "react";
 import { SidePage } from "@/components/common";
 
 import AddTaskForm from "./_components/add-task-form";
-// 나중에 패럴렐 라우팅으로 할 예정
-// 그러면 패럴렐 라우팅 폴더로 옮기고 요 page 파일은 삭제 예정
 
 interface AddTaskProps {
   params: { teamId: string; listId: string };
@@ -14,21 +12,26 @@ interface AddTaskProps {
 const AddTask = ({ params, searchParams }: AddTaskProps) => {
   const currentListId = Number(params.listId);
   const currentTeamId = Number(params.teamId);
-  let currentDate: Date;
+  let newDate: Date;
   if (!searchParams.date) {
-    currentDate = new Date();
+    newDate = new Date();
   } else {
-    currentDate = new Date(searchParams.date);
+    newDate = new Date(searchParams.date);
   }
-  const initialDate = currentDate.getDate();
-  const initialDay = currentDate.getDay();
+
+  const timeZoneOffset = 9 * 60 * 60 * 1000;
+
+  const kstDate = new Date(newDate.getTime() + timeZoneOffset);
+  kstDate.setUTCHours(0, 0, 0, 0);
+
+  const currentDate = new Date(kstDate.getTime() - timeZoneOffset);
+
   return (
     <SidePage>
       <h1 className="mt-16 text-18-500 md:text-20-700">할 일 추가</h1>
       <AddTaskForm
         currentTeamId={currentTeamId}
-        initialDate={initialDate}
-        initialDay={initialDay}
+        initialDate={currentDate}
         currentListId={currentListId}
       />
     </SidePage>

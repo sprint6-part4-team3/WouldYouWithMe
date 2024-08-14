@@ -19,7 +19,6 @@ const NameInput = () => {
         placeholder="할일 제목을 지어주세요"
         {...register("name")}
         isError={!!errors.name}
-        value={watch("name")}
       />
     </FieldWrapper>
   );

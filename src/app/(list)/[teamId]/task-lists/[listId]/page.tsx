@@ -14,14 +14,20 @@ interface TaskListProps {
 }
 
 const TaskLists = async ({ params, searchParams }: TaskListProps) => {
-  let currentDate: Date;
+  let newDate: Date;
   if (!searchParams.date) {
-    currentDate = new Date();
-    currentDate.setUTCHours(0, 0, 0, 0);
+    newDate = new Date();
   } else {
-    currentDate = new Date(searchParams.date);
-    currentDate.setUTCHours(0, 0, 0, 0);
+    newDate = new Date(searchParams.date);
   }
+
+  const timeZoneOffset = 9 * 60 * 60 * 1000;
+
+  const kstDate = new Date(newDate.getTime() + timeZoneOffset);
+  kstDate.setUTCHours(0, 0, 0, 0);
+
+  const currentDate = new Date(kstDate.getTime() - timeZoneOffset);
+
   const currentListId = Number(params.listId);
   const currentTeamId = Number(params.teamId);
 

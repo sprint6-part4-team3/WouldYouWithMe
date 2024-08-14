@@ -1,6 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
+import { MouseEvent, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import { PlusButton } from "@/components/common";
@@ -8,21 +10,28 @@ import newTaskSchema from "@/lib/schemas/task";
 import { NewTask } from "@/types/task-list";
 import convertStringArrayToNumberArray from "@/utils/convert-string-array-to-num";
 
+import DateInput from "./date-input";
 import DescriptionInput from "./description-input";
+import RepeatInput from "./frequency-input";
 import NameInput from "./name-input";
-import RepeatInput from "./repeat-input";
 
 interface AddTaskFormProps {
   currentTeamId: number;
-  initialDate: number;
-  initialDay: number;
+  initialDate: Date;
   currentListId: number;
 }
+
+type Tap = "memo" | "date" | "frequency";
+
+const tapButtons: { value: Tap; label: string }[] = [
+  { value: "date", label: "Date" },
+  { value: "memo", label: "Memo" },
+  { value: "frequency", label: "Frequency" },
+];
 
 const AddTaskForm = ({
   currentTeamId,
   initialDate,
-  initialDay,
   currentListId,
 }: AddTaskFormProps) => {
   const methods = useForm<NewTask>({
@@ -30,11 +39,21 @@ const AddTaskForm = ({
     mode: "onBlur",
     reValidateMode: "onBlur",
     defaultValues: {
-      monthDay: initialDate,
+      startDate: initialDate.toISOString(),
+      frequencyType: "ONCE",
     },
   });
   const { formState } = methods;
   const { isValid } = formState;
+
+  const [tap, setTap] = useState<Tap>("date");
+  const Inputs: Record<Tap, () => JSX.Element> = {
+    date: DateInput,
+    memo: DescriptionInput,
+    frequency: RepeatInput,
+  };
+
+  const SelectedInput = Inputs[tap];
 
   const onSubmit: SubmitHandler<NewTask> = async (data) => {
     let numTypeWeekDays: number[];
@@ -46,6 +65,11 @@ const AddTaskForm = ({
     console.log(data);
   };
 
+  const handleTapChange = (e: MouseEvent<HTMLButtonElement>) => {
+    const value = (e.target as HTMLButtonElement).value as Tap;
+    setTap(value);
+  };
+
   return (
     <FormProvider {...methods}>
       <form
@@ -54,8 +78,27 @@ const AddTaskForm = ({
       >
         <div className="flex flex-col gap-40">
           <NameInput />
-          <DescriptionInput />
-          <RepeatInput initialDate={initialDate} initialDay={initialDay} />
+          {/* Tap 선택 버튼 그룹 */}
+          <nav className="flex h-25 gap-12">
+            {tapButtons.map(({ value, label }) => (
+              <button
+                key={value}
+                type="button"
+                onClick={handleTapChange}
+                className={clsx(
+                  "px-4 py-2 text-16-500 md:text-18-500",
+                  tap === value
+                    ? "border-b border-text-tertiary  text-text-tertiary"
+                    : "text-text-default",
+                )}
+                value={value}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+
+          <SelectedInput />
         </div>
         <div className="mt-130 flex justify-end pb-20">
           <PlusButton type="submit" onClick={() => {}} disabled={!isValid}>
