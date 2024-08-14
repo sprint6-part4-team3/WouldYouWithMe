@@ -28,12 +28,12 @@ import FloatButton from "../float-button";
 
 type AddListModalButtonProps = {
   groupId: number;
-  onAddTask: (newTask: GroupTask) => void;
+  onAddTask?: (newTask: GroupTask) => void;
 };
 
 const AddListModalButton = ({
   groupId,
-  onAddTask: onAddTodo,
+  onAddTask,
 }: AddListModalButtonProps) => {
   const { value, handleOn, handleOff } = useToggle();
   const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +61,9 @@ const AddListModalButton = ({
         tasks: [],
       };
       toast.success("등록이 완료되었습니다");
-      onAddTodo(newTask);
+      if (onAddTask) {
+        onAddTask(newTask);
+      }
       handleOff();
       reset();
     } catch (error: unknown) {
