@@ -1,10 +1,14 @@
-/* eslint-disable no-console */
-
 "use client";
 
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
 
 import { Button, Drawer } from "@/components/common";
+import { useToast } from "@/hooks";
+import CancelUser from "@/lib/api/user-setting/cancel-user";
+import { pwLengthAtom, userAtom } from "@/stores";
+import { deleteCookie } from "@/utils/next-cookie";
 
 interface CancelUserDrawerProps {
   isOpen: boolean;
@@ -12,23 +16,52 @@ interface CancelUserDrawerProps {
 }
 
 const CancelUserDrawer = ({ isOpen, onClose }: CancelUserDrawerProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
+  const { success, error } = useToast();
+  const router = useRouter();
 
-  // NOTE - api 작업 대신 넣었습니다.
-  const onSubmit = async () => {
-    setIsLoading(true);
+  const [, setUser] = useAtom(userAtom);
+  const [, setPwLength] = useAtom(pwLengthAtom);
 
-    setTimeout(() => {
-      const success = true;
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      const response = await CancelUser();
 
-      if (success) {
-        console.log("회원 탈퇴 성공");
-      } else {
-        console.log("회원 탈퇴 실패");
+      if (response.success) {
+        await deleteCookie("token");
+        await deleteCookie("refreshToken");
+        await deleteCookie("userId");
+
+        setUser({
+          id: 0,
+          nickname: "",
+          createdAt: "",
+          updatedAt: "",
+          image: null,
+          teamId: "",
+          email: "",
+          accessToken: "",
+          refreshToken: "",
+        });
+        setPwLength(0);
       }
 
-      setIsLoading(false);
-    }, 1000);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userData"] });
+      success("회원 탈퇴되었습니다.");
+      router.replace(`/`);
+      onClose();
+    },
+    onError: () => {
+      error("회원 탈퇴에 실패했습니다.");
+      onClose();
+    },
+  });
+
+  const onSubmit = () => {
+    mutate();
   };
 
   return (
@@ -46,11 +79,11 @@ const CancelUserDrawer = ({ isOpen, onClose }: CancelUserDrawerProps) => {
           <Button
             type="submit"
             variant="danger"
-            disabled={isLoading}
+            disabled={isPending}
             className="h-48 w-136"
             onClick={onSubmit}
           >
-            {isLoading ? "처리 중..." : "회원 탈퇴"}
+            {isPending ? "처리 중..." : "회원 탈퇴"}
           </Button>
         </div>
       </Drawer>

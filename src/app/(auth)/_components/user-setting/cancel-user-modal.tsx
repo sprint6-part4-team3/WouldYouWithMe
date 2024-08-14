@@ -1,11 +1,13 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 
 import { Button, Modal } from "@/components/common";
 import { useToast } from "@/hooks";
 import CancelUser from "@/lib/api/user-setting/cancel-user";
+import { pwLengthAtom, userAtom } from "@/stores";
 import { deleteCookie } from "@/utils/next-cookie";
 
 interface CancelUserModalProps {
@@ -18,6 +20,9 @@ const CancelUserModal = ({ isOpen, onClose }: CancelUserModalProps) => {
   const { success, error } = useToast();
   const router = useRouter();
 
+  const [, setUser] = useAtom(userAtom);
+  const [, setPwLength] = useAtom(pwLengthAtom);
+
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
       const response = await CancelUser();
@@ -26,6 +31,19 @@ const CancelUserModal = ({ isOpen, onClose }: CancelUserModalProps) => {
         await deleteCookie("token");
         await deleteCookie("refreshToken");
         await deleteCookie("userId");
+
+        setUser({
+          id: 0,
+          nickname: "",
+          createdAt: "",
+          updatedAt: "",
+          image: null,
+          teamId: "",
+          email: "",
+          accessToken: "",
+          refreshToken: "",
+        });
+        setPwLength(0);
       }
 
       return response;

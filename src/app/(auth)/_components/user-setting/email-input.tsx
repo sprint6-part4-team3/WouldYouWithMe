@@ -3,7 +3,7 @@
 import { useAtomValue } from "jotai";
 
 import { FieldWrapper, Input } from "@/components/common";
-import userAtom from "@/stores/user-atom";
+import { userAtom } from "@/stores";
 
 const EmailInput = () => {
   const user = useAtomValue(userAtom);

@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import { useIsMobile, useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
-import userAtom from "@/stores/user-atom";
+import { userAtom } from "@/stores";
 
 import DropDown from "../common/drop-down";
 import LogoutDrawer from "./logout-drawer";
@@ -56,7 +56,9 @@ const UserDropdown = () => {
         >
           <DropDown.Item>마이 히스토리</DropDown.Item>
           <Link href="/user-setting">
-            <DropDown.Item>계정 설정</DropDown.Item>
+            <DropDown.Item onClick={userDropdown.handleToggle}>
+              계정 설정
+            </DropDown.Item>
           </Link>
           <DropDown.Item>팀 참여</DropDown.Item>
           <DropDown.Item onClick={openLogout}>로그아웃</DropDown.Item>

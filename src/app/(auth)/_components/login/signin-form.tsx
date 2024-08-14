@@ -14,8 +14,7 @@ import { useIsMobile, useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
-import pwLengthAtom from "@/stores/pw-length-atom";
-import userAtom from "@/stores/user-atom";
+import { pwLengthAtom, userAtom } from "@/stores";
 import { SignInInput } from "@/types/auth";
 
 import ResetPasswordDrawer from "../reset-password/reset-password-drawer";

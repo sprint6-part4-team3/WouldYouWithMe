@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai";
 
 import { Button, FieldWrapper, FloatButton, Input } from "@/components/common";
 import { IconSecession } from "@/public/assets/icons";
-import pwLengthAtom from "@/stores/pw-length-atom";
+import { pwLengthAtom } from "@/stores";
 
 interface PasswordInputProps {
   onChangePasswordClick: () => void;

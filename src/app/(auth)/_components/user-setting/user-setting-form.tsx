@@ -10,7 +10,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useIsMobile, useToast } from "@/hooks";
 import EditUser from "@/lib/api/user-setting/edit-user";
 import { userSettingSchema } from "@/lib/schemas/auth";
-import userAtom from "@/stores/user-atom";
+import { userAtom } from "@/stores";
 import { UserSettingInput } from "@/types/auth";
 
 import CancelUserDrawer from "./cancel-user-drawer";
