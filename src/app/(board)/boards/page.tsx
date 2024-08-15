@@ -38,7 +38,7 @@ const carouselItem = [
     icon: (
       <IconCodeit className="h-40 w-100 opacity-50 md:h-60 md:w-150 lg:h-80 lg:w-200" />
     ),
-    background: "bg-point-green",
+    background: "bg-point-blue",
   },
 ];
 

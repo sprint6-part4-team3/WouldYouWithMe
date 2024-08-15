@@ -6,7 +6,9 @@ import { useState } from "react";
 
 import { OrderType } from "@/constants/board-order-option";
 
+import BoardList from "./board-list";
 import SearchBar from "./search-bar";
+import testData from "./test.json";
 import TopTitle from "./top-title";
 
 const BoardListInfo = () => {
@@ -22,6 +24,7 @@ const BoardListInfo = () => {
     <section className="flex flex-col gap-40">
       <SearchBar onSearchItem={handleSearchItem} />
       <TopTitle orderBy={orderBy} setOrderBy={setOrderBy} />
+      <BoardList boardData={testData.list} />
     </section>
   );
 };

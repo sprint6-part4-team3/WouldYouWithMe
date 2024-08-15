@@ -51,10 +51,10 @@ const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
 
     mutate(submitData, {
       onSuccess: (res) => {
+        router.replace(`/board/${res.id}`);
         queryClient.invalidateQueries({
           queryKey: ["board", res.id],
         });
-        router.replace(`/board/${res.id}`);
         toast.success("게시물이 수정되었습니다.");
       },
       onError: (error) => {
