@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
-import { isToday } from "date-fns";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -67,27 +66,16 @@ const AddTaskForm = () => {
 
   const onSubmit: SubmitHandler<NewTaskForm> = async (data) => {
     let submitData: NewTask;
-    let submitStartDate: string;
-
-    if (isToday(data.startDate)) {
-      const date = new Date(data.startDate);
-      date.setUTCHours(23, 59, 59, 999);
-      submitStartDate = date.toISOString();
-    } else {
-      submitStartDate = data.startDate;
-    }
 
     if (data.frequencyType === "WEEKLY") {
       const numTypeWeekDays = convertStringArrayToNumberArray(data.weekDays);
       submitData = {
         ...data,
         weekDays: numTypeWeekDays,
-        startDate: submitStartDate,
       };
     } else {
       submitData = {
         ...data,
-        startDate: submitStartDate,
       };
     }
 
