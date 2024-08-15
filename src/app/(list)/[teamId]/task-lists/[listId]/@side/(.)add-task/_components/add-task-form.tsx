@@ -8,7 +8,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
-import { PlusButton } from "@/components/common";
+import { Button, PlusButton } from "@/components/common";
 import { useToast } from "@/hooks";
 import addTask from "@/lib/api/task-lists/add-task";
 import newTaskSchema from "@/lib/schemas/task";
@@ -155,9 +155,19 @@ const AddTaskForm = () => {
           <SelectedInput />
         </div>
         <div className="mt-130 flex justify-end pb-20">
-          <PlusButton type="submit" disabled={!isValid}>
-            할 일 추가
-          </PlusButton>
+          {isPending ? (
+            <Button
+              variant="primary"
+              className="h-47 w-125 rounded-40"
+              disabled
+            >
+              처리 중 ...
+            </Button>
+          ) : (
+            <PlusButton type="submit" disabled={!isValid}>
+              할 일 추가
+            </PlusButton>
+          )}
         </div>
       </form>
     </FormProvider>
