@@ -1,11 +1,13 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button, Drawer, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
+import { pwLengthAtom, userAtom } from "@/stores";
 import { deleteCookie } from "@/utils/next-cookie";
 
 interface LogoutComponentProps {
@@ -18,6 +20,9 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
   const { success, error } = useToast();
   const router = useRouter();
   const isMobile = useIsMobile();
+
+  const [, setUser] = useAtom(userAtom);
+  const [, setPwLength] = useAtom(pwLengthAtom);
 
   const CommonLogout = isMobile ? Drawer : Modal;
 
@@ -33,6 +38,19 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
       success("로그아웃 성공");
 
       queryClient.invalidateQueries({ queryKey: ["userData"] });
+
+      setUser({
+        id: 0,
+        nickname: "",
+        createdAt: "",
+        updatedAt: "",
+        image: null,
+        teamId: "",
+        email: "",
+        accessToken: "",
+        refreshToken: "",
+      });
+      setPwLength(0);
 
       router.push("/");
     } catch (err) {

@@ -16,6 +16,7 @@ import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { pwLengthAtom, userAtom } from "@/stores";
 import { SignInInput } from "@/types/auth";
+import randomString from "@/utils/random-string";
 
 import ResetPasswordComponent from "../reset-password/reset-password-component";
 
@@ -79,6 +80,12 @@ const SignInForm: React.FC = () => {
 
   const handlePasswordResetClick = () => {
     setIsOpen(true);
+  };
+
+  const handleKakaoLogin = () => {
+    const state = randomString(10);
+    const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&scope=profile_nickname,profile_image&state=${state}`;
+    window.location.href = KAKAO_LOGIN_URL;
   };
 
   return (
@@ -161,6 +168,7 @@ const SignInForm: React.FC = () => {
             <button
               type="button"
               className="ml-16 flex size-42 items-center justify-center rounded"
+              onClick={handleKakaoLogin}
             >
               <Image src={ImgKakao} alt="Kakao" />
             </button>
