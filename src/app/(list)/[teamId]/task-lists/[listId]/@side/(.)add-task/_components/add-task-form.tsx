@@ -79,7 +79,6 @@ const AddTaskForm = () => {
       submitStartDate = data.startDate;
     }
 
-    // data.monthlyDay number type으로 바꿔서 쏴야함
     if (data.frequencyType === "WEEKLY") {
       const numTypeWeekDays = convertStringArrayToNumberArray(data.weekDays);
       submitData = {
@@ -94,9 +93,6 @@ const AddTaskForm = () => {
       };
     }
 
-    // eslint-disable-next-line no-console
-    console.log(submitData);
-
     mutate(
       {
         groupId: Number(params.teamId),
@@ -105,8 +101,17 @@ const AddTaskForm = () => {
       },
       {
         onSuccess: () => {
-          router.refresh();
           toast.success("등록되었습니다");
+          if (initialDate === data.startDate) {
+            router.back();
+            setTimeout(() => {
+              router.refresh();
+            }, 50);
+          } else {
+            window.location.replace(
+              `/${params.teamId}/task-lists/${params.listId}?date=${data.startDate}`,
+            );
+          }
         },
         onError: () => {
           toast.error("등록 오류");
