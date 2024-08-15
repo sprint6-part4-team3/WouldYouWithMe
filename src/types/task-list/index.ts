@@ -3,6 +3,10 @@ import { TaskDetailData } from "../task-detail";
 
 export type Tasks = TaskDetailData[];
 
+export type TaskListAddEditInput = {
+  name: string;
+};
+
 export type RepeatType = "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
 
 export type NewTaskBase = {
