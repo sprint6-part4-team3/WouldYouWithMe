@@ -2,12 +2,20 @@
 
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
-import { ChangeEvent, memo, useEffect, useState } from "react";
+import { ChangeEvent, memo, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper } from "@/components/common";
-import { IconEdit, IconProfileDesktop } from "@/public/assets/icons";
+import { IMAGE_SIZE_ERROR, IMAGE_TYPE_ERROR } from "@/constants/error-message";
+import MAX_IMAGE_SIZE from "@/constants/image-size";
+import imageUpload from "@/lib/api/image/image-upload";
+import {
+  IconEdit,
+  IconProfileDesktop,
+  LoadingSpinner,
+} from "@/public/assets/icons";
 import { UserSettingInput } from "@/types/auth";
 
 const ImageInput = memo(() => {
@@ -16,33 +24,45 @@ const ImageInput = memo(() => {
   const [imgUrl, setImgUrl] = useState<string | null>(watch("image") || null);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (image: File) => imageUpload(image),
+  });
+
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        e.target.value = "";
-        setErrorMessage("이미지는 10MB 이하여야 합니다");
+      if (!file.type.startsWith("image/")) {
+        setErrorMessage(IMAGE_TYPE_ERROR);
         resetField("image");
         setImgUrl(null);
+        e.target.value = "";
         return;
       }
 
-      // TODO: image URL 만들기 post 요청
-      setErrorMessage("");
-      setImgUrl(URL.createObjectURL(file));
-      setValue("image", URL.createObjectURL(file));
+      if (file.size > MAX_IMAGE_SIZE) {
+        setErrorMessage(IMAGE_SIZE_ERROR);
+        resetField("image");
+        setImgUrl(null);
+        e.target.value = "";
+        return;
+      }
+
+      mutate(file, {
+        onSuccess: (res) => {
+          setImgUrl(res.url);
+          setValue("image", res.url);
+          setErrorMessage("");
+        },
+        onError: (error) => {
+          setErrorMessage(error.message);
+          resetField("image");
+          setImgUrl(null);
+          e.target.value = "";
+        },
+      });
     }
   };
-
-  useEffect(
-    () => () => {
-      if (imgUrl) {
-        URL.revokeObjectURL(imgUrl);
-      }
-    },
-    [imgUrl],
-  );
 
   return (
     <>
@@ -56,25 +76,30 @@ const ImageInput = memo(() => {
           accept=".png, .jpg, .jpeg"
           onChange={handleImage}
         />
-        <div className="w-70">
-          {imgUrl ? (
-            <div className="relative size-64">
-              <Image
-                src={imgUrl}
-                alt="유저 프로필 사진"
-                fill
-                style={{ objectFit: "cover", borderRadius: "50%" }}
-              />
-              <label htmlFor="image">
-                <IconEdit className="absolute -bottom-px -right-px cursor-pointer" />
+
+        {isPending ? (
+          <LoadingSpinner width={66} height={66} />
+        ) : (
+          <div className="w-70">
+            {imgUrl ? (
+              <div className="relative size-66">
+                <Image
+                  src={imgUrl}
+                  alt="유저 프로필 사진"
+                  fill
+                  style={{ objectFit: "cover", borderRadius: "50%" }}
+                />
+                <label htmlFor="image">
+                  <IconEdit className="absolute -bottom-px -right-px cursor-pointer" />
+                </label>
+              </div>
+            ) : (
+              <label htmlFor="image" className="cursor-pointer">
+                <IconProfileDesktop />
               </label>
-            </div>
-          ) : (
-            <label htmlFor="image" className="cursor-pointer">
-              <IconProfileDesktop />
-            </label>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </FieldWrapper>
     </>
   );

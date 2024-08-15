@@ -10,24 +10,22 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
-import { useIsMobile, useToast } from "@/hooks";
+import { useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
-import userAtom from "@/stores/user-atom";
+import { pwLengthAtom, userAtom } from "@/stores";
 import { SignInInput } from "@/types/auth";
 
-import ResetPasswordDrawer from "../reset-password/reset-password-drawer";
-import ResetPasswordModal from "../reset-password/reset-password-modal";
+import ResetPasswordComponent from "../reset-password/reset-password-component";
 
 const SignInForm: React.FC = () => {
   const router = useRouter();
   const { success, error } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [, setUser] = useAtom(userAtom);
+  const [, setPwLength] = useAtom(pwLengthAtom);
   const [isOpen, setIsOpen] = useState(false);
-
-  const isMobile = useIsMobile();
 
   const queryClient = useQueryClient();
 
@@ -44,6 +42,7 @@ const SignInForm: React.FC = () => {
   const onSubmit: SubmitHandler<SignInInput> = async (data) => {
     setIsLoading(true);
     const { email, password } = data;
+    const passwordLength = password.length;
 
     try {
       const resData = await signIn(email, password);
@@ -65,11 +64,11 @@ const SignInForm: React.FC = () => {
           refreshToken: resData.data.refreshToken,
         });
 
+        setPwLength(passwordLength);
+
         queryClient.invalidateQueries({ queryKey: ["userData"] });
 
-        setTimeout(() => {
-          router.push("/");
-        }, 3000);
+        router.push("/");
       }
     } catch (err) {
       error("로그인 요청 중 오류가 발생했습니다.");
@@ -77,8 +76,6 @@ const SignInForm: React.FC = () => {
       setIsLoading(false);
     }
   };
-
-  const CommonComponent = isMobile ? ResetPasswordDrawer : ResetPasswordModal;
 
   const handlePasswordResetClick = () => {
     setIsOpen(true);
@@ -170,7 +167,10 @@ const SignInForm: React.FC = () => {
           </div>
         </div>
       </form>
-      <CommonComponent isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <ResetPasswordComponent
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 };

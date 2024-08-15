@@ -15,7 +15,7 @@ const TokenInput = () => {
   return (
     <FieldWrapper
       label={
-        <span>
+        <div className="flex items-center">
           <abbr
             className="text-brand-tertiary no-underline"
             title="필수입력"
@@ -23,8 +23,12 @@ const TokenInput = () => {
           >
             *
           </abbr>
-          &nbsp;팀 참여 토큰
-        </span>
+          &nbsp;팀 참여 토큰&nbsp;
+          <span className="text-14-400 text-text-default">
+            (토큰 만료기한은 <span className="text-brand-primary">3일</span>
+            입니다.)
+          </span>
+        </div>
       }
       id="token"
       errorMessage={errors.content?.token?.message || ""}
