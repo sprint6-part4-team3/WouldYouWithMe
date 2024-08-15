@@ -43,8 +43,6 @@ const AddTaskForm = () => {
       frequencyType: "ONCE",
     },
   });
-  const { formState } = methods;
-  const { isValid } = formState;
 
   const [tap, setTap] = useState<Tap>("date");
   const Inputs: Record<Tap, () => JSX.Element> = {
@@ -164,9 +162,7 @@ const AddTaskForm = () => {
               처리 중 ...
             </Button>
           ) : (
-            <PlusButton type="submit" disabled={!isValid}>
-              할 일 추가
-            </PlusButton>
+            <PlusButton type="submit">할 일 추가</PlusButton>
           )}
         </div>
       </form>
