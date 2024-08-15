@@ -26,7 +26,7 @@ const getBoardList = async ({
           page,
           orderBy,
           keyword,
-          pageSize: 12,
+          pageSize: 6,
         },
         authorization: false,
       },

@@ -7,12 +7,11 @@ import { Suspense, useEffect, useState } from "react";
 import { OrderType } from "@/constants/board-order-option";
 import getBoardList from "@/lib/api/board/get-board-list";
 import { BoardListResponse } from "@/types/board-list";
-import scrollToTop from "@/utils/scroll-to-top";
 
 import BoardList from "./board-list";
 import Pagination from "./pagination";
 import SearchBar from "./search-bar";
-import BoardCardSkeleton from "./skeleton";
+import BoardCardSkeleton, { SkeletonLoader } from "./skeleton";
 import TopTitle from "./top-title";
 
 const BoardListInfo = () => {
@@ -63,7 +62,7 @@ const BoardListInfo = () => {
     router.push(
       `/boards?page=${newPage}&orderBy=${orderParam}&keyword=${keywordParam}`,
       {
-        scroll: true,
+        scroll: false,
       },
     );
   };
@@ -88,11 +87,16 @@ const BoardListInfo = () => {
           }
         />
         {isLoading && (
-          <div className="mb-40 grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-20">
-            {Array.from({ length: 4 }, (_, index) => (
-              <BoardCardSkeleton key={index} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-20">
+              {Array.from({ length: 6 }, (_, index) => (
+                <BoardCardSkeleton key={index} />
+              ))}
+            </div>
+            <div className="mb-40 flex items-center justify-center">
+              <SkeletonLoader className="my-20 h-30 w-300 rounded-full md:h-40" />
+            </div>
+          </>
         )}
         {boardListData && (
           <>

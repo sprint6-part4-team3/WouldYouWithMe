@@ -1,6 +1,6 @@
 "use client";
 
-const SkeletonLoader = ({ className }: { className: string }) => (
+export const SkeletonLoader = ({ className }: { className: string }) => (
   <div className={`${className} animate-pulse bg-text-default`} />
 );
 
