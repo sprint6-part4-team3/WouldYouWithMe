@@ -47,10 +47,6 @@ const BoardListInfo = () => {
     const orderParam = newOrderBy || orderBy;
     const keywordParm = newKeyword || "";
 
-    setPage(newPage);
-    setOrderBy(orderParam);
-    setKeyword(keywordParm);
-
     router.push(
       `/boards?page=${newPage}&orderBy=${orderParam}&keyword=${keywordParm}`,
       {
