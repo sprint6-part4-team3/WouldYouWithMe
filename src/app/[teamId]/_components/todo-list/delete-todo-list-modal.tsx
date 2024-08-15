@@ -52,6 +52,7 @@ const TeamDeleteModal = ({
             variant="danger"
             className="h-48 w-280"
             Icon={<LoadingSpinner width={30} height={30} />}
+            disabled={isLoading}
           >
             처리 중...
           </FloatButton>

@@ -40,7 +40,12 @@ const AddListModalButton = ({
   const toast = useToast();
   const isMobile = useIsMobile();
 
-  const { register, handleSubmit, reset } = useForm<TaskListAddEditInput>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isValid },
+  } = useForm<TaskListAddEditInput>({
     resolver: zodResolver(taskListAddEditSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -80,6 +85,7 @@ const AddListModalButton = ({
         toast.error(errorMessage);
       }
     } finally {
+      reset();
       setIsLoading(false);
     }
   };
@@ -116,9 +122,10 @@ const AddListModalButton = ({
             />
             {isLoading ? (
               <FloatButton
-                variant="danger"
+                variant="primary"
                 className="h-48 w-full"
                 Icon={<LoadingSpinner width={30} height={30} />}
+                disabled={!isValid || isLoading}
               >
                 목록 생성 중...
               </FloatButton>

@@ -28,7 +28,12 @@ const EditTodoListModal = ({
   const toast = useToast();
   const isMobile = useIsMobile();
 
-  const { register, handleSubmit, reset } = useForm<TaskListAddEditInput>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isValid },
+  } = useForm<TaskListAddEditInput>({
     resolver: zodResolver(taskListAddEditSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
@@ -89,9 +94,10 @@ const EditTodoListModal = ({
         />
         {isLoading ? (
           <FloatButton
-            variant="danger"
+            variant="primary"
             className="h-48 w-280"
             Icon={<LoadingSpinner width={30} height={30} />}
+            disabled={!isValid || isLoading}
           >
             처리 중...
           </FloatButton>

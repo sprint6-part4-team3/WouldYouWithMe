@@ -36,12 +36,12 @@ const TeamCardDropdownButton = ({ teamId, teamName }: TeamCardBoxProps) => {
         </span>
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value}>
-        <DropDown.Item>
-          <div onClick={openDeleteModal}>삭제하기</div>
-        </DropDown.Item>
         <Link href={`/${teamId}/edit`}>
           <DropDown.Item>수정하기</DropDown.Item>
         </Link>
+        <DropDown.Item>
+          <div onClick={openDeleteModal}>삭제하기</div>
+        </DropDown.Item>
       </DropDown.Menu>
       {isModalOpen && (
         <TeamDeleteModal
@@ -55,7 +55,7 @@ const TeamCardDropdownButton = ({ teamId, teamName }: TeamCardBoxProps) => {
 };
 
 const TeamCardBox = ({ teamName, teamId }: TeamCardBoxProps) => (
-  <article className="relative m-auto my-24 flex h-64 w-full items-center justify-between rounded-12 border border-border-primary/10 bg-slate-50/10 px-24">
+  <article className="relative m-auto flex h-64 w-full items-center justify-between rounded-12 border border-border-primary/10 bg-slate-50/10 px-24">
     <h1 className="text-20-700">{teamName}</h1>
     <div className="flex items-center gap-30">
       <TeamCardDropdownButton teamName={teamName} teamId={teamId} />

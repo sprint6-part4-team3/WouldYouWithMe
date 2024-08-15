@@ -29,8 +29,6 @@ const TeamDeleteModal = ({
   const deleteTeam = async () => {
     if (value !== teamName) return;
     setIsLoading(true);
-    toast.success("팀이 삭제되고 있습니다!");
-
     timeoutRef.current = setTimeout(async () => {
       try {
         await deleteGroup(teamId);
@@ -42,7 +40,7 @@ const TeamDeleteModal = ({
       } finally {
         setIsLoading(false);
       }
-    }, 8000);
+    }, 3000);
   };
 
   // 팀 삭제 타이머 취소

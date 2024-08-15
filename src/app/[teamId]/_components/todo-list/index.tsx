@@ -38,7 +38,7 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
   };
 
   return (
-    <article className="m-auto my-10 w-full">
+    <article className="m-auto w-full">
       <div className="flex justify-between">
         <div className="flex h-21 items-center gap-8">
           <h3 className="text-16-500">할 일 목록</h3>
