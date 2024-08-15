@@ -1,4 +1,4 @@
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 
 import { TaskDetailData } from "@/types/task-detail";
 
@@ -16,7 +16,7 @@ const getTaskDetail = async (
 
     return response.data;
   } catch (error) {
-    if (error instanceof AxiosError) {
+    if (isAxiosError(error)) {
       if (error.response) {
         throw new Error(
           `태스크 상세 정보를 가져오는데 실패했습니다: ${error.response.status} ${error.response.statusText}`,

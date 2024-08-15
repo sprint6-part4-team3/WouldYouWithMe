@@ -8,8 +8,12 @@ import utc from "dayjs/plugin/utc";
 import { useAtom } from "jotai";
 import React, { useMemo } from "react";
 
-import { useComments, useTaskMutation, useToggle } from "@/hooks";
-import useTaskParams from "@/hooks/use-task-params";
+import {
+  useComments,
+  useTaskMutation,
+  useTaskParams,
+  useToggle,
+} from "@/hooks";
 import { IconCheckPrimary } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
 import { Comment } from "@/types/comments/index";

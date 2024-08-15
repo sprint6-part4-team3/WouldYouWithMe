@@ -3,8 +3,12 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 import { Button, Drawer, FloatButton, Modal } from "@/components/common";
-import { useIsMobile, useToast } from "@/hooks";
-import useTaskParams from "@/hooks/use-task-params";
+import {
+  useBackAndRefresh,
+  useIsMobile,
+  useTaskParams,
+  useToast,
+} from "@/hooks";
 import deleteTaskDetail from "@/lib/api/task-detail/delete-task-detail";
 import { LoadingSpinner } from "@/public/assets/icons";
 
@@ -19,12 +23,7 @@ const TaskDeleteModal = ({ onClose }: TaskDeleteModalProps) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const navigateBackAndRefresh = () => {
-    router.back();
-    setTimeout(() => {
-      router.refresh();
-    }, 50);
-  };
+  const navigateBackAndRefresh = useBackAndRefresh();
 
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
