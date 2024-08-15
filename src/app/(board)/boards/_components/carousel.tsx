@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+
 "use client";
 
 import { ReactNode, useCallback, useEffect, useState } from "react";
@@ -27,7 +29,7 @@ const Carousel = ({ items }: CarouselProps) => {
 
   const goToNext = useCallback(() => {
     setTransition(true);
-    setCurrentIndex((prevIndex) => prevIndex - 1);
+    setCurrentIndex((prevIndex) => prevIndex + 1);
   }, []);
 
   useEffect(() => {
@@ -67,9 +69,9 @@ const Carousel = ({ items }: CarouselProps) => {
             transform: `translateX(-${currentIndex * 100}%)`,
           }}
         >
-          {extendedItems.map((item) => (
+          {extendedItems.map((item, index) => (
             <div
-              key={item.description}
+              key={item.description + index}
               className={`${item.background} flex h-200 w-full shrink-0 justify-between gap-16 rounded-2xl px-100 md:h-240 lg:h-280`}
             >
               <div className="flex h-full flex-col justify-center">

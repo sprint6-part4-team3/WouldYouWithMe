@@ -1,23 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { ChangeEvent, useCallback } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 import { IconSearch } from "@/public/assets/icons";
-import debounce from "@/utils/debounce";
 
 interface SearchBarProps {
+  keyword: string;
   onSearchItem: (keyword: string) => void;
 }
 
-const SearchBar = ({ onSearchItem }: SearchBarProps) => {
-  const debounceOnSearchItem = useCallback(
-    debounce((keyword: string) => {
-      onSearchItem(keyword);
-    }, 300),
-    [onSearchItem],
-  );
+const SearchBar = ({ keyword, onSearchItem }: SearchBarProps) => {
+  const [inputValue, setInputValue] = useState(keyword);
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    debounceOnSearchItem(e.target.value);
+    setInputValue(e.target.value);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onSearchItem(inputValue);
+    }
   };
 
   return (
@@ -26,7 +26,9 @@ const SearchBar = ({ onSearchItem }: SearchBarProps) => {
       <input
         className="h-56 w-full rounded-xl bg-background-secondary py-3.5 pl-42 pr-5 text-16-600 outline-none transition-all duration-300 focus:ring-1 focus:ring-brand-primary"
         placeholder="검색어를 입력해주세요"
+        value={inputValue}
         onChange={handleChangeInput}
+        onKeyDown={handleKeyDown}
       />
     </div>
   );
