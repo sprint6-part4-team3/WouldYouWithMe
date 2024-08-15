@@ -57,7 +57,11 @@ const Pagination = ({
   return (
     <div className="mx-auto mb-40 flex w-300 items-center justify-center gap-15 py-20 text-20-500">
       {startPage > 1 && (
-        <button className="text-40" onClick={handlePrevGroup} type="button">
+        <button
+          className="text-40 hover:text-text-secondary"
+          onClick={handlePrevGroup}
+          type="button"
+        >
           &#8249;
         </button>
       )}
@@ -65,7 +69,8 @@ const Pagination = ({
         <button
           className={clsx(`size-40 rounded-full`, {
             "bg-brand-primary": currentPage === pageNumber,
-            "bg-brand-primary/10": currentPage !== pageNumber,
+            "bg-brand-primary/10 hover:bg-brand-primary/30":
+              currentPage !== pageNumber,
           })}
           type="button"
           key={pageNumber}
@@ -75,7 +80,11 @@ const Pagination = ({
         </button>
       ))}
       {lastPage < totalPage && (
-        <button className="text-40" onClick={handleNextGroup} type="button">
+        <button
+          className="text-40 hover:text-text-secondary"
+          onClick={handleNextGroup}
+          type="button"
+        >
           &#8250;
         </button>
       )}
