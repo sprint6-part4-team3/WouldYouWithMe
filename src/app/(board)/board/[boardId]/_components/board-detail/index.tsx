@@ -7,7 +7,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { Button } from "@/components/common";
-import DEFAULT_IMAGE from "@/constants/image";
+import EMPTY_IMAGE from "@/constants/image";
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
 import { IconProfile } from "@/public/assets/icons";
 import formatBoardDate from "@/utils/format-board-date";
@@ -76,7 +76,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
 
       <CopyTeamToken token={parsedContent.token} />
 
-      {boardData.image && boardData.image !== DEFAULT_IMAGE && (
+      {boardData.image && boardData.image !== EMPTY_IMAGE && (
         <div className="mt-40 flex">
           <Image
             alt="게시물 이미지"
