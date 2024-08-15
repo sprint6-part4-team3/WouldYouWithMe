@@ -16,8 +16,14 @@ const CommentEditInput = ({
   onCancel,
   isPending,
 }: CommentEditInputProps) => {
-  const { register, handleSubmit, setFocus } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setFocus,
+    formState: { isValid },
+  } = useForm({
     defaultValues: { content: initialContent },
+    mode: "onChange",
   });
 
   useEffect(() => {
@@ -33,7 +39,7 @@ const CommentEditInput = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full ">
       <textarea
-        {...register("content")}
+        {...register("content", { required: true })}
         className="w-full resize-none bg-background-secondary text-14-400 focus:outline-none "
         rows={3}
         disabled={isPending}
@@ -52,7 +58,7 @@ const CommentEditInput = ({
           variant="noFill"
           className="h-32 w-74"
           type="submit"
-          disabled={isPending}
+          disabled={isPending || !isValid}
         >
           {isPending ? "수정 중..." : "수정하기"}
         </Button>

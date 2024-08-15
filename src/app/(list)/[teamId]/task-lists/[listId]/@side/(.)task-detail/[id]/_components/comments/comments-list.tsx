@@ -79,10 +79,15 @@ const CommentItem = ({
   const getRelativeTime = (date: string) => {
     const commentDate = dayjs(date);
     const now = dayjs();
-    if (now.diff(commentDate, "day") >= 7) {
-      return commentDate.format("YYYY.MM.DD");
-    }
-    return commentDate.fromNow();
+    const diffMinutes = now.diff(commentDate, "minute");
+    const diffHours = now.diff(commentDate, "hour");
+    const diffDays = now.diff(commentDate, "day");
+
+    if (diffMinutes < 1) return "방금 전";
+    if (diffMinutes < 60) return `${diffMinutes}분 전`;
+    if (diffHours < 24) return `${diffHours}시간 전`;
+    if (diffDays < 7) return `${diffDays}일 전`;
+    return commentDate.format("YYYY.MM.DD");
   };
 
   return (
