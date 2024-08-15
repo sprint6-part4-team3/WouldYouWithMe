@@ -14,7 +14,7 @@ import TeamCardBox from "./_components/team-card";
 import TodoListBox from "./_components/todo-list";
 
 const TeamPage = ({ params }: { params: { teamId: number } }) => {
-  const [userData, setUserDate] = useState<GroupResponse | null>(null);
+  const [userData, setUserData] = useState<GroupResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { teamId } = params;
 
@@ -22,7 +22,7 @@ const TeamPage = ({ params }: { params: { teamId: number } }) => {
     const fetchUserData = async () => {
       try {
         const res: GroupResponse = await getGroupData(teamId);
-        setUserDate(res);
+        setUserData(res);
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error("error:", e);
@@ -41,16 +41,12 @@ const TeamPage = ({ params }: { params: { teamId: number } }) => {
     return <Empty />;
   }
 
-  const members: GroupMember[] = userData.members as GroupMember[];
-  const tasks: GroupTask[] = userData.taskLists as GroupTask[];
-  const name: string = userData.name as string;
-
   return (
     <>
-      <TeamCardBox teamName={name} teamId={teamId} />
-      <TodoListBox taskList={tasks} teamId={teamId} />
-      <ReportBox taskList={tasks} />
-      <MemberBox memberList={members} />
+      <TeamCardBox teamName={userData.name} teamId={teamId} />
+      <TodoListBox taskList={userData.taskLists} teamId={teamId} />
+      <ReportBox taskList={userData.taskLists} />
+      <MemberBox memberList={userData.members} />
     </>
   );
 };

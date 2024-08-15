@@ -56,7 +56,7 @@ const AddListModalButton = ({
     try {
       const createdTask = await createTaskList(data, groupId);
 
-      const newTask: GroupTask = {
+      const newTaskList: GroupTask = {
         id: createdTask.id,
         name: data.name,
         createdAt: createdTask.createdAt,
@@ -67,16 +67,13 @@ const AddListModalButton = ({
       };
       toast.success("등록이 완료되었습니다");
       if (onAddTask) {
-        onAddTask(newTask);
+        onAddTask(newTaskList);
       }
       handleOff();
       reset();
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
-          const errorMessage = error.response.data.message;
-          toast.error(errorMessage);
-        } else {
           toast.error("서버에서 에러가 발생했습니다");
         }
       } else {
