@@ -9,6 +9,7 @@ import {
   endOfWeek,
   format,
   isSameDay,
+  startOfDay,
   startOfMonth,
   startOfWeek,
   subMonths,
@@ -33,6 +34,8 @@ const Calendar = ({ setValue, initialDate }: CalendarProps) => {
   const endWeek = endOfWeek(end);
 
   const days = eachDayOfInterval({ start: startWeek, end: endWeek });
+
+  const today = startOfDay(new Date());
 
   const handleDayClick = (e: MouseEvent<HTMLButtonElement>) => {
     const selectedDate = new Date(e.currentTarget.value);
@@ -74,10 +77,10 @@ const Calendar = ({ setValue, initialDate }: CalendarProps) => {
               {
                 "bg-brand-primary": isSameDay(day, currentDate),
               },
-              { " text-gray-400": !isSameMonth(day, currentDate) },
+              { " text-gray-400": day < today },
             )}
           >
-            {isSameMonth(day, currentDate) ? (
+            {isSameMonth(day, currentDate) && day >= today ? (
               <button
                 type="button"
                 onClick={handleDayClick}
