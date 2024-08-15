@@ -22,16 +22,14 @@ const BoardCard = ({ board }: BoardCardProps) => (
     <Link
       className="group flex h-250 flex-col gap-12 rounded-2xl border border-text-disabled bg-background-secondary"
       href={`/board/${board.id}`}
-      // rel="preload"
     >
       <div className="relative h-150 w-full">
         <Image
           src={board.image || EMPTY_IMAGE}
           alt="게시물 이미지"
-          layout="fill"
-          objectFit="cover"
+          fill
           onDragStart={(e) => e.preventDefault()}
-          className="rounded-se-2xl rounded-ss-2xl border-b  border-text-disabled"
+          className="rounded-se-2xl rounded-ss-2xl border-b  border-text-disabled object-cover"
         />
       </div>
       <div className="flex flex-col gap-8 px-12">

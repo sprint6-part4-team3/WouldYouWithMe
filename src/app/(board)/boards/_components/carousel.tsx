@@ -72,7 +72,7 @@ const Carousel = ({ items }: CarouselProps) => {
           {extendedItems.map((item, index) => (
             <div
               key={item.description + index}
-              className={`${item.background} flex h-200 w-full shrink-0 justify-between gap-16 rounded-2xl px-100 md:h-240 lg:h-280`}
+              className={`${item.background} flex h-200 w-full shrink-0 justify-between gap-8 rounded-2xl px-40 md:h-240 md:gap-16 md:px-70 lg:h-280 lg:px-100`}
             >
               <div className="flex h-full flex-col justify-center">
                 <span className="flex h-auto w-60 items-center justify-center rounded-full bg-brand-primary">
@@ -92,7 +92,7 @@ const Carousel = ({ items }: CarouselProps) => {
       <button
         type="button"
         onClick={goToPrevious}
-        className="absolute left-10 top-1/2 h-50 w-25 -translate-y-1/2 rounded-full bg-background-secondary hover:bg-background-tertiary"
+        className="absolute left-10 top-1/2 h-40 w-20 -translate-y-1/2 rounded-full bg-background-secondary hover:bg-background-tertiary md:h-50 md:w-25"
       >
         &#8249;
       </button>
@@ -100,7 +100,7 @@ const Carousel = ({ items }: CarouselProps) => {
       <button
         type="button"
         onClick={goToNext}
-        className="absolute right-20 top-1/2 h-50 w-25 -translate-y-1/2 rounded-full bg-background-secondary hover:bg-background-tertiary"
+        className="absolute right-10 top-1/2 h-40 w-20 -translate-y-1/2 rounded-full bg-background-secondary hover:bg-background-tertiary md:h-50 md:w-25"
       >
         &#8250;
       </button>

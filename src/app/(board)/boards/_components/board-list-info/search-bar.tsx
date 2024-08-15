@@ -15,7 +15,11 @@ const SearchBar = ({ keyword, onSearchItem }: SearchBarProps) => {
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing) {
+      return;
+    }
     if (e.key === "Enter") {
+      e.preventDefault();
       onSearchItem(inputValue);
     }
   };

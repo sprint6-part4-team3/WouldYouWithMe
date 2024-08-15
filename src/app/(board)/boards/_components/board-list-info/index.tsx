@@ -39,23 +39,28 @@ const BoardListInfo = () => {
     }
   }, [searchParams]);
 
-  const handleCurrentPage = (newPage: number, newOrderBy?: OrderType) => {
+  const handleCurrentPage = (
+    newPage: number,
+    newOrderBy: OrderType,
+    newKeyword: string,
+  ) => {
     const orderParam = newOrderBy || orderBy;
-    const queryKeyword = keyword ? `&keyword=${keyword}` : "";
+    const keywordParm = newKeyword || "";
 
     setPage(newPage);
     setOrderBy(orderParam);
+    setKeyword(keywordParm);
+
     router.push(
-      `/boards?page=${newPage}&orderBy=${orderParam}${queryKeyword}`,
+      `/boards?page=${newPage}&orderBy=${orderParam}&keyword=${keywordParm}`,
       {
         scroll: false,
       },
     );
   };
 
-  const handleSearchItem = (data: string) => {
-    setKeyword(data);
-    handleCurrentPage(1, orderBy);
+  const handleSearchItem = (value: string) => {
+    handleCurrentPage(1, orderBy, value);
   };
 
   return (
@@ -63,13 +68,15 @@ const BoardListInfo = () => {
       <SearchBar keyword={keyword} onSearchItem={handleSearchItem} />
       <TopTitle
         orderBy={orderBy}
-        setOrderBy={(value: OrderType) => handleCurrentPage(1, value)}
+        setOrderBy={(value: OrderType) => handleCurrentPage(1, value, keyword)}
       />
       <BoardList boardData={testData.list} />
       <Pagination
-        totalCount={24}
+        totalCount={testData.totalCount}
         currentPage={page}
-        handleCurrentPage={(newPage) => handleCurrentPage(newPage)}
+        handleCurrentPage={(newPage) =>
+          handleCurrentPage(newPage, orderBy, keyword)
+        }
       />
     </section>
   );
