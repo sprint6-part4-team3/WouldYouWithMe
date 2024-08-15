@@ -4,13 +4,14 @@ import axios from "axios";
 import { cookies } from "next/headers";
 
 import instance from "@/lib/api/axios-instance";
+import { SignUpResponse } from "@/types/auth";
 
 const signUp = async (
   email: string,
   nickname: string,
   password: string,
   passwordConfirmation: string,
-) => {
+): Promise<SignUpResponse> => {
   try {
     const response = await instance.post(`/auth/signUp`, {
       email,
@@ -29,8 +30,11 @@ const signUp = async (
       return {
         success: true,
         user: data.user,
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
       };
     }
+
     return { success: false, data };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

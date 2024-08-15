@@ -4,19 +4,22 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { Button, Drawer } from "@/components/common";
-import { useToast } from "@/hooks";
+import { Button, Drawer, Modal } from "@/components/common";
+import { useIsMobile, useToast } from "@/hooks";
 import { deleteCookie } from "@/utils/next-cookie";
 
-interface LogoutDrawerProps {
+interface LogoutComponentProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const LogoutDrawer = ({ isOpen, onClose }: LogoutDrawerProps) => {
+const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToast();
   const router = useRouter();
+  const isMobile = useIsMobile();
+
+  const CommonLogout = isMobile ? Drawer : Modal;
 
   const queryClient = useQueryClient();
 
@@ -42,7 +45,7 @@ const LogoutDrawer = ({ isOpen, onClose }: LogoutDrawerProps) => {
 
   return (
     isOpen && (
-      <Drawer
+      <CommonLogout
         onClose={onClose}
         title="로그아웃 하시겠어요?"
         className="h-171 w-384"
@@ -61,9 +64,9 @@ const LogoutDrawer = ({ isOpen, onClose }: LogoutDrawerProps) => {
             {isLoading ? "처리 중..." : "로그아웃"}
           </Button>
         </div>
-      </Drawer>
+      </CommonLogout>
     )
   );
 };
 
-export default LogoutDrawer;
+export default LogoutComponent;
