@@ -5,37 +5,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-import { useIsMobile, useToggle } from "@/hooks";
+import { useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
-import userAtom from "@/stores/user-atom";
+import { userAtom } from "@/stores";
 
 import DropDown from "../common/drop-down";
-import LogoutDrawer from "./logout-drawer";
-import LogoutModal from "./logout-modal";
+import LogoutComponent from "./logout-component";
 
 const UserDropdown = () => {
   const [user] = useAtom(userAtom);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userDropdown = useToggle();
-  const isMobile = useIsMobile();
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const openLogout = () => {
+    setIsLogoutOpen(true);
     userDropdown.handleOff();
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const openDrawer = () => {
-    setIsDrawerOpen(true);
-    userDropdown.handleOff();
-  };
-
-  const closeDrawer = () => {
-    setIsDrawerOpen(false);
+  const closeLogout = () => {
+    setIsLogoutOpen(false);
   };
 
   return (
@@ -64,19 +52,15 @@ const UserDropdown = () => {
         >
           <DropDown.Item>마이 히스토리</DropDown.Item>
           <Link href="/user-setting">
-            <DropDown.Item>계정 설정</DropDown.Item>
+            <DropDown.Item onClick={userDropdown.handleToggle}>
+              계정 설정
+            </DropDown.Item>
           </Link>
           <DropDown.Item>팀 참여</DropDown.Item>
-          <DropDown.Item onClick={isMobile ? openDrawer : openModal}>
-            로그아웃
-          </DropDown.Item>
+          <DropDown.Item onClick={openLogout}>로그아웃</DropDown.Item>
         </DropDown.Menu>
       </DropDown>
-      {isMobile ? (
-        <LogoutDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
-      ) : (
-        <LogoutModal isOpen={isModalOpen} onClose={closeModal} />
-      )}
+      <LogoutComponent isOpen={isLogoutOpen} onClose={closeLogout} />
     </div>
   );
 };

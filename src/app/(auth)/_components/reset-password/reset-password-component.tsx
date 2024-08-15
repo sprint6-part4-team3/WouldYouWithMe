@@ -4,20 +4,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Button, FieldWrapper, Input, Modal } from "@/components/common";
-import { useToast } from "@/hooks";
+import {
+  Button,
+  Drawer,
+  FieldWrapper,
+  Input,
+  Modal,
+} from "@/components/common";
+import { useIsMobile, useToast } from "@/hooks";
 import SendEmail from "@/lib/api/reset-password/send-email";
 import { emailSchema } from "@/lib/schemas/auth";
 import { EmailInput } from "@/types/auth";
 
-interface ResetPasswordModalProps {
+interface ResetPasswordComponentProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
+const ResetPasswordComponent = ({
+  isOpen,
+  onClose,
+}: ResetPasswordComponentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToast();
+  const isMobile = useIsMobile();
+
+  const CommonResetPassword = isMobile ? Drawer : Modal;
 
   const {
     register,
@@ -48,7 +60,7 @@ const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
 
   return (
     isOpen && (
-      <Modal
+      <CommonResetPassword
         onClose={onClose}
         title="비밀번호 재설정"
         description="비밀번호 재설정 링크를 보내드립니다."
@@ -86,9 +98,9 @@ const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordModalProps) => {
             </Button>
           </div>
         </form>
-      </Modal>
+      </CommonResetPassword>
     )
   );
 };
 
-export default ResetPasswordModal;
+export default ResetPasswordComponent;

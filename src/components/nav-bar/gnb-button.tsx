@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import IconButton from "../common/icon-button";
+import { IconButton } from "../common";
 import NavSideBar from "./nav-sidebar";
 
 const GnbButton = () => {

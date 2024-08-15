@@ -11,10 +11,8 @@ export type SignUpInput = {
 };
 
 export type UserSettingInput = {
-  image?: string;
-  name: string;
-  email: string;
-  password: string;
+  image: string | null;
+  nickname: string;
 };
 
 export type ResetPasswordInput = {
@@ -28,10 +26,34 @@ export type EmailInput = {
 };
 
 export type ChangePasswordInput = {
-  newPassword: string;
-  newPasswordConfirmation: string;
+  password: string;
+  passwordConfirmation: string;
 };
 
 export type AccessToken = {
   accessToken: string;
 };
+
+export type SignUpResponseSuccess = {
+  success: true;
+  user: {
+    id: number;
+    nickname: string;
+    createdAt: string;
+    updatedAt: string;
+    image: string | null;
+    teamId: string;
+    email: string;
+  };
+  accessToken: string;
+  refreshToken: string;
+};
+
+export type SignUpResponseFailure = {
+  success: false;
+  data: {
+    message: string;
+  };
+};
+
+export type SignUpResponse = SignUpResponseSuccess | SignUpResponseFailure;

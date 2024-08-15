@@ -10,7 +10,7 @@ import { useToggle } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { ImgPlanet } from "@/public/assets/images";
-import recentTeamAtom from "@/stores/recent-team-atom";
+import { recentTeamAtom } from "@/stores";
 import { User } from "@/types/user";
 
 import DropDown from "../common/drop-down";

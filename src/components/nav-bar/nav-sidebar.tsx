@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import { useClickOutside, useIsMobile } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
-import recentTeamAtom from "@/stores/recent-team-atom";
+import { recentTeamAtom } from "@/stores";
 import { User } from "@/types/user";
 
 import IconButton from "../common/icon-button";
