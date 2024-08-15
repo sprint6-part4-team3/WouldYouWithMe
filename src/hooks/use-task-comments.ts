@@ -10,7 +10,6 @@ const useComments = (
   initialComments: Comment[],
   currentUser: { id: number; nickname: string; image: string | null },
 ) => {
-  const [isCompleted, setIsCompleted] = useState(false);
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [optimisticComment, setOptimisticComment] = useState<Comment | null>(
     null,
@@ -125,8 +124,6 @@ const useComments = (
   };
 
   return {
-    isCompleted,
-    setIsCompleted,
     comments,
     optimisticComment,
     editingCommentId,

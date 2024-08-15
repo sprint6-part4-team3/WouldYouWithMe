@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useAtom } from "jotai";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
 import {
   useComments,
@@ -38,6 +38,7 @@ interface TaskContentProps {
 
 const TaskContent = ({ task, initialComments }: TaskContentProps) => {
   const { groupId, taskListId, taskId } = useTaskParams();
+  const [isTaskCompleted, setIsTaskCompleted] = useState(task.doneAt !== null);
   const taskDate = useMemo(
     () => dayjs.utc(task.recurring.startDate),
     [task.recurring.startDate],
@@ -46,8 +47,6 @@ const TaskContent = ({ task, initialComments }: TaskContentProps) => {
   const [currentUser] = useAtom(userAtom);
 
   const {
-    isCompleted,
-    setIsCompleted,
     comments,
     optimisticComment,
     editingCommentId,
@@ -62,12 +61,12 @@ const TaskContent = ({ task, initialComments }: TaskContentProps) => {
     groupId,
     taskListId,
     taskId,
-    setIsCompleted,
+    setIsTaskCompleted,
   );
 
   const handleToggleComplete = () => {
     if (!editTaskMutation.isPending) {
-      editTaskMutation.mutate({ done: !isCompleted });
+      editTaskMutation.mutate({ done: !isTaskCompleted });
     }
   };
 
@@ -91,7 +90,7 @@ const TaskContent = ({ task, initialComments }: TaskContentProps) => {
 
   return (
     <div className="flex min-w-350 flex-col gap-16">
-      {isCompleted && (
+      {isTaskCompleted && (
         <div className="flex items-center text-14-600 text-brand-primary">
           <IconCheckPrimary />
           <span>완료</span>
@@ -99,13 +98,13 @@ const TaskContent = ({ task, initialComments }: TaskContentProps) => {
       )}
       <TaskHeader
         taskName={task.name}
-        isCompleted={isCompleted}
+        isCompleted={isTaskCompleted}
         dropdownUseToggle={dropdownUseToggle}
       />
       <TaskInfo {...taskInfoProps} />
       <TaskDescription
         description={task.description}
-        isCompleted={isCompleted}
+        isTaskCompleted={isTaskCompleted}
         onToggleComplete={handleToggleComplete}
         isPending={editTaskMutation.isPending}
       />
