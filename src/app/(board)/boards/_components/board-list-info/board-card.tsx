@@ -26,8 +26,10 @@ const BoardCard = ({ board }: BoardCardProps) => (
       <div className="relative h-150 w-full">
         <Image
           src={board.image || EMPTY_IMAGE}
-          alt="게시물 이미지"
+          alt={`${board.title} 게시물 이미지`}
           fill
+          priority
+          sizes="(max-width: 768px) 100vw, 50vw"
           onDragStart={(e) => e.preventDefault()}
           className="rounded-se-2xl rounded-ss-2xl border-b  border-text-disabled object-cover"
         />

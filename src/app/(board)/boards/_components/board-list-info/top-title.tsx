@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { motion } from "framer-motion";
 
 import { DropDown } from "@/components/common";
@@ -22,7 +21,7 @@ const TopTitle = ({ orderBy, setOrderBy }: TopTitleProps) => {
             className="flex h-44 w-120 items-center justify-between rounded-10 bg-background-secondary px-16"
             type="button"
           >
-            <span className="text-14-700">{ORDER_TYPE_DICT[orderBy]}</span>
+            <span className="text-16-700">{ORDER_TYPE_DICT[orderBy]}</span>
             <motion.span
               initial={{ rotate: 0 }}
               animate={{ rotate: value ? -180 : 0 }}

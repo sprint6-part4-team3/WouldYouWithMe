@@ -99,7 +99,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
           likeCount={boardData.likeCount}
         />
 
-        <Link href="/boards">
+        <Link href="/boards?page=1&orderBy=recent&keyword=">
           <Button
             className="h-36 w-100 text-14 md:h-48 md:w-120 md:text-16"
             variant="noFill"

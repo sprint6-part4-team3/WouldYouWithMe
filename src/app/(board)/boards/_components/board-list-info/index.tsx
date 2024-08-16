@@ -8,10 +8,11 @@ import { OrderType } from "@/constants/board-order-option";
 import getBoardList from "@/lib/api/board/get-board-list";
 import { BoardListResponse } from "@/types/board-list";
 
+import BoardCardSkeleton from "./board-card-skeleton";
+import BoardEmpty from "./board-empty";
 import BoardList from "./board-list";
 import Pagination from "./pagination";
 import SearchBar from "./search-bar";
-import BoardCardSkeleton, { SkeletonLoader } from "./skeleton";
 import TopTitle from "./top-title";
 
 const BoardListInfo = () => {
@@ -36,19 +37,13 @@ const BoardListInfo = () => {
   });
 
   useEffect(() => {
-    const queryPage = searchParams.get("page");
-    const queryOrderBy = searchParams.get("orderBy");
-    const queryKeyword = searchParams.get("keyword");
+    const queryPage = searchParams.get("page") || "1";
+    const queryOrderBy = searchParams.get("orderBy") || "recent";
+    const queryKeyword = searchParams.get("keyword") || "";
 
-    if (queryPage) {
-      setPage(Number(queryPage));
-    }
-    if (queryOrderBy) {
-      setOrderBy(queryOrderBy as OrderType);
-    }
-    if (queryKeyword) {
-      setKeyword(queryKeyword);
-    }
+    setPage(Number(queryPage));
+    setOrderBy(queryOrderBy as OrderType);
+    setKeyword(queryKeyword);
   }, [searchParams]);
 
   const handleCurrentPage = (
@@ -86,19 +81,8 @@ const BoardListInfo = () => {
             handleCurrentPage(1, value, keyword)
           }
         />
-        {isLoading && (
-          <>
-            <div className="grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-20">
-              {Array.from({ length: 6 }, (_, index) => (
-                <BoardCardSkeleton key={index} />
-              ))}
-            </div>
-            <div className="mb-40 flex items-center justify-center">
-              <SkeletonLoader className="my-20 h-30 w-300 rounded-full md:h-40" />
-            </div>
-          </>
-        )}
-        {boardListData && (
+        {isLoading && <BoardCardSkeleton />}
+        {boardListData && boardListData?.list.length > 0 && (
           <>
             <BoardList boardData={boardListData.list} />
             <Pagination
@@ -109,6 +93,9 @@ const BoardListInfo = () => {
               }
             />
           </>
+        )}
+        {!isLoading && boardListData?.list.length === 0 && (
+          <BoardEmpty keyword={keyword} />
         )}
       </section>
     </Suspense>
