@@ -5,10 +5,10 @@ import "dayjs/locale/ko";
 import { clsx } from "clsx";
 import dayjs from "dayjs";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 import { DropDown } from "@/components/common";
-import useToggle from "@/hooks/use-toggle";
+import { useTaskMutation, useToggle } from "@/hooks";
 import {
   IconCalendar,
   IconCheckBox,
@@ -29,6 +29,7 @@ interface TaskCardProps {
   onDelete: (id: number) => void;
   currentTeamId: number;
   currentListId: number;
+  initialIsCompleted: boolean;
 }
 
 const TaskCard = ({
@@ -40,13 +41,21 @@ const TaskCard = ({
   onDelete,
   currentTeamId,
   currentListId,
+  initialIsCompleted,
 }: TaskCardProps) => {
-  const { value: isChecked, handleToggle: toggleChecked } = useToggle();
+  const [isCompleted, setIsCompleted] = useState(initialIsCompleted);
   const {
     value: isDropdownOpen,
     handleOff: closeDropdown,
     handleToggle: toggleDropdown,
   } = useToggle();
+
+  const { editTaskMutation } = useTaskMutation(
+    currentTeamId,
+    currentListId,
+    id,
+    setIsCompleted,
+  );
 
   const taskDate = dayjs(date);
   const formattedDate = taskDate.format("YYYY년 M월 D일");
@@ -62,12 +71,18 @@ const TaskCard = ({
     closeDropdown();
   };
 
+  const handleToggleComplete = () => {
+    const newCompletedState = !isCompleted;
+    setIsCompleted(newCompletedState);
+    editTaskMutation.mutate({ done: newCompletedState });
+  };
+
   return (
     <article className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center">
-          <button type="button" onClick={toggleChecked} className="mr-8">
-            {isChecked ? <IconCheckBoxPrimary /> : <IconCheckBox />}
+          <button type="button" onClick={handleToggleComplete} className="mr-8">
+            {isCompleted ? <IconCheckBoxPrimary /> : <IconCheckBox />}
           </button>
           <Link
             href={`/${currentTeamId}/task-lists/${currentListId}/task-detail/${id}`}
@@ -76,7 +91,7 @@ const TaskCard = ({
               className={clsx(
                 `text-14-400 text-text-primary hover:text-brand-primary`,
                 {
-                  "line-through": isChecked,
+                  "line-through": isCompleted,
                 },
               )}
             >

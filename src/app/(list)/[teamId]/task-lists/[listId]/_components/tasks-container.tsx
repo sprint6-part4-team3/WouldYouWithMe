@@ -36,6 +36,7 @@ const TasksContainer = ({
           onDelete={handleDelete}
           currentListId={currentListId}
           currentTeamId={currentTeamId}
+          initialIsCompleted={task.doneAt !== null}
         />
       ))}
     </div>
