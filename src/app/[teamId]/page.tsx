@@ -1,54 +1,36 @@
-"use client";
+import { Suspense } from "react";
 
-import { useEffect, useState } from "react";
-
+import PageLoading from "@/components/loading";
 import getGroupData from "@/lib/api/group/get-group-data";
-import { GroupResponse, GroupTask } from "@/types/group";
-import { GroupMember } from "@/types/user";
+import { GroupResponse } from "@/types/group";
 
-import PageLoading from "../../components/loading";
 import Empty from "./_components/empty";
 import MemberBox from "./_components/member";
 import ReportBox from "./_components/report";
 import TeamCardBox from "./_components/team-card";
 import TodoListBox from "./_components/todo-list";
 
-const TeamPage = ({ params }: { params: { teamId: number } }) => {
-  const [userData, setUserData] = useState<GroupResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+const TeamPage = async ({ params }: { params: { teamId: number } }) => {
   const { teamId } = params;
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const res: GroupResponse = await getGroupData(teamId);
-        setUserData(res);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error("error:", e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  try {
+    const response: GroupResponse = await getGroupData(teamId);
 
-    fetchUserData();
-  }, [teamId]);
+    if (!response) {
+      return <Empty />;
+    }
 
-  if (isLoading) {
-    return <PageLoading />;
+    return (
+      <Suspense fallback={<PageLoading />}>
+        <TeamCardBox teamName={response.name} teamId={teamId} />
+        <TodoListBox taskList={response.taskLists} teamId={teamId} />
+        <ReportBox taskList={response.taskLists} />
+        <MemberBox memberList={response.members} />
+      </Suspense>
+    );
+  } catch {
+    throw new Error("팀 페이지를 가져오는데 실패하였습니다.");
   }
-  if (!userData) {
-    return <Empty />;
-  }
-
-  return (
-    <>
-      <TeamCardBox teamName={userData.name} teamId={teamId} />
-      <TodoListBox taskList={userData.taskLists} teamId={teamId} />
-      <ReportBox taskList={userData.taskLists} />
-      <MemberBox memberList={userData.members} />
-    </>
-  );
 };
 
 export default TeamPage;
