@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { motion } from "framer-motion";
 
 import { DropDown } from "@/components/common";
@@ -21,7 +22,7 @@ const TopTitle = ({ orderBy, setOrderBy }: TopTitleProps) => {
             className="flex h-44 w-120 items-center justify-between rounded-10 bg-background-secondary px-16"
             type="button"
           >
-            <span className="text-16-700">{ORDER_TYPE_DICT[orderBy]}</span>
+            <span className="text-14-700">{ORDER_TYPE_DICT[orderBy]}</span>
             <motion.span
               initial={{ rotate: 0 }}
               animate={{ rotate: value ? -180 : 0 }}
@@ -38,7 +39,13 @@ const TopTitle = ({ orderBy, setOrderBy }: TopTitleProps) => {
               handleOff();
             }}
           >
-            최신순
+            <span
+              className={clsx({
+                "text-brand-primary": ORDER_TYPE_DICT[orderBy] === "최신순",
+              })}
+            >
+              최신순
+            </span>
           </DropDown.Item>
           <DropDown.Item
             onClick={() => {
@@ -46,7 +53,13 @@ const TopTitle = ({ orderBy, setOrderBy }: TopTitleProps) => {
               handleOff();
             }}
           >
-            좋아요순
+            <span
+              className={clsx({
+                "text-brand-primary": ORDER_TYPE_DICT[orderBy] === "좋아요순",
+              })}
+            >
+              좋아요순
+            </span>
           </DropDown.Item>
         </DropDown.Menu>
       </DropDown>

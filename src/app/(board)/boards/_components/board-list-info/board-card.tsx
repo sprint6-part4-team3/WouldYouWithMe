@@ -20,6 +20,7 @@ const BoardCard = ({ board }: BoardCardProps) => (
     key={board.id}
   >
     <Link
+      prefetch
       className="group flex h-250 flex-col gap-12 rounded-2xl border border-text-disabled bg-background-secondary"
       href={`/board/${board.id}`}
     >

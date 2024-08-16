@@ -1,12 +1,14 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { OrderType } from "@/constants/board-order-option";
 import getBoardList from "@/lib/api/board/get-board-list";
 import { BoardListResponse } from "@/types/board-list";
+import scrollToTop from "@/utils/scroll-to-top";
 
 import BoardCardSkeleton from "./board-card-skeleton";
 import BoardEmpty from "./board-empty";
@@ -72,7 +74,7 @@ const BoardListInfo = () => {
   }
 
   return (
-    <Suspense fallback="로딩중">
+    <>
       <section className="flex flex-col gap-40">
         <SearchBar keyword={keyword} onSearchItem={handleSearchItem} />
         <TopTitle
@@ -98,7 +100,17 @@ const BoardListInfo = () => {
           <BoardEmpty keyword={keyword} />
         )}
       </section>
-    </Suspense>
+      <div className="fixed bottom-15 right-15">
+        <Image
+          onClick={scrollToTop}
+          width={50}
+          height={50}
+          src="/assets/images/img-spaceship.png"
+          alt="맨 위로 버튼"
+          className="cursor-pointer drop-shadow-[0_0_10px_#22b8cf]"
+        />
+      </div>
+    </>
   );
 };
 

@@ -17,7 +17,7 @@ const BoardPage = () => (
       </div>
       <Link href="/create-board">
         <Button
-          className="h-40 w-90 md:w-110 lg:h-45 lg:w-130"
+          className="h-40 w-90 border-2 md:w-110 lg:h-45 lg:w-130"
           variant="noFill"
         >
           게시글 작성
