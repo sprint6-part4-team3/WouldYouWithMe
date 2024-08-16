@@ -1,47 +1,52 @@
-export type Comment = {
-  userId: number;
-  taskId: number;
-  updatedAt: string;
-  createdAt: string;
-  content: string;
-  id: number;
-};
+// export type Comment = {
+//   userId: number;
+//   taskId: number;
+//   updatedAt: string;
+//   createdAt: string;
+//   content: string;
+//   id: number;
+// };
 
 export type Recurring = {
-  groupId: number;
-  taskListId: number;
-  monthDay: number;
-  weekDays: number[];
-  frequencyType: string;
-  displayIndex: number;
-  updatedAt: string;
-  createdAt: string;
-  startDate: string;
-  description: string;
-  name: string;
   id: number;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  startDate: string;
+  frequencyType: string;
+  weekDays: number[];
+  monthDay: number | null;
+  taskListId: number;
+  groupId: number;
+  writerId: number;
 };
 
 export type User = {
-  image: string;
-  nickname: string;
   id: number;
+  nickname: string;
+  image: string;
+};
+
+export type DoneBy = {
+  user: User | null;
 };
 
 export type TaskDetailData = {
-  comments: Comment[];
-  recurring: Recurring;
-  user: User;
-  deletedAt: string | null;
-  userId: number;
-  recurringId: number;
-  frequency: string;
+  id: number;
+  updatedAt: string;
   date: string;
   doneAt: string | null;
-  description: string;
+  recurringId: number;
   name: string;
-  updatedAt: string;
-  id: number;
+  description: string;
+  frequency: string;
+  deletedAt: string | null;
+  displayIndex: number;
+  recurring: Recurring;
+  writer: User;
+  doneBy: DoneBy;
+  commentCount: number;
 };
 
 export type TaskEdit = { name?: string; description?: string; done: boolean };

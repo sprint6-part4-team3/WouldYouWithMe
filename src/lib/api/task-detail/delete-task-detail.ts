@@ -1,25 +1,22 @@
 import { isAxiosError } from "axios";
 
-import { TaskDetailData } from "@/types/task-detail";
-
 import instance from "../axios-instance";
 
-const getTaskDetail = async (
-  groupId: number,
-  taskListId: number,
-  taskId: number,
-): Promise<TaskDetailData> => {
+const deleteTaskDetail = async (
+  taskId: string,
+  groupId: string,
+  taskListId: string,
+) => {
   try {
-    const response = await instance.get(
+    const response = await instance.delete(
       `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
     );
-
     return response.data;
-  } catch (error) {
+  } catch (error: unknown) {
     if (isAxiosError(error)) {
       if (error.response) {
         throw new Error(
-          `태스크 상세 정보를 가져오는데 실패했습니다: ${error.response.status} ${error.response.statusText}`,
+          `테스크 삭제에 실패했습니다:${error.response.statusText}`,
         );
       } else if (error.request) {
         throw new Error("서버로부터 응답을 받지 못했습니다");
@@ -32,4 +29,4 @@ const getTaskDetail = async (
   }
 };
 
-export default getTaskDetail;
+export default deleteTaskDetail;
