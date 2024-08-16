@@ -1,12 +1,15 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { Button, Drawer, FloatButton, Input, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import deleteGroup from "@/lib/api/group/delete-group";
 import { LoadingSpinner } from "@/public/assets/icons";
+import groupIdListAtom from "@/stores/group-list";
 
 interface TeamDeleteModalProps {
   teamId: number;
@@ -19,6 +22,9 @@ const TeamDeleteModal = ({
   teamName,
   onClose,
 }: TeamDeleteModalProps) => {
+  const queryClient = useQueryClient();
+
+  const [groupIdList] = useAtom(groupIdListAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState("");
   const router = useRouter();
@@ -26,15 +32,21 @@ const TeamDeleteModal = ({
   const isMobile = useIsMobile();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const replaceId = useMemo(
+    () => (groupIdList[0] === Number(teamId) ? groupIdList[1] : groupIdList[0]),
+    [teamId, groupIdList],
+  );
+
   const deleteTeam = async () => {
     if (value !== teamName) return;
     setIsLoading(true);
     timeoutRef.current = setTimeout(async () => {
       try {
         await deleteGroup(teamId);
-        onClose();
+
         toast.success("팀이 삭제 되었습니다.");
-        router.push("/not-found");
+        router.push(`/${replaceId}`);
+        queryClient.invalidateQueries({ queryKey: ["userData"] });
       } catch (error) {
         toast.error("팀 삭제에 실패했습니다.");
       } finally {
