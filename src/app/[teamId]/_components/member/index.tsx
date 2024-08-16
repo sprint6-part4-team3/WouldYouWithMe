@@ -6,8 +6,9 @@ import Card from "./card";
 
 interface MemberBoxProps {
   memberList: GroupMember[];
+  teamName: string;
 }
-const MemberBox = ({ memberList }: MemberBoxProps) => {
+const MemberBox = ({ memberList, teamName }: MemberBoxProps) => {
   const adminId = getTeamAdmin(memberList);
 
   return (
@@ -21,7 +22,12 @@ const MemberBox = ({ memberList }: MemberBoxProps) => {
 
       <section className="grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-24">
         {memberList.map((member) => (
-          <Card key={member.userId} member={member} adminId={adminId} />
+          <Card
+            key={member.userId}
+            member={member}
+            adminId={adminId}
+            teamName={teamName}
+          />
         ))}
         <AddMemberModal />
       </section>

@@ -25,7 +25,7 @@ const TeamPage = async ({ params }: { params: { teamId: number } }) => {
         <TeamCardBox teamName={response.name} teamId={teamId} />
         <TodoListBox taskList={response.taskLists} teamId={teamId} />
         <ReportBox taskList={response.taskLists} />
-        <MemberBox memberList={response.members} />
+        <MemberBox memberList={response.members} teamName={response.name} />
       </Suspense>
     );
   } catch {

@@ -4,36 +4,21 @@ import { useAtom } from "jotai";
 import Image from "next/image";
 import React from "react";
 
-import { DropDown } from "@/components/common";
 import { useToggle } from "@/hooks";
 import { IconProfileCurrent } from "@/public/assets/icons";
 import { userAtom } from "@/stores";
 import { GroupMember } from "@/types/user";
 
+import MemberDropDown from "./member-dropdown";
 import ProfileModal from "./profile-modal";
-
-const MemberDropdown = () => {
-  const { value, handleToggle, handleOff } = useToggle();
-
-  return (
-    <DropDown handleClose={handleOff}>
-      <DropDown.Trigger onClick={handleToggle}>
-        <span className="cursor-pointer text-16-700 text-text-primary">⋮</span>
-      </DropDown.Trigger>
-      <DropDown.Menu isOpen={value}>
-        {/** TODO: 삭제하기 모달 만들면 좋을듯, 수정하기는 API에 없어서 뺌 */}
-        <DropDown.Item>삭제하기</DropDown.Item>
-      </DropDown.Menu>
-    </DropDown>
-  );
-};
 
 interface MemberCardProps {
   member: GroupMember;
   adminId: number;
+  teamName: string;
 }
 
-const Card = ({ member, adminId }: MemberCardProps) => {
+const Card = ({ member, adminId, teamName }: MemberCardProps) => {
   const [user] = useAtom(userAtom);
   const {
     value: isProfileModalOpen,
@@ -79,7 +64,13 @@ const Card = ({ member, adminId }: MemberCardProps) => {
             </span>
           </div>
         </div>
-        {(user.id === member.userId || adminId) && <MemberDropdown />}
+        {(user.id === member.userId || user.id === adminId) && (
+          <MemberDropDown
+            userId={user.id}
+            memberId={member.userId}
+            memberName={member.userName}
+          />
+        )}
       </div>
       {/* 모바일 */}
       <div className="flex items-center justify-between md:hidden">
@@ -106,10 +97,20 @@ const Card = ({ member, adminId }: MemberCardProps) => {
             {member.userEmail}
           </span>
         </div>
-        {(user.id === member.userId || adminId) && <MemberDropdown />}
+        {(user.id === member.userId || user.id === adminId) && (
+          <MemberDropDown
+            userId={user.id}
+            memberId={member.userId}
+            memberName={member.userName}
+          />
+        )}
       </div>
       {isProfileModalOpen && (
-        <ProfileModal member={member} onClose={closeProfileModal} />
+        <ProfileModal
+          teamName={teamName}
+          member={member}
+          onClose={closeProfileModal}
+        />
       )}
     </div>
   );
