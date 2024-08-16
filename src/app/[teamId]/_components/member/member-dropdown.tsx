@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
 
@@ -15,6 +16,7 @@ import {
 import { useIsMobile, useToast, useToggle } from "@/hooks";
 import deleteMember from "@/lib/api/group/delete-member";
 import { LoadingSpinner } from "@/public/assets/icons";
+import groupIdListAtom from "@/stores/group-list";
 
 /** 멤버 삭제 모달 */
 interface DeleteMemberModalProps {
@@ -30,6 +32,7 @@ const DeleteMemberModal = ({
   memberId,
   memberName,
 }: DeleteMemberModalProps) => {
+  const [groupIdList] = useAtom(groupIdListAtom);
   const [inputValue, setInputValue] = useState("");
 
   const toast = useToast();
@@ -37,16 +40,25 @@ const DeleteMemberModal = ({
   const router = useRouter();
   const isMobile = useIsMobile();
 
-  const ModalComponent = isMobile ? Drawer : Modal;
+  const ModalComponent = useMemo(() => (isMobile ? Drawer : Modal), [isMobile]);
 
   const groupId = useMemo(() => Number(pathname.split("/")[1]), [pathname]);
 
   const isSameMember = useMemo(() => userId === memberId, [userId, memberId]);
 
+  const replaceId = useMemo(
+    () => (groupIdList[0] === groupId ? groupIdList[1] : groupIdList[0]),
+    [groupId, groupIdList],
+  );
+
   const { mutate, isPending } = useMutation({
     mutationFn: () => deleteMember(groupId, memberId),
     onSuccess: () => {
-      router.refresh();
+      if (isSameMember) {
+        router.replace(`/${replaceId}`);
+      } else {
+        router.refresh();
+      }
       toast.success(
         isSameMember
           ? "해당 팀을 탈퇴하였습니다"
