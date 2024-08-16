@@ -1,32 +1,29 @@
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import React from "react";
 
 import { IconCheckPrimary } from "@/public/assets/icons";
 import { DayTasks, Task } from "@/types/user-history/index";
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 interface MyHistoryProps {
   data: Task[];
 }
 
-const formatDate = (isoDate: string): string => {
-  const date = new Date(isoDate);
-  return date.toLocaleDateString("ko-KR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
+const formatDate = (date: string): string =>
+  dayjs(date).format("YYYY년 M월 D일");
 
 const MyHistory = ({ data }: MyHistoryProps) => {
   const groupTasksByDate = (tasks: Task[]): DayTasks[] => {
     const grouped = tasks.reduce<Record<string, Task[]>>((acc, task) => {
-      const taskDate = new Date(task.date);
-      taskDate.setHours(taskDate.getHours() + 9);
-
-      const date = taskDate.toISOString().split("T")[0];
-      if (!acc[date]) {
-        acc[date] = [];
+      const taskDate = dayjs(task.date).tz("Asia/Seoul").format("YYYY-MM-DD");
+      if (!acc[taskDate]) {
+        acc[taskDate] = [];
       }
-      acc[date].push(task);
+      acc[taskDate].push(task);
       return acc;
     }, {});
 
