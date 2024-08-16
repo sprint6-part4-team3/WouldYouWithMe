@@ -1,10 +1,13 @@
 "use client";
 
+import { useAtom } from "jotai";
+import Image from "next/image";
 import React from "react";
 
 import { DropDown } from "@/components/common";
 import { useToggle } from "@/hooks";
 import { IconProfileCurrent } from "@/public/assets/icons";
+import { userAtom } from "@/stores";
 import { GroupMember } from "@/types/user";
 
 import ProfileModal from "./profile-modal";
@@ -27,9 +30,11 @@ const MemberDropdown = () => {
 
 interface MemberCardProps {
   member: GroupMember;
+  adminId: number;
 }
 
-const Card = ({ member }: MemberCardProps) => {
+const Card = ({ member, adminId }: MemberCardProps) => {
+  const [user] = useAtom(userAtom);
   const {
     value: isProfileModalOpen,
     handleOn: openProfileModal,
@@ -44,13 +49,13 @@ const Card = ({ member }: MemberCardProps) => {
           onClick={openProfileModal}
           className="group flex cursor-pointer items-center gap-12"
         >
-          <div className="flex-1">
-            {/** TODO: 유저 프로필 있는 경우 이미지 넣기 */}
+          <div className="relative size-28 flex-1 lg:size-32">
             {member.userImage ? (
-              <IconProfileCurrent
-                width={28}
-                height={28}
-                className="size-28 lg:size-32"
+              <Image
+                fill
+                src={member.userImage}
+                alt={`${member.userName}프로필 사진`}
+                className="rounded-full object-cover"
               />
             ) : (
               <IconProfileCurrent
@@ -60,34 +65,48 @@ const Card = ({ member }: MemberCardProps) => {
               />
             )}
           </div>
-          <div className="flex flex-1 flex-col gap-2">
-            <span className="group-hover text-14-700">{member.userName}</span>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-6">
+              <span className="group-hover text-14-700">{member.userName}</span>
+              {member.role === "ADMIN" && (
+                <span className="text-12-400 text-brand-secondary">
+                  (관리자)
+                </span>
+              )}
+            </div>
             <span className="group-hover text-12-400 text-text-secondary">
               {member.userEmail}
             </span>
           </div>
         </div>
-        {/** TODO: role이 ADMIN or 본인인 경우 나타나게 */}
-        <MemberDropdown />
+        {(user.id === member.userId || adminId) && <MemberDropdown />}
       </div>
       {/* 모바일 */}
       <div className="flex items-center justify-between md:hidden">
         <div onClick={openProfileModal} className="group cursor-pointer">
           <div className="flex items-center gap-6">
-            {/** TODO: 유저 프로필 있는 경우 이미지 넣기 */}
-            {member.userImage ? (
-              <IconProfileCurrent width={24} height={24} />
-            ) : (
-              <IconProfileCurrent width={24} height={24} />
-            )}
+            <div className="relative size-24">
+              {member.userImage ? (
+                <Image
+                  fill
+                  src={member.userImage}
+                  alt={`${member.userName}프로필 사진`}
+                  className="rounded-full object-cover"
+                />
+              ) : (
+                <IconProfileCurrent width={24} height={24} />
+              )}
+            </div>
             <span className="group-hover text-14-700">{member.userName}</span>
+            {member.role === "ADMIN" && (
+              <span className="text-12-400 text-brand-secondary">(관리자)</span>
+            )}
           </div>
           <span className="group-hover text-12-400 text-text-secondary">
             {member.userEmail}
           </span>
         </div>
-        {/** TODO: role이 ADMIN or 본인인 경우 나타나게 */}
-        <MemberDropdown />
+        {(user.id === member.userId || adminId) && <MemberDropdown />}
       </div>
       {isProfileModalOpen && (
         <ProfileModal member={member} onClose={closeProfileModal} />
