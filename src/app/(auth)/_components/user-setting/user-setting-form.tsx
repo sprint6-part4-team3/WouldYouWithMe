@@ -10,7 +10,7 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useToast } from "@/hooks";
 import EditUser from "@/lib/api/user-setting/edit-user";
 import { userSettingSchema } from "@/lib/schemas/auth";
-import { pwLengthAtom, userAtom } from "@/stores";
+import { userAtom } from "@/stores";
 import { UserSettingInput } from "@/types/auth";
 
 import CancelUserComponent from "./cancel-user-component";
@@ -26,7 +26,6 @@ const UserSettingForm = () => {
   const router = useRouter();
   const setUser = useSetAtom(userAtom);
   const user = useAtomValue(userAtom);
-  const pwLength = useAtomValue(pwLengthAtom);
   const { success, error } = useToast();
 
   const methods = useForm<UserSettingInput>({
@@ -84,7 +83,7 @@ const UserSettingForm = () => {
           <ImageInput />
           <NameInput />
           <EmailInput />
-          {pwLength > 0 && (
+          {user.loginType === null && (
             <PasswordInput
               onChangePasswordClick={handleChangePasswordClick}
               onCancelUserClick={handleCancelUserClick}
