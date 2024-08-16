@@ -2,14 +2,12 @@
 
 import clsx from "clsx";
 import {
-  addDays,
+  addHours,
   addMonths,
   eachDayOfInterval,
   endOfMonth,
   endOfWeek,
   format,
-  isAfter,
-  isBefore,
   isSameDay,
   isToday,
   startOfMonth,
@@ -17,29 +15,21 @@ import {
   subMonths,
 } from "date-fns";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { IconButton } from "@/components/common";
-
-// 날짜가 현재 달에 속한 날짜인지 검사하는 함수
-const isCurrentMonth = (day: Date, currentMonth: Date) =>
-  isSameDay(startOfMonth(day), startOfMonth(currentMonth)) ||
-  (isAfter(day, startOfMonth(currentMonth)) &&
-    isBefore(day, endOfMonth(currentMonth)));
-// 요일 맴 돌릴 배열
-const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+import DAYS_OF_WEEK from "@/constants/weeks";
+import isSameMonth from "@/utils/is-same-month";
 
 interface CalendarProps {
   currentDate: Date;
 }
 
-// 컴포넌트 시작
-
 const Calendar = ({ currentDate }: CalendarProps) => {
-  const [currentMonth, setCurrentMonth] = useState(currentDate);
+  const [newDate, setNewDate] = useState(currentDate);
 
-  const start = startOfMonth(currentMonth);
-  const end = endOfMonth(currentMonth);
+  const start = startOfMonth(newDate);
+  const end = endOfMonth(newDate);
   const startWeek = startOfWeek(start);
   const endWeek = endOfWeek(end);
 
@@ -51,19 +41,19 @@ const Calendar = ({ currentDate }: CalendarProps) => {
         <IconButton
           variant="none"
           icon="IconCalendarArrowLeft"
-          onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
+          onClick={() => setNewDate(subMonths(newDate, 1))}
         />
         <h3 className="text-14-500 text-text-inverse">
-          {format(currentMonth, "MMMM yyyy")}
+          {format(newDate, "MMMM yyyy")}
         </h3>
         <IconButton
           variant="none"
           icon="IconCalendarArrowRight"
-          onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
+          onClick={() => setNewDate(addMonths(newDate, 1))}
         />
       </header>
       <div className="grid grid-cols-7">
-        {weekdays.map((day) => (
+        {DAYS_OF_WEEK.map((day) => (
           <div
             key={day}
             className="px-3 py-7 text-center text-14-600 text-text-inverse"
@@ -73,17 +63,17 @@ const Calendar = ({ currentDate }: CalendarProps) => {
         ))}
         {days.map((day) => (
           <div
-            key={day.toString()}
+            key={day.toISOString()}
             className={clsx(
               `flex h-32 w-35 items-center justify-center rounded-8`,
               {
                 "bg-brand-primary": isSameDay(day, currentDate),
               },
-              { " text-gray-400": !isCurrentMonth(day, currentMonth) },
+              { " text-gray-400": !isSameMonth(day, newDate) },
             )}
           >
-            {isCurrentMonth(day, currentMonth) ? (
-              <Link href={`?date=${addDays(day, 1).toISOString()}`}>
+            {isSameMonth(day, newDate) ? (
+              <Link href={`?date=${addHours(day, 9).toISOString()}`}>
                 <time
                   className={clsx({
                     "text-brand-primary": isToday(day),

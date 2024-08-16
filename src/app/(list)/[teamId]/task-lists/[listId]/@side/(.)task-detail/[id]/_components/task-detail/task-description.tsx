@@ -4,21 +4,21 @@ import { CheckButton } from "@/components/common";
 
 interface TaskDescriptionProps {
   description: string;
-  isCompleted: boolean;
+  isTaskCompleted: boolean;
   onToggleComplete: () => void;
   isPending: boolean;
 }
 
 const TaskDescription = ({
   description,
-  isCompleted,
+  isTaskCompleted,
   onToggleComplete,
   isPending,
 }: TaskDescriptionProps) => {
   let buttonText = "완료하기";
   if (isPending) {
     buttonText = "처리 중...";
-  } else if (isCompleted) {
+  } else if (isTaskCompleted) {
     buttonText = "완료취소하기";
   }
 
@@ -27,7 +27,7 @@ const TaskDescription = ({
       {description}
       <div className="mt-150 flex justify-end">
         <CheckButton
-          variant={isCompleted ? "white" : "primary"}
+          variant={isTaskCompleted ? "white" : "primary"}
           onClick={onToggleComplete}
           disabled={isPending}
         >

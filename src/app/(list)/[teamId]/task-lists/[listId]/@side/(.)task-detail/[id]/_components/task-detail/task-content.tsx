@@ -2,20 +2,23 @@
 
 import "dayjs/locale/ko";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useAtom } from "jotai";
 import React, { useMemo, useState } from "react";
 
-import { useToggle } from "@/hooks";
-import createComment from "@/lib/api/task-comments/post-comment";
-import editTaskDetail from "@/lib/api/task-detail/edit-task-detail";
+import {
+  useComments,
+  useTaskMutation,
+  useTaskParams,
+  useToggle,
+} from "@/hooks";
 import { IconCheckPrimary } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
 import { Comment } from "@/types/comments/index";
-import { TaskDetailData, TaskEditData } from "@/types/task-detail/index";
+import { TaskDetailData } from "@/types/task-detail/index";
+import getCommentsToDisplay from "@/utils/task-comments-util";
 
 import CommentInput from "../comments/comment-input";
 import CommentList from "../comments/comments-list";
@@ -27,123 +30,67 @@ import TaskInfo from "./task-info";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.locale("ko");
+
 interface TaskContentProps {
   task: TaskDetailData;
   initialComments: Comment[];
-  groupId: number;
-  taskListId: number;
 }
 
-const TaskContent = ({
-  task,
-  initialComments,
-  groupId,
-  taskListId,
-}: TaskContentProps) => {
+const TaskContent = ({ task, initialComments }: TaskContentProps) => {
+  const { groupId, taskListId, taskId } = useTaskParams();
+  const [isTaskCompleted, setIsTaskCompleted] = useState(task.doneAt !== null);
   const taskDate = useMemo(
     () => dayjs.utc(task.recurring.startDate),
     [task.recurring.startDate],
   );
   const dropdownUseToggle = useToggle();
-  const [isCompleted, setIsCompleted] = useState(task.doneAt !== null);
-  const [comments, setComments] = useState<Comment[]>(initialComments);
   const [currentUser] = useAtom(userAtom);
-  const [optimisticComment, setOptimisticComment] = useState<Comment | null>(
-    null,
+
+  const {
+    comments,
+    optimisticComment,
+    editingCommentId,
+    optimisticEditComment,
+    handleAddComment,
+    handleDeleteComment,
+    handleEditComment,
+    editCommentMutation,
+  } = useComments(taskId, initialComments, currentUser);
+
+  const { editTaskMutation } = useTaskMutation(
+    groupId,
+    taskListId,
+    taskId,
+    setIsTaskCompleted,
   );
-
-  const queryClient = useQueryClient();
-
-  const addCommentMutation = useMutation({
-    mutationFn: (content: string) => createComment(task.id, content),
-    onSuccess: (newComment) => {
-      const commentWithUser = {
-        ...newComment,
-        user: {
-          nickname: currentUser.nickname,
-          image: currentUser.image,
-        },
-      };
-      setComments((prevComments) => [commentWithUser, ...prevComments]);
-      setOptimisticComment(null);
-      queryClient.setQueryData(
-        ["comments", task.id],
-        (oldData: Comment[] | undefined) =>
-          oldData ? [commentWithUser, ...oldData] : [commentWithUser],
-      );
-    },
-    onError: () => {
-      setOptimisticComment(null);
-    },
-  });
-
-  const editTaskMutation = useMutation({
-    mutationFn: (data: TaskEditData) =>
-      editTaskDetail(groupId, taskListId, task.id, data),
-    onSuccess: (data, variables) => {
-      setIsCompleted(variables.done);
-      queryClient.setQueryData<TaskDetailData>(["task", task.id], (old) => ({
-        ...old!,
-        ...variables,
-        doneAt: variables.done ? new Date().toISOString() : null,
-      }));
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["task", task.id] });
-    },
-  });
 
   const handleToggleComplete = () => {
     if (!editTaskMutation.isPending) {
-      editTaskMutation.mutate({ done: !isCompleted });
+      editTaskMutation.mutate({ done: !isTaskCompleted });
     }
-  };
-
-  const handleAddComment = async (content: string): Promise<void> => {
-    const now = new Date().toISOString();
-    const tempComment = {
-      id: Date.now(),
-      taskId: task.id,
-      content,
-      createdAt: now,
-      updatedAt: now,
-      userId: currentUser.id,
-      user: {
-        nickname: currentUser.nickname,
-        image: currentUser.image,
-      },
-    };
-    setOptimisticComment(tempComment);
-    await addCommentMutation.mutateAsync(content);
-  };
-
-  const handleDeleteComment = (deletedCommentId: number) => {
-    setComments((prevComments) =>
-      prevComments.filter((comment) => comment.id !== deletedCommentId),
-    );
-    queryClient.setQueryData(
-      ["comments", task.id],
-      (oldData: Comment[] | undefined) =>
-        oldData
-          ? oldData.filter((comment) => comment.id !== deletedCommentId)
-          : [],
-    );
   };
 
   const taskInfoProps = useMemo(
     () => ({
-      nickname: task.user?.nickname ?? "Unknown",
+      nickname: task.writer?.nickname ?? "Unknown",
       date: taskDate.format("YYYY년 M월 D일"),
       time: taskDate.format("A h:mm"),
       frequency: task.frequency,
-      profileImage: task.user?.image,
+      profileImage: task.writer?.image,
     }),
-    [task.user, taskDate, task.frequency],
+    [task.writer, taskDate, task.frequency],
   );
+
+  const commentsToDisplay = getCommentsToDisplay(
+    comments,
+    optimisticComment,
+    optimisticEditComment,
+  );
+  const hasComments = comments.length > 0 || optimisticComment;
 
   return (
     <div className="flex min-w-350 flex-col gap-16">
-      {isCompleted && (
+      {isTaskCompleted && (
         <div className="flex items-center text-14-600 text-brand-primary">
           <IconCheckPrimary />
           <span>완료</span>
@@ -151,25 +98,26 @@ const TaskContent = ({
       )}
       <TaskHeader
         taskName={task.name}
-        isCompleted={isCompleted}
+        isCompleted={isTaskCompleted}
         dropdownUseToggle={dropdownUseToggle}
       />
       <TaskInfo {...taskInfoProps} />
       <TaskDescription
-        description={task.recurring.description}
-        isCompleted={isCompleted}
+        description={task.description}
+        isTaskCompleted={isTaskCompleted}
         onToggleComplete={handleToggleComplete}
         isPending={editTaskMutation.isPending}
       />
       <CommentInput onAddComment={handleAddComment} />
-      {comments.length > 0 || optimisticComment ? (
+      {hasComments ? (
         <CommentList
-          comments={
-            optimisticComment ? [optimisticComment, ...comments] : comments
-          }
-          taskId={task.id}
+          comments={commentsToDisplay}
+          taskId={taskId}
           onDeleteComment={handleDeleteComment}
+          onEditComment={handleEditComment}
           optimisticCommentId={optimisticComment?.id}
+          editingCommentId={editingCommentId}
+          isPendingEdit={editCommentMutation.isPending}
         />
       ) : (
         <EmptyComment />

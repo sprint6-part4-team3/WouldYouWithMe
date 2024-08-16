@@ -6,7 +6,7 @@ import SelectButton from "./select-button";
 
 interface WeeklyOptionProp {
   register: UseFormRegisterReturn;
-  defaultCheckDay: number;
+  initialDay: number;
 }
 
 const REPEAT_DAYS = [
@@ -19,7 +19,7 @@ const REPEAT_DAYS = [
   { value: 6, label: "토" },
 ];
 
-const WeeklyOption = ({ register, defaultCheckDay }: WeeklyOptionProp) => (
+const WeeklyOption = ({ register, initialDay }: WeeklyOptionProp) => (
   <fieldset className="grid grid-cols-3 grid-rows-3 gap-y-6 md:flex md:items-center md:justify-evenly ">
     {REPEAT_DAYS.map(({ value, label }) => (
       <SelectButton
@@ -27,7 +27,7 @@ const WeeklyOption = ({ register, defaultCheckDay }: WeeklyOptionProp) => (
         id={label}
         value={value}
         type="checkbox"
-        defaultChecked={value === defaultCheckDay}
+        defaultChecked={value === initialDay}
         {...register}
       >
         {label}

@@ -55,6 +55,7 @@ const KakaoAuth = () => {
             email: data.user.email,
             accessToken: data.accessToken,
             refreshToken: data.refreshToken,
+            loginType: "KAKAO",
           });
 
           redirectTo("/");

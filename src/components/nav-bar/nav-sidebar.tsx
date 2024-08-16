@@ -76,7 +76,7 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
         )}
 
         <div className="mt-24">
-          <Link href="/board" onClick={onClose}>
+          <Link href="/boards" onClick={onClose}>
             자유게시판
           </Link>
         </div>

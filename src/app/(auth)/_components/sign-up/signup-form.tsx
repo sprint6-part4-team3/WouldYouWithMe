@@ -53,7 +53,9 @@ const SignUpForm: React.FC = () => {
         passwordConfirmation,
       );
 
-      if (resData.success) {
+      if (!resData.success) {
+        error(`${resData.data?.message}`);
+      } else {
         const { user, accessToken, refreshToken } =
           resData as SignUpResponseSuccess;
 
@@ -69,6 +71,7 @@ const SignUpForm: React.FC = () => {
           email: user.email,
           accessToken,
           refreshToken,
+          loginType: null,
         });
 
         setPwLength(passwordLength);

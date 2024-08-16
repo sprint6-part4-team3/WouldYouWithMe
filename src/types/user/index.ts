@@ -22,6 +22,8 @@ export type User = {
   }[];
 };
 
+export type LoginType = "DEFAULT" | "KAKAO" | "GOOGLE" | null;
+
 export type LoginUser = {
   id: number;
   nickname: string;
@@ -32,6 +34,7 @@ export type LoginUser = {
   email: string;
   accessToken: string;
   refreshToken: string;
+  loginType: LoginType;
 };
 
 export type Group = {

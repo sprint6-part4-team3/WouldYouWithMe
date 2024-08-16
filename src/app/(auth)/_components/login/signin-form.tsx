@@ -64,6 +64,7 @@ const SignInForm: React.FC = () => {
           email: resData.data.user.email,
           accessToken: resData.data.accessToken,
           refreshToken: resData.data.refreshToken,
+          loginType: null,
         });
 
         setPwLength(passwordLength);

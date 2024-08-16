@@ -2,12 +2,12 @@
 
 import Lottie from "lottie-react";
 
-import EmptyAnimation from "@/public/assets/lotties/nocomment.json";
+import EmptyAnimation from "@/public/assets/lotties/empty.json";
 
 const EmptyComment = () => (
-  <div className="mt-50 flex flex-col items-center gap-60">
+  <div className="flex flex-col items-center gap-10">
     <Lottie
-      style={{ width: "80%", height: "80%", maxWidth: "400px" }}
+      style={{ width: "80%", height: "80%", maxWidth: "250px" }}
       animationData={EmptyAnimation}
     />
     <span className=" text-16-700 text-text-disabled">
