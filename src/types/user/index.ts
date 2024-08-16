@@ -22,7 +22,7 @@ export type User = {
   }[];
 };
 
-export type LoginType = "DEFAULT" | "KAKAO" | "GOOGLE" | null;
+export type LoginType = "KAKAO" | "GOOGLE" | null;
 
 export type LoginUser = {
   id: number;
