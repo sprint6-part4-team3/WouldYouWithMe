@@ -1,15 +1,24 @@
-import { MyHistoryData } from "@/types/user-history/index";
+import React from "react";
 
-import mockData from "./_components/mock.json";
+import NotFound from "@/app/not-found";
+import getMyHistory from "@/lib/api/my-history/get-my-history";
+
 import MyHistory from "./_components/my-history-list";
 
-const MyHistoryPage = () => {
-  const MyMockData = mockData as MyHistoryData;
+const MyHistoryPage = async () => {
+  const data = await getMyHistory();
+  const myHistoryData = data.tasksDone;
+
+  if (!myHistoryData || myHistoryData.length === 0) {
+    return <NotFound />;
+    /* TODO - 추후없을떄 페이지 제작예정 */
+  }
 
   return (
     <div className="container mx-auto">
-      <MyHistory data={MyMockData.myHistory} />
+      <MyHistory data={myHistoryData} />
     </div>
   );
 };
+
 export default MyHistoryPage;
