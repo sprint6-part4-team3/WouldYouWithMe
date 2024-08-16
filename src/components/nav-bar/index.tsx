@@ -31,11 +31,11 @@ const NavBar = () => {
           {userId && (
             <div className="hidden items-center gap-20 md:flex">
               <TeamDropdown />
-              <Link href="/board" className="text-text-primary">
-                자유게시판
-              </Link>
             </div>
           )}
+          <Link href="/board" className="text-text-primary">
+            자유게시판
+          </Link>
         </div>
         {userId && <UserDropdown />}
       </div>
