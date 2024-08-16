@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
@@ -32,6 +32,7 @@ const DeleteMemberModal = ({
   memberId,
   memberName,
 }: DeleteMemberModalProps) => {
+  const queryClient = useQueryClient();
   const [groupIdList] = useAtom(groupIdListAtom);
   const [inputValue, setInputValue] = useState("");
 
@@ -42,12 +43,15 @@ const DeleteMemberModal = ({
 
   const ModalComponent = useMemo(() => (isMobile ? Drawer : Modal), [isMobile]);
 
-  const groupId = useMemo(() => Number(pathname.split("/")[1]), [pathname]);
+  const groupId = useMemo(() => Number(pathname.split("/")[2]), [pathname]);
 
   const isSameMember = useMemo(() => userId === memberId, [userId, memberId]);
 
   const replaceId = useMemo(
-    () => (groupIdList[0] === groupId ? groupIdList[1] : groupIdList[0]),
+    () =>
+      groupIdList[0] === groupId
+        ? groupIdList[1] || "team-empty"
+        : groupIdList[0],
     [groupId, groupIdList],
   );
 
@@ -55,7 +59,12 @@ const DeleteMemberModal = ({
     mutationFn: () => deleteMember(groupId, memberId),
     onSuccess: () => {
       if (isSameMember) {
-        router.replace(`/${replaceId}`);
+        if (replaceId === "team-empty") {
+          router.push(`/team-empty`);
+          queryClient.invalidateQueries({ queryKey: ["userData"] });
+        } else {
+          router.push(`/team/${replaceId}`);
+        }
       } else {
         router.refresh();
       }

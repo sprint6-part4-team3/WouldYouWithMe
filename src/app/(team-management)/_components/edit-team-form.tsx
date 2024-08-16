@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -24,6 +24,7 @@ interface EditTeamFormProps {
 }
 
 const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
+  const queryClient = useQueryClient();
   const toast = useToast();
   const router = useRouter();
   const setRecentTeam = useSetAtom(recentTeamAtom);
@@ -48,6 +49,7 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
         toast.success("그룹 정보가 수정되었습니다.");
         setRecentTeam(res.name);
         router.replace(`/team/${res.id}`);
+        queryClient.invalidateQueries({ queryKey: ["userData"] });
       },
       onError: (error) => {
         // FIXME: 중복된 이름 에러 메시지 없음
