@@ -1,18 +1,58 @@
 "use client";
 
-import { Button, Drawer, Modal } from "@/components/common";
+import { useMutation } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
+
+import { Button, Drawer, FloatButton, Modal } from "@/components/common";
 import { useIsMobile, useToast, useToggle } from "@/hooks";
-import { IconPlusCurrent } from "@/public/assets/icons";
+import createInvitationToken from "@/lib/api/group/create-invitation-token";
+import { IconPlusCurrent, LoadingSpinner } from "@/public/assets/icons";
+
+import RedirectBoardModal from "./redirect-board-modal";
 
 const AddMemberModal = () => {
+  const pathname = usePathname();
+
+  const boardId = useMemo(() => pathname.split("/")[1], [pathname]);
+
   const { value: isOpen, handleOn, handleOff } = useToggle();
+  const {
+    value: isOpenBoard,
+    handleOn: boardHandleOn,
+    handleOff: boardHandleOff,
+  } = useToggle();
+
   const toast = useToast();
   const isMobile = useIsMobile();
 
+  const copyToClipboard = (token: string) => {
+    navigator.clipboard
+      .writeText(token)
+      .then(() => {
+        toast.success("링크가 생성되어 복사되었습니다.");
+      })
+      .catch(() => {
+        toast.error("링크가 복사되지 않았습니다.");
+      });
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: () => createInvitationToken(Number(boardId)),
+    onSuccess: (res) => {
+      copyToClipboard(res);
+      boardHandleOn();
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSettled: () => {
+      handleOff();
+    },
+  });
+
   const handleClickCopy = () => {
-    // TODO: 링크 생성해서 복사하기
-    toast.success("링크가 복사되었습니다.");
-    handleOff();
+    mutate();
   };
 
   const ModalComponent = isMobile ? Drawer : Modal;
@@ -32,16 +72,30 @@ const AddMemberModal = () => {
           showCloseButton
           onClose={handleOff}
           title="멤버 초대"
-          description="그룹에 참여할 수 있는 링크를 복사합니다."
+          description="그룹에 참여할 수 있는 토큰을 복사합니다."
         >
-          <Button
-            onClick={handleClickCopy}
-            variant="primary"
-            className="mt-16 h-47 w-full"
-          >
-            복사하기
-          </Button>
+          {isPending ? (
+            <FloatButton
+              variant="primary"
+              disabled
+              className="mt-16 h-47 w-full"
+              Icon={<LoadingSpinner width={30} height={30} />}
+            >
+              복사 중
+            </FloatButton>
+          ) : (
+            <Button
+              onClick={handleClickCopy}
+              variant="primary"
+              className="mt-16 h-47 w-full"
+            >
+              복사하기
+            </Button>
+          )}
         </ModalComponent>
+      )}
+      {isOpenBoard && (
+        <RedirectBoardModal isMobile={isMobile} handleOff={boardHandleOff} />
       )}
     </>
   );

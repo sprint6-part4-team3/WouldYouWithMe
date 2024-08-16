@@ -14,14 +14,15 @@ import { useIsMobile, useToast } from "@/hooks";
 import signUp from "@/lib/api/auth/sign-up";
 import { signUpSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
-import userAtom from "@/stores/user-atom";
-import { SignUpInput } from "@/types/auth";
+import { pwLengthAtom, userAtom } from "@/stores";
+import { SignUpInput, SignUpResponseSuccess } from "@/types/auth";
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
   const { success, error } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [, setUser] = useAtom(userAtom);
+  const [, setPwLength] = useAtom(pwLengthAtom);
 
   const isMobile = useIsMobile();
 
@@ -40,6 +41,7 @@ const SignUpForm: React.FC = () => {
   const onSubmit: SubmitHandler<SignUpInput> = async (data) => {
     setIsLoading(true);
     const { email, nickname, password, passwordConfirmation } = data;
+    const passwordLength = password.length;
 
     try {
       const resData = await signUp(
@@ -49,28 +51,29 @@ const SignUpForm: React.FC = () => {
         passwordConfirmation,
       );
 
-      if (!resData.success) {
-        error(`${resData.data?.message}`);
-      } else {
+      if (resData.success) {
+        const { user, accessToken, refreshToken } =
+          resData as SignUpResponseSuccess;
+
         success("회원가입 성공");
 
         setUser({
-          id: resData.data.user.id,
-          nickname: resData.data.user.nickname,
-          createdAt: resData.data.user.createdAt,
-          updatedAt: resData.data.user.updatedAt,
-          image: resData.data.user.image,
-          teamId: resData.data.user.teamId,
-          email: resData.data.user.email,
-          accessToken: resData.data.accessToken,
-          refreshToken: resData.data.refreshToken,
+          id: user.id,
+          nickname: user.nickname,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
+          image: user.image,
+          teamId: user.teamId,
+          email: user.email,
+          accessToken,
+          refreshToken,
         });
+
+        setPwLength(passwordLength);
 
         queryClient.invalidateQueries({ queryKey: ["userData"] });
 
-        setTimeout(() => {
-          router.push("/");
-        }, 3000);
+        router.push("/");
       }
     } catch (err) {
       error("회원가입 요청 중 오류가 발생했습니다.");

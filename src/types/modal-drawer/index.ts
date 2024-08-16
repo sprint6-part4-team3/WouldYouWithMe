@@ -14,7 +14,7 @@ export interface CommonProps {
   /**
    * `오버레이의 설명 텍스트를 설정합니다.`
    */
-  description?: string;
+  description?: ReactNode;
 
   /**
    * `오버레이 닫기 버튼의 표시 여부를 설정합니다.`

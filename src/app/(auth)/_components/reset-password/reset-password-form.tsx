@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -9,12 +10,14 @@ import { Button, FieldWrapper, Input } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import ResetPassword from "@/lib/api/reset-password/reset-password";
 import { resetPasswordSchema } from "@/lib/schemas/auth";
+import { pwLengthAtom } from "@/stores";
 import { ResetPasswordInput } from "@/types/auth";
 
 const ResetPasswordForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isMobile = useIsMobile();
   const { success, error } = useToast();
+  const [, setPwLength] = useAtom(pwLengthAtom);
   const router = useRouter();
 
   const {
@@ -32,6 +35,7 @@ const ResetPasswordForm: React.FC = () => {
     password,
   }) => {
     setIsLoading(true);
+    const passwordLength = password.length;
 
     try {
       const token = new URLSearchParams(window.location.search).get("token");
@@ -47,10 +51,9 @@ const ResetPasswordForm: React.FC = () => {
       );
 
       if (apiSuccess) {
-        success("비밀번호를 변경했습니다.");
-        setTimeout(() => {
-          router.push("/login");
-        }, 2000);
+        success("비밀번호가 변경되었습니다.");
+        setPwLength(passwordLength);
+        router.push("/login");
       } else {
         error(data.message);
       }

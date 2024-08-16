@@ -33,12 +33,7 @@ const TaskDetailPage = async ({ params }: PageProps) => {
 
   return (
     <SidePage>
-      <TaskContent
-        task={taskData}
-        initialComments={comments}
-        groupId={groupIdNum}
-        taskListId={taskListIdNum}
-      />
+      <TaskContent task={taskData} initialComments={comments} />
     </SidePage>
   );
 };

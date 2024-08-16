@@ -23,9 +23,9 @@ const DropDownMenu = ({
     {isOpen && (
       <motion.div
         className={`${position} ${className} absolute z-10 w-120 overflow-hidden rounded-12 border border-border-primary bg-background-secondary text-text-primary shadow-md`}
-        initial={{ opacity: 0, scale: 0.5, y: -70 }}
+        initial={{ opacity: 0, scale: 0.5, y: -30 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.5, y: -70 }}
+        exit={{ opacity: 0, scale: 0.5, y: -30 }}
       >
         <ul className="text-center">{children}</ul>
       </motion.div>

@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
-import { ChangeEvent, memo, useEffect, useState } from "react";
+import { ChangeEvent, memo, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper } from "@/components/common";

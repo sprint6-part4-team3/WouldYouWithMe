@@ -41,8 +41,8 @@ const TaskNav = ({ currentDate }: TaskNavProps) => {
           <Calendar currentDate={currentDate} />
         </CalendarButton>
       </div>
-
-      <AddListModalButton />
+      {/* 오류 해결을 위한 임시 값! 데이터 불러올 때 수정하시면 됩니다. */}
+      <AddListModalButton groupId={171} />
     </nav>
   );
 };

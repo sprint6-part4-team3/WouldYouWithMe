@@ -23,14 +23,14 @@ export default function Home() {
         <h1 className="mb-4 text-center text-24-600 lg:mb-8 lg:text-40-600 xl:mb-20 xl:text-48-600">
           함께 만들어가는 투두 리스트&nbsp;&nbsp;🛠️
         </h1>
-        <h2 className="text-gradient flex h-38 items-center justify-center text-center text-32-600 lg:h-57 lg:text-48-600 xl:h-76 xl:text-64-600">
+        <h2 className="text-gradient mb-421 flex h-38 items-center justify-center text-center text-32-600 lg:mb-560 lg:h-57 lg:text-48-600 xl:mb-675 xl:h-76 xl:text-64-600">
           Coworkers
         </h2>
         {/* TODO: 추후에 로그인 되어 있을 시 팀 생성하기, 아닐 시 로그인 페이지로 이동을 변경 예정 */}
         <Link href="/login">
           <div>
             <Button
-              className="m-auto mt-421 h-45 w-300 rounded-full bg-gradient-to-r from-brand-primary to-brand-tertiary text-16-600 lg:mt-560 lg:h-48 lg:w-373 xl:mb-180 xl:mt-675 xl:w-373"
+              className="m-auto h-45 w-300 rounded-full bg-gradient-to-r from-brand-primary to-brand-tertiary text-16-600 lg:h-48 lg:w-373 xl:w-373"
               variant="primary"
             >
               지금 시작하기
