@@ -9,47 +9,55 @@ import {
   endOfWeek,
   format,
   isSameDay,
-  isToday,
+  startOfDay,
   startOfMonth,
   startOfWeek,
   subMonths,
 } from "date-fns";
-import Link from "next/link";
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 
 import { IconButton } from "@/components/common";
 import DAYS_OF_WEEK from "@/constants/weeks";
 import isSameMonth from "@/utils/is-same-month";
 
 interface CalendarProps {
-  currentDate: Date;
+  setValue: (value: string) => void;
+  initialDate: Date;
 }
 
-const Calendar = ({ currentDate }: CalendarProps) => {
-  const [newDate, setNewDate] = useState(currentDate);
+const Calendar = ({ setValue, initialDate }: CalendarProps) => {
+  const [currentDate, setCurrentDate] = useState(initialDate);
 
-  const start = startOfMonth(newDate);
-  const end = endOfMonth(newDate);
+  const start = startOfMonth(currentDate);
+  const end = endOfMonth(currentDate);
   const startWeek = startOfWeek(start);
   const endWeek = endOfWeek(end);
 
   const days = eachDayOfInterval({ start: startWeek, end: endWeek });
 
+  const today = startOfDay(new Date());
+
+  const handleDayClick = (e: MouseEvent<HTMLButtonElement>) => {
+    const selectedDate = new Date(e.currentTarget.value);
+    setCurrentDate(selectedDate);
+    setValue(e.currentTarget.value);
+  };
+
   return (
-    <section className="h-fit w-full rounded-24 bg-background-tertiary p-16">
+    <section className="h-fit w-full rounded-24 border bg-background-secondary p-16">
       <header className="mb-4 flex items-center justify-between">
         <IconButton
           variant="none"
           icon="IconCalendarArrowLeft"
-          onClick={() => setNewDate(subMonths(newDate, 1))}
+          onClick={() => setCurrentDate(subMonths(currentDate, 1))}
         />
         <h3 className="text-14-500 text-text-inverse">
-          {format(newDate, "MMMM yyyy")}
+          {format(currentDate, "MMMM yyyy")}
         </h3>
         <IconButton
           variant="none"
           icon="IconCalendarArrowRight"
-          onClick={() => setNewDate(addMonths(newDate, 1))}
+          onClick={() => setCurrentDate(addMonths(currentDate, 1))}
         />
       </header>
       <div className="grid grid-cols-7">
@@ -63,27 +71,23 @@ const Calendar = ({ currentDate }: CalendarProps) => {
         ))}
         {days.map((day) => (
           <div
-            key={day.toISOString()}
+            key={day.toString()}
             className={clsx(
-              `flex h-32 w-35 items-center justify-center rounded-8`,
+              `flex h-32 w-full items-center justify-center rounded-8`,
               {
                 "bg-brand-primary": isSameDay(day, currentDate),
               },
-              { " text-gray-400": !isSameMonth(day, newDate) },
+              { " text-gray-400": day < today },
             )}
           >
-            {isSameMonth(day, newDate) ? (
-              <Link href={`?date=${addHours(day, 9).toISOString()}`}>
-                <time
-                  className={clsx({
-                    "text-brand-primary": isToday(day),
-                    "text-text-inverse":
-                      isToday(day) && isSameDay(day, currentDate),
-                  })}
-                >
-                  {format(day, "d")}
-                </time>
-              </Link>
+            {isSameMonth(day, currentDate) && day >= today ? (
+              <button
+                type="button"
+                onClick={handleDayClick}
+                value={addHours(day, 9).toISOString()}
+              >
+                <time>{format(day, "d")}</time>
+              </button>
             ) : (
               <time>{format(day, "d")}</time>
             )}
