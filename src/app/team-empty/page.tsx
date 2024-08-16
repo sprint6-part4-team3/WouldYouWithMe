@@ -6,8 +6,8 @@ import Link from "next/link";
 import { Button } from "@/components/common";
 import TeamEmpty from "@/public/assets/lotties/team-empty.json";
 
-const Empty = () => (
-  <div className="flex h-screen flex-col items-center justify-center pb-50">
+const TeamEmptyPage = () => (
+  <div className="flex h-full flex-col items-center justify-center pt-100">
     <Lottie
       className="size-2/3 h-auto min-w-250 max-w-500"
       animationData={TeamEmpty}
@@ -19,13 +19,12 @@ const Empty = () => (
     </div>
 
     <div className="flex flex-col gap-8 lg:gap-16">
-      <Link href="/addteam">
+      <Link href="/create-team">
         <Button className="h-48 w-186 text-14 lg:text-16" variant="primary">
           팀 생성하기
         </Button>
       </Link>
-      {/** FIXME: 노션에 해당 페이지 주소가 없어서 일단 임시로 아무거나 했습니다. */}
-      <Link href="/addteam">
+      <Link href="/join-team">
         <Button className="h-48 w-186 text-14 lg:text-16" variant="noFill">
           팀 참여하기
         </Button>
@@ -34,4 +33,4 @@ const Empty = () => (
   </div>
 );
 
-export default Empty;
+export default TeamEmptyPage;

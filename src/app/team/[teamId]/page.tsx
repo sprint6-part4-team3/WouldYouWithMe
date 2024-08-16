@@ -1,9 +1,9 @@
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 import getGroupData from "@/lib/api/group/get-group-data";
 import { GroupResponse } from "@/types/group";
 
-import Empty from "./_components/empty";
 import MemberBox from "./_components/member";
 import ReportBox from "./_components/report";
 import TeamCardBox from "./_components/team-card";
@@ -17,7 +17,7 @@ const TeamPage = async ({ params }: { params: { teamId: number } }) => {
     const response: GroupResponse = await getGroupData(teamId);
 
     if (!response) {
-      return <Empty />;
+      return redirect("/team-empty");
     }
 
     return (

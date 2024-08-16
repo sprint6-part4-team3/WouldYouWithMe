@@ -47,7 +47,7 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
       onSuccess: (res) => {
         toast.success("그룹 정보가 수정되었습니다.");
         setRecentTeam(res.name);
-        router.replace(`/${res.id}`);
+        router.replace(`/team/${res.id}`);
       },
       onError: (error) => {
         // FIXME: 중복된 이름 에러 메시지 없음

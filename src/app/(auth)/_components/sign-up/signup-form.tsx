@@ -73,7 +73,7 @@ const SignUpForm: React.FC = () => {
 
         queryClient.invalidateQueries({ queryKey: ["userData"] });
 
-        router.push("/");
+        router.push("/team-empty");
       }
     } catch (err) {
       error("회원가입 요청 중 오류가 발생했습니다.");

@@ -33,7 +33,10 @@ const TeamDeleteModal = ({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const replaceId = useMemo(
-    () => (groupIdList[0] === Number(teamId) ? groupIdList[1] : groupIdList[0]),
+    () =>
+      groupIdList[0] === Number(teamId)
+        ? groupIdList[1] || "team-empty"
+        : groupIdList[0],
     [teamId, groupIdList],
   );
 
@@ -45,7 +48,13 @@ const TeamDeleteModal = ({
         await deleteGroup(teamId);
 
         toast.success("팀이 삭제 되었습니다.");
-        router.push(`/${replaceId}`);
+
+        if (replaceId === "team-empty") {
+          router.push(`/team-empty`);
+        } else {
+          router.push(`/team/${replaceId}`);
+        }
+
         queryClient.invalidateQueries({ queryKey: ["userData"] });
       } catch (error) {
         toast.error("팀 삭제에 실패했습니다.");
