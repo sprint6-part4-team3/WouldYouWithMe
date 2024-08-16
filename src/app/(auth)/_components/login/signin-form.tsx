@@ -10,6 +10,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
+import KAKAO_AUTHORIZE_URL from "@/constants/auth-url";
 import { useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
@@ -84,7 +85,7 @@ const SignInForm: React.FC = () => {
 
   const handleKakaoLogin = () => {
     const state = randomString(10);
-    const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&scope=profile_nickname,profile_image&state=${state}`;
+    const KAKAO_LOGIN_URL = `${KAKAO_AUTHORIZE_URL}?response_type=code&client_id=${process.env.NEXT_PUBLIC_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&scope=profile_nickname,profile_image&state=${state}`;
     window.location.href = KAKAO_LOGIN_URL;
   };
 

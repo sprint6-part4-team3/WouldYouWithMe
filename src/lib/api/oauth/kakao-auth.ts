@@ -3,27 +3,30 @@
 import axios from "axios";
 import { setCookie } from "cookies-next";
 import { useAtom } from "jotai";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { useToast } from "@/hooks";
 import instance from "@/lib/api/axios-instance";
 import { userAtom } from "@/stores";
+import redirectTo from "@/utils/next-redirect";
 
 const KakaoAuth = () => {
-  const router = useRouter();
   const { success, error } = useToast();
   const [, setUser] = useAtom(userAtom);
+  const isProcessing = useRef(false);
 
   useEffect(() => {
     const kakaoLogin = async () => {
-      if (typeof window === "undefined") return;
+      if (typeof window === "undefined" || isProcessing.current) return;
+
+      isProcessing.current = true;
 
       const url = new URL(window.location.href);
       const code = url.searchParams.get("code");
       const state = url.searchParams.get("state");
 
       if (!code || !state) {
+        isProcessing.current = false;
         return;
       }
 
@@ -54,24 +57,24 @@ const KakaoAuth = () => {
             refreshToken: data.refreshToken,
           });
 
-          router.push("/");
-          setTimeout(() => {
-            router.refresh();
-          }, 50);
+          redirectTo("/");
         } else {
           error("로그인 요청 중 오류가 발생했습니다.");
         }
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
-          error(err.response.data);
+          error(err.response.data.message);
         } else {
           error("로그인 요청 중 오류가 발생했습니다.");
         }
+      } finally {
+        isProcessing.current = false;
       }
     };
 
     kakaoLogin();
-  }, [router, error, success, setUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return null;
 };
