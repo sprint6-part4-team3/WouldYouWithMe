@@ -1,3 +1,5 @@
+"use client";
+
 import Lottie from "lottie-react";
 
 import { LoadingSpinner } from "@/public/assets/icons";
