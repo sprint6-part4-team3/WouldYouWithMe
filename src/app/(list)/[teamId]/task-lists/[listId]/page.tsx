@@ -16,12 +16,22 @@ interface TaskListProps {
 const TaskLists = async ({ params, searchParams }: TaskListProps) => {
   let currentDate: Date;
   if (!searchParams.date) {
-    currentDate = new Date();
+    const koreaOffset = 9 * 60;
+    const now = new Date();
+    const koreanDate = new Date(
+      now.getTime() + (koreaOffset - now.getTimezoneOffset()) * 60 * 1000,
+    );
+    currentDate = new Date(koreanDate.getTime() - koreaOffset * 60 * 1000);
     currentDate.setUTCHours(0, 0, 0, 0);
   } else {
     currentDate = new Date(searchParams.date);
-    currentDate.setUTCHours(0, 0, 0, 0);
   }
+
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+
+  const showAddButton = currentDate >= today;
+
   const currentListId = Number(params.listId);
   const currentTeamId = Number(params.teamId);
 
@@ -53,13 +63,15 @@ const TaskLists = async ({ params, searchParams }: TaskListProps) => {
         currentListId={currentListId}
         initialTasks={tasks}
       />
-      <Link
-        href={`/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
-        className="group flex items-center gap-4 text-16-400 hover:text-brand-primary"
-      >
-        <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />
-        할 일 추가
-      </Link>
+      {showAddButton && (
+        <Link
+          href={`/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
+          className="group flex items-center gap-4 text-16-400 hover:text-brand-primary"
+        >
+          <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />
+          할 일 추가
+        </Link>
+      )}
     </>
   );
 };

@@ -7,6 +7,7 @@ const newTaskBaseSchema = z.object({
   frequencyType: repeatTypeSchema,
   description: z.string().optional(),
   displayIndex: z.number().optional(),
+  startDate: z.string(),
 });
 
 const weeklyTaskSchema = newTaskBaseSchema.extend({

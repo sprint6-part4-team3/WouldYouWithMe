@@ -7,18 +7,22 @@ export type TaskListAddEditInput = {
   name: string;
 };
 
-export type RepeatType = "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
+export type FrequencyType = "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
 
 export type NewTaskBase = {
   name: string;
-  frequencyType: RepeatType;
   description?: string;
-  displayIndex?: number;
+  frequencyType: FrequencyType;
+  startDate: string;
 };
 
-export type WeeklyTask = NewTaskBase & {
+export type WeeklyTaskForm = NewTaskBase & {
   frequencyType: "WEEKLY";
   weekDays: string[];
+};
+export type WeeklyTask = NewTaskBase & {
+  frequencyType: "WEEKLY";
+  weekDays: number[];
 };
 
 export type MonthlyTask = NewTaskBase & {
@@ -30,4 +34,5 @@ export type OtherTask = NewTaskBase & {
   frequencyType: "ONCE" | "DAILY";
 };
 
+export type NewTaskForm = WeeklyTaskForm | MonthlyTask | OtherTask;
 export type NewTask = WeeklyTask | MonthlyTask | OtherTask;
