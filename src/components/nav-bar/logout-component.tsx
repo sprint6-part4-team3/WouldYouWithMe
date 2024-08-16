@@ -49,6 +49,7 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
         email: "",
         accessToken: "",
         refreshToken: "",
+        loginType: null,
       });
       setPwLength(0);
 
