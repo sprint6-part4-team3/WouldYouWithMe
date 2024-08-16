@@ -77,13 +77,14 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
       <CopyTeamToken token={parsedContent.token} />
 
       {boardData.image && boardData.image !== EMPTY_IMAGE && (
-        <div className="mt-40 flex">
+        <div className="mt-40 flex w-350">
           <Image
             alt="게시물 이미지"
             src={boardData.image}
-            width={350}
-            height={350}
-            className="rounded-10"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "100%", height: "auto" }}
           />
         </div>
       )}

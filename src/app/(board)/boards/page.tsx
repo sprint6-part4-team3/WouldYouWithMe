@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 
 import { Button } from "@/components/common";
@@ -5,6 +6,11 @@ import { Button } from "@/components/common";
 import BoardListInfo from "./_components/board-list-info";
 import Carousel from "./_components/carousel";
 import carouselItem from "./_data/carouselItems";
+
+export const metadata: Metadata = {
+  title: "자유게시판",
+  description: "같이 일정관리 할 팀원들을 모집해요",
+};
 
 const BoardPage = () => (
   <div className="mt-40 flex flex-col gap-40">
