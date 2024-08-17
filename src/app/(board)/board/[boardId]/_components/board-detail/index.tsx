@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/common";
 import EMPTY_IMAGE from "@/constants/image";
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
-import { IconProfile } from "@/public/assets/icons";
+import { IconComment, IconProfile } from "@/public/assets/icons";
 import formatBoardDate from "@/utils/format-board-date";
 
 import BoardDropDown from "./board-drop-down";
@@ -64,9 +64,18 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
             <span className="text-text-default">(수정됨)</span>
           )}
         </div>
+
         <div className="flex items-center gap-8 text-12-400 text-text-disabled md:text-14-400">
+          <div className="flex min-w-30 items-center gap-4">
+            <IconComment />
+            <span>{boardData.commentCount}</span>
+          </div>
           <div className="flex min-w-30 gap-4">
-            <span className={clsx({ "text-brand-primary": boardData.isLiked })}>
+            <span
+              className={clsx("text-18", {
+                "text-brand-primary": boardData.isLiked,
+              })}
+            >
               ♥
             </span>
             <span>{boardData.likeCount}</span>
