@@ -23,8 +23,8 @@ export default function Home() {
         <h1 className="mb-4 text-center text-24-600 lg:mb-8 lg:text-40-600 xl:mb-20 xl:text-48-600">
           함께 만들어가는 투두 리스트&nbsp;&nbsp;🛠️
         </h1>
-        <h2 className="text-gradient mb-421 flex h-38 items-center justify-center text-center text-32-600 lg:mb-560 lg:h-57 lg:text-48-600 xl:mb-675 xl:h-76 xl:text-64-600">
-          Coworkers
+        <h2 className="text-gradient mb-421 flex h-38 items-center justify-center text-center font-[PyeongChangPeace-Bold] text-32-600 lg:mb-560 lg:h-57 lg:text-48-600 xl:mb-675 xl:h-76 xl:text-64-600">
+          우주윗미
         </h2>
         {/* TODO: 추후에 로그인 되어 있을 시 팀 생성하기, 아닐 시 로그인 페이지로 이동을 변경 예정 */}
         <Link href="/login">

@@ -8,8 +8,15 @@
     format("woff");
 }
 
+@font-face {
+  font-family: "PyeongChangPeace-Bold";
+  src: url("/fonts/PyeongChangPeace-Bold.otf");
+  font-weight: bold;
+  font-style: normal;
+}
+
 * {
-  font-family: "Pretendard-Regular", Arial, sans-serif;
+  font-family: "Pretendard-Regular", Arial, sans-serif, "PyeongChangPeace-Bold";
   box-sizing: border-box;
 }
 
