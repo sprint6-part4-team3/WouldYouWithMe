@@ -77,13 +77,14 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
       <CopyTeamToken token={parsedContent.token} />
 
       {boardData.image && boardData.image !== EMPTY_IMAGE && (
-        <div className="mt-40 flex">
+        <div className="mt-40 flex w-350">
           <Image
             alt="게시물 이미지"
             src={boardData.image}
-            width={350}
-            height={350}
-            className="rounded-10"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "100%", height: "auto" }}
           />
         </div>
       )}
@@ -99,7 +100,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
           likeCount={boardData.likeCount}
         />
 
-        <Link href="/boards">
+        <Link href="/boards?page=1&orderBy=recent&keyword=">
           <Button
             className="h-36 w-100 text-14 md:h-48 md:w-120 md:text-16"
             variant="noFill"

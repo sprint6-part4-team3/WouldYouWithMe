@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -21,6 +21,7 @@ import {
 } from "@/types/board/add-edit";
 
 const CreateBoardPage = () => {
+  const queryClient = useQueryClient();
   const toast = useToast();
   const router = useRouter();
 
@@ -39,6 +40,11 @@ const CreateBoardPage = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: BoardCreateEditRequest) => createBoard(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["boardList"],
+      });
+    },
   });
 
   const handleSubmitBoard: SubmitHandler<BoardAddEditInput> = (data) => {
