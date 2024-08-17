@@ -4,7 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/common";
 import EMPTY_IMAGE from "@/constants/image";
@@ -22,6 +23,16 @@ interface BoardDetailProps {
 }
 
 const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
+  const router = useRouter();
+  const [previousPage, setPreviousPage] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const referrerUrl = new URL(document.referrer);
+      setPreviousPage(referrerUrl.pathname);
+    }
+  }, []);
+
   const { data: boardData, error } = useQuery({
     queryKey: ["board", boardId],
     queryFn: () => getBoardDetailData(boardId),
@@ -36,6 +47,14 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
   }
 
   const parsedContent = JSON.parse(boardData.content);
+
+  const handleButtonClickBack = () => {
+    if (previousPage === "/boards") {
+      router.back();
+    } else {
+      router.push("/boards?page=1&orderBy=recent&keyword=");
+    }
+  };
 
   return (
     <article className="mt-56">
@@ -109,14 +128,13 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
           likeCount={boardData.likeCount}
         />
 
-        <Link href="/boards?page=1&orderBy=recent&keyword=">
-          <Button
-            className="h-36 w-100 text-14 md:h-48 md:w-120 md:text-16"
-            variant="noFill"
-          >
-            목록으로
-          </Button>
-        </Link>
+        <Button
+          onClick={handleButtonClickBack}
+          className="h-36 w-100 text-14 md:h-48 md:w-120 md:text-16"
+          variant="noFill"
+        >
+          목록으로
+        </Button>
       </div>
     </article>
   );
