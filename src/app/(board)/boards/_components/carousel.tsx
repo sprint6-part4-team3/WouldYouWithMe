@@ -4,12 +4,15 @@
 
 import { ReactNode, useCallback, useEffect, useState } from "react";
 
+import getRandomQuote from "@/utils/get-random-quote";
+
 type CarouselItemType = {
   tag: string;
   title: string;
   description: string;
   icon: ReactNode;
   background: string;
+  children?: ReactNode;
 };
 
 interface CarouselProps {
@@ -19,6 +22,7 @@ interface CarouselProps {
 const Carousel = ({ items }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [transition, setTransition] = useState(true);
+  const [randomQuote, setRandomQuote] = useState("");
 
   const extendedItems = [items[items.length - 1], ...items, items[0]];
 
@@ -30,6 +34,10 @@ const Carousel = ({ items }: CarouselProps) => {
   const goToNext = useCallback(() => {
     setTransition(true);
     setCurrentIndex((prevIndex) => prevIndex + 1);
+  }, []);
+
+  useEffect(() => {
+    setRandomQuote(getRandomQuote());
   }, []);
 
   useEffect(() => {
@@ -72,14 +80,17 @@ const Carousel = ({ items }: CarouselProps) => {
           {extendedItems.map((item, index) => (
             <div
               key={item.description + index}
-              className={`${item.background} flex h-200 w-full shrink-0 justify-between gap-6 rounded-2xl px-40 md:h-240 md:gap-16 md:px-70 lg:h-280 lg:px-100`}
+              className={`${item.background} flex h-200 w-full shrink-0 justify-between gap-6 rounded-2xl px-30 md:h-240 md:gap-16 md:px-60 lg:h-280 lg:px-90`}
             >
               <div className="flex h-full flex-col justify-center">
-                <span className="flex h-auto w-60 items-center justify-center rounded-full bg-brand-primary">
+                <span className="flex h-auto w-60 items-center justify-center rounded-full bg-text-primary text-brand-primary">
                   {item.tag}
                 </span>
                 <h2 className="mb-2 mt-8 text-24-700">{item.title}</h2>
-                <p className="pb-20 text-text-secondary">{item.description}</p>
+                <p className="pb-20 text-text-secondary">
+                  {item.description === "명언" ? randomQuote : item.description}
+                </p>
+                {item.children}
               </div>
               <div className="hidden h-full flex-col justify-center md:flex">
                 {item.icon}
@@ -92,7 +103,7 @@ const Carousel = ({ items }: CarouselProps) => {
       <button
         type="button"
         onClick={goToPrevious}
-        className="absolute left-10 top-1/2 h-40 w-20 -translate-y-1/2 rounded-full bg-background-secondary hover:bg-background-tertiary md:h-50 md:w-25"
+        className="left-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
       >
         &#8249;
       </button>
@@ -100,7 +111,7 @@ const Carousel = ({ items }: CarouselProps) => {
       <button
         type="button"
         onClick={goToNext}
-        className="absolute right-10 top-1/2 h-40 w-20 -translate-y-1/2 rounded-full bg-background-secondary hover:bg-background-tertiary md:h-50 md:w-25"
+        className="right-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
       >
         &#8250;
       </button>
