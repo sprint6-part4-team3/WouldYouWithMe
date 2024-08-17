@@ -28,11 +28,21 @@ const TeamDropdown = () => {
 
   const teamDropdown = useToggle();
   const setRecentTeam = useSetAtom(recentTeamAtom);
+  const recentTeam = useAtomValue(recentTeamAtom);
 
   const teams = user?.memberships ?? [];
-  const dropdownTeamName =
-    useAtomValue(recentTeamAtom) ||
-    (teams.length > 0 ? teams[0].group.name : "");
+
+  let dropdownTeamName = "";
+
+  if (
+    recentTeam &&
+    teams.some((membership) => membership.group.id === recentTeam.groupId)
+  ) {
+    dropdownTeamName = recentTeam.teamName;
+  } else if (teams.length > 0) {
+    dropdownTeamName = teams[0].group.name;
+  }
+
   const [isExpanded, setIsExpanded] = useState(false);
   const visibleTeams = isExpanded ? teams : teams.slice(0, 4);
 
@@ -62,7 +72,12 @@ const TeamDropdown = () => {
             <Link
               key={membership.group.id}
               href={`${membership.group.id}`}
-              onClick={() => setRecentTeam(membership.group.name)}
+              onClick={() =>
+                setRecentTeam({
+                  teamName: membership.group.name,
+                  groupId: membership.groupId,
+                })
+              }
             >
               <DropDown.Item onClick={teamDropdown.handleOff}>
                 <div className="flex items-center">

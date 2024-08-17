@@ -46,6 +46,11 @@ export type Group = {
   id: number;
 };
 
+export type RecentTeam = {
+  teamName: string;
+  groupId: number;
+} | null;
+
 export type GroupMember = {
   role: "ADMIN" | "MEMBER";
   userImage: string | null;
