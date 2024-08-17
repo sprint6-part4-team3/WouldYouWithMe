@@ -1,6 +1,7 @@
+"use client";
+
 import Lottie from "lottie-react";
 
-import { LoadingSpinner } from "@/public/assets/icons";
 import TeamLoading from "@/public/assets/lotties/team-loading.json";
 
 const PageLoading = () => (

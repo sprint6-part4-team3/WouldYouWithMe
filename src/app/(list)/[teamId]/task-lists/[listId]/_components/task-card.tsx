@@ -5,18 +5,20 @@ import "dayjs/locale/ko";
 import { clsx } from "clsx";
 import dayjs from "dayjs";
 import Link from "next/link";
-import React from "react";
+import { useCallback, useState } from "react";
 
 import { DropDown } from "@/components/common";
-import useToggle from "@/hooks/use-toggle";
+import { FREQUENCY_LABELS } from "@/constants/frequency";
+import { useTaskMutation, useTaskParams, useToggle } from "@/hooks";
 import {
   IconCalendar,
   IconCheckBox,
   IconCheckBoxPrimary,
   IconKebab,
   IconRepeat,
-  IconTime,
 } from "@/public/assets/icons";
+
+import EditTaskModal from "./edit-task-modal";
 
 dayjs.locale("ko");
 
@@ -25,10 +27,7 @@ interface TaskCardProps {
   name: string;
   date: string;
   frequency: string;
-  onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
-  currentTeamId: number;
-  currentListId: number;
+  initialIsCompleted: boolean;
 }
 
 const TaskCard = ({
@@ -36,47 +35,62 @@ const TaskCard = ({
   name,
   date,
   frequency,
-  onEdit,
-  onDelete,
-  currentTeamId,
-  currentListId,
+  initialIsCompleted,
 }: TaskCardProps) => {
-  const { value: isChecked, handleToggle: toggleChecked } = useToggle();
+  const [isCompleted, setIsCompleted] = useState(initialIsCompleted);
   const {
     value: isDropdownOpen,
     handleOff: closeDropdown,
     handleToggle: toggleDropdown,
   } = useToggle();
+  const { groupId: currentGroupId, taskListId: currentListId } =
+    useTaskParams();
+
+  const { editTaskMutation } = useTaskMutation(
+    currentGroupId,
+    currentListId,
+    id,
+    setIsCompleted,
+  );
+
+  const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
+  const closeEditTask = useCallback(() => {
+    setIsEditTaskOpen(false);
+  }, []);
 
   const taskDate = dayjs(date);
   const formattedDate = taskDate.format("YYYY년 M월 D일");
-  const formattedTime = taskDate.format("A h:mm");
 
   const handleEditClick = () => {
-    onEdit(id);
     closeDropdown();
+    setIsEditTaskOpen(true);
   };
 
   const handleDeleteClick = () => {
-    onDelete(id);
     closeDropdown();
+  };
+
+  const handleToggleComplete = () => {
+    const newCompletedState = !isCompleted;
+    setIsCompleted(newCompletedState);
+    editTaskMutation.mutate({ done: newCompletedState });
   };
 
   return (
     <article className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center">
-          <button type="button" onClick={toggleChecked} className="mr-8">
-            {isChecked ? <IconCheckBoxPrimary /> : <IconCheckBox />}
+          <button type="button" onClick={handleToggleComplete} className="mr-8">
+            {isCompleted ? <IconCheckBoxPrimary /> : <IconCheckBox />}
           </button>
           <Link
-            href={`/${currentTeamId}/task-lists/${currentListId}/task-detail/${id}`}
+            href={`/${currentGroupId}/task-lists/${currentListId}/task-detail/${id}`}
           >
             <h2
               className={clsx(
                 `text-14-400 text-text-primary hover:text-brand-primary`,
                 {
-                  "line-through": isChecked,
+                  "line-through": isCompleted,
                 },
               )}
             >
@@ -102,22 +116,18 @@ const TaskCard = ({
         />
         <time className="ml-6 mr-10 flex items-center">{formattedDate}</time>
         <span>|</span>
-        <IconTime
-          width={16}
-          height={16}
-          className="ml-10 flex content-center items-center"
-        />
-        <span className="ml-6 mr-10 flex items-center">{formattedTime}</span>
-        <span>|</span>
         <IconRepeat
           width={16}
           height={16}
           className="ml-10 flex content-center items-center"
         />
         <span className="ml-6 flex items-center">
-          {frequency === "DAILY" ? "매일 반복" : "반복"}
+          {FREQUENCY_LABELS[frequency]}
         </span>
       </div>
+      {isEditTaskOpen && (
+        <EditTaskModal id={id} name={name} closeEditTask={closeEditTask} />
+      )}
     </article>
   );
 };

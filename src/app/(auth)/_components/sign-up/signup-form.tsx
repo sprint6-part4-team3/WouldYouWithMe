@@ -10,12 +10,14 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
+import KAKAO_AUTHORIZE_URL from "@/constants/auth-url";
 import { useIsMobile, useToast } from "@/hooks";
 import signUp from "@/lib/api/auth/sign-up";
 import { signUpSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { pwLengthAtom, userAtom } from "@/stores";
 import { SignUpInput, SignUpResponseSuccess } from "@/types/auth";
+import randomString from "@/utils/random-string";
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
@@ -51,7 +53,9 @@ const SignUpForm: React.FC = () => {
         passwordConfirmation,
       );
 
-      if (resData.success) {
+      if (!resData.success) {
+        error(`${resData.data?.message}`);
+      } else {
         const { user, accessToken, refreshToken } =
           resData as SignUpResponseSuccess;
 
@@ -67,6 +71,7 @@ const SignUpForm: React.FC = () => {
           email: user.email,
           accessToken,
           refreshToken,
+          loginType: null,
         });
 
         setPwLength(passwordLength);
@@ -80,6 +85,12 @@ const SignUpForm: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleKakaoLogin = () => {
+    const state = randomString(10);
+    const KAKAO_LOGIN_URL = `${KAKAO_AUTHORIZE_URL}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&scope=profile_nickname,profile_image&state=${state}`;
+    window.location.href = KAKAO_LOGIN_URL;
   };
 
   return (
@@ -182,6 +193,7 @@ const SignUpForm: React.FC = () => {
           <button
             type="button"
             className="ml-16 flex size-42 items-center justify-center rounded"
+            onClick={handleKakaoLogin}
           >
             <Image src={ImgKakao} alt="Kakao" />
           </button>

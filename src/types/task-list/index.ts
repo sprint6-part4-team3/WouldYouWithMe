@@ -36,3 +36,8 @@ export type OtherTask = NewTaskBase & {
 
 export type NewTaskForm = WeeklyTaskForm | MonthlyTask | OtherTask;
 export type NewTask = WeeklyTask | MonthlyTask | OtherTask;
+
+export type EditTaskType = {
+  name: string;
+  description?: string;
+};

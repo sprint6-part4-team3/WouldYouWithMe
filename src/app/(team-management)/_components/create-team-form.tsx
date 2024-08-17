@@ -40,7 +40,10 @@ const CreateTeamForm = () => {
     mutate(data, {
       onSuccess: (res) => {
         toast.success("그룹이 생성되었습니다.");
-        setRecentTeam(res.name);
+        setRecentTeam({
+          teamName: res.name,
+          groupId: res.id,
+        });
         router.push(`/${res.id}`);
       },
       onError: (error) => {
