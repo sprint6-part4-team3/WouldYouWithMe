@@ -1,3 +1,5 @@
+"use client";
+
 import Lottie from "lottie-react";
 
 import TeamLoading from "@/public/assets/lotties/team-loading.json";
