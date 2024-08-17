@@ -10,7 +10,10 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
-import KAKAO_AUTHORIZE_URL from "@/constants/auth-url";
+import {
+  GOOGLE_AUTHORIZE_URL,
+  KAKAO_AUTHORIZE_URL,
+} from "@/constants/auth-url";
 import { useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
@@ -90,6 +93,12 @@ const SignInForm: React.FC = () => {
     window.location.href = KAKAO_LOGIN_URL;
   };
 
+  const handleGoogleLogin = () => {
+    const state = randomString(10);
+    const GOOGLE_LOGIN_URL = `${GOOGLE_AUTHORIZE_URL}?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=profile&state=${state}`;
+    window.location.href = GOOGLE_LOGIN_URL;
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-80 w-315 md:w-470">
@@ -159,11 +168,11 @@ const SignInForm: React.FC = () => {
         </div>
         <div className="mt-16 flex w-full justify-between">
           <p className=" text-16-500">간편 로그인하기</p>
-          {/* 간편 로그인 작업 예정 */}
           <div className="flex gap-4">
             <button
               type="button"
               className="flex size-42 items-center justify-center rounded"
+              onClick={handleGoogleLogin}
             >
               <Image src={ImgGoogle} alt="Google" />
             </button>

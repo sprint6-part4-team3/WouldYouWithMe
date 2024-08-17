@@ -10,7 +10,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
-import KAKAO_AUTHORIZE_URL from "@/constants/auth-url";
+import { KAKAO_AUTHORIZE_URL } from "@/constants/auth-url";
 import { useIsMobile, useToast } from "@/hooks";
 import signUp from "@/lib/api/auth/sign-up";
 import { signUpSchema } from "@/lib/schemas/auth";
