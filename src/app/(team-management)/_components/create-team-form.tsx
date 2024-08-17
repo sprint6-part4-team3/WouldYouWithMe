@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
@@ -18,6 +18,8 @@ import NameInput from "./name-input";
 import SubmitButton from "./submit-button";
 
 const CreateTeamForm = () => {
+  const queryClient = useQueryClient();
+
   const toast = useToast();
   const router = useRouter();
 
@@ -44,7 +46,8 @@ const CreateTeamForm = () => {
           teamName: res.name,
           groupId: res.id,
         });
-        router.push(`/${res.id}`);
+        router.push(`/team/${res.id}`);
+        queryClient.invalidateQueries({ queryKey: ["userData"] });
       },
       onError: (error) => {
         if (error.message === DUPLICATE_TEAM_NAME) {

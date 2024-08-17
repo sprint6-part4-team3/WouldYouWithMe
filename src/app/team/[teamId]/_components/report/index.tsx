@@ -10,7 +10,6 @@ interface ReportBoxProps {
 }
 
 const ReportBox = ({ taskList }: ReportBoxProps) => {
-  // taskList 가 빈배열이면 다 0이 됨
   const { totalTasks, completedTasks } = groupTaskReport(taskList);
   const completionPercentage =
     totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;

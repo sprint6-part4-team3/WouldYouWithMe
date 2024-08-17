@@ -1,5 +1,6 @@
 "use client";
 
+import { useSetAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -7,6 +8,7 @@ import { useState } from "react";
 import { DropDown, IconButton } from "@/components/common";
 import { useToggle } from "@/hooks";
 import { TeamCardThumbnail } from "@/public/assets/images";
+import { recentTeamAtom } from "@/stores";
 
 import TeamDeleteModal from "./delete-team-modal";
 
@@ -31,9 +33,7 @@ const TeamCardDropdownButton = ({ teamId, teamName }: TeamCardBoxProps) => {
   return (
     <DropDown handleClose={handleOff}>
       <DropDown.Trigger onClick={handleToggle}>
-        <span className="cursor-pointer text-16-700 text-text-primary">
-          <IconButton icon="IconGear" variant="none" />
-        </span>
+        <IconButton className="cursor-pointer" icon="IconGear" variant="none" />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value}>
         <Link href={`/${teamId}/edit`}>
@@ -54,19 +54,27 @@ const TeamCardDropdownButton = ({ teamId, teamName }: TeamCardBoxProps) => {
   );
 };
 
-const TeamCardBox = ({ teamName, teamId }: TeamCardBoxProps) => (
-  <article className="relative m-auto flex h-64 w-full items-center justify-between rounded-12 border border-border-primary/10 bg-slate-50/10 px-24">
-    <h1 className="text-20-700">{teamName}</h1>
-    <div className="flex items-center gap-30">
-      <TeamCardDropdownButton teamName={teamName} teamId={teamId} />
-    </div>
-    <Image
-      src={TeamCardThumbnail}
-      alt=""
-      draggable="false"
-      className="absolute right-90 z-0"
-    />
-  </article>
-);
+const TeamCardBox = ({ teamName, teamId }: TeamCardBoxProps) => {
+  const setRecentTeam = useSetAtom(recentTeamAtom);
 
+  setRecentTeam({
+    teamName,
+    groupId: teamId,
+  });
+
+  return (
+    <article className="relative m-auto flex h-64 w-full items-center justify-between rounded-12 border border-border-primary/10 bg-slate-50/10 px-24">
+      <h1 className="text-20-700">{teamName}</h1>
+      <div className="flex items-center gap-30">
+        <TeamCardDropdownButton teamName={teamName} teamId={teamId} />
+      </div>
+      <Image
+        src={TeamCardThumbnail}
+        alt=""
+        draggable="false"
+        className="absolute right-90 z-0"
+      />
+    </article>
+  );
+};
 export default TeamCardBox;

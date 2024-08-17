@@ -14,7 +14,7 @@ import RedirectBoardModal from "./redirect-board-modal";
 const AddMemberModal = () => {
   const pathname = usePathname();
 
-  const boardId = useMemo(() => pathname.split("/")[1], [pathname]);
+  const boardId = useMemo(() => pathname.split("/")[2], [pathname]);
 
   const { value: isOpen, handleOn, handleOff } = useToggle();
   const {
