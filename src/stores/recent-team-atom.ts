@@ -1,5 +1,7 @@
 import { atomWithStorage } from "jotai/utils";
 
-const recentTeamAtom = atomWithStorage<string | null>("recentTeam", null);
+import { RecentTeam } from "@/types/user";
+
+const recentTeamAtom = atomWithStorage<RecentTeam>("recentTeam", null);
 
 export default recentTeamAtom;

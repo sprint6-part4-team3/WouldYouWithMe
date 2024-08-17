@@ -46,6 +46,7 @@ const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
           email: "",
           accessToken: "",
           refreshToken: "",
+          loginType: null,
         });
         setRecentTeam(null);
         setPwLength(0);

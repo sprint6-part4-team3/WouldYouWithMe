@@ -46,7 +46,10 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
     mutate(data, {
       onSuccess: (res) => {
         toast.success("그룹 정보가 수정되었습니다.");
-        setRecentTeam(res.name);
+        setRecentTeam({
+          teamName: res.name,
+          groupId: res.id,
+        });
         router.replace(`/${res.id}`);
       },
       onError: (error) => {

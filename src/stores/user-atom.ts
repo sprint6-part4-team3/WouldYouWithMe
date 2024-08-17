@@ -12,6 +12,7 @@ const userAtom = atomWithStorage<LoginUser>("user", {
   email: "",
   accessToken: "",
   refreshToken: "",
+  loginType: null,
 });
 
 export default userAtom;

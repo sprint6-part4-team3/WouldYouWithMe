@@ -6,7 +6,7 @@ import { FieldWrapper, TextArea } from "@/components/common";
 import { NewTaskForm } from "@/types/task-list";
 
 const DescriptionInput = () => {
-  const { register, watch } = useFormContext<NewTaskForm>();
+  const { register } = useFormContext<NewTaskForm>();
   return (
     <FieldWrapper id="description" label="메모">
       <TextArea

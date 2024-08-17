@@ -127,8 +127,8 @@ const TaskContent = ({ initialTask, initialComments }: TaskContentProps) => {
       )}
       <TaskHeader
         taskName={task.name}
+        taskDescription={task.description}
         isCompleted={isTaskCompleted}
-        dropdownUseToggle={dropdownUseToggle}
       />
       <TaskInfo {...taskInfoProps} />
       <TaskDescription
