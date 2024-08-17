@@ -57,7 +57,10 @@ const TeamCardDropdownButton = ({ teamId, teamName }: TeamCardBoxProps) => {
 const TeamCardBox = ({ teamName, teamId }: TeamCardBoxProps) => {
   const setRecentTeam = useSetAtom(recentTeamAtom);
 
-  setRecentTeam(teamName);
+  setRecentTeam({
+    teamName,
+    groupId: teamId,
+  });
 
   return (
     <article className="relative m-auto flex h-64 w-full items-center justify-between rounded-12 border border-border-primary/10 bg-slate-50/10 px-24">
