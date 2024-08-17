@@ -7,7 +7,7 @@ import { Button } from "@/components/common";
 import TeamEmpty from "@/public/assets/lotties/team-empty.json";
 
 const TeamEmptyPage = () => (
-  <div className="flex h-full flex-col items-center justify-center pt-100">
+  <div className="flex h-full flex-col items-center justify-center pt-20">
     <Lottie
       className="size-2/3 h-auto min-w-250 max-w-500"
       animationData={TeamEmpty}
