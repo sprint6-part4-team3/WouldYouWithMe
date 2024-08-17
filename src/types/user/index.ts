@@ -22,6 +22,8 @@ export type User = {
   }[];
 };
 
+export type LoginType = "KAKAO" | "GOOGLE" | null;
+
 export type LoginUser = {
   id: number;
   nickname: string;
@@ -32,6 +34,7 @@ export type LoginUser = {
   email: string;
   accessToken: string;
   refreshToken: string;
+  loginType: LoginType;
 };
 
 export type Group = {
@@ -42,6 +45,11 @@ export type Group = {
   teamId: string;
   id: number;
 };
+
+export type RecentTeam = {
+  teamName: string;
+  groupId: number;
+} | null;
 
 export type GroupMember = {
   role: "ADMIN" | "MEMBER";

@@ -11,7 +11,7 @@ interface PaginationProps {
   handleCurrentPage: (value: number) => void;
 }
 
-const PER_PAGE_COUNT = 12;
+const PER_PAGE_COUNT = 6;
 const PAGE_COUNT = 5;
 
 const Pagination = ({

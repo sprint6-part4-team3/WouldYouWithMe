@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+import clsx from "clsx";
 import { motion } from "framer-motion";
 
 import { DropDown } from "@/components/common";
@@ -39,7 +39,13 @@ const TopTitle = ({ orderBy, setOrderBy }: TopTitleProps) => {
               handleOff();
             }}
           >
-            최신순
+            <span
+              className={clsx({
+                "text-brand-primary": ORDER_TYPE_DICT[orderBy] === "최신순",
+              })}
+            >
+              최신순
+            </span>
           </DropDown.Item>
           <DropDown.Item
             onClick={() => {
@@ -47,7 +53,13 @@ const TopTitle = ({ orderBy, setOrderBy }: TopTitleProps) => {
               handleOff();
             }}
           >
-            좋아요순
+            <span
+              className={clsx({
+                "text-brand-primary": ORDER_TYPE_DICT[orderBy] === "좋아요순",
+              })}
+            >
+              좋아요순
+            </span>
           </DropDown.Item>
         </DropDown.Menu>
       </DropDown>

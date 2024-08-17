@@ -1,7 +1,12 @@
 import { z } from "zod";
 
+const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/;
+
 const boardContentTypeSchema = z.object({
-  token: z.string().min(1, "팀 참여 토큰은 필수 입력입니다."),
+  token: z
+    .string()
+    .min(1, "팀 참여 토큰은 필수 입력입니다.")
+    .regex(jwtRegex, "유효한 토큰 형식이어야 합니다."),
   content: z.string().min(1, "게시글 내용은 필수 입력입니다."),
 });
 
