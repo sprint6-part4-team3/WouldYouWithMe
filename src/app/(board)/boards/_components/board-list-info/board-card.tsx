@@ -36,15 +36,17 @@ const BoardCard = ({ board }: BoardCardProps) => (
         />
       </div>
       <div className="flex flex-col gap-8 px-12">
-        <span className="text-13-500 text-text-disabled">
+        <span className="text-12-500 text-text-disabled md:text-13-500">
           작성일 | {formatBoardDate(board.createdAt)}
         </span>
-        <h3 className="group-hover truncate text-20-700">{board.title}</h3>
+        <h3 className="group-hover truncate text-18-700 md:text-20-700">
+          {board.title}
+        </h3>
         <div className="flex items-center justify-between">
-          <span className="text-14-700 text-text-secondary">
+          <span className="text-13-500 text-text-secondary md:text-14-700">
             {board.writer.nickname}
           </span>
-          <div className="flex items-center gap-6 text-14-500">
+          <div className="flex items-center gap-6 text-13-500 md:text-14-500">
             <IconComment />
             <span>{board.commentCount}</span>
             <IconHeart />
