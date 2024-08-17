@@ -10,12 +10,14 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
+import KAKAO_AUTHORIZE_URL from "@/constants/auth-url";
 import { useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { pwLengthAtom, userAtom } from "@/stores";
 import { SignInInput } from "@/types/auth";
+import randomString from "@/utils/random-string";
 
 import ResetPasswordComponent from "../reset-password/reset-password-component";
 
@@ -62,6 +64,7 @@ const SignInForm: React.FC = () => {
           email: resData.data.user.email,
           accessToken: resData.data.accessToken,
           refreshToken: resData.data.refreshToken,
+          loginType: null,
         });
 
         setPwLength(passwordLength);
@@ -79,6 +82,12 @@ const SignInForm: React.FC = () => {
 
   const handlePasswordResetClick = () => {
     setIsOpen(true);
+  };
+
+  const handleKakaoLogin = () => {
+    const state = randomString(10);
+    const KAKAO_LOGIN_URL = `${KAKAO_AUTHORIZE_URL}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&scope=profile_nickname,profile_image&state=${state}`;
+    window.location.href = KAKAO_LOGIN_URL;
   };
 
   return (
@@ -161,6 +170,7 @@ const SignInForm: React.FC = () => {
             <button
               type="button"
               className="ml-16 flex size-42 items-center justify-center rounded"
+              onClick={handleKakaoLogin}
             >
               <Image src={ImgKakao} alt="Kakao" />
             </button>

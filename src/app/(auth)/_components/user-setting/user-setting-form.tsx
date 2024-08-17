@@ -83,10 +83,12 @@ const UserSettingForm = () => {
           <ImageInput />
           <NameInput />
           <EmailInput />
-          <PasswordInput
-            onChangePasswordClick={handleChangePasswordClick}
-            onCancelUserClick={handleCancelUserClick}
-          />
+          {user.loginType === null && (
+            <PasswordInput
+              onChangePasswordClick={handleChangePasswordClick}
+              onCancelUserClick={handleCancelUserClick}
+            />
+          )}
         </form>
       </FormProvider>
       <CancelUserComponent

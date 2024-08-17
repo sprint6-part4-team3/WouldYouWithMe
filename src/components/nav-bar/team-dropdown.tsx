@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useToggle } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
@@ -28,19 +28,34 @@ const TeamDropdown = () => {
 
   const teamDropdown = useToggle();
   const setRecentTeam = useSetAtom(recentTeamAtom);
+  const recentTeam = useAtomValue(recentTeamAtom);
 
-  const teams = user?.memberships ?? [];
-  const dropdownTeamName =
-    useAtomValue(recentTeamAtom) ||
-    (teams.length > 0 ? teams[0].group.name : "");
+  const [dropdownTeamName, setDropdownTeamName] = useState<string>("");
+
+  useEffect(() => {
+    const teams = user?.memberships ?? [];
+    if (
+      recentTeam &&
+      teams.some((membership) => membership.group.id === recentTeam.groupId)
+    ) {
+      setDropdownTeamName(recentTeam.teamName);
+    } else if (teams.length > 0) {
+      setDropdownTeamName(teams[0].group.name);
+    } else {
+      setDropdownTeamName("");
+    }
+  }, [recentTeam, user?.memberships]);
+
   const [isExpanded, setIsExpanded] = useState(false);
-  const visibleTeams = isExpanded ? teams : teams.slice(0, 4);
+  const visibleTeams = isExpanded
+    ? (user?.memberships ?? [])
+    : (user?.memberships ?? []).slice(0, 4);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  if (teams.length === 0) {
+  if (!user?.memberships.length) {
     return null;
   }
 
@@ -62,7 +77,12 @@ const TeamDropdown = () => {
             <Link
               key={membership.group.id}
               href={`${membership.group.id}`}
-              onClick={() => setRecentTeam(membership.group.name)}
+              onClick={() =>
+                setRecentTeam({
+                  teamName: membership.group.name,
+                  groupId: membership.groupId,
+                })
+              }
             >
               <DropDown.Item onClick={teamDropdown.handleOff}>
                 <div className="flex items-center">
@@ -90,7 +110,7 @@ const TeamDropdown = () => {
               </DropDown.Item>
             </Link>
           ))}
-          {teams.length > 4 && (
+          {user?.memberships.length > 4 && (
             <DropDown.Item onClick={toggleExpand}>
               <div className="flex items-center justify-center">
                 {isExpanded ? "접기" : "팀 더보기"}
