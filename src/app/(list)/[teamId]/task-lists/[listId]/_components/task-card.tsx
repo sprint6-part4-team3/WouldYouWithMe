@@ -76,18 +76,10 @@ const TaskCard = ({
     editTaskMutation.mutate({ done: newCompletedState });
   };
 
-  const handleToggleComplete = () => {
-    const newCompletedState = !isCompleted;
-    setIsCompleted(newCompletedState);
-    editTaskMutation.mutate({ done: newCompletedState });
-  };
-
   return (
     <article className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center">
-          <button type="button" onClick={handleToggleComplete} className="mr-8">
-            {isCompleted ? <IconCheckBoxPrimary /> : <IconCheckBox />}
           <button type="button" onClick={handleToggleComplete} className="mr-8">
             {isCompleted ? <IconCheckBoxPrimary /> : <IconCheckBox />}
           </button>
@@ -98,7 +90,6 @@ const TaskCard = ({
               className={clsx(
                 `text-14-400 text-text-primary hover:text-brand-primary`,
                 {
-                  "line-through": isCompleted,
                   "line-through": isCompleted,
                 },
               )}
