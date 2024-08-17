@@ -34,7 +34,7 @@ const KakaoAuth = () => {
         const response = await instance.post(`/auth/signIn/KAKAO`, {
           state,
           token: code,
-          redirectUri: process.env.NEXT_PUBLIC_REDIRECT_URI,
+          redirectUri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI,
         });
 
         const { data } = response;
