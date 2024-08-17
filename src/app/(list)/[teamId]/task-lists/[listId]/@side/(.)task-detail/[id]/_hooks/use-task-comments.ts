@@ -1,3 +1,5 @@
+"use client";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -20,6 +22,10 @@ const useComments = (
 
   const queryClient = useQueryClient();
 
+  const updateCommentsCache = (updatedComments: Comment[]) => {
+    queryClient.setQueryData(["comments", taskId], updatedComments);
+  };
+
   const addCommentMutation = useMutation({
     mutationFn: (content: string) => createComment(taskId, content),
     onSuccess: (newComment) => {
@@ -30,13 +36,10 @@ const useComments = (
           image: currentUser.image,
         },
       };
-      setComments((prevComments) => [commentWithUser, ...prevComments]);
+      const updatedComments = [commentWithUser, ...comments];
+      setComments(updatedComments);
       setOptimisticComment(null);
-      queryClient.setQueryData(
-        ["comments", taskId],
-        (oldData: Comment[] | undefined) =>
-          oldData ? [commentWithUser, ...oldData] : [commentWithUser],
-      );
+      updateCommentsCache(updatedComments);
     },
     onError: () => {
       setOptimisticComment(null);
@@ -61,24 +64,13 @@ const useComments = (
       }
     },
     onSuccess: (_, variables) => {
-      setComments((prevComments) =>
-        prevComments.map((comment) =>
-          comment.id === variables.commentId
-            ? { ...comment, content: variables.content }
-            : comment,
-        ),
+      const updatedComments = comments.map((comment) =>
+        comment.id === variables.commentId
+          ? { ...comment, content: variables.content }
+          : comment,
       );
-      queryClient.setQueryData(
-        ["comments", taskId],
-        (oldData: Comment[] | undefined) =>
-          oldData
-            ? oldData.map((comment) =>
-                comment.id === variables.commentId
-                  ? { ...comment, content: variables.content }
-                  : comment,
-              )
-            : [],
-      );
+      setComments(updatedComments);
+      updateCommentsCache(updatedComments);
       setEditingCommentId(null);
       setOptimisticEditComment(null);
     },
@@ -106,16 +98,11 @@ const useComments = (
   };
 
   const handleDeleteComment = (deletedCommentId: number) => {
-    setComments((prevComments) =>
-      prevComments.filter((comment) => comment.id !== deletedCommentId),
+    const updatedComments = comments.filter(
+      (comment) => comment.id !== deletedCommentId,
     );
-    queryClient.setQueryData(
-      ["comments", taskId],
-      (oldData: Comment[] | undefined) =>
-        oldData
-          ? oldData.filter((comment) => comment.id !== deletedCommentId)
-          : [],
-    );
+    setComments(updatedComments);
+    updateCommentsCache(updatedComments);
   };
 
   const handleEditComment = async (commentId: number, newContent: string) => {
