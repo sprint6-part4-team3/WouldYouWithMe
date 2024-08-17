@@ -20,14 +20,17 @@ const BoardCard = ({ board }: BoardCardProps) => (
     key={board.id}
   >
     <Link
+      prefetch
       className="group flex h-250 flex-col gap-12 rounded-2xl border border-text-disabled bg-background-secondary"
       href={`/board/${board.id}`}
     >
       <div className="relative h-150 w-full">
         <Image
           src={board.image || EMPTY_IMAGE}
-          alt="게시물 이미지"
+          alt={`${board.title} 게시물 이미지`}
           fill
+          priority
+          sizes="(max-width: 768px) 100vw, 50vw"
           onDragStart={(e) => e.preventDefault()}
           className="rounded-se-2xl rounded-ss-2xl border-b  border-text-disabled object-cover"
         />

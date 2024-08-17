@@ -46,8 +46,11 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
   const teams = user?.memberships ?? [];
   const hasTeams = teams.length > 0;
 
-  const handleLinkClick = (teamName: string) => {
-    setRecentTeam(teamName);
+  const handleLinkClick = (teamName: string, groupId: number) => {
+    setRecentTeam({
+      teamName,
+      groupId,
+    });
     onClose();
   };
 
@@ -77,7 +80,9 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
               <li key={membership.group.id}>
                 <Link
                   href={`/${membership.group.id}`}
-                  onClick={() => handleLinkClick(membership.group.name)}
+                  onClick={() =>
+                    handleLinkClick(membership.group.name, membership.group.id)
+                  }
                 >
                   {membership.group.name}
                 </Link>

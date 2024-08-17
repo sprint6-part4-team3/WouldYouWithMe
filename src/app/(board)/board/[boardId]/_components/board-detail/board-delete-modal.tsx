@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 import { Button, Drawer, FloatButton, Modal } from "@/components/common";
@@ -14,6 +14,8 @@ interface BoardDeleteModalProps {
 }
 
 const BoardDeleteModal = ({ onClose, boardId }: BoardDeleteModalProps) => {
+  const queryClient = useQueryClient();
+
   const isMobile = useIsMobile();
   const toast = useToast();
   const router = useRouter();
@@ -21,6 +23,9 @@ const BoardDeleteModal = ({ onClose, boardId }: BoardDeleteModalProps) => {
   const { mutate, isPending } = useMutation({
     mutationFn: () => deleteBoard(boardId),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["boardList"],
+      });
       toast.success("게시물이 삭제되었습니다.");
       router.replace("/boards");
     },

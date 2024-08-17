@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { IconSearch } from "@/public/assets/icons";
 
@@ -18,6 +19,12 @@ const SearchBar = ({ keyword, onSearchItem }: SearchBarProps) => {
     e.preventDefault();
     onSearchItem(inputValue);
   };
+
+  useEffect(() => {
+    if (keyword !== inputValue) {
+      setInputValue(keyword);
+    }
+  }, [keyword]);
 
   return (
     <form className="relative" onSubmit={handleSubmit}>

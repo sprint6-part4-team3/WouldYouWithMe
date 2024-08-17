@@ -39,6 +39,12 @@ const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: BoardCreateEditRequest) => editBoard(data, boardId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["board", boardId] });
+      queryClient.invalidateQueries({
+        queryKey: ["boardList"],
+      });
+    },
   });
 
   const handleSubmitBoard: SubmitHandler<BoardAddEditInput> = (data) => {
@@ -52,9 +58,6 @@ const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
     mutate(submitData, {
       onSuccess: (res) => {
         router.replace(`/board/${res.id}`);
-        queryClient.invalidateQueries({
-          queryKey: ["board", res.id],
-        });
         toast.success("게시물이 수정되었습니다.");
       },
       onError: (error) => {
