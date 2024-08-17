@@ -17,6 +17,7 @@ const TasksContainer = ({ initialTasks }: TasksProps) => (
         name={task.name}
         date={task.date}
         frequency={task.frequency}
+        initialIsCompleted={task.doneAt !== null}
       />
     ))}
   </div>

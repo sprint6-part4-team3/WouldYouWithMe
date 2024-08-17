@@ -9,7 +9,7 @@ import { useCallback, useState } from "react";
 
 import { DropDown } from "@/components/common";
 import { FREQUENCY_LABELS } from "@/constants/frequency";
-import { useTaskParams, useToggle } from "@/hooks";
+import { useTaskMutation, useTaskParams, useToggle } from "@/hooks";
 import {
   IconCalendar,
   IconCheckBox,
@@ -27,10 +27,17 @@ interface TaskCardProps {
   name: string;
   date: string;
   frequency: string;
+  initialIsCompleted: boolean;
 }
 
-const TaskCard = ({ id, name, date, frequency }: TaskCardProps) => {
-  const { value: isChecked, handleToggle: toggleChecked } = useToggle();
+const TaskCard = ({
+  id,
+  name,
+  date,
+  frequency,
+  initialIsCompleted,
+}: TaskCardProps) => {
+  const [isCompleted, setIsCompleted] = useState(initialIsCompleted);
   const {
     value: isDropdownOpen,
     handleOff: closeDropdown,
@@ -38,6 +45,13 @@ const TaskCard = ({ id, name, date, frequency }: TaskCardProps) => {
   } = useToggle();
   const { groupId: currentGroupId, taskListId: currentListId } =
     useTaskParams();
+
+  const { editTaskMutation } = useTaskMutation(
+    currentGroupId,
+    currentListId,
+    id,
+    setIsCompleted,
+  );
 
   const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
   const closeEditTask = useCallback(() => {
@@ -56,12 +70,18 @@ const TaskCard = ({ id, name, date, frequency }: TaskCardProps) => {
     closeDropdown();
   };
 
+  const handleToggleComplete = () => {
+    const newCompletedState = !isCompleted;
+    setIsCompleted(newCompletedState);
+    editTaskMutation.mutate({ done: newCompletedState });
+  };
+
   return (
     <article className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center">
-          <button type="button" onClick={toggleChecked} className="mr-8">
-            {isChecked ? <IconCheckBoxPrimary /> : <IconCheckBox />}
+          <button type="button" onClick={handleToggleComplete} className="mr-8">
+            {isCompleted ? <IconCheckBoxPrimary /> : <IconCheckBox />}
           </button>
           <Link
             href={`/${currentGroupId}/task-lists/${currentListId}/task-detail/${id}`}
@@ -70,7 +90,7 @@ const TaskCard = ({ id, name, date, frequency }: TaskCardProps) => {
               className={clsx(
                 `text-14-400 text-text-primary hover:text-brand-primary`,
                 {
-                  "line-through": isChecked,
+                  "line-through": isCompleted,
                 },
               )}
             >
