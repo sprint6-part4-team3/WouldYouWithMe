@@ -24,6 +24,8 @@ const Carousel = ({ items }: CarouselProps) => {
   const [transition, setTransition] = useState(true);
   const [randomQuote, setRandomQuote] = useState("");
 
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
   const extendedItems = [items[items.length - 1], ...items, items[0]];
 
   const goToPrevious = () => {
@@ -36,10 +38,12 @@ const Carousel = ({ items }: CarouselProps) => {
     setCurrentIndex((prevIndex) => prevIndex + 1);
   }, []);
 
+  // 명언 생성
   useEffect(() => {
     setRandomQuote(getRandomQuote());
   }, []);
 
+  // 5초 후 자동으로 넘기기
   useEffect(() => {
     const interval = setInterval(() => {
       goToNext();
@@ -68,8 +72,32 @@ const Carousel = ({ items }: CarouselProps) => {
     };
   }, [currentIndex, extendedItems.length]);
 
+  // 모바일 터치
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX !== null) {
+      const touchEndX = e.changedTouches[0].clientX;
+      const distance = touchStartX - touchEndX;
+      if (Math.abs(distance) > 50) {
+        if (distance > 0) {
+          goToNext();
+        } else {
+          goToPrevious();
+        }
+      }
+      setTouchStartX(null);
+    }
+  };
+
   return (
-    <div className="relative h-200 w-full rounded-2xl md:h-240 lg:h-280">
+    <div
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="relative h-200 w-full rounded-2xl md:h-240 lg:h-280"
+    >
       <div className="h-full overflow-hidden rounded-2xl">
         <div
           className={`flex ${transition && "transition-transform duration-500"}`}
@@ -80,19 +108,21 @@ const Carousel = ({ items }: CarouselProps) => {
           {extendedItems.map((item, index) => (
             <div
               key={item.description + index}
-              className={`${item.background} flex h-200 w-full shrink-0 justify-between gap-6 rounded-2xl px-30 md:h-240 md:gap-16 md:px-60 lg:h-280 lg:px-90`}
+              className={`${item.background} relative flex h-200 w-full shrink-0 justify-between gap-6 rounded-2xl px-30 md:h-240 md:gap-16 md:px-60 lg:h-280 lg:px-90`}
             >
               <div className="flex h-full flex-col justify-center">
-                <span className="flex h-auto w-60 items-center justify-center rounded-full bg-text-primary text-brand-primary">
+                <span className="flex h-auto w-60 items-center justify-center rounded-full bg-text-primary text-brand-primary sm:text-14">
                   {item.tag}
                 </span>
-                <h2 className="mb-2 mt-8 text-24-700">{item.title}</h2>
-                <p className="pb-20 text-text-secondary">
+                <h2 className="mb-2 mt-8 text-20-700 md:text-24-700">
+                  {item.title}
+                </h2>
+                <p className="pb-20 text-text-secondary sm:text-14">
                   {item.description === "명언" ? randomQuote : item.description}
                 </p>
                 {item.children}
               </div>
-              <div className="hidden h-full flex-col justify-center md:flex">
+              <div className="absolute right-60 hidden h-full flex-col justify-center opacity-20 md:flex lg:right-90">
                 {item.icon}
               </div>
             </div>

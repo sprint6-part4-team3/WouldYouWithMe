@@ -16,7 +16,7 @@ const carouselItem = [
       <IconCodeit
         width={40}
         height={40}
-        className="h-40 w-100 opacity-50 md:h-60 md:w-150 lg:h-80 lg:w-200"
+        className="h-40 w-100 md:h-60 md:w-150 lg:h-80 lg:w-200"
       />
     ),
     background: "bg-point-purple",
@@ -34,13 +34,13 @@ const carouselItem = [
   },
   {
     tag: "QnA",
-    title: "새로운 팀을 만들고 싶어요!",
+    title: "팀을 만들고 싶어요!",
     description: "투두리스트를 관리하기 위해서는 팀이 필요해요",
     icon: (
       <IconBannerWYWM
         width={40}
         height={40}
-        className="h-40 w-100 opacity-50 md:h-100 md:w-190 lg:h-100 lg:w-250"
+        className="h-40 w-100 md:h-100 md:w-190 lg:h-100 lg:w-250"
       />
     ),
     background: "bg-point-orange",
@@ -60,7 +60,7 @@ const carouselItem = [
       <IconBannerWYWM
         width={40}
         height={40}
-        className="h-40 w-100 opacity-50 md:h-100 md:w-190 lg:h-100 lg:w-250"
+        className="h-40 w-100 md:h-100 md:w-190 lg:h-100 lg:w-250"
       />
     ),
     background: "bg-point-pink",
@@ -73,7 +73,7 @@ const carouselItem = [
       <IconBannerWord
         width={40}
         height={40}
-        className="h-40 w-100 opacity-50 md:h-110 md:w-150 lg:h-150 lg:w-180"
+        className="h-40 w-100 md:h-110 md:w-150 lg:h-150 lg:w-180"
       />
     ),
     background: "bg-point-blue",
