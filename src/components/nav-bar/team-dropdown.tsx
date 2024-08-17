@@ -76,7 +76,7 @@ const TeamDropdown = () => {
           {visibleTeams.map((membership) => (
             <Link
               key={membership.group.id}
-              href={`${membership.group.id}`}
+              href={`team/${membership.group.id}`}
               onClick={() =>
                 setRecentTeam({
                   teamName: membership.group.name,
