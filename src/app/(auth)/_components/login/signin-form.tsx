@@ -95,7 +95,7 @@ const SignInForm: React.FC = () => {
 
   const handleGoogleLogin = () => {
     const state = randomString(10);
-    const GOOGLE_LOGIN_URL = `${GOOGLE_AUTHORIZE_URL}?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=profile&state=${state}`;
+    const GOOGLE_LOGIN_URL = `${GOOGLE_AUTHORIZE_URL}?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=profile email&state=${state}`;
     window.location.href = GOOGLE_LOGIN_URL;
   };
 
