@@ -33,7 +33,7 @@ const NavBar = () => {
               <TeamDropdown />
             </div>
           )}
-          <Link href="/boards" className="text-text-primary">
+          <Link href="/boards" className="hidden text-text-primary md:block">
             자유게시판
           </Link>
         </div>
