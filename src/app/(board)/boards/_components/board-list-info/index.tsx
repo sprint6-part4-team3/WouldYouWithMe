@@ -1,12 +1,14 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { OrderType } from "@/constants/board-order-option";
 import getBoardList from "@/lib/api/board/get-board-list";
 import { BoardListResponse } from "@/types/board-list";
+import scrollToTop from "@/utils/scroll-to-top";
 
 import BoardCardSkeleton from "./board-card-skeleton";
 import BoardEmpty from "./board-empty";
@@ -89,6 +91,17 @@ const BoardListInfo = () => {
               handleCurrentPage(newPage, orderBy, keyword)
             }
           />
+          <div className="mx-auto mb-40 flex flex-col items-center justify-center gap-16 lg:hidden ">
+            <Image
+              onClick={scrollToTop}
+              width={60}
+              height={60}
+              src="/assets/images/img-spaceship.png"
+              alt="맨 위로 버튼"
+              className="cursor-pointer drop-shadow-[0_0_10px_#22b8cf]"
+            />
+            <span className="text-14-500">맨 위로</span>
+          </div>
         </>
       )}
       {!isLoading && boardListData?.list.length === 0 && (
