@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AddListModalButton } from "@/components/common";
 import { GroupTask } from "@/types/group";
 
-import TodoListCard from "./todo-list-card";
+import DragAndDrop from "./drag-and-drop";
 
 interface TodoLostBoxProps {
   taskList: GroupTask[];
@@ -14,10 +14,6 @@ interface TodoLostBoxProps {
 
 const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
   const [todoListIndex, setTodoListIndex] = useState(taskList);
-  // 색상 타입 및 배열 정의
-  const colorProps: Array<
-    "purple" | "blue" | "green" | "pink" | "rose" | "orange" | "yellow"
-  > = ["purple", "blue", "green", "pink", "rose", "orange", "yellow"];
 
   const handleAddTask = (newTask: GroupTask) => {
     setTodoListIndex((prevTasks) => [...prevTasks, newTask]);
@@ -50,28 +46,17 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
       </div>
       <section>
         {todoListIndex.length === 0 ? (
-          <div className="py-64 text-center text-14-500 text-text-default">
+          <p className="py-64 text-center text-14-500 text-text-default">
             아직 할 일 목록이 없습니다.
-          </div>
+          </p>
         ) : (
-          todoListIndex.map((item, index) => {
-            const colorIndex = index % colorProps.length;
-            const selectedColor = colorProps[colorIndex];
-
-            return (
-              <TodoListCard
-                key={item.id}
-                color={selectedColor}
-                link={`/${[teamId]}/task-lists/${item.id}`}
-                tasks={item.tasks}
-                task={item}
-                onEditTask={handleEditTask}
-                onDeleteTask={handleDeleteTask}
-              >
-                {item.name}
-              </TodoListCard>
-            );
-          })
+          <DragAndDrop
+            todoListIndex={todoListIndex}
+            teamId={teamId}
+            handleEditTask={handleEditTask}
+            handleDeleteTask={handleDeleteTask}
+            setTodoListIndex={setTodoListIndex}
+          />
         )}
       </section>
     </article>
