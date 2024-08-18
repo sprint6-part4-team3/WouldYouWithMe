@@ -2,13 +2,16 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import Link from "next/link";
+import { useEffect } from "react";
 
 import { useClickOutside, useIsMobile } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
 import { recentTeamAtom } from "@/stores";
+import groupIdListAtom from "@/stores/group-list";
 import { User } from "@/types/user";
+import extractGroupId from "@/utils/extract-group-id";
 
 import IconButton from "../common/icon-button";
 
@@ -23,10 +26,18 @@ const fetchUserData = async (): Promise<User> => {
 };
 
 const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
+  const [, setGroupIdList] = useAtom(groupIdListAtom);
   const { data: user } = useQuery<User>({
     queryKey: ["userData"],
     queryFn: fetchUserData,
   });
+
+  useEffect(() => {
+    if (user) {
+      const groupIdsFromData = extractGroupId(user.memberships);
+      setGroupIdList(groupIdsFromData);
+    }
+  }, [setGroupIdList, user]);
 
   const sidebarRef = useClickOutside(onClose);
   const isMobile = useIsMobile();
@@ -35,8 +46,11 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
   const teams = user?.memberships ?? [];
   const hasTeams = teams.length > 0;
 
-  const handleLinkClick = (teamName: string) => {
-    setRecentTeam(teamName);
+  const handleLinkClick = (teamName: string, groupId: number) => {
+    setRecentTeam({
+      teamName,
+      groupId,
+    });
     onClose();
   };
 
@@ -66,7 +80,9 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
               <li key={membership.group.id}>
                 <Link
                   href={`/${membership.group.id}`}
-                  onClick={() => handleLinkClick(membership.group.name)}
+                  onClick={() =>
+                    handleLinkClick(membership.group.name, membership.group.id)
+                  }
                 >
                   {membership.group.name}
                 </Link>

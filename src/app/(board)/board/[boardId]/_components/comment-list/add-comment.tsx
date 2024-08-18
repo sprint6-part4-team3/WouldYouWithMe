@@ -30,6 +30,11 @@ const AddComment = ({ boardId, setSampleComment }: AddCommentProps) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: BoardCommentInput) => createBoardComment(boardId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["board-comment", boardId],
+      });
+    },
   });
 
   const handleSubmitComment: SubmitHandler<BoardCommentInput> = (data) => {
@@ -47,9 +52,6 @@ const AddComment = ({ boardId, setSampleComment }: AddCommentProps) => {
 
     mutate(submitData, {
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["board-comment", boardId],
-        });
         reset();
       },
       onError: (error) => {

@@ -2,9 +2,11 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 
-const ReactQueryProvider = ({ children }: PropsWithChildren) => {
+import ChannelService from "../common/channel-talk";
+
+const AppProvider = ({ children }: PropsWithChildren) => {
   const [client] = useState(
     new QueryClient({
       defaultOptions: {
@@ -19,6 +21,14 @@ const ReactQueryProvider = ({ children }: PropsWithChildren) => {
     }),
   );
 
+  useEffect(() => {
+    ChannelService.loadScript();
+
+    ChannelService.boot({
+      pluginKey: "cc4e06f3-bd5d-4c8f-a62d-733460cb0b33" || "",
+    });
+  }, []);
+
   return (
     <QueryClientProvider client={client}>
       {children}
@@ -27,4 +37,4 @@ const ReactQueryProvider = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default ReactQueryProvider;
+export default AppProvider;

@@ -58,11 +58,7 @@ const TaskLists = async ({ params, searchParams }: TaskListProps) => {
         currentListId={currentListId}
         taskLists={taskLists}
       />
-      <TasksContainer
-        currentTeamId={currentTeamId}
-        currentListId={currentListId}
-        initialTasks={tasks}
-      />
+      <TasksContainer initialTasks={tasks} />
       {showAddButton && (
         <Link
           href={`/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
