@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import {
@@ -30,6 +31,8 @@ const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
   const toast = useToast();
   const router = useRouter();
 
+  const [isImgLoading, setIsImgLoading] = useState(false);
+
   const methods = useForm<BoardAddEditInput>({
     resolver: zodResolver(boardAddEditSchema),
     mode: "onBlur",
@@ -37,7 +40,7 @@ const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
     defaultValues: initialData,
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: BoardCreateEditRequest) => editBoard(data, boardId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["board", boardId] });
@@ -72,12 +75,16 @@ const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
         onSubmit={methods.handleSubmit(handleSubmitBoard)}
         className="my-40"
       >
-        <BoardFormHeader isPending={isPending} type="edit" />
+        <BoardFormHeader
+          isImgLoading={isImgLoading}
+          isPending={isPending || isSuccess}
+          type="edit"
+        />
         <div className="flex flex-col gap-40">
           <TitleInput />
           <TokenInput />
           <ContentInput />
-          <ImageInput />
+          <ImageInput setIsImgLoading={setIsImgLoading} />
         </div>
       </form>
     </FormProvider>
