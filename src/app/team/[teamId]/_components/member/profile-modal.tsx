@@ -1,35 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
 
-import { Button, Drawer, Modal } from "@/components/common";
-import { useIsMobile, useToast } from "@/hooks";
+import { Drawer, Modal } from "@/components/common";
+import { useIsMobile } from "@/hooks";
 import { IconProfileCurrent } from "@/public/assets/icons";
 import { GroupMember } from "@/types/user";
 
 interface ProfileModalProps {
   onClose: () => void;
   member: GroupMember;
+  teamName: string;
 }
 
-const ProfileModal = ({ onClose, member }: ProfileModalProps) => {
-  const toast = useToast();
+const ProfileModal = ({ onClose, member, teamName }: ProfileModalProps) => {
   const isMobile = useIsMobile();
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const handleClickCopy = () => {
-    // TODO: 이메일 복사하기
-    toast.success("이메일이 복사되었습니다.");
-    onClose();
-  };
-
-  if (!isClient) {
-    return null;
-  }
 
   const CommonComponent = isMobile ? Drawer : Modal;
 
@@ -37,7 +22,13 @@ const ProfileModal = ({ onClose, member }: ProfileModalProps) => {
     <CommonComponent showCloseButton onClose={onClose} title="">
       <div className="flex w-full flex-col items-center justify-center gap-24">
         {member.userImage ? (
-          <IconProfileCurrent width={52} height={52} />
+          <Image
+            width={52}
+            height={52}
+            src={member.userImage}
+            alt={`${member.userName}프로필 사진`}
+            className="rounded-full object-cover"
+          />
         ) : (
           <IconProfileCurrent width={52} height={52} />
         )}
@@ -54,14 +45,12 @@ const ProfileModal = ({ onClose, member }: ProfileModalProps) => {
             {member.userEmail}
           </span>
         </div>
-        <Button
-          type="button"
-          onClick={handleClickCopy}
-          variant="primary"
-          className="h-47 w-full"
+        <a
+          className="flex h-47 w-full cursor-pointer items-center justify-center rounded-12 bg-brand-primary text-16-600 text-text-inverse hover:bg-interaction-hover disabled:bg-interaction-inactive"
+          href={`mailto:${member.userEmail}?subject=[우주윗미] ${teamName} 팀에서 보낸 메일입니다.`}
         >
-          이메일 복사하기
-        </Button>
+          이메일 보내기
+        </a>
       </div>
     </CommonComponent>
   );
