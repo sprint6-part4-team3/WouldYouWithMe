@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { PropsWithChildren, useEffect, useState } from "react";
 
+import usePreviousPage from "@/hooks/use-previous-page";
+
 import ChannelService from "../common/channel-talk";
 
 const AppProvider = ({ children }: PropsWithChildren) => {
@@ -20,6 +22,8 @@ const AppProvider = ({ children }: PropsWithChildren) => {
       },
     }),
   );
+
+  usePreviousPage();
 
   useEffect(() => {
     ChannelService.loadScript();

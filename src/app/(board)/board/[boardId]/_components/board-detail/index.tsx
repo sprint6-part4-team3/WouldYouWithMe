@@ -24,13 +24,18 @@ interface BoardDetailProps {
 
 const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
   const router = useRouter();
-  const [previousPage, setPreviousPage] = useState("");
+  const [previousPage, setPreviousPage] = useState<string | null>("");
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const referrerUrl = new URL(document.referrer);
-      setPreviousPage(referrerUrl.pathname);
+    const storage = globalThis?.sessionStorage;
+
+    if (!storage) {
+      return;
     }
+
+    const previousUrl = storage.getItem("PREVIOUS_URL");
+
+    setPreviousPage(previousUrl);
   }, []);
 
   const { data: boardData, error } = useQuery({
@@ -49,7 +54,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
   const parsedContent = JSON.parse(boardData.content);
 
   const handleButtonClickBack = () => {
-    if (previousPage === "/boards") {
+    if (previousPage && previousPage.startsWith("/boards")) {
       router.back();
     } else {
       router.push("/boards?page=1&orderBy=recent&keyword=");
@@ -105,13 +110,14 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
       <CopyTeamToken token={parsedContent.token} />
 
       {boardData.image && boardData.image !== EMPTY_IMAGE && (
-        <div className="mt-40 flex w-350">
+        <div className="mt-40 flex w-327 md:w-360">
           <Image
             alt="게시물 이미지"
             src={boardData.image}
             width={0}
             height={0}
             sizes="100vw"
+            onDragStart={(e) => e.preventDefault()}
             style={{ width: "100%", height: "auto" }}
           />
         </div>
