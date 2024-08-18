@@ -64,6 +64,7 @@ const DeleteMemberModal = ({
           queryClient.invalidateQueries({ queryKey: ["userData"] });
         } else {
           router.push(`/team/${replaceId}`);
+          queryClient.invalidateQueries({ queryKey: ["userData"] });
         }
       } else {
         router.refresh();
