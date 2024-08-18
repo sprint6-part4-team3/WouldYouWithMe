@@ -7,6 +7,10 @@ export type TaskListAddEditInput = {
   name: string;
 };
 
+export type TaskListEditIndex = {
+  displayIndex: number;
+};
+
 export type FrequencyType = "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
 
 export type NewTaskBase = {
