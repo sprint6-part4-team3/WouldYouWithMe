@@ -43,7 +43,7 @@ const TasksContainer = ({
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="tasks" type="tasks">
         {(droppableProvided) => (
-          <div
+          <section
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
             className="mb-16 flex flex-col gap-16"
@@ -73,7 +73,7 @@ const TasksContainer = ({
               </Draggable>
             ))}
             {droppableProvided.placeholder}
-          </div>
+          </section>
         )}
       </Droppable>
     </DragDropContext>

@@ -4,7 +4,12 @@ import { Suspense } from "react";
 import PageLoading from "@/components/loading";
 import { IconPlusCurrent } from "@/public/assets/icons";
 
-import { TaskCurrent, TaskDateNav, TaskListNav } from "./_components";
+import {
+  TaskCurrent,
+  TaskDateNav,
+  TaskListNav,
+  TasksSkeleton,
+} from "./_components";
 
 interface TaskListProps {
   params: { teamId: string; listId: string };
@@ -45,7 +50,7 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
       />
       <Suspense
         key={`${currentListId}/${currentDate}`}
-        fallback={<PageLoading />}
+        fallback={<TasksSkeleton />}
       >
         <TaskCurrent
           currentDate={currentDate}

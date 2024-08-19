@@ -6,3 +6,4 @@ export { default as TaskCurrent } from "./task-current";
 export { default as TaskDateNav } from "./task-date-nav";
 export { default as TaskListNav } from "./task-lists-nav";
 export { default as TasksContainer } from "./tasks-container";
+export { default as TasksSkeleton } from "./tasks-skeleton";
