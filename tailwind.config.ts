@@ -19,6 +19,20 @@ const config: Config = {
       xl: "1280px",
     },
     extend: {
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        fadeOut: {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
+      },
+      animation: {
+        fadeIn: "fadeIn 0.3s ease-in-out",
+        fadeOut: "fadeOut 0.3s ease-in-out",
+      },
       colors: {
         brand: {
           primary: "#22b8cf",

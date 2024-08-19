@@ -1,10 +1,9 @@
 "use client";
 
 import clsx from "clsx";
-import { motion } from "framer-motion";
 import { useSetAtom } from "jotai";
 import Lottie from "lottie-react";
-import React, { useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 import ErrorAnimation from "@/public/assets/lotties/error.json";
 import SuccessAnimation from "@/public/assets/lotties/success.json";
@@ -23,34 +22,36 @@ export interface ToastProps {
 
 const TOAST_DURATION = 2000;
 
-const Toast = ({ type, message = "test", id }: ToastProps) => {
+const Toast = memo(({ type, message = "test", id }: ToastProps) => {
   const removeToastItem = useSetAtom(RemoveToastAtom);
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
-    const timeoutForRemove = setTimeout(() => {
-      removeToastItem(id);
+    const fadeOutTimeout = setTimeout(() => {
+      setShow(false);
+
+      const removeTimeout = setTimeout(() => {
+        removeToastItem(id);
+      }, 300);
+
+      return () => clearTimeout(removeTimeout);
     }, TOAST_DURATION);
 
-    return () => {
-      clearTimeout(timeoutForRemove);
-    };
+    return () => clearTimeout(fadeOutTimeout);
   }, [id, removeToastItem]);
 
   return (
-    <motion.div
-      key={id}
+    <div
       className={clsx(
-        "inline-flex cursor-pointer items-center rounded-lg border bg-background-tertiary px-24 py-16 text-center shadow-md transition-all duration-300 ease-in-out sm:w-full ",
+        "inline-flex cursor-pointer items-center rounded-lg border bg-background-tertiary px-24 py-12 text-center shadow-md transition-all duration-300 ease-in-out sm:w-full",
         {
           "text-point-green border-point-green": type === "success",
           "text-point-rose border-point-rose": type === "error",
+          "animate-fadeIn": show,
+          "animate-fadeOut": !show,
         },
       )}
       onClick={() => removeToastItem(id)}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
     >
       {type === "success" ? (
         <Lottie
@@ -69,8 +70,10 @@ const Toast = ({ type, message = "test", id }: ToastProps) => {
         />
       )}
       <span className="mr-6 text-16-500">{message}</span>
-    </motion.div>
+    </div>
   );
-};
+});
+
+Toast.displayName = "Toast";
 
 export default Toast;
