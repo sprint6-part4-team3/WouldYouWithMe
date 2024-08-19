@@ -30,13 +30,15 @@ const TeamDropdown = () => {
     queryKey: ["userData", userId],
     queryFn: fetchUserData,
     enabled: !!userId,
+    staleTime: 60000,
+    gcTime: 300000,
   });
 
   const teamDropdown = useToggle();
   const [dropdownTeamName, setDropdownTeamName] = useState<string>("");
 
   useEffect(() => {
-    if (!isLoading && userData && recentTeam) {
+    if (!isLoading && userData) {
       if (recentTeam) {
         setDropdownTeamName(recentTeam.teamName);
       } else if (userData.memberships.length > 0) {
