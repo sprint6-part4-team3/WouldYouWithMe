@@ -5,15 +5,8 @@ import { useAtom } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
 
-import {
-  Button,
-  Drawer,
-  DropDown,
-  FloatButton,
-  Input,
-  Modal,
-} from "@/components/common";
-import { useIsMobile, useToast, useToggle } from "@/hooks";
+import { Button, Drawer, FloatButton, Input, Modal } from "@/components/common";
+import { useIsMobile, useToast } from "@/hooks";
 import deleteMember from "@/lib/api/group/delete-member";
 import { LoadingSpinner } from "@/public/assets/icons";
 import groupIdListAtom from "@/stores/group-list";
@@ -91,7 +84,7 @@ const DeleteMemberModal = ({
     <ModalComponent
       showWarningIcon
       onClose={onClose}
-      title={isSameMember ? "그룹 탈퇴" : "그룹 추방"}
+      title={isSameMember ? "그룹 탈퇴" : "멤버 추방"}
       description={
         isSameMember
           ? "탈퇴할 멤버의 닉네임을 입력해주세요"
@@ -130,58 +123,4 @@ const DeleteMemberModal = ({
   );
 };
 
-/** 멤버 드롭다운 */
-interface MemberDropDownProps {
-  /** 내 아이디 */
-  userId: number;
-  /** 클릭한 유저 아이디 */
-  memberId: number;
-  /** 클릭한 유저 이름 */
-  memberName: string;
-}
-
-const MemberDropDown = ({
-  userId,
-  memberId,
-  memberName,
-}: MemberDropDownProps) => {
-  const { value, handleToggle, handleOff } = useToggle();
-
-  const {
-    value: isOpenModal,
-    handleOn: handleOnModal,
-    handleOff: handleOffModal,
-  } = useToggle();
-
-  return (
-    <>
-      <DropDown handleClose={handleOff}>
-        <DropDown.Trigger onClick={handleToggle}>
-          <span className="cursor-pointer text-16-700 text-text-primary">
-            ⋮
-          </span>
-        </DropDown.Trigger>
-        <DropDown.Menu isOpen={value}>
-          <DropDown.Item
-            onClick={() => {
-              handleOnModal();
-              handleOff();
-            }}
-          >
-            {userId === memberId ? "탈퇴하기" : "추방하기"}
-          </DropDown.Item>
-        </DropDown.Menu>
-      </DropDown>
-      {isOpenModal && (
-        <DeleteMemberModal
-          memberName={memberName}
-          userId={userId}
-          memberId={memberId}
-          onClose={handleOffModal}
-        />
-      )}
-    </>
-  );
-};
-
-export default MemberDropDown;
+export default DeleteMemberModal;

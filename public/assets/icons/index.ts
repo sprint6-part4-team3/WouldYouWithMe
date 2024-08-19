@@ -38,6 +38,7 @@ export { default as IconTime } from "./icon-time.svg";
 export { default as IconToDo } from "./icon-todo.svg";
 export { default as IconToggle } from "./icon-toggle.svg";
 export { default as IconUser } from "./icon-user.svg";
+export { default as IconUserX } from "./icon-user-x.svg";
 export { default as IconVisibilityOff } from "./icon-visibility-off.svg";
 export { default as IconVisibilityOn } from "./icon-visibility-on.svg";
 export { default as IconX } from "./icon-x.svg";

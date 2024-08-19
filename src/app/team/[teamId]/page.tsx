@@ -24,7 +24,7 @@ const TeamPage = async ({ params }: { params: { teamId: number } }) => {
     const adminId = getTeamAdmin(response.members);
 
     return (
-      <Suspense fallback={<PageLoading />}>
+      <>
         <TeamCardBox
           teamImage={response.image}
           teamName={response.name}
@@ -34,7 +34,7 @@ const TeamPage = async ({ params }: { params: { teamId: number } }) => {
         <TodoListBox taskList={response.taskLists} teamId={teamId} />
         <ReportBox taskList={response.taskLists} />
         <MemberBox memberList={response.members} teamName={response.name} />
-      </Suspense>
+      </>
     );
   } catch {
     throw new Error("팀 페이지를 가져오는데 실패하였습니다.");
