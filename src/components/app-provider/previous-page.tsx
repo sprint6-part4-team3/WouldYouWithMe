@@ -1,5 +1,3 @@
-"use client";
-
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
@@ -8,8 +6,6 @@ const usePreviousPage = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
     const storage = sessionStorage;
     const currentUrl =
       pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
