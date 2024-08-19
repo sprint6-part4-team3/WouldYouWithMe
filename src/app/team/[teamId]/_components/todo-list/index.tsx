@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { AddListModalButton } from "@/components/common";
@@ -14,6 +15,12 @@ interface TodoLostBoxProps {
 
 const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
   const [todoListIndex, setTodoListIndex] = useState(taskList);
+  const queryClient = useQueryClient();
+  const taskListsNav = taskList.map(({ id, name }) => ({
+    id,
+    name,
+  }));
+  queryClient.setQueryData(["task-lists", Number(teamId)], taskListsNav);
   // 색상 타입 및 배열 정의
   const colorProps: Array<
     "purple" | "blue" | "green" | "pink" | "rose" | "orange" | "yellow"
