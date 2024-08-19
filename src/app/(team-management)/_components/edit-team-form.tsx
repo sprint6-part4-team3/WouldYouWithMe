@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -10,7 +10,7 @@ import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
 import { useToast } from "@/hooks";
 import editGroup from "@/lib/api/group/edit-group";
 import { teamAddEditSchema } from "@/lib/schemas/team-manage";
-import recentTeamAtom from "@/stores/recent-team-atom";
+import { recentTeamAtom, userAtom } from "@/stores";
 import { TeamAddEditInput } from "@/types/team-management";
 
 import ImageInput from "./image-input";
@@ -24,10 +24,13 @@ interface EditTeamFormProps {
 }
 
 const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
+
   const queryClient = useQueryClient();
   const toast = useToast();
   const router = useRouter();
-  const setRecentTeam = useSetAtom(recentTeamAtom);
+  const setRecentTeam = useSetAtom(recentTeamAtom(userId));
 
   const methods = useForm<TeamAddEditInput>({
     resolver: zodResolver(teamAddEditSchema),
