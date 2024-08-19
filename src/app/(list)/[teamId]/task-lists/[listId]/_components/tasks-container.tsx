@@ -27,6 +27,7 @@ const TasksContainer = ({ initialTasks }: TasksProps) => {
           <div
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
+            className="flex flex-col gap-16"
           >
             {initialTasks.map((task, index) => (
               <Draggable

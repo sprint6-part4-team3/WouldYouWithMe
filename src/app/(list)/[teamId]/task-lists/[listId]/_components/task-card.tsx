@@ -77,7 +77,7 @@ const TaskCard = ({
   };
 
   return (
-    <article className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
+    <article className="flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center">
           <button type="button" onClick={handleToggleComplete} className="mr-8">
