@@ -4,6 +4,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+import { SkeletonLoader } from "@/components/common";
 import getTaskLists from "@/lib/api/task-lists/get-task-lists";
 
 interface TaskListNavProps {
@@ -31,7 +32,14 @@ const TaskListNav = ({
   });
 
   if (error) throw new Error();
-  if (isLoading) return <nav className="my-16 flex h-25 gap-12 md:mt-24" />;
+  if (isLoading)
+    return (
+      <nav className="my-16 flex h-25 gap-12 md:mt-24">
+        <SkeletonLoader className="h-full w-65 rounded-lg" />
+        <SkeletonLoader className="h-full w-42 rounded-lg" />
+        <SkeletonLoader className="h-full w-80 rounded-lg" />
+      </nav>
+    );
   if (!taskLists) throw new Error();
 
   return (

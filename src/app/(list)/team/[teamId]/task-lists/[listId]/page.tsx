@@ -52,16 +52,17 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
           currentListId={currentListId}
           currentTeamId={currentTeamId}
         />
+        {showAddButton && (
+          <Link
+            href={`/team/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
+          >
+            <div className="group flex h-72 items-center gap-4 rounded-16 border-4 border-dotted border-background-tertiary px-16 text-16-400 hover:bg-background-secondary/50 hover:text-brand-primary">
+              <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />
+              할 일 추가
+            </div>
+          </Link>
+        )}
       </Suspense>
-      {showAddButton && (
-        <Link
-          href={`/team/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
-          className="group mt-32 flex items-center gap-4 text-16-400 hover:text-brand-primary"
-        >
-          <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />
-          할 일 추가
-        </Link>
-      )}
     </>
   );
 };

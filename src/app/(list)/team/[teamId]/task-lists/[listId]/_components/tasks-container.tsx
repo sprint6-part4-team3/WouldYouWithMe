@@ -34,17 +34,7 @@ const TasksContainer = ({
       }),
   });
   if (!tasks) throw new Error();
-  if (tasks?.length === 0) {
-    return (
-      <article className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
-        <div className="mb-2 flex items-center justify-between">
-          <div className="flex items-center">
-            <h2>할 일을 추가해 주세요</h2>
-          </div>
-        </div>
-      </article>
-    );
-  }
+  if (tasks.length === 0) return null;
 
   const onDragEnd = ({ source, destination }: DropResult) => {
     // 로직 추가
@@ -56,7 +46,7 @@ const TasksContainer = ({
           <div
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
-            className="flex flex-col gap-16"
+            className="mb-16 flex flex-col gap-16"
           >
             {tasks.map((task, index) => (
               <Draggable
