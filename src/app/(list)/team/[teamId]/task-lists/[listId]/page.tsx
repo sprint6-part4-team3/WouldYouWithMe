@@ -55,7 +55,7 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
       </Suspense>
       {showAddButton && (
         <Link
-          href={`/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
+          href={`/team/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
           className="group mt-32 flex items-center gap-4 text-16-400 hover:text-brand-primary"
         >
           <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />

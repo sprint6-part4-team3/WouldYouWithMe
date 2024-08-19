@@ -7,6 +7,6 @@ interface TaskListProps {
 
 const AddTask = ({ params, searchParams }: TaskListProps) =>
   redirect(
-    `/${params.teamId}/task-lists/${params.listId}?date=${searchParams.date}`,
+    `/team/${params.teamId}/task-lists/${params.listId}?date=${searchParams.date}`,
   );
 export default AddTask;
