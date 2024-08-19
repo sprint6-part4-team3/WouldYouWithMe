@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/;
+
 const teamAddEditSchema = z.object({
   name: z
     .string()
@@ -9,7 +11,10 @@ const teamAddEditSchema = z.object({
 });
 
 const teamJoinSchema = z.object({
-  token: z.string().min(1, "팀 참여 링크를 입력해주세요."),
+  token: z
+    .string()
+    .min(1, "팀 참여 링크를 입력해주세요.")
+    .regex(jwtRegex, "유효한 토큰 형식이어야 합니다."),
 });
 
 export { teamAddEditSchema, teamJoinSchema };
