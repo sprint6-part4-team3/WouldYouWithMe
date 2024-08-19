@@ -3,7 +3,6 @@ import axios, { AxiosInstance } from "axios";
 import { deleteCookie, setCookie } from "cookies-next";
 
 import { getCookie } from "@/utils/next-cookie";
-import redirectTo from "@/utils/next-redirect";
 
 // authorization이라는 커스텀 속성 추가
 declare module "axios" {

@@ -1,14 +1,16 @@
 export type Task = {
   id: number;
   name: string;
-  description: string;
+  description: string | null;
   date: string;
   doneAt: string;
   updatedAt: string;
-  deletedAt: string;
+  deletedAt: string | null;
   userId: number;
   recurringId: number;
   frequency: string;
+  writerId?: number | null;
+  displayIndex?: number;
 };
 
 export type DayTasks = {
@@ -18,4 +20,8 @@ export type DayTasks = {
 
 export type MyHistoryData = {
   myHistory: DayTasks[];
+};
+
+export type HistoryResponse = {
+  tasksDone: Task[];
 };
