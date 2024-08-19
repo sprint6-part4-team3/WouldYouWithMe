@@ -62,7 +62,7 @@ const TaskLists = async ({ params, searchParams }: TaskListProps) => {
       {showAddButton && (
         <Link
           href={`/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
-          className="group flex items-center gap-4 text-16-400 hover:text-brand-primary"
+          className="group mt-32 flex items-center gap-4 text-16-400 hover:text-brand-primary"
         >
           <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />
           할 일 추가
