@@ -43,7 +43,7 @@ const TaskListNav = ({
           onClick={() => {
             setCurrent(list.id);
             router.push(
-              `/${currentTeamId}/task-lists/${list.id}?date=${currentDate.toISOString()}`,
+              `/team/${currentTeamId}/task-lists/${list.id}?date=${currentDate.toISOString()}`,
             );
           }}
           className={`${
