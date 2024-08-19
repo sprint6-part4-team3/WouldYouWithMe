@@ -5,7 +5,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Button, FieldWrapper, FloatButton, Input } from "@/components/common";
+import {
+  Button,
+  FieldWrapper,
+  FloatButton,
+  Input,
+  ToolTip,
+} from "@/components/common";
 import { useToast } from "@/hooks";
 import acceptInvitation from "@/lib/api/group/accept-invitation";
 import { teamJoinSchema } from "@/lib/schemas/team-manage";
@@ -54,7 +60,7 @@ const JoinTeamForm = () => {
 
   return (
     <form
-      className="my-24 flex w-full flex-col gap-24"
+      className="relative my-24 flex w-full flex-col gap-24"
       onSubmit={handleSubmit(handleSubmitJoinForm)}
     >
       <FieldWrapper
@@ -62,6 +68,12 @@ const JoinTeamForm = () => {
         id="token"
         errorMessage={errors.token?.message || ""}
       >
+        <span className="absolute right-0 top-1 cursor-pointer text-14-500 text-brand-primary/70">
+          <ToolTip message="자유게시판 게시물을 확인하세요!">
+            팀 참여 토큰은 어디서 얻나요?
+          </ToolTip>
+        </span>
+
         <Input
           {...register("token", {
             required: true,
