@@ -10,7 +10,10 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
-import KAKAO_AUTHORIZE_URL from "@/constants/auth-url";
+import {
+  GOOGLE_AUTHORIZE_URL,
+  KAKAO_AUTHORIZE_URL,
+} from "@/constants/auth-url";
 import { useIsMobile, useToast } from "@/hooks";
 import signUp from "@/lib/api/auth/sign-up";
 import { signUpSchema } from "@/lib/schemas/auth";
@@ -91,6 +94,12 @@ const SignUpForm: React.FC = () => {
     const state = randomString(10);
     const KAKAO_LOGIN_URL = `${KAKAO_AUTHORIZE_URL}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&scope=profile_nickname,profile_image&state=${state}`;
     window.location.href = KAKAO_LOGIN_URL;
+  };
+
+  const handleGoogleLogin = () => {
+    const state = randomString(10);
+    const GOOGLE_LOGIN_URL = `${GOOGLE_AUTHORIZE_URL}?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=profile email&state=${state}`;
+    window.location.href = GOOGLE_LOGIN_URL;
   };
 
   return (
@@ -187,6 +196,7 @@ const SignUpForm: React.FC = () => {
           <button
             type="button"
             className="flex size-42 items-center justify-center rounded"
+            onClick={handleGoogleLogin}
           >
             <Image src={ImgGoogle} alt="Google" />
           </button>
