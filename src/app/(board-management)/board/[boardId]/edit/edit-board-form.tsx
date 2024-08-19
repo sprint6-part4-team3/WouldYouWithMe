@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -15,6 +17,7 @@ import {
 } from "@/app/(board-management)/_components";
 import { useToast } from "@/hooks";
 import editBoard from "@/lib/api/board/edit-board";
+import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
 import boardAddEditSchema from "@/lib/schemas/board";
 import {
   BoardAddEditInput,
@@ -22,16 +25,44 @@ import {
 } from "@/types/board/add-edit";
 
 interface EditBoardFormProps {
-  initialData: BoardAddEditInput;
   boardId: number;
+  userId?: string;
 }
 
-const EditBoardForm = ({ initialData, boardId }: EditBoardFormProps) => {
+const EditBoardForm = ({ boardId, userId }: EditBoardFormProps) => {
   const queryClient = useQueryClient();
   const toast = useToast();
   const router = useRouter();
 
   const [isImgLoading, setIsImgLoading] = useState(false);
+
+  const { data: boardData, error: boardDataError } = useQuery({
+    queryKey: ["board", boardId],
+    queryFn: () => getBoardDetailData(boardId),
+  });
+
+  if (!boardData) {
+    return redirect("/error");
+  }
+
+  if (boardData.writer.id !== Number(userId)) {
+    return redirect("/not-found");
+  }
+
+  if (boardDataError) {
+    return redirect("/error");
+  }
+
+  const parsedContent = JSON.parse(boardData.content);
+
+  const initialData: BoardAddEditInput = {
+    title: boardData.title,
+    content: {
+      content: parsedContent.content,
+      token: parsedContent.token,
+    },
+    ...(boardData.image && { image: boardData.image }),
+  };
 
   const methods = useForm<BoardAddEditInput>({
     resolver: zodResolver(boardAddEditSchema),
