@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "@hello-pangea/dnd";
 import { useQuery } from "@tanstack/react-query";
 
 import getTasks from "@/lib/api/task-lists/get-tasks";
@@ -39,19 +45,48 @@ const TasksContainer = ({
       </article>
     );
   }
+
+  const onDragEnd = ({ source, destination }: DropResult) => {
+    // 로직 추가
+  };
   return (
-    <div>
-      {tasks.map((task) => (
-        <TaskCard
-          key={task.id}
-          id={task.id}
-          name={task.name}
-          date={task.date}
-          frequency={task.frequency}
-          initialIsCompleted={task.doneAt !== null}
-        />
-      ))}
-    </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="tasks" type="tasks">
+        {(droppableProvided) => (
+          <div
+            ref={droppableProvided.innerRef}
+            {...droppableProvided.droppableProps}
+            className="flex flex-col gap-16"
+          >
+            {tasks.map((task, index) => (
+              <Draggable
+                key={task.id}
+                draggableId={task.id.toString()}
+                index={index}
+              >
+                {(draggableProvided) => (
+                  <div
+                    ref={draggableProvided.innerRef}
+                    {...draggableProvided.draggableProps}
+                    {...draggableProvided.dragHandleProps}
+                  >
+                    <TaskCard
+                      key={task.id}
+                      id={task.id}
+                      name={task.name}
+                      date={task.date}
+                      frequency={task.frequency}
+                      initialIsCompleted={task.doneAt !== null}
+                    />
+                  </div>
+                )}
+              </Draggable>
+            ))}
+            {droppableProvided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 

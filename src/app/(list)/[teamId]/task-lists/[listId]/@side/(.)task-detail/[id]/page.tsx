@@ -33,7 +33,7 @@ const TaskDetailPage = async ({ params }: PageProps) => {
 
   return (
     <SidePage>
-      <TaskContent task={taskData} initialComments={comments} />
+      <TaskContent initialTask={taskData} initialComments={comments} />
     </SidePage>
   );
 };

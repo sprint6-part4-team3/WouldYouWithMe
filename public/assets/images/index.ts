@@ -14,4 +14,3 @@ export { default as ImgPlanet } from "./img-planet.png";
 export { default as SpaceShipImage } from "./img-spaceship.png";
 export { default as TeamCardThumbnail } from "./img-thumbnail-team.png";
 export { default as ImgTodo } from "./img-todo.png";
-export { default as LogoCoworkers } from "./logo-coworkers.png";
