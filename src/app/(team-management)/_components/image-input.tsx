@@ -18,7 +18,11 @@ import {
 } from "@/public/assets/icons";
 import { TeamAddEditInput } from "@/types/team-management";
 
-const ImageInput = memo(() => {
+interface ImageInputProps {
+  setIsImgLoading: (value: boolean) => void;
+}
+
+const ImageInput = memo(({ setIsImgLoading }: ImageInputProps) => {
   const { setValue, resetField, watch } = useFormContext<TeamAddEditInput>();
 
   const [imgUrl, setImgUrl] = useState<string | null>(watch("image") || null);
@@ -48,6 +52,8 @@ const ImageInput = memo(() => {
         return;
       }
 
+      setIsImgLoading(true);
+
       mutate(file, {
         onSuccess: (res) => {
           setImgUrl(res.url);
@@ -59,6 +65,9 @@ const ImageInput = memo(() => {
           resetField("image");
           setImgUrl(null);
           e.target.value = "";
+        },
+        onSettled: () => {
+          setIsImgLoading(false);
         },
       });
     }
