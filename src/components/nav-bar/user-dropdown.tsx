@@ -1,6 +1,5 @@
 "use client";
 
-import { getCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,13 +12,7 @@ import { userAtom } from "@/stores";
 import DropDown from "../common/drop-down";
 import LogoutComponent from "./logout-component";
 
-const getUserId = () => {
-  const cookieValue = getCookie("userId");
-  return typeof cookieValue === "string" ? cookieValue : "";
-};
-
 const UserDropdown = () => {
-  const userId = getUserId();
   const [user] = useAtom(userAtom);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userDropdown = useToggle();
@@ -33,7 +26,7 @@ const UserDropdown = () => {
     setIsLogoutOpen(false);
   };
 
-  if (!userId || !user) {
+  if (user.id === "") {
     return null;
   }
 

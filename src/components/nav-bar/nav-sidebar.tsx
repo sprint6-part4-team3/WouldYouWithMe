@@ -1,19 +1,25 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { motion } from "framer-motion";
 import { useAtom, useSetAtom } from "jotai";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useClickOutside, useIsMobile } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
-import { recentTeamAtom } from "@/stores";
+import { recentTeamAtom, userAtom } from "@/stores";
 import groupIdListAtom from "@/stores/group-list";
 import { User } from "@/types/user";
 import extractGroupId from "@/utils/extract-group-id";
 
 import IconButton from "../common/icon-button";
+
+const getUserId = () => {
+  const cookieValue = getCookie("userId");
+  return typeof cookieValue === "string" ? cookieValue : "";
+};
 
 interface SidebarProps {
   isOpen: boolean;
@@ -26,10 +32,16 @@ const fetchUserData = async (): Promise<User> => {
 };
 
 const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
+  const userId = getUserId();
+
   const [, setGroupIdList] = useAtom(groupIdListAtom);
+  const useRecentTeamAtom = useMemo(() => recentTeamAtom(userId), [userId]);
+  const [, setRecentTeam] = useAtom(useRecentTeamAtom);
+
   const { data: user } = useQuery<User>({
-    queryKey: ["userData"],
+    queryKey: ["userData", userId],
     queryFn: fetchUserData,
+    enabled: !!userId,
   });
 
   useEffect(() => {
@@ -41,7 +53,6 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
 
   const sidebarRef = useClickOutside(onClose);
   const isMobile = useIsMobile();
-  const setRecentTeam = useSetAtom(recentTeamAtom);
 
   const teams = user?.memberships ?? [];
   const hasTeams = teams.length > 0;

@@ -1,27 +1,16 @@
 "use client";
 
-import { getCookie } from "cookies-next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { IconButton } from "../common";
 import NavSideBar from "./nav-sidebar";
 
 const GnbButton = () => {
-  const [userId, setUserId] = useState<string | null>(null);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-
-  useEffect(() => {
-    const cookieValue = getCookie("userId");
-    setUserId(typeof cookieValue === "string" ? cookieValue : null);
-  }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
-
-  if (!userId) {
-    return null;
-  }
 
   return (
     <>
