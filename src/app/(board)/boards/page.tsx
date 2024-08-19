@@ -5,8 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/common";
 
 import BoardListInfo from "./_components/board-list-info";
-import Carousel from "./_components/carousel";
-import carouselItem from "./_data/carouselItems";
+import CarouselItems from "./_components/carousel/carouselItems";
 
 export const metadata: Metadata = {
   title: "자유게시판",
@@ -38,7 +37,7 @@ const BoardPage = () => {
         )}
       </div>
 
-      <Carousel items={carouselItem} />
+      <CarouselItems />
 
       <BoardListInfo />
     </div>
