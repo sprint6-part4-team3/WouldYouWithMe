@@ -1,20 +1,18 @@
+"use client";
+
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 const usePreviousPage = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const storage = globalThis?.sessionStorage;
+    if (typeof window === "undefined") return;
 
-    if (!storage) {
-      return;
-    }
-
+    const storage = sessionStorage;
     const currentUrl =
       pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
-
     const previousUrl = storage.getItem("CURRENT_URL");
 
     if (previousUrl) {
@@ -25,4 +23,16 @@ const usePreviousPage = () => {
   }, [pathname, searchParams]);
 };
 
-export default usePreviousPage;
+const PreviousPageComponent = () => {
+  usePreviousPage();
+
+  return null;
+};
+
+const SuspensePreviousPageComponent = () => (
+  <Suspense fallback={<div>로딩</div>}>
+    <PreviousPageComponent />
+  </Suspense>
+);
+
+export default SuspensePreviousPageComponent;
