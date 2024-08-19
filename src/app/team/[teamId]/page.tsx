@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import getGroupData from "@/lib/api/group/get-group-data";
 import { GroupResponse } from "@/types/group";
+import getTeamAdmin from "@/utils/get-team-admin";
 
 import MemberBox from "./_components/member";
 import ReportBox from "./_components/report";
@@ -20,9 +21,16 @@ const TeamPage = async ({ params }: { params: { teamId: number } }) => {
       return redirect("/team-empty");
     }
 
+    const adminId = getTeamAdmin(response.members);
+
     return (
       <Suspense fallback={<PageLoading />}>
-        <TeamCardBox teamName={response.name} teamId={teamId} />
+        <TeamCardBox
+          teamImage={response.image}
+          teamName={response.name}
+          teamId={teamId}
+          adminId={adminId}
+        />
         <TodoListBox taskList={response.taskLists} teamId={teamId} />
         <ReportBox taskList={response.taskLists} />
         <MemberBox memberList={response.members} teamName={response.name} />
