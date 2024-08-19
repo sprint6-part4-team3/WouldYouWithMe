@@ -59,8 +59,16 @@ const TeamDropdown = () => {
     setIsExpanded(!isExpanded);
   };
 
-  if (!user || !userData?.memberships.length) {
+  if (!userId) {
     return null;
+  }
+
+  if (!userData?.memberships.length) {
+    return (
+      <Link href="/create-team" className="text-text-primary">
+        팀 생성
+      </Link>
+    );
   }
 
   return (
