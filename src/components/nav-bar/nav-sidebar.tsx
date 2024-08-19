@@ -50,6 +50,7 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
 
   const teams = userData?.memberships ?? [];
   const hasTeams = teams.length > 0;
+  const isLoggedIn = userId !== "";
 
   const handleLinkClick = (teamName: string, groupId: number) => {
     setRecentTeam({
@@ -79,7 +80,7 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
         className="absolute right-22 top-22"
       />
       <div className="ml-16 mt-75">
-        {hasTeams && (
+        {hasTeams ? (
           <ul className="space-y-24">
             {teams.map((membership) => (
               <li key={membership.group.id}>
@@ -94,10 +95,21 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
               </li>
             ))}
           </ul>
+        ) : (
+          isLoggedIn && (
+            <div className="mt-24 flex flex-col gap-24">
+              <Link
+                href="/create-team"
+                onClick={onClose}
+                className="text-brand-primary"
+              >
+                팀 생성하기
+              </Link>
+            </div>
+          )
         )}
-
-        <div className="mt-24">
-          <Link href="/boards" onClick={onClose}>
+        <div className="mt-24 flex flex-col gap-24">
+          <Link href="/boards" onClick={onClose} className="text-brand-primary">
             자유게시판
           </Link>
         </div>

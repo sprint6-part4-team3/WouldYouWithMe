@@ -1,6 +1,6 @@
 "use client";
 
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -8,7 +8,7 @@ import { useState } from "react";
 import { DropDown, IconButton } from "@/components/common";
 import { useToggle } from "@/hooks";
 import { TeamCardThumbnail } from "@/public/assets/images";
-import { recentTeamAtom } from "@/stores";
+import { recentTeamAtom, userAtom } from "@/stores";
 
 import TeamDeleteModal from "./delete-team-modal";
 
@@ -55,7 +55,10 @@ const TeamCardDropdownButton = ({ teamId, teamName }: TeamCardBoxProps) => {
 };
 
 const TeamCardBox = ({ teamName, teamId }: TeamCardBoxProps) => {
-  const setRecentTeam = useSetAtom(recentTeamAtom);
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
+
+  const setRecentTeam = useSetAtom(recentTeamAtom(userId));
 
   setRecentTeam({
     teamName,

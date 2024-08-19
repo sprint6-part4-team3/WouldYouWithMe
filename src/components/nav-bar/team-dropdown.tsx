@@ -59,13 +59,13 @@ const TeamDropdown = () => {
     setIsExpanded(!isExpanded);
   };
 
-  if (!userId) {
+  if (isLoading || !userId) {
     return null;
   }
 
   if (!userData?.memberships.length) {
     return (
-      <Link href="/create-team" className="text-text-primary">
+      <Link href="/create-team" className="hidden text-text-primary md:flex">
         팀 생성
       </Link>
     );
