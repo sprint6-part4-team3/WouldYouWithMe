@@ -1,11 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
 import { motion } from "framer-motion";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useClickOutside, useIsMobile } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
@@ -15,11 +14,6 @@ import { User } from "@/types/user";
 import extractGroupId from "@/utils/extract-group-id";
 
 import IconButton from "../common/icon-button";
-
-const getUserId = () => {
-  const cookieValue = getCookie("userId");
-  return typeof cookieValue === "string" ? cookieValue : "";
-};
 
 interface SidebarProps {
   isOpen: boolean;
@@ -32,29 +26,29 @@ const fetchUserData = async (): Promise<User> => {
 };
 
 const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
-  const userId = getUserId();
-
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
   const [, setGroupIdList] = useAtom(groupIdListAtom);
   const useRecentTeamAtom = useMemo(() => recentTeamAtom(userId), [userId]);
   const [, setRecentTeam] = useAtom(useRecentTeamAtom);
 
-  const { data: user } = useQuery<User>({
+  const { data: userData } = useQuery<User>({
     queryKey: ["userData", userId],
     queryFn: fetchUserData,
     enabled: !!userId,
   });
 
   useEffect(() => {
-    if (user) {
-      const groupIdsFromData = extractGroupId(user.memberships);
+    if (userData) {
+      const groupIdsFromData = extractGroupId(userData.memberships);
       setGroupIdList(groupIdsFromData);
     }
-  }, [setGroupIdList, user]);
+  }, [setGroupIdList, userData]);
 
   const sidebarRef = useClickOutside(onClose);
   const isMobile = useIsMobile();
 
-  const teams = user?.memberships ?? [];
+  const teams = userData?.memberships ?? [];
   const hasTeams = teams.length > 0;
 
   const handleLinkClick = (teamName: string, groupId: number) => {

@@ -1,7 +1,6 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,22 +15,16 @@ import { User } from "@/types/user";
 
 import DropDown from "../common/drop-down";
 
-const getUserId = () => {
-  const cookieValue = getCookie("userId");
-  return typeof cookieValue === "string" ? cookieValue : "";
-};
-
 const fetchUserData = async (): Promise<User> => {
   const response = await getUserData();
   return response;
 };
 
 const TeamDropdown = () => {
-  const userId = getUserId();
-
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
   const useRecentTeamAtom = useMemo(() => recentTeamAtom(userId), [userId]);
   const [recentTeam, setRecentTeam] = useAtom(useRecentTeamAtom);
-  const [user] = useAtom(userAtom);
 
   const { data: userData, isLoading } = useQuery<User>({
     queryKey: ["userData", userId],
