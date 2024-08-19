@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { IconDonePanel, IconToDo } from "@/public/assets/icons";
-
 interface TodoCountProps {
   title: string;
   count: number;
@@ -13,6 +11,7 @@ const TodoCount = ({ title, count }: TodoCountProps) => (
       <span className="text-12-500 text-text-secondary">{title}</span>
       <span className="text-24-700 text-brand-tertiary">{count}개</span>
     </div>
+
     <Image
       width={40}
       height={40}
