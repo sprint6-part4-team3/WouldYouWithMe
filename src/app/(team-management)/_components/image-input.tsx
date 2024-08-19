@@ -94,7 +94,8 @@ const ImageInput = memo(({ setIsImgLoading }: ImageInputProps) => {
                 src={imgUrl}
                 alt="팀 프로필 사진"
                 fill
-                style={{ objectFit: "cover", borderRadius: "50%" }}
+                className="rounded-full object-fill"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 20vw"
               />
               <label htmlFor="image">
                 <IconEdit className="absolute -bottom-px -right-px cursor-pointer" />

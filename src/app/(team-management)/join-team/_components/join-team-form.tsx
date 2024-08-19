@@ -69,7 +69,7 @@ const JoinTeamForm = () => {
         errorMessage={errors.token?.message || ""}
       >
         <span className="absolute right-0 top-1 cursor-pointer text-14-500 text-brand-primary/70">
-          <ToolTip message="자유게시판 게시물을 확인하세요!">
+          <ToolTip message="자유게시판 게시글을 확인하세요!">
             팀 참여 토큰은 어디서 얻나요?
           </ToolTip>
         </span>
