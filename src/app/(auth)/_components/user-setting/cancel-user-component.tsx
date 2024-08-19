@@ -21,9 +21,9 @@ const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
   const router = useRouter();
   const isMobile = useIsMobile();
 
-  const [, setUser] = useAtom(userAtom);
-  const [, setRecentTeam] = useAtom(recentTeamAtom);
+  const [user, setUser] = useAtom(userAtom);
   const [, setPwLength] = useAtom(pwLengthAtom);
+  const [, setRecentTeam] = useAtom(recentTeamAtom(user.id));
 
   const CommonCancelUser = isMobile ? Drawer : Modal;
 
@@ -37,7 +37,7 @@ const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
         await deleteCookie("userId");
 
         setUser({
-          id: 0,
+          id: "",
           nickname: "",
           createdAt: "",
           updatedAt: "",
@@ -57,8 +57,8 @@ const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userData"] });
       success("회원 탈퇴되었습니다.");
-      router.replace(`/`);
       onClose();
+      router.replace("/");
     },
     onError: () => {
       error("회원 탈퇴에 실패했습니다.");
@@ -75,7 +75,10 @@ const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
       <CommonCancelUser
         onClose={onClose}
         title="회원 탈퇴를 진행하시겠어요?"
-        description="그룹장으로 있는 그룹은 자동으로 삭제되고, 모든 그룹에서 나가집니다."
+        description=<>
+          그룹장으로 있는 그룹은 자동으로 삭제되고,
+          <br /> 모든 그룹에서 나가집니다.
+        </>
         showWarningIcon
       >
         <div className="flex gap-8">

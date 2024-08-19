@@ -40,7 +40,7 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
       queryClient.invalidateQueries({ queryKey: ["userData"] });
 
       setUser({
-        id: 0,
+        id: "",
         nickname: "",
         createdAt: "",
         updatedAt: "",

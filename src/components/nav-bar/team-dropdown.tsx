@@ -1,19 +1,25 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue, useSetAtom } from "jotai";
+import { getCookie } from "cookies-next";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useToggle } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { ImgPlanet } from "@/public/assets/images";
-import { recentTeamAtom } from "@/stores";
+import { recentTeamAtom, userAtom } from "@/stores";
 import { User } from "@/types/user";
 
 import DropDown from "../common/drop-down";
+
+const getUserId = () => {
+  const cookieValue = getCookie("userId");
+  return typeof cookieValue === "string" ? cookieValue : "";
+};
 
 const fetchUserData = async (): Promise<User> => {
   const response = await getUserData();
@@ -21,41 +27,46 @@ const fetchUserData = async (): Promise<User> => {
 };
 
 const TeamDropdown = () => {
-  const { data: user } = useQuery<User>({
-    queryKey: ["userData"],
+  const userId = getUserId();
+
+  const useRecentTeamAtom = useMemo(() => recentTeamAtom(userId), [userId]);
+  const [recentTeam, setRecentTeam] = useAtom(useRecentTeamAtom);
+  const [user] = useAtom(userAtom);
+
+  const { data: userData, isLoading } = useQuery<User>({
+    queryKey: ["userData", userId],
     queryFn: fetchUserData,
+    enabled: !!userId,
   });
 
   const teamDropdown = useToggle();
-  const setRecentTeam = useSetAtom(recentTeamAtom);
-  const recentTeam = useAtomValue(recentTeamAtom);
-
   const [dropdownTeamName, setDropdownTeamName] = useState<string>("");
 
   useEffect(() => {
-    const teams = user?.memberships ?? [];
-    if (
-      recentTeam &&
-      teams.some((membership) => membership.group.id === recentTeam.groupId)
-    ) {
-      setDropdownTeamName(recentTeam.teamName);
-    } else if (teams.length > 0) {
-      setDropdownTeamName(teams[0].group.name);
-    } else {
-      setDropdownTeamName("");
+    if (!isLoading && userData && recentTeam) {
+      if (recentTeam) {
+        setDropdownTeamName(recentTeam.teamName);
+      } else if (userData.memberships.length > 0) {
+        const firstTeam = userData.memberships[0].group;
+        setDropdownTeamName(firstTeam.name);
+        setRecentTeam({
+          teamName: firstTeam.name,
+          groupId: userData.memberships[0].groupId,
+        });
+      }
     }
-  }, [recentTeam, user?.memberships]);
+  }, [isLoading, userData, recentTeam, setRecentTeam]);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const visibleTeams = isExpanded
-    ? (user?.memberships ?? [])
-    : (user?.memberships ?? []).slice(0, 4);
+    ? (userData?.memberships ?? [])
+    : (userData?.memberships ?? []).slice(0, 4);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  if (!user?.memberships.length) {
+  if (!user || !userData?.memberships.length) {
     return null;
   }
 
@@ -63,7 +74,7 @@ const TeamDropdown = () => {
     <div className="mt-1 cursor-pointer whitespace-nowrap text-16-500 text-text-primary">
       <DropDown handleClose={teamDropdown.handleOff}>
         <DropDown.Trigger onClick={teamDropdown.handleToggle}>
-          <div className="flex items-center">
+          <div className="hidden items-center md:flex">
             {dropdownTeamName}
             <IconDropdown className="ml-8" />
           </div>
@@ -110,7 +121,7 @@ const TeamDropdown = () => {
               </DropDown.Item>
             </Link>
           ))}
-          {user?.memberships.length > 4 && (
+          {userData?.memberships.length > 4 && (
             <DropDown.Item onClick={toggleExpand}>
               <div className="flex items-center justify-center">
                 {isExpanded ? "접기" : "팀 더보기"}

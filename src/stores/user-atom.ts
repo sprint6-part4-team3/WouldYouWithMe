@@ -3,7 +3,7 @@ import { atomWithStorage } from "jotai/utils";
 import { LoginUser } from "@/types/user";
 
 const userAtom = atomWithStorage<LoginUser>("user", {
-  id: 0,
+  id: "",
   nickname: "",
   createdAt: "",
   updatedAt: "",

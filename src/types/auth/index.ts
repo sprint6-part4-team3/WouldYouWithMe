@@ -37,7 +37,7 @@ export type AccessToken = {
 export type SignUpResponseSuccess = {
   success: true;
   user: {
-    id: number;
+    id: string;
     nickname: string;
     createdAt: string;
     updatedAt: string;

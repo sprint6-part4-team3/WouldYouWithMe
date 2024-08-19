@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +13,13 @@ import { userAtom } from "@/stores";
 import DropDown from "../common/drop-down";
 import LogoutComponent from "./logout-component";
 
+const getUserId = () => {
+  const cookieValue = getCookie("userId");
+  return typeof cookieValue === "string" ? cookieValue : "";
+};
+
 const UserDropdown = () => {
+  const userId = getUserId();
   const [user] = useAtom(userAtom);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userDropdown = useToggle();
@@ -25,6 +32,10 @@ const UserDropdown = () => {
   const closeLogout = () => {
     setIsLogoutOpen(false);
   };
+
+  if (!userId || !user) {
+    return null;
+  }
 
   return (
     <div className="text-md-medium flex cursor-pointer items-center justify-center whitespace-nowrap text-text-primary">
@@ -58,7 +69,6 @@ const UserDropdown = () => {
               계정 설정
             </DropDown.Item>
           </Link>
-          <DropDown.Item>팀 참여</DropDown.Item>
           <DropDown.Item onClick={openLogout}>로그아웃</DropDown.Item>
         </DropDown.Menu>
       </DropDown>
