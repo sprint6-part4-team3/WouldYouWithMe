@@ -4,8 +4,6 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
-import LogoImage from "@/public/assets/images/logo-coworkers.png";
-
 import GnbButton from "./gnb-button";
 import TeamDropdown from "./team-dropdown";
 import UserDropdown from "./user-dropdown";
@@ -19,15 +17,18 @@ const NavBar = () => {
       <div className="mx-24 flex h-full items-center justify-between lg:mx-120">
         <div className="flex items-center gap-20">
           {userId && <GnbButton />}
-          <div className="relative w-158 shrink-0">
-            <Link href="/">
-              <Image
-                src={LogoImage}
-                alt="코워커스 로고"
-                className="object-fill"
-              />
-            </Link>
-          </div>
+
+          <Link href="/">
+            <Image
+              width={150}
+              height={53}
+              priority
+              src="/assets/images/logo-wywm.png"
+              alt="우주윗미 로고"
+              className="object-fill"
+            />
+          </Link>
+
           {userId && (
             <div className="hidden items-center gap-20 md:flex">
               <TeamDropdown />
