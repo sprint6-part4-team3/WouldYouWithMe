@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import getGroupData from "@/lib/api/group/get-group-data";
 import getTeamAdmin from "@/utils/get-team-admin";
 
-import EditTeamForm from "../../_components/edit-team-form";
+import EditTeamForm from "../../../_components/edit-team-form";
 
 interface EditContainerProps {
   teamId: number;

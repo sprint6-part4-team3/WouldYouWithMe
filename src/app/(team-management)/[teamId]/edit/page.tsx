@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 
-import EditContainer from "./edit-container";
-import EditSkeleton from "./edit-skeleton";
+import EditContainer from "./_components/edit-container";
+import EditSkeleton from "./_components/edit-skeleton";
 
 const EditTeamPage = async ({ params }: { params: { teamId: number } }) => {
   const { teamId } = params;
