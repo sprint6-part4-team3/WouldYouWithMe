@@ -23,6 +23,7 @@ export { default as IconImageButton } from "./icon-image-button.svg";
 export { default as IconImageButtonError } from "./icon-image-button-error.svg";
 export { default as IconImgSelect } from "./icon-img-select.svg";
 export { default as IconKebab } from "./icon-kebab.svg";
+export { default as IconMail } from "./icon-mail.svg";
 export { default as IconPlus } from "./icon-plus.svg";
 export { default as IconPlusBig } from "./icon-plus-big.svg";
 export { default as IconPlusCurrent } from "./icon-plus-current.svg";

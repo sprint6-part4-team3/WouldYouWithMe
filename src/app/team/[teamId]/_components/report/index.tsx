@@ -25,7 +25,7 @@ const ReportBox = ({ taskList }: ReportBoxProps) => {
         </span>
       </div>
 
-      <section className="flex h-224 w-full items-center justify-between gap-24 rounded-12 bg-background-secondary p-20 md:gap-0 md:p-24 lg:h-217">
+      <section className="flex h-224 w-full items-center justify-between gap-20 rounded-12 bg-background-secondary p-12 md:gap-0 md:p-20 lg:h-217 lg:p-24">
         <CircularProgressBar percentage={completionPercentage} />
         <div className="flex flex-1 flex-col gap-16 md:max-w-300 lg:max-w-400">
           <TodoCount title="오늘 할 일" count={totalTasks} />
