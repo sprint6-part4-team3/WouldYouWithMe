@@ -28,7 +28,7 @@ const TeamDropdown = () => {
   const [recentTeam, setRecentTeam] = useAtom(useRecentTeamAtom);
 
   const { data: userData, isLoading } = useQuery<User>({
-    queryKey: ["userData", userId],
+    queryKey: ["userData"],
     queryFn: fetchUserData,
     enabled: !!userId,
     staleTime: 60000,
