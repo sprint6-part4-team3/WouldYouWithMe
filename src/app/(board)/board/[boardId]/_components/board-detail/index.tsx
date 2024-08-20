@@ -84,7 +84,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
             width={0}
             height={0}
             sizes="100vw"
-            style={{ width: "100%", height: "auto" }}
+            className="h-auto w-full"
           />
         </div>
       )}
