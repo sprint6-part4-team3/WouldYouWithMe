@@ -1,19 +1,27 @@
 "use client";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import "dayjs/locale/ko";
+
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useAtom } from "jotai";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 
-import { useComments, useTaskMutation, useTaskParams, useToast } from "@/hooks";
+import {
+  useComments,
+  useTaskMutation,
+  useTaskParams,
+  useToggle,
+} from "@/hooks";
 import getComments from "@/lib/api/task-comments/get-comments";
-import getTasks from "@/lib/api/task-lists/get-tasks";
+import getTaskDetail from "@/lib/api/task-detail/get-task-detail";
 import { IconCheckPrimary } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
 import { Comment } from "@/types/comments/index";
+import { TaskDetailData } from "@/types/task-detail/index";
 import getCommentsToDisplay from "@/utils/task-comments-util";
 
 import CommentInput from "../comments/comment-input";
@@ -28,32 +36,22 @@ dayjs.extend(timezone);
 dayjs.locale("ko");
 
 interface TaskContentProps {
+  initialTask: TaskDetailData;
   initialComments: Comment[];
 }
 
-const TaskContent = ({ initialComments }: TaskContentProps) => {
+const TaskContent = ({ initialTask, initialComments }: TaskContentProps) => {
   const { groupId, taskListId, taskId } = useTaskParams();
   const [currentUser] = useAtom(userAtom);
-  const currentDate = useSearchParams().get("date");
-  const queryClient = useQueryClient();
-  const toast = useToast();
-
-  const [isTaskCompleted, setIsTaskCompleted] = useState(false);
-
-  const { data: tasks } = useQuery({
-    queryKey: ["tasks", Number(groupId), Number(taskListId), currentDate],
-    queryFn: () =>
-      getTasks({
-        groupId: Number(groupId),
-        taskListId: Number(taskListId),
-        date: currentDate!,
-      }),
-  });
-
-  const task = useMemo(
-    () => tasks?.find((t) => t.id === Number(taskId)),
-    [tasks, taskId],
+  const [isTaskCompleted, setIsTaskCompleted] = useState(
+    initialTask.doneAt !== null,
   );
+  const router = useRouter();
+  const { data: task } = useQuery<TaskDetailData, Error, TaskDetailData>({
+    queryKey: ["task", taskId],
+    queryFn: () => getTaskDetail(groupId, taskListId, taskId),
+    initialData: initialTask,
+  });
 
   useEffect(() => {
     if (task) {
@@ -79,39 +77,36 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
   } = useComments(taskId, fetchedComments, currentUser);
 
   const { editTaskMutation } = useTaskMutation(
-    Number(groupId),
-    Number(taskListId),
-    Number(taskId),
+    groupId,
+    taskListId,
+    taskId,
     setIsTaskCompleted,
   );
 
   const handleToggleComplete = () => {
     if (!editTaskMutation.isPending) {
-      const newCompletedState = !isTaskCompleted;
       editTaskMutation.mutate(
-        { done: newCompletedState },
+        { done: !isTaskCompleted },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries({
-              queryKey: ["tasks", Number(groupId), Number(taskListId)],
-            });
+            router.refresh();
           },
         },
       );
     }
   };
 
-  const taskDate = useMemo(() => (task ? dayjs.utc(task.date) : null), [task]);
+  const taskDate = useMemo(() => dayjs.utc(task.date), [task.date]);
 
   const taskInfoProps = useMemo(
     () => ({
-      nickname: task?.writer?.nickname ?? "닉네임",
-      date: taskDate ? taskDate.format("YYYY년 M월 D일") : "",
-      time: taskDate ? taskDate.format("A h:mm") : "",
-      frequency: task?.frequency || "",
-      profileImage: task?.writer?.image,
+      nickname: task.writer?.nickname ?? "닉네임",
+      date: taskDate.format("YYYY년 M월 D일"),
+      time: taskDate.format("A h:mm"),
+      frequency: task.frequency,
+      profileImage: task.writer?.image,
     }),
-    [task, taskDate],
+    [task.writer, taskDate, task.frequency],
   );
 
   const commentsToDisplay = getCommentsToDisplay(
@@ -119,11 +114,7 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
     optimisticComment,
     optimisticEditComment,
   );
-  const hasComments = comments?.length > 0 || !!optimisticComment;
-
-  if (!task) {
-    return <div>태스크를 찾을 수 없습니다.</div>;
-  }
+  const hasComments = comments.length > 0 || optimisticComment;
 
   return (
     <div className="flex min-w-350 flex-col gap-16">

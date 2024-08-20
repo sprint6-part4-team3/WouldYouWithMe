@@ -16,7 +16,9 @@ const TaskDescription = ({
   isPending,
 }: TaskDescriptionProps) => {
   let buttonText = "완료하기";
-  if (isTaskCompleted) {
+  if (isPending) {
+    buttonText = "처리 중...";
+  } else if (isTaskCompleted) {
     buttonText = "완료취소하기";
   }
 
@@ -27,6 +29,7 @@ const TaskDescription = ({
         <CheckButton
           variant={isTaskCompleted ? "white" : "primary"}
           onClick={onToggleComplete}
+          disabled={isPending}
         >
           {buttonText}
         </CheckButton>
