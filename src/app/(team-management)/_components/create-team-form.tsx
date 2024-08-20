@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
@@ -25,6 +26,8 @@ const CreateTeamForm = () => {
 
   const setRecentTeam = useSetAtom(recentTeamAtom);
 
+  const [isImgLoading, setIsImgLoading] = useState(false);
+
   const methods = useForm<TeamAddEditInput>({
     resolver: zodResolver(teamAddEditSchema),
     mode: "onBlur",
@@ -34,7 +37,7 @@ const CreateTeamForm = () => {
     },
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: TeamAddEditInput) => createGroup(data),
   });
 
@@ -67,9 +70,12 @@ const CreateTeamForm = () => {
         className="my-24 flex w-full flex-col gap-24"
         onSubmit={methods.handleSubmit(handleSubmitTeam)}
       >
-        <ImageInput />
+        <ImageInput setIsImgLoading={setIsImgLoading} />
         <NameInput />
-        <SubmitButton isPending={isPending} />
+        <SubmitButton
+          isImgLoading={isImgLoading}
+          isPending={isPending || isSuccess}
+        />
       </form>
     </FormProvider>
   );
