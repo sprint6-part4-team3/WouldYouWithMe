@@ -61,13 +61,6 @@ const TaskInfo: React.FC<TaskInfoProps> = ({
         />
         <time className="ml-6 mr-10 flex items-center">{date}</time>
         <span>|</span>
-        <IconTime
-          width={16}
-          height={16}
-          className="ml-10 flex content-center items-center"
-        />
-        <time className="ml-6 mr-10 flex items-center">{time}</time>
-        <span>|</span>
         <IconRepeat
           width={16}
           height={16}
