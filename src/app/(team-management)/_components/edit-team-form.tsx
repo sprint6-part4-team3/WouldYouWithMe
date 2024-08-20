@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom, useSetAtom } from "jotai";
-import { useRouter } from "next/navigation";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
@@ -29,7 +28,6 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
 
   const queryClient = useQueryClient();
   const toast = useToast();
-  const router = useRouter();
   const setRecentTeam = useSetAtom(recentTeamAtom(userId));
 
   const methods = useForm<TeamAddEditInput>({
@@ -54,7 +52,7 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
           teamName: res.name,
           groupId: res.id,
         });
-        router.replace(`/team/${res.id}`);
+        window.location.href = `/team/${res.id}`;
         queryClient.invalidateQueries({ queryKey: ["userData"] });
       },
       onError: (error) => {
