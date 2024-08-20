@@ -38,16 +38,22 @@ const UserSettingForm = () => {
     },
   });
 
+  const { setValue } = methods;
+
   const mutation = useMutation({
     mutationFn: (data: { nickname: string; image: string | null }) =>
       EditUser(data),
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       if (data.success) {
         success("유저 정보가 수정되었습니다.");
+
+        setValue("nickname", variables.nickname);
+        setValue("image", variables.image || "");
+
         setUser((prevUser) => ({
           ...prevUser,
-          nickname: data.response?.data.nickname,
-          image: data.response?.data.image || prevUser.image,
+          nickname: variables.nickname,
+          image: variables.image || prevUser.image,
         }));
         router.replace(`/user-setting`);
       } else {
