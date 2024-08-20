@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
-import { SkeletonLoader } from "@/components/common";
 import getTaskLists from "@/lib/api/task-lists/get-task-lists";
 
 type TaskLists = {
@@ -46,11 +45,7 @@ const TaskListNav = ({
     setPlaceholder(newPlaceholderData);
   }, [currentTeamId]);
 
-  const {
-    data: taskLists,
-    error,
-    isLoading,
-  } = useQuery({
+  const { data: taskLists, error } = useQuery({
     queryKey: ["task-lists", currentTeamId],
     queryFn: async () => {
       const data = await getTaskLists({ groupId: currentTeamId });
@@ -62,17 +57,6 @@ const TaskListNav = ({
     },
     placeholderData: () => placeholder,
   });
-
-  if (isLoading)
-    return (
-      <nav className="my-16 flex h-25 gap-12 md:mt-24">
-        <SkeletonLoader className="h-full w-1/3 rounded-lg" />
-        <SkeletonLoader className="h-full w-1/4 rounded-lg" />
-        <SkeletonLoader className="h-full w-1/4 rounded-lg" />
-        <SkeletonLoader className="h-full w-1/5 rounded-lg" />
-        <SkeletonLoader className="h-full w-1/4 rounded-lg" />
-      </nav>
-    );
 
   if (error) throw new Error();
   if (!taskLists) throw new Error();
