@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "할 일 목록",
+  description: "할 일 목록을 확인하고 관리합니다.",
 };
 
 const Layout = ({

@@ -6,6 +6,11 @@ import Link from "next/link";
 import { Button } from "@/components/common";
 import TeamEmpty from "@/public/assets/lotties/team-empty.json";
 
+export const metadata = {
+  title: "팀 없음 | 우주윗미",
+  description: "아직 소속된 팀이 없습니다. 팀을 생성하거나 팀에 참여해보세요.",
+};
+
 const TeamEmptyPage = () => (
   <div className="flex h-full flex-col items-center justify-center pt-20">
     <Lottie
