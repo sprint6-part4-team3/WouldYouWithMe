@@ -85,7 +85,7 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
             {teams.map((membership) => (
               <li key={membership.group.id}>
                 <Link
-                  href={`/${membership.group.id}`}
+                  href={`/team/${membership.group.id}`}
                   onClick={() =>
                     handleLinkClick(membership.group.name, membership.group.id)
                   }
