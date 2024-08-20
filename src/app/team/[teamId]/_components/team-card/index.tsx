@@ -39,7 +39,7 @@ const TeamCardDropdownButton = ({
         <IconButton className="cursor-pointer" icon="IconGear" variant="none" />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value}>
-        <Link href={`/${teamId}/edit`}>
+        <Link href={`/team/${teamId}/edit`}>
           <DropDown.Item>수정하기</DropDown.Item>
         </Link>
         <DropDown.Item>
