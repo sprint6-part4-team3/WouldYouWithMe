@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable no-console */
 import React, { useCallback, useState } from "react";
 
@@ -5,7 +7,7 @@ import DropDown from "@/components/common/drop-down/index";
 import { useToggle } from "@/hooks";
 import { IconKebab } from "@/public/assets/icons";
 
-import TaskDeleteModal from "./task-delete-modal";
+import { TaskDeleteModal } from "../../../../../_components";
 import TaskEditModal from "./task-edit";
 
 interface TaskHeaderProps {
@@ -21,6 +23,7 @@ const TaskHeader = ({
 }: TaskHeaderProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
+
   const {
     value: isDropdownOpen,
     handleOff: closeDropdown,
