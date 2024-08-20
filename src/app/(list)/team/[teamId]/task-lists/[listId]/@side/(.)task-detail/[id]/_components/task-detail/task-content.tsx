@@ -1,16 +1,14 @@
 "use client";
 
-import "dayjs/locale/ko";
-
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useAtom } from "jotai";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 
-import { useComments, useTaskMutation, useTaskParams } from "@/hooks";
+import { useComments, useTaskMutation, useTaskParams, useToast } from "@/hooks";
 import getComments from "@/lib/api/task-comments/get-comments";
 import getTasks from "@/lib/api/task-lists/get-tasks";
 import { IconCheckPrimary } from "@/public/assets/icons";
@@ -36,17 +34,11 @@ interface TaskContentProps {
 const TaskContent = ({ initialComments }: TaskContentProps) => {
   const { groupId, taskListId, taskId } = useTaskParams();
   const [currentUser] = useAtom(userAtom);
-
-  const router = useRouter();
-
   const currentDate = useSearchParams().get("date");
+  const queryClient = useQueryClient();
+  const toast = useToast();
 
-  // const tasks = queryClient.getQueryData<TaskDetailData[]>([
-  //   "tasks",
-  //   Number(groupId),
-  //   Number(taskListId),
-  //   currentDate,
-  // ]);
+  const [isTaskCompleted, setIsTaskCompleted] = useState(false);
 
   const { data: tasks } = useQuery({
     queryKey: ["tasks", Number(groupId), Number(taskListId), currentDate],
@@ -63,18 +55,18 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
     [tasks, taskId],
   );
 
-  const [isTaskCompleted, setIsTaskCompleted] = useState(task?.doneAt !== null);
-
   useEffect(() => {
     if (task) {
       setIsTaskCompleted(task.doneAt !== null);
     }
   }, [task]);
+
   const { data: fetchedComments } = useQuery({
     queryKey: ["comments", taskId],
     queryFn: () => getComments(taskId),
     initialData: initialComments,
   });
+
   const {
     comments,
     optimisticComment,
@@ -87,19 +79,23 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
   } = useComments(taskId, fetchedComments, currentUser);
 
   const { editTaskMutation } = useTaskMutation(
-    groupId,
-    taskListId,
-    taskId,
+    Number(groupId),
+    Number(taskListId),
+    Number(taskId),
     setIsTaskCompleted,
   );
 
   const handleToggleComplete = () => {
     if (!editTaskMutation.isPending) {
+      const newCompletedState = !isTaskCompleted;
       editTaskMutation.mutate(
-        { done: !isTaskCompleted },
+        { done: newCompletedState },
         {
           onSuccess: () => {
-            router.refresh();
+            queryClient.invalidateQueries({
+              queryKey: ["tasks", Number(groupId), Number(taskListId)],
+            });
+            toast.success("할일 완료상태가 변경되었습니다.");
           },
         },
       );
