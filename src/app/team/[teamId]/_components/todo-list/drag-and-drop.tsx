@@ -112,7 +112,7 @@ const DragAndDrop = ({
                       <TodoListCard
                         key={item.id}
                         color={selectedColor}
-                        link={`/${[teamId]}/task-lists/${item.id}`}
+                        link={`/team/${[teamId]}/task-lists/${item.id}`}
                         tasks={item.tasks}
                         task={item}
                         onEditTask={handleEditTask}
