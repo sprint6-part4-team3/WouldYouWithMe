@@ -25,7 +25,7 @@ export type User = {
 export type LoginType = "KAKAO" | "GOOGLE" | null;
 
 export type LoginUser = {
-  id: string;
+  id: number;
   nickname: string;
   createdAt: string;
   updatedAt: string;

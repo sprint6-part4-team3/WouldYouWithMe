@@ -15,7 +15,11 @@ import imageUpload from "@/lib/api/image/image-upload";
 import { IconPlusBig, IconXBig, LoadingSpinner } from "@/public/assets/icons";
 import { BoardAddEditInput } from "@/types/board/add-edit";
 
-const ImageInput = () => {
+interface ImageInputProps {
+  setIsImgLoading: (value: boolean) => void;
+}
+
+const ImageInput = ({ setIsImgLoading }: ImageInputProps) => {
   const toast = useToast();
   const { setValue, resetField, watch } = useFormContext<BoardAddEditInput>();
 
@@ -49,6 +53,8 @@ const ImageInput = () => {
         return;
       }
 
+      setIsImgLoading(true);
+
       mutate(file, {
         onSuccess: (res) => {
           setImgUrl(res.url);
@@ -60,6 +66,9 @@ const ImageInput = () => {
           resetField("image");
           setImgUrl(null);
           e.target.value = "";
+        },
+        onSettled: () => {
+          setIsImgLoading(false);
         },
       });
     }

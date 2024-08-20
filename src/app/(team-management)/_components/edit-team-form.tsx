@@ -3,6 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom, useSetAtom } from "jotai";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
@@ -28,7 +30,9 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
 
   const queryClient = useQueryClient();
   const toast = useToast();
+  const router = useRouter();
   const setRecentTeam = useSetAtom(recentTeamAtom(userId));
+  const [isImgLoading, setIsImgLoading] = useState(false);
 
   const methods = useForm<TeamAddEditInput>({
     resolver: zodResolver(teamAddEditSchema),
@@ -40,7 +44,7 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
     },
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: TeamAddEditInput) => editGroup(data, id),
   });
 
@@ -52,7 +56,8 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
           teamName: res.name,
           groupId: res.id,
         });
-        window.location.href = `/team/${res.id}`;
+        router.replace(`/team/${res.id}`);
+        router.refresh();
         queryClient.invalidateQueries({ queryKey: ["userData"] });
       },
       onError: (error) => {
@@ -74,9 +79,13 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
         className="my-24 flex w-full flex-col gap-24"
         onSubmit={methods.handleSubmit(handleSubmitTeam)}
       >
-        <ImageInput />
+        <ImageInput setIsImgLoading={setIsImgLoading} />
         <NameInput />
-        <SubmitButton type="edit" isPending={isPending} />
+        <SubmitButton
+          type="edit"
+          isImgLoading={isImgLoading}
+          isPending={isPending || isSuccess}
+        />
       </form>
     </FormProvider>
   );

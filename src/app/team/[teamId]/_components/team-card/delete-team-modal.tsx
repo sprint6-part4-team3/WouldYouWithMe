@@ -1,7 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
@@ -9,6 +9,7 @@ import { Button, Drawer, FloatButton, Input, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import deleteGroup from "@/lib/api/group/delete-group";
 import { LoadingSpinner } from "@/public/assets/icons";
+import { recentTeamAtom, userAtom } from "@/stores";
 import groupIdListAtom from "@/stores/group-list";
 
 interface TeamDeleteModalProps {
@@ -23,6 +24,8 @@ const TeamDeleteModal = ({
   onClose,
 }: TeamDeleteModalProps) => {
   const queryClient = useQueryClient();
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
 
   const [groupIdList] = useAtom(groupIdListAtom);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +34,8 @@ const TeamDeleteModal = ({
   const toast = useToast();
   const isMobile = useIsMobile();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const setRecentTeam = useSetAtom(recentTeamAtom(userId));
 
   const replaceId = useMemo(
     () =>
@@ -50,6 +55,10 @@ const TeamDeleteModal = ({
         toast.success("팀이 삭제 되었습니다.");
 
         if (replaceId === "team-empty") {
+          setRecentTeam({
+            teamName: "",
+            groupId: 0,
+          });
           router.push(`/team-empty`);
         } else {
           router.push(`/team/${replaceId}`);
@@ -83,6 +92,7 @@ const TeamDeleteModal = ({
 
   return (
     <ModalComponent
+      showWarningIcon
       showCloseButton
       onClose={onClose}
       title="팀을 삭제 하실건가요?"

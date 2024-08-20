@@ -8,7 +8,8 @@ const getTeamAdmin = (memberList: GroupMember[]) => {
     (member: GroupMember) => member.role === "ADMIN",
   );
 
-  return result[0].userId;
+  // 팀에 관리자가 없는 경우도 있음
+  return result.length > 0 ? result[0].userId : 0;
 };
 
 export default getTeamAdmin;
