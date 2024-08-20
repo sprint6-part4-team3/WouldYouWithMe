@@ -8,7 +8,14 @@ const EditUser = async (data: UserSettingInput) => {
   try {
     const response = await instance.patch(`/user`, data);
 
-    return { success: true, response };
+    if (response.status === 200) {
+      return { success: true, response };
+    }
+
+    return {
+      success: false,
+      data: { message: "수정 요청 중 오류가 발생했습니다." },
+    };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       return {

@@ -38,31 +38,30 @@ const UserSettingForm = () => {
     },
   });
 
-  const { mutate } = useMutation({
+  const mutation = useMutation({
     mutationFn: (data: { nickname: string; image: string | null }) =>
       EditUser(data),
+    onSuccess: (data) => {
+      if (data.success) {
+        success("유저 정보가 수정되었습니다.");
+        setUser((prevUser) => ({
+          ...prevUser,
+          nickname: data.response?.data.nickname,
+          image: data.response?.data.image || prevUser.image,
+        }));
+        router.replace(`/user-setting`);
+      } else {
+        error(data.data.message || "수정에 실패했습니다.");
+      }
+    },
+    onError: () => {
+      error("수정에 실패했습니다.");
+    },
   });
 
   const handleSubmitUser: SubmitHandler<UserSettingInput> = (data) => {
     const { image, nickname } = data;
-
-    mutate(
-      { image, nickname },
-      {
-        onSuccess: () => {
-          success("유저 정보가 수정되었습니다.");
-          setUser((prevUser) => ({
-            ...prevUser,
-            nickname: data.nickname,
-            image: data.image || prevUser.image,
-          }));
-          router.replace(`/user-setting`);
-        },
-        onError: () => {
-          error("수정에 실패했습니다.");
-        },
-      },
-    );
+    mutation.mutate({ image, nickname });
   };
 
   const handleChangePasswordClick = () => {
@@ -91,10 +90,10 @@ const UserSettingForm = () => {
           )}
         </form>
       </FormProvider>
-      <CancelUserComponent
+      {/* <CancelUserComponent
         isOpen={isCancelOpen}
         onClose={() => setIsCancelOpen(false)}
-      />
+      /> */}
       <ChangePasswordComponent
         isOpen={isChangeOpen}
         onClose={() => setIsChangeOpen(false)}
