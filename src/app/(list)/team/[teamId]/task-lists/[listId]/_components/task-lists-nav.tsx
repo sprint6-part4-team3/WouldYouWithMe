@@ -1,6 +1,6 @@
 "use client";
 
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
@@ -12,11 +12,6 @@ type TaskLists = {
   id: number;
   name: string;
 }[];
-
-const getPreviousTaskLists = (teamId: number): TaskLists => {
-  const storedData = sessionStorage.getItem(`task-lists-${teamId}`);
-  return storedData ? JSON.parse(storedData) : [{ id: 1, name: "Loading..." }];
-};
 
 interface TaskListNavProps {
   currentTeamId: number;
@@ -32,6 +27,10 @@ const TaskListNav = ({
   const router = useRouter();
   const [current, setCurrent] = useState(currentListId);
   const currentButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [placeholder, setPlaceholder] = useState<TaskLists>([
+    { id: 0, name: "Loading" },
+  ]);
+
   useEffect(() => {
     if (currentButtonRef.current) {
       currentButtonRef.current.scrollIntoView({
@@ -40,6 +39,12 @@ const TaskListNav = ({
       });
     }
   }, [currentListId]);
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem(`task-lists-${currentTeamId}`);
+    const newPlaceholderData = storedData ? JSON.parse(storedData) : [];
+    setPlaceholder(newPlaceholderData);
+  }, []);
 
   const {
     data: taskLists,
@@ -55,7 +60,7 @@ const TaskListNav = ({
       );
       return data;
     },
-    placeholderData: () => getPreviousTaskLists(currentTeamId),
+    placeholderData: () => placeholder,
   });
 
   if (isLoading)
