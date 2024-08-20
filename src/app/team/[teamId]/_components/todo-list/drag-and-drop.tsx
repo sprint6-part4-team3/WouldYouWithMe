@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable no-console */
 import {
   DragDropContext,
   Draggable,
@@ -95,7 +94,7 @@ const DragAndDrop = ({
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {todoListIndex.map((item, index) => {
-              const colorIndex = index % colorProps.length;
+              const colorIndex = item.id % colorProps.length;
               const selectedColor = colorProps[colorIndex];
 
               return (

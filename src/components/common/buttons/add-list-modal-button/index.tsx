@@ -88,8 +88,13 @@ const AddListModalButton = ({
   };
 
   const ModalComponent = isMobile ? Drawer : Modal;
-  const description =
-    "<>할 일에 대한 목록을 추가하고<br />목록별 할 일을 만들 수 있습니다.</>";
+  const description = (
+    <>
+      할 일에 대한 목록을 추가하고
+      <br />
+      목록별 할 일을 만들 수 있습니다.
+    </>
+  );
 
   return (
     <>
