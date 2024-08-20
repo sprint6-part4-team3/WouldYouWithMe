@@ -44,7 +44,10 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
   });
 
   const task = tasks?.find((taskItems) => taskItems.id === id);
-  const [isCompleted, setIsCompleted] = useState(task?.doneAt !== null);
+  const [isCompleted, setIsCompleted] = useState<boolean>(
+    task?.doneAt !== null,
+  );
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -109,6 +112,13 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
 
   if (!task) return null;
 
+  const renderCheckboxIcon = () => {
+    if (isCompleted) {
+      return <IconCheckBoxPrimary />;
+    }
+    return isHovered ? <IconCheckBoxPrimary /> : <IconCheckBox />;
+  };
+
   return (
     <article className="flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center justify-between">
@@ -116,10 +126,12 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
           <button
             type="button"
             onClick={handleToggleComplete}
-            className="mr-8"
+            className="mr-8 transition-transform duration-200 ease-in-out hover:scale-110"
             disabled={editTaskMutation.isPending}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            {isCompleted ? <IconCheckBoxPrimary /> : <IconCheckBox />}
+            {renderCheckboxIcon()}
           </button>
           <Link
             href={`/team/${currentGroupId}/task-lists/${currentListId}/task-detail/${id}?date=${date}`}
