@@ -42,7 +42,6 @@ interface TaskContentProps {
 
 const TaskContent = ({ initialTask, initialComments }: TaskContentProps) => {
   const { groupId, taskListId, taskId } = useTaskParams();
-  const dropdownUseToggle = useToggle();
   const [currentUser] = useAtom(userAtom);
   const [isTaskCompleted, setIsTaskCompleted] = useState(
     initialTask.doneAt !== null,

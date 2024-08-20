@@ -55,7 +55,7 @@ const Pagination = ({
   };
 
   return (
-    <div className="mb-40 flex w-full items-center justify-center gap-10 py-20 text-20-500 md:gap-15">
+    <div className="flex w-full items-center justify-center gap-10 py-20 text-20-500 md:gap-15 lg:mb-40">
       {startPage > 1 && (
         <button
           className="text-30 hover:text-text-secondary md:text-40"

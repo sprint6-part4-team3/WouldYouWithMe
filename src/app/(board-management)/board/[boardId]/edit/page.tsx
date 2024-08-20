@@ -1,37 +1,30 @@
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
-import { BoardAddEditInput } from "@/types/board/add-edit";
 
 import EditBoardForm from "./edit-board-form";
 
 const EditBoardPage = async ({ params }: { params: { boardId: number } }) => {
+  const queryClient = new QueryClient();
+
   const { boardId } = params;
   const userId = cookies().get("userId")?.value;
 
-  try {
-    const res = await getBoardDetailData(boardId);
+  await queryClient.prefetchQuery({
+    queryKey: ["board", boardId],
+    queryFn: () => getBoardDetailData(boardId),
+  });
 
-    if (res.writer.id !== Number(userId)) {
-      return redirect("/not-found");
-    }
-
-    const parsedContent = JSON.parse(res.content);
-
-    const initialData: BoardAddEditInput = {
-      title: res.title,
-      content: {
-        content: parsedContent.content,
-        token: parsedContent.token,
-      },
-      ...(res.image && { image: res.image }),
-    };
-
-    return <EditBoardForm initialData={initialData} boardId={boardId} />;
-  } catch (error) {
-    return redirect("/error");
-  }
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <EditBoardForm boardId={boardId} userId={userId} />
+    </HydrationBoundary>
+  );
 };
 
 export default EditBoardPage;
