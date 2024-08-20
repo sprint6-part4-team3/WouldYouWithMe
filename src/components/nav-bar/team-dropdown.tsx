@@ -80,7 +80,7 @@ const TeamDropdown = () => {
       <DropDown handleClose={teamDropdown.handleOff}>
         <DropDown.Trigger onClick={teamDropdown.handleToggle}>
           <div className="hidden items-center md:flex">
-            {dropdownTeamName}
+            {recentTeam?.teamName ? dropdownTeamName : "팀선택"}
             <IconDropdown className="ml-8" />
           </div>
         </DropDown.Trigger>
