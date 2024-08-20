@@ -95,7 +95,6 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
             queryClient.invalidateQueries({
               queryKey: ["tasks", Number(groupId), Number(taskListId)],
             });
-            toast.success("할일 완료상태가 변경되었습니다.");
           },
         },
       );

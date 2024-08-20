@@ -44,9 +44,11 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
   });
 
   const task = tasks?.find((taskItems) => taskItems.id === id);
+
   const [isCompleted, setIsCompleted] = useState<boolean>(
     task?.doneAt !== null,
   );
+
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
