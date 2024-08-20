@@ -4,13 +4,18 @@ export type TaskList = {
   id: number;
   updatedAt: string;
   name: string;
-  description: null | string;
+  description: string;
   doneAt: null | string;
   date: string;
   frequency: "DAILY" | "WEEKLY" | "MONTHLY" | "ONCE";
   recurringId: number;
   userId: null | number;
   deletedAt: null | string;
+  writer: {
+    id: number;
+    nickname: string;
+    image: string | null | undefined;
+  };
 };
 
 export type GroupTask = {

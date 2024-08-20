@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter, useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { date } from "zod";
 
 import {
   Button,
@@ -18,7 +19,7 @@ import { EditTaskType } from "@/types/task-list";
 
 interface EditTaskProps {
   name: string;
-  description: string;
+  description?: string;
   closeEditTask: () => void;
 }
 
@@ -28,7 +29,9 @@ const TaskEditModal = ({ name, description, closeEditTask }: EditTaskProps) => {
     taskListId: currentListId,
     taskId: currentTaskId,
   } = useTaskParams();
+  const dateUrl = useSearchParams().get("date");
   const toast = useToast();
+  const queryClient = useQueryClient();
   const router = useRouter();
   const isMobile = useIsMobile();
   const EditTaskComponent = isMobile ? Drawer : Modal;
@@ -76,7 +79,14 @@ const TaskEditModal = ({ name, description, closeEditTask }: EditTaskProps) => {
       },
       {
         onSuccess: () => {
-          router.refresh();
+          queryClient.invalidateQueries({
+            queryKey: [
+              "tasks",
+              Number(currentGroupId),
+              Number(currentListId),
+              dateUrl,
+            ],
+          });
           toast.success("수정 되었습니다");
           closeEditTask();
         },
