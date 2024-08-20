@@ -38,13 +38,13 @@ const TaskListNav = ({
         inline: "center",
       });
     }
-  }, [currentListId]);
+  }, []);
 
   useEffect(() => {
     const storedData = sessionStorage.getItem(`task-lists-${currentTeamId}`);
     const newPlaceholderData = storedData ? JSON.parse(storedData) : [];
     setPlaceholder(newPlaceholderData);
-  }, []);
+  }, [currentTeamId]);
 
   const {
     data: taskLists,

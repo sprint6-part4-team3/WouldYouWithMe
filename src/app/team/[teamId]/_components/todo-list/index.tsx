@@ -20,14 +20,14 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
     id,
     name,
   }));
+  queryClient.setQueryData(["task-lists", teamId], taskListsNav);
 
   useEffect(() => {
     sessionStorage.setItem(
       `task-lists-${teamId}`,
       JSON.stringify(taskListsNav),
     );
-    queryClient.setQueryData(["task-lists", teamId], taskListsNav);
-  }, [todoListIndex]);
+  }, [taskListsNav, teamId]);
 
   const handleAddTask = (newTask: GroupTask) => {
     setTodoListIndex((prevTasks) => [...prevTasks, newTask]);
