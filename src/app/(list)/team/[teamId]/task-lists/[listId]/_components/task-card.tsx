@@ -58,31 +58,6 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
     }
   }, [task]);
 
-  const handleToggleComplete = () => {
-    if (task) {
-      const newCompletedState = !isCompleted;
-      setIsCompleted(newCompletedState);
-      queryClient.setQueryData<TaskDetailData[]>(
-        ["tasks", currentGroupId, currentListId, date],
-        (oldData) => {
-          if (oldData) {
-            return oldData.map((taskItem: TaskDetailData) =>
-              taskItem.id === id
-                ? {
-                    ...taskItem,
-                    doneAt: newCompletedState ? new Date().toISOString() : null,
-                  }
-                : taskItem,
-            );
-          }
-          return oldData;
-        },
-      );
-
-      editTaskMutation.mutate({ done: newCompletedState });
-    }
-  };
-
   if (!task) throw new Error();
 
   const renderCheckboxIcon = () => {
@@ -127,6 +102,31 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
   const closeDeleteTask = useCallback(() => {
     setIsDeleteModalOpen(false);
   }, []);
+
+  const handleToggleComplete = () => {
+    if (task) {
+      const newCompletedState = !isCompleted;
+      setIsCompleted(newCompletedState);
+      queryClient.setQueryData<TaskDetailData[]>(
+        ["tasks", currentGroupId, currentListId, date],
+        (oldData) => {
+          if (oldData) {
+            return oldData.map((taskItem: TaskDetailData) =>
+              taskItem.id === id
+                ? {
+                    ...taskItem,
+                    doneAt: newCompletedState ? new Date().toISOString() : null,
+                  }
+                : taskItem,
+            );
+          }
+          return oldData;
+        },
+      );
+
+      editTaskMutation.mutate({ done: newCompletedState });
+    }
+  };
 
   return (
     <article className="flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">

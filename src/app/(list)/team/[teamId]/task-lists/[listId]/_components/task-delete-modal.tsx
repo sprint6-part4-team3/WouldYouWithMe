@@ -11,12 +11,12 @@ import { LoadingSpinner } from "@/public/assets/icons";
 
 interface TaskDeleteModalProps {
   onClose: () => void;
-  id?: number;
+  id: number;
 }
 
 const TaskDeleteModal = ({ onClose, id }: TaskDeleteModalProps) => {
   const { groupId, taskListId, taskId: paramId } = useTaskParams();
-  const taskId = paramId || id;
+  const taskId = id;
   const isMobile = useIsMobile();
   const toast = useToast();
   const queryClient = useQueryClient();
