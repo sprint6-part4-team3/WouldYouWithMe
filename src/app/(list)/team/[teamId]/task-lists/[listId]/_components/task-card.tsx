@@ -5,6 +5,7 @@ import "dayjs/locale/ko";
 import { clsx } from "clsx";
 import dayjs from "dayjs";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
 import { DropDown } from "@/components/common";
@@ -37,6 +38,7 @@ const TaskCard = ({
   frequency,
   initialIsCompleted,
 }: TaskCardProps) => {
+  const searchParams = useSearchParams();
   const [isCompleted, setIsCompleted] = useState(initialIsCompleted);
   const {
     value: isDropdownOpen,
@@ -77,14 +79,14 @@ const TaskCard = ({
   };
 
   return (
-    <article className="mb-16 flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
+    <article className="flex w-full flex-col gap-10 rounded-lg bg-background-secondary px-14 py-12">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center">
           <button type="button" onClick={handleToggleComplete} className="mr-8">
             {isCompleted ? <IconCheckBoxPrimary /> : <IconCheckBox />}
           </button>
           <Link
-            href={`/${currentGroupId}/task-lists/${currentListId}/task-detail/${id}`}
+            href={`/team/${currentGroupId}/task-lists/${currentListId}/task-detail/${id}?date=${searchParams.get("date")}`}
           >
             <h2
               className={clsx(

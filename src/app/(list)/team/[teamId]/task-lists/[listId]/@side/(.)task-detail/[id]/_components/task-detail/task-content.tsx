@@ -2,11 +2,13 @@
 
 import "dayjs/locale/ko";
 
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useAtom } from "jotai";
-import React, { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useMemo, useState } from "react";
 
 import {
   useComments,
@@ -14,6 +16,8 @@ import {
   useTaskParams,
   useToggle,
 } from "@/hooks";
+import getComments from "@/lib/api/task-comments/get-comments";
+import getTaskDetail from "@/lib/api/task-detail/get-task-detail";
 import { IconCheckPrimary } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
 import { Comment } from "@/types/comments/index";
@@ -32,19 +36,34 @@ dayjs.extend(timezone);
 dayjs.locale("ko");
 
 interface TaskContentProps {
-  task: TaskDetailData;
+  initialTask: TaskDetailData;
   initialComments: Comment[];
 }
 
-const TaskContent = ({ task, initialComments }: TaskContentProps) => {
+const TaskContent = ({ initialTask, initialComments }: TaskContentProps) => {
   const { groupId, taskListId, taskId } = useTaskParams();
-  const [isTaskCompleted, setIsTaskCompleted] = useState(task.doneAt !== null);
-  const taskDate = useMemo(
-    () => dayjs.utc(task.recurring.startDate),
-    [task.recurring.startDate],
-  );
-  const dropdownUseToggle = useToggle();
   const [currentUser] = useAtom(userAtom);
+  const [isTaskCompleted, setIsTaskCompleted] = useState(
+    initialTask.doneAt !== null,
+  );
+  const router = useRouter();
+  const { data: task } = useQuery<TaskDetailData, Error, TaskDetailData>({
+    queryKey: ["task", taskId],
+    queryFn: () => getTaskDetail(groupId, taskListId, taskId),
+    initialData: initialTask,
+  });
+
+  useEffect(() => {
+    if (task) {
+      setIsTaskCompleted(task.doneAt !== null);
+    }
+  }, [task]);
+
+  const { data: fetchedComments } = useQuery({
+    queryKey: ["comments", taskId],
+    queryFn: () => getComments(taskId),
+    initialData: initialComments,
+  });
 
   const {
     comments,
@@ -55,7 +74,7 @@ const TaskContent = ({ task, initialComments }: TaskContentProps) => {
     handleDeleteComment,
     handleEditComment,
     editCommentMutation,
-  } = useComments(taskId, initialComments, currentUser);
+  } = useComments(taskId, fetchedComments, currentUser);
 
   const { editTaskMutation } = useTaskMutation(
     groupId,
@@ -66,13 +85,22 @@ const TaskContent = ({ task, initialComments }: TaskContentProps) => {
 
   const handleToggleComplete = () => {
     if (!editTaskMutation.isPending) {
-      editTaskMutation.mutate({ done: !isTaskCompleted });
+      editTaskMutation.mutate(
+        { done: !isTaskCompleted },
+        {
+          onSuccess: () => {
+            router.refresh();
+          },
+        },
+      );
     }
   };
 
+  const taskDate = useMemo(() => dayjs.utc(task.date), [task.date]);
+
   const taskInfoProps = useMemo(
     () => ({
-      nickname: task.writer?.nickname ?? "Unknown",
+      nickname: task.writer?.nickname ?? "닉네임",
       date: taskDate.format("YYYY년 M월 D일"),
       time: taskDate.format("A h:mm"),
       frequency: task.frequency,

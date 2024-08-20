@@ -7,11 +7,12 @@ import formatDate from "@/utils/format-date";
 import Calendar from "./calendar";
 import CalendarButton from "./calendar-button";
 
-interface TaskNavProps {
+interface TaskDateNavProps {
   currentDate: Date;
+  currentTeamId: number;
 }
 
-const TaskNav = ({ currentDate }: TaskNavProps) => {
+const TaskDateNav = ({ currentDate, currentTeamId }: TaskDateNavProps) => {
   const formattedCurrentDate = formatDate(currentDate);
 
   const nextDate = new Date(currentDate);
@@ -41,10 +42,9 @@ const TaskNav = ({ currentDate }: TaskNavProps) => {
           <Calendar currentDate={currentDate} />
         </CalendarButton>
       </div>
-      {/* 오류 해결을 위한 임시 값! 데이터 불러올 때 수정하시면 됩니다. */}
-      <AddListModalButton groupId={171} />
+      <AddListModalButton groupId={currentTeamId} />
     </nav>
   );
 };
 
-export default TaskNav;
+export default TaskDateNav;
