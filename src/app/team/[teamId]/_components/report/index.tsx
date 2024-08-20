@@ -29,7 +29,7 @@ const ReportBox = ({ taskList }: ReportBoxProps) => {
         <CircularProgressBar percentage={completionPercentage} />
         <div className="flex flex-1 flex-col gap-16 md:max-w-300 lg:max-w-400">
           <TodoCount title="오늘 할 일" count={totalTasks} />
-          <TodoCount title="오늘 한 일" count={completedTasks} />
+          <TodoCount title="완료한 일" count={completedTasks} />
         </div>
       </section>
     </article>
