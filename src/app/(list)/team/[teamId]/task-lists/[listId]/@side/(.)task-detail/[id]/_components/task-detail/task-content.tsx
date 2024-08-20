@@ -7,21 +7,15 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { useAtom } from "jotai";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 
-import {
-  useComments,
-  useTaskMutation,
-  useTaskParams,
-  useToggle,
-} from "@/hooks";
+import { useComments, useTaskMutation, useTaskParams } from "@/hooks";
 import getComments from "@/lib/api/task-comments/get-comments";
-import getTaskDetail from "@/lib/api/task-detail/get-task-detail";
+import getTasks from "@/lib/api/task-lists/get-tasks";
 import { IconCheckPrimary } from "@/public/assets/icons";
 import userAtom from "@/stores/user-atom";
 import { Comment } from "@/types/comments/index";
-import { TaskDetailData } from "@/types/task-detail/index";
 import getCommentsToDisplay from "@/utils/task-comments-util";
 
 import CommentInput from "../comments/comment-input";
@@ -36,35 +30,51 @@ dayjs.extend(timezone);
 dayjs.locale("ko");
 
 interface TaskContentProps {
-  initialTask: TaskDetailData;
   initialComments: Comment[];
 }
 
-const TaskContent = ({ initialTask, initialComments }: TaskContentProps) => {
+const TaskContent = ({ initialComments }: TaskContentProps) => {
   const { groupId, taskListId, taskId } = useTaskParams();
   const [currentUser] = useAtom(userAtom);
-  const [isTaskCompleted, setIsTaskCompleted] = useState(
-    initialTask.doneAt !== null,
-  );
+
   const router = useRouter();
-  const { data: task } = useQuery<TaskDetailData, Error, TaskDetailData>({
-    queryKey: ["task", taskId],
-    queryFn: () => getTaskDetail(groupId, taskListId, taskId),
-    initialData: initialTask,
+
+  const currentDate = useSearchParams().get("date");
+
+  // const tasks = queryClient.getQueryData<TaskDetailData[]>([
+  //   "tasks",
+  //   Number(groupId),
+  //   Number(taskListId),
+  //   currentDate,
+  // ]);
+
+  const { data: tasks } = useQuery({
+    queryKey: ["tasks", Number(groupId), Number(taskListId), currentDate],
+    queryFn: () =>
+      getTasks({
+        groupId: Number(groupId),
+        taskListId: Number(taskListId),
+        date: currentDate!,
+      }),
   });
+
+  const task = useMemo(
+    () => tasks?.find((t) => t.id === Number(taskId)),
+    [tasks, taskId],
+  );
+
+  const [isTaskCompleted, setIsTaskCompleted] = useState(task?.doneAt !== null);
 
   useEffect(() => {
     if (task) {
       setIsTaskCompleted(task.doneAt !== null);
     }
   }, [task]);
-
   const { data: fetchedComments } = useQuery({
     queryKey: ["comments", taskId],
     queryFn: () => getComments(taskId),
     initialData: initialComments,
   });
-
   const {
     comments,
     optimisticComment,
@@ -96,17 +106,17 @@ const TaskContent = ({ initialTask, initialComments }: TaskContentProps) => {
     }
   };
 
-  const taskDate = useMemo(() => dayjs.utc(task.date), [task.date]);
+  const taskDate = useMemo(() => (task ? dayjs.utc(task.date) : null), [task]);
 
   const taskInfoProps = useMemo(
     () => ({
-      nickname: task.writer?.nickname ?? "닉네임",
-      date: taskDate.format("YYYY년 M월 D일"),
-      time: taskDate.format("A h:mm"),
-      frequency: task.frequency,
-      profileImage: task.writer?.image,
+      nickname: task?.writer?.nickname ?? "닉네임",
+      date: taskDate ? taskDate.format("YYYY년 M월 D일") : "",
+      time: taskDate ? taskDate.format("A h:mm") : "",
+      frequency: task?.frequency || "",
+      profileImage: task?.writer?.image,
     }),
-    [task.writer, taskDate, task.frequency],
+    [task, taskDate],
   );
 
   const commentsToDisplay = getCommentsToDisplay(
@@ -114,7 +124,11 @@ const TaskContent = ({ initialTask, initialComments }: TaskContentProps) => {
     optimisticComment,
     optimisticEditComment,
   );
-  const hasComments = comments.length > 0 || optimisticComment;
+  const hasComments = comments?.length > 0 || !!optimisticComment;
+
+  if (!task) {
+    return <div>태스크를 찾을 수 없습니다.</div>;
+  }
 
   return (
     <div className="flex min-w-350 flex-col gap-16">
