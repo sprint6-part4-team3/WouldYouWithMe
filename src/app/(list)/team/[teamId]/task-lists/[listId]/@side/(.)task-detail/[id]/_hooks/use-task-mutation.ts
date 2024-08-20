@@ -14,16 +14,49 @@ const useTaskMutation = (
   const editTaskMutation = useMutation({
     mutationFn: (data: TaskEditData) =>
       editTaskDetail(groupId, taskListId, taskId, data),
-    onSuccess: (data, variables) => {
-      setIsTaskCompleted(variables.done);
-      queryClient.setQueryData<TaskDetailData>(["task", taskId], (old) => ({
-        ...old!,
-        ...variables,
-        doneAt: variables.done ? new Date().toISOString() : null,
-      }));
+    onMutate: async (newData) => {
+      await queryClient.cancelQueries({
+        queryKey: ["tasks"],
+      });
+
+      const previousTasks = queryClient.getQueryData<TaskDetailData[]>([
+        "tasks",
+        groupId,
+        taskListId,
+      ]);
+
+      queryClient.setQueriesData<TaskDetailData[]>(
+        { queryKey: ["tasks"], exact: false },
+        (old) => {
+          if (old) {
+            return old.map((task) =>
+              task.id === taskId
+                ? {
+                    ...task,
+                    doneAt: newData.done ? new Date().toISOString() : null,
+                  }
+                : task,
+            );
+          }
+          return old;
+        },
+      );
+
+      setIsTaskCompleted(newData.done);
+
+      return { previousTasks };
+    },
+    onError: (err, newData, context) => {
+      queryClient.setQueryData(
+        ["tasks", groupId, taskListId],
+        context?.previousTasks,
+      );
+      setIsTaskCompleted(!newData.done);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["task", taskId] });
+      queryClient.invalidateQueries({
+        queryKey: ["tasks"],
+      });
     },
   });
 

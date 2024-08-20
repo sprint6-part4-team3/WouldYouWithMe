@@ -30,7 +30,7 @@ const BoardDropDown = ({ boardId }: { boardId: number }) => {
         >
           삭제하기
         </DropDown.Item>
-        <Link href={`${boardId}/edit`}>
+        <Link href={`${boardId}/edit`} prefetch>
           <DropDown.Item>수정하기</DropDown.Item>
         </Link>
       </DropDown.Menu>

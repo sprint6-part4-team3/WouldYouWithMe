@@ -5,11 +5,11 @@ import Image from "next/image";
 import React from "react";
 
 import { useToggle } from "@/hooks";
-import { IconProfileCurrent } from "@/public/assets/icons";
+import { IconProfileCurrent, IconUserX } from "@/public/assets/icons";
 import { userAtom } from "@/stores";
 import { GroupMember } from "@/types/user";
 
-import MemberDropDown from "./member-dropdown";
+import DeleteMemberModal from "./delete-member-modal";
 import ProfileModal from "./profile-modal";
 
 interface MemberCardProps {
@@ -24,6 +24,11 @@ const Card = ({ member, adminId, teamName }: MemberCardProps) => {
     value: isProfileModalOpen,
     handleOn: openProfileModal,
     handleOff: closeProfileModal,
+  } = useToggle();
+  const {
+    value: isDeleteModalOpen,
+    handleOn: openDeleteModal,
+    handleOff: closeDeleteModal,
   } = useToggle();
 
   return (
@@ -64,13 +69,13 @@ const Card = ({ member, adminId, teamName }: MemberCardProps) => {
             </span>
           </div>
         </div>
-        {(user.id === member.userId || user.id === adminId) && (
-          <MemberDropDown
-            userId={user.id}
-            memberId={member.userId}
-            memberName={member.userName}
-          />
-        )}
+        {(user.id === member.userId || user.id === adminId) &&
+          member.userId !== adminId && (
+            <IconUserX
+              onClick={openDeleteModal}
+              className="cursor-pointer hover:stroke-red-700"
+            />
+          )}
       </div>
       {/* 모바일 */}
       <div className="flex items-center justify-between md:hidden">
@@ -97,19 +102,24 @@ const Card = ({ member, adminId, teamName }: MemberCardProps) => {
             {member.userEmail}
           </span>
         </div>
-        {(user.id === member.userId || user.id === adminId) && (
-          <MemberDropDown
-            userId={user.id}
-            memberId={member.userId}
-            memberName={member.userName}
-          />
-        )}
+        {(user.id === member.userId || user.id === adminId) &&
+          member.userId !== adminId && (
+            <IconUserX onClick={openDeleteModal} className="cursor-pointer" />
+          )}
       </div>
       {isProfileModalOpen && (
         <ProfileModal
           teamName={teamName}
           member={member}
           onClose={closeProfileModal}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <DeleteMemberModal
+          userId={user.id}
+          memberId={member.userId}
+          memberName={member.userName}
+          onClose={closeDeleteModal}
         />
       )}
     </div>

@@ -13,4 +13,5 @@ export type BoardResponse = {
   id: number;
   isLiked: boolean;
   content: string;
+  commentCount: number;
 };

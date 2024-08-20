@@ -21,7 +21,7 @@ const BoardCardSkeleton = () => (
         </article>
       ))}
     </div>
-    <div className="mb-40 flex items-center justify-center">
+    <div className="mb-174 flex items-center justify-center lg:mb-40">
       <SkeletonLoader className="my-20 h-30 w-300 rounded-full md:h-40" />
     </div>
   </>

@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import {
@@ -25,6 +26,8 @@ const CreateBoardPage = () => {
   const toast = useToast();
   const router = useRouter();
 
+  const [isImgLoading, setIsImgLoading] = useState(false);
+
   const methods = useForm<BoardAddEditInput>({
     resolver: zodResolver(boardAddEditSchema),
     mode: "onBlur",
@@ -38,7 +41,7 @@ const CreateBoardPage = () => {
     },
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: BoardCreateEditRequest) => createBoard(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -72,12 +75,16 @@ const CreateBoardPage = () => {
         onSubmit={methods.handleSubmit(handleSubmitBoard)}
         className="my-40"
       >
-        <BoardFormHeader type="write" isPending={isPending} />
+        <BoardFormHeader
+          type="write"
+          isImgLoading={isImgLoading}
+          isPending={isPending || isSuccess}
+        />
         <div className="flex flex-col gap-40">
           <TitleInput />
           <TokenInput />
           <ContentInput />
-          <ImageInput />
+          <ImageInput setIsImgLoading={setIsImgLoading} />
         </div>
       </form>
     </FormProvider>
