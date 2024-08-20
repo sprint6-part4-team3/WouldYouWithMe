@@ -8,6 +8,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { SkeletonLoader } from "@/components/common";
 import getTaskLists from "@/lib/api/task-lists/get-task-lists";
 
+type TaskLists = {
+  id: number;
+  name: string;
+}[];
+
+const getPreviousTaskLists = (teamId: number): TaskLists => {
+  const storedData = sessionStorage.getItem(`task-lists-${teamId}`);
+  return storedData ? JSON.parse(storedData) : [{ id: 1, name: "Loading..." }];
+};
+
 interface TaskListNavProps {
   currentTeamId: number;
   currentDate: Date;
@@ -37,11 +47,17 @@ const TaskListNav = ({
     isLoading,
   } = useQuery({
     queryKey: ["task-lists", currentTeamId],
-    queryFn: () => getTaskLists({ groupId: currentTeamId }),
-    placeholderData: keepPreviousData,
+    queryFn: async () => {
+      const data = await getTaskLists({ groupId: currentTeamId });
+      sessionStorage.setItem(
+        `task-lists-${currentTeamId}`,
+        JSON.stringify(data),
+      );
+      return data;
+    },
+    placeholderData: () => getPreviousTaskLists(currentTeamId),
   });
 
-  if (error) throw new Error();
   if (isLoading)
     return (
       <nav className="my-16 flex h-25 gap-12 md:mt-24">
@@ -52,6 +68,8 @@ const TaskListNav = ({
         <SkeletonLoader className="h-full w-1/4 rounded-lg" />
       </nav>
     );
+
+  if (error) throw new Error();
   if (!taskLists) throw new Error();
 
   return (

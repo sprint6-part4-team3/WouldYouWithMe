@@ -20,6 +20,7 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
     id,
     name,
   }));
+  sessionStorage.setItem(`task-lists-${teamId}`, JSON.stringify(taskList));
   queryClient.setQueryData(["task-lists", Number(teamId)], taskListsNav);
   // 색상 타입 및 배열 정의
   const colorProps: Array<
