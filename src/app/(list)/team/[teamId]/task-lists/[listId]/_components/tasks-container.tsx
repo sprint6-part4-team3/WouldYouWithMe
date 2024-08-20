@@ -6,8 +6,9 @@ import {
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
+import editTasksOrder from "@/lib/api/task-lists/edit-tasks-order";
 import getTasks from "@/lib/api/task-lists/get-tasks";
 
 import TaskCard from "./task-card";
@@ -24,6 +25,7 @@ const TasksContainer = ({
   currentListId,
 }: TasksProps) => {
   const stringCurrentDate = currentDate.toISOString();
+  const queryClient = useQueryClient();
   const { data: tasks } = useQuery({
     queryKey: ["tasks", currentTeamId, currentListId, stringCurrentDate],
     queryFn: () =>
@@ -46,8 +48,32 @@ const TasksContainer = ({
     );
   }
 
-  const onDragEnd = ({ source, destination }: DropResult) => {
-    // 로직 추가
+  const onDragEnd = async ({ source, destination }: DropResult) => {
+    if (!destination) return; // 목적지가 없으면 아무 작업도 하지 않음
+
+    // 순서 변경이 없을 때
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    )
+      return;
+
+    const reorderedTasks = Array.from(tasks);
+    const [movedTask] = reorderedTasks.splice(source.index, 1);
+    reorderedTasks.splice(destination.index, 0, movedTask);
+
+    // 옵티미스틱
+    queryClient.setQueryData(
+      ["tasks", currentTeamId, currentListId, stringCurrentDate],
+      reorderedTasks,
+    );
+    // api 호출
+    await editTasksOrder(
+      currentTeamId,
+      currentListId,
+      movedTask.id,
+      destination.index,
+    );
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>

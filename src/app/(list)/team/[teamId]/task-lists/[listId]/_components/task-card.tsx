@@ -102,7 +102,9 @@ const TaskCard = ({
         </div>
         <DropDown handleClose={closeDropdown}>
           <DropDown.Trigger onClick={toggleDropdown}>
-            <IconKebab />
+            <div className="cursor-pointer">
+              <IconKebab />
+            </div>
           </DropDown.Trigger>
           <DropDown.Menu isOpen={isDropdownOpen}>
             <DropDown.Item onClick={handleEditClick}>수정하기</DropDown.Item>
