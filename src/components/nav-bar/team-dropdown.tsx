@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { setCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,10 +40,11 @@ const TeamDropdown = () => {
 
   useEffect(() => {
     if (!isLoading && userData) {
+      const firstTeam = userData.memberships[0].group;
+      setCookie("firstTeamName", firstTeam.name);
       if (recentTeam) {
         setDropdownTeamName(recentTeam.teamName);
       } else if (userData.memberships.length > 0) {
-        const firstTeam = userData.memberships[0].group;
         setDropdownTeamName(firstTeam.name);
         setRecentTeam({
           teamName: firstTeam.name,

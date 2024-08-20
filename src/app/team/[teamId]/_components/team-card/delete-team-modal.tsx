@@ -1,6 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
@@ -36,6 +37,7 @@ const TeamDeleteModal = ({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const setRecentTeam = useSetAtom(recentTeamAtom(userId));
+  const firstTeam = getCookie("firstTeamName") as string;
 
   const replaceId = useMemo(
     () =>
@@ -59,9 +61,13 @@ const TeamDeleteModal = ({
             teamName: "",
             groupId: 0,
           });
-          router.push(`/team-empty`);
+          window.location.href = `/team-empty`;
         } else {
-          router.push(`/team/${replaceId}`);
+          setRecentTeam({
+            teamName: firstTeam,
+            groupId: replaceId,
+          });
+          window.location.href = `/team/${replaceId}`;
         }
 
         queryClient.invalidateQueries({ queryKey: ["userData"] });

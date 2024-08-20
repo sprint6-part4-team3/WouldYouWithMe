@@ -50,7 +50,7 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
 
   const teams = userData?.memberships ?? [];
   const hasTeams = teams.length > 0;
-  const isLoggedIn = userId !== "";
+  const isLoggedIn = userId !== 0;
 
   const handleLinkClick = (teamName: string, groupId: number) => {
     setRecentTeam({

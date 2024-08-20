@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom, useSetAtom } from "jotai";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -30,7 +29,6 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
 
   const queryClient = useQueryClient();
   const toast = useToast();
-  const router = useRouter();
   const setRecentTeam = useSetAtom(recentTeamAtom(userId));
   const [isImgLoading, setIsImgLoading] = useState(false);
 
@@ -56,8 +54,7 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
           teamName: res.name,
           groupId: res.id,
         });
-        router.replace(`/team/${res.id}`);
-        router.refresh();
+        window.location.href = `/team/${res.id}`;
         queryClient.invalidateQueries({ queryKey: ["userData"] });
       },
       onError: (error) => {

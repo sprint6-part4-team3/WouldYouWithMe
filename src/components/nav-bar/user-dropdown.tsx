@@ -26,7 +26,7 @@ const UserDropdown = () => {
     setIsLogoutOpen(false);
   };
 
-  if (user.id === "") {
+  if (user.id === 0) {
     return null;
   }
 
