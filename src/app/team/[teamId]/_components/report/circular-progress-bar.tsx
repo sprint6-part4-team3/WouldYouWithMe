@@ -11,6 +11,7 @@ import {
 import { useIsMobile } from "@/hooks";
 
 import GradientSVG from "./gradient-svg";
+import ProgressProvider from "./progress-provider";
 
 const idCSS = "gradient";
 
@@ -27,36 +28,44 @@ const CircularProgressBar = ({ percentage }: CircularProgressBarProps) => {
         <div className="flex-1">
           <div className="size-140">
             <GradientSVG />
-            <CircularProgressbarWithChildren
-              styles={buildStyles({
-                rotation: 0.25,
-                pathColor: `url(#${idCSS})`,
-                trailColor: "#334155",
-              })}
-              strokeWidth={16}
-              value={percentage}
-            >
-              <div className="flex flex-col items-center gap-2">
-                <span className="text-12-500">오늘</span>
-                <span className="text-gradient text-24-700">{percentage}%</span>
-              </div>
-            </CircularProgressbarWithChildren>
+            <ProgressProvider valueStart={0} valueEnd={percentage}>
+              {(value) => (
+                <CircularProgressbarWithChildren
+                  styles={buildStyles({
+                    rotation: 0.25,
+                    pathColor: `url(#${idCSS})`,
+                    trailColor: "#334155",
+                  })}
+                  strokeWidth={16}
+                  value={value}
+                >
+                  <div className="flex flex-col items-center gap-2">
+                    <span className="text-12-500">오늘</span>
+                    <span className="text-gradient text-24-700">{value}%</span>
+                  </div>
+                </CircularProgressbarWithChildren>
+              )}
+            </ProgressProvider>
           </div>
         </div>
       ) : (
         <div className="flex items-center">
           <div className="size-168">
-            <CircularProgressbar
-              styles={buildStyles({
-                rotation: 0.25,
-                pathColor: `url(#${idCSS})`,
-                trailColor: "#334155",
-              })}
-              strokeWidth={17}
-              value={percentage}
-            />
+            <ProgressProvider valueStart={0} valueEnd={percentage}>
+              {(value) => (
+                <CircularProgressbar
+                  styles={buildStyles({
+                    rotation: 0.25,
+                    pathColor: `url(#${idCSS})`,
+                    trailColor: "#334155",
+                  })}
+                  strokeWidth={17}
+                  value={value}
+                />
+              )}
+            </ProgressProvider>
           </div>
-          <div className="flex flex-col gap-3 md:mx-22 lg:ml-40">
+          <div className="flex flex-col gap-3 md:mx-18 lg:ml-40">
             <span className="text-14-500">
               오늘의
               <br />

@@ -18,7 +18,11 @@ import {
 } from "@/public/assets/icons";
 import { TeamAddEditInput } from "@/types/team-management";
 
-const ImageInput = memo(() => {
+interface ImageInputProps {
+  setIsImgLoading: (value: boolean) => void;
+}
+
+const ImageInput = memo(({ setIsImgLoading }: ImageInputProps) => {
   const { setValue, resetField, watch } = useFormContext<TeamAddEditInput>();
 
   const [imgUrl, setImgUrl] = useState<string | null>(watch("image") || null);
@@ -48,6 +52,8 @@ const ImageInput = memo(() => {
         return;
       }
 
+      setIsImgLoading(true);
+
       mutate(file, {
         onSuccess: (res) => {
           setImgUrl(res.url);
@@ -59,6 +65,9 @@ const ImageInput = memo(() => {
           resetField("image");
           setImgUrl(null);
           e.target.value = "";
+        },
+        onSettled: () => {
+          setIsImgLoading(false);
         },
       });
     }
@@ -85,7 +94,8 @@ const ImageInput = memo(() => {
                 src={imgUrl}
                 alt="팀 프로필 사진"
                 fill
-                style={{ objectFit: "cover", borderRadius: "50%" }}
+                className="rounded-full object-fill"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 20vw"
               />
               <label htmlFor="image">
                 <IconEdit className="absolute -bottom-px -right-px cursor-pointer" />
