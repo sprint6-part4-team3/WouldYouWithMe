@@ -28,7 +28,7 @@ const MyHistoryPage = () => {
     fetchData();
   }, []);
 
-  if (isLoading) return <PageLoading />;
+  if (isLoading) return <PageLoading message="정보 가져오는 중..." />;
 
   if (!myHistoryData || myHistoryData.length === 0) {
     return <NotFound />;
