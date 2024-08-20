@@ -42,6 +42,8 @@ const ChangePasswordComponent = ({
     register,
     handleSubmit,
     formState: { errors, isValid },
+    getValues,
+    reset,
   } = useForm<ChangePasswordInput>({
     resolver: zodResolver(resetPasswordSchema),
     mode: "onBlur",
@@ -51,35 +53,40 @@ const ChangePasswordComponent = ({
   const { mutate } = useMutation({
     mutationFn: (data: { passwordConfirmation: string; password: string }) =>
       ChangePassword(data),
+    onSuccess: (data) => {
+      if (data.success) {
+        success("비밀번호가 변경되었습니다.");
+        setPwLength(getValues("password").length);
+        router.replace(`/user-setting`);
+        setIsLoading(false);
+        onClose();
+      } else {
+        error("비밀번호 변경에 실패했습니다.");
+        setIsLoading(false);
+      }
+    },
+    onError: () => {
+      error("비밀번호 변경에 실패했습니다.");
+      setIsLoading(false);
+    },
   });
 
   const onSubmit: SubmitHandler<ChangePasswordInput> = (data) => {
     setIsLoading(true);
     const { passwordConfirmation, password } = data;
-    const passwordLength = password.length;
 
-    mutate(
-      { passwordConfirmation, password },
-      {
-        onSuccess: () => {
-          success("비밀번호가 변경되었습니다.");
-          setPwLength(passwordLength);
-          router.replace(`/user-setting`);
-          setIsLoading(false);
-          onClose();
-        },
-        onError: () => {
-          error("비밀번호 변경에 실패했습니다.");
-          setIsLoading(false);
-        },
-      },
-    );
+    mutate({ passwordConfirmation, password });
+  };
+
+  const handleClose = () => {
+    reset();
+    onClose();
   };
 
   return (
     isOpen && (
       <CommonChangePassword
-        onClose={onClose}
+        onClose={handleClose}
         title="비밀번호 변경하기"
         description=""
       >
@@ -114,7 +121,7 @@ const ChangePasswordComponent = ({
           </div>
           <div className="mt-24 flex gap-8">
             <Button
-              onClick={onClose}
+              onClick={handleClose}
               variant="secondary"
               className="mt-15 h-48 w-136"
             >

@@ -12,10 +12,7 @@ const EditUser = async (data: UserSettingInput) => {
       return { success: true, response };
     }
 
-    return {
-      success: false,
-      data: { message: "수정 요청 중 오류가 발생했습니다." },
-    };
+    return { success: false, response };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       return {
