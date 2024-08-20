@@ -6,7 +6,7 @@ import { useState } from "react";
 import { AddListModalButton } from "@/components/common";
 import { GroupTask } from "@/types/group";
 
-import TodoListCard from "./todo-list-card";
+import DragAndDrop from "./drag-and-drop";
 
 interface TodoLostBoxProps {
   taskList: GroupTask[];
@@ -21,10 +21,6 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
     name,
   }));
   queryClient.setQueryData(["task-lists", Number(teamId)], taskListsNav);
-  // 색상 타입 및 배열 정의
-  const colorProps: Array<
-    "purple" | "blue" | "green" | "pink" | "rose" | "orange" | "yellow"
-  > = ["purple", "blue", "green", "pink", "rose", "orange", "yellow"];
 
   const handleAddTask = (newTask: GroupTask) => {
     setTodoListIndex((prevTasks) => [...prevTasks, newTask]);
@@ -61,24 +57,13 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
             아직 할 일 목록이 없습니다.
           </div>
         ) : (
-          todoListIndex.map((item, index) => {
-            const colorIndex = index % colorProps.length;
-            const selectedColor = colorProps[colorIndex];
-
-            return (
-              <TodoListCard
-                key={item.id}
-                color={selectedColor}
-                link={`/team/${[teamId]}/task-lists/${item.id}`}
-                tasks={item.tasks}
-                task={item}
-                onEditTask={handleEditTask}
-                onDeleteTask={handleDeleteTask}
-              >
-                {item.name}
-              </TodoListCard>
-            );
-          })
+          <DragAndDrop
+            todoListIndex={todoListIndex}
+            teamId={teamId}
+            handleEditTask={handleEditTask}
+            handleDeleteTask={handleDeleteTask}
+            setTodoListIndex={setTodoListIndex}
+          />
         )}
       </section>
     </article>
