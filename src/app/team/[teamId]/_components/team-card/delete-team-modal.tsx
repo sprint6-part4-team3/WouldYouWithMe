@@ -83,6 +83,7 @@ const TeamDeleteModal = ({
 
   return (
     <ModalComponent
+      showWarningIcon
       showCloseButton
       onClose={onClose}
       title="팀을 삭제 하실건가요?"

@@ -118,7 +118,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
             height={0}
             sizes="100vw"
             onDragStart={(e) => e.preventDefault()}
-            style={{ width: "100%", height: "auto" }}
+            className="h-auto w-full"
           />
         </div>
       )}
