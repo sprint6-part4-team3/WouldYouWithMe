@@ -112,7 +112,7 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
     }
   };
 
-  if (!task) return null;
+  if (!task) throw new Error();
 
   const renderCheckboxIcon = () => {
     if (isCompleted) {
@@ -180,7 +180,12 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
         </span>
       </div>
       {isEditTaskOpen && (
-        <EditTaskModal id={id} name={task.name} closeEditTask={closeEditTask} />
+        <EditTaskModal
+          id={id}
+          name={task.name}
+          done={!!task.doneAt}
+          closeEditTask={closeEditTask}
+        />
       )}
     </article>
   );

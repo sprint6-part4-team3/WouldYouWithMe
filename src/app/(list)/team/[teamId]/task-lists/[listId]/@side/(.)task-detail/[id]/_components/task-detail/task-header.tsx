@@ -10,7 +10,7 @@ import TaskEditModal from "./task-edit";
 
 interface TaskHeaderProps {
   taskName: string;
-  taskDescription: string;
+  taskDescription?: string;
   isCompleted: boolean;
 }
 
@@ -68,6 +68,7 @@ const TaskHeader = ({
         <TaskEditModal
           name={taskName}
           description={taskDescription}
+          done={isCompleted}
           closeEditTask={closeEditTask}
         />
       )}
