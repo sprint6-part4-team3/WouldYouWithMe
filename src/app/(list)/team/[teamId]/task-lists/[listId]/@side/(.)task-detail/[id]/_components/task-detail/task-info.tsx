@@ -13,7 +13,7 @@ interface TaskInfoProps {
   date: string;
   time: string;
   frequency: string;
-  profileImage?: string;
+  profileImage: string | null | undefined;
 }
 
 const frequencyMap = {
@@ -23,13 +23,13 @@ const frequencyMap = {
   MONTHLY: "매월 반복",
 } as const;
 
-const TaskInfo = ({
+const TaskInfo: React.FC<TaskInfoProps> = ({
   nickname,
   date,
   time,
   frequency,
   profileImage,
-}: TaskInfoProps) => {
+}) => {
   const getFrequencyText = (freqKey: string): string =>
     frequencyMap[freqKey as keyof typeof frequencyMap] || frequencyMap.ONCE;
 
@@ -60,13 +60,6 @@ const TaskInfo = ({
           className="flex content-center items-center"
         />
         <time className="ml-6 mr-10 flex items-center">{date}</time>
-        <span>|</span>
-        <IconTime
-          width={16}
-          height={16}
-          className="ml-10 flex content-center items-center"
-        />
-        <time className="ml-6 mr-10 flex items-center">{time}</time>
         <span>|</span>
         <IconRepeat
           width={16}
