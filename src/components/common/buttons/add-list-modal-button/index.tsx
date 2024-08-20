@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -31,6 +32,8 @@ type AddListModalButtonProps = {
   onAddTask?: (newTask: GroupTask) => void;
 };
 
+type TaskListNav = { id: number; name: string }[];
+
 const AddListModalButton = ({
   groupId,
   onAddTask,
@@ -39,7 +42,7 @@ const AddListModalButton = ({
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const isMobile = useIsMobile();
-
+  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -69,6 +72,21 @@ const AddListModalButton = ({
       if (onAddTask) {
         onAddTask(newTaskList);
       }
+      queryClient.setQueryData(
+        ["task-lists", createdTask.groupId],
+        (oldData: TaskListNav) => {
+          if (!oldData) {
+            return [{ id: createdTask.id, name: data.name }];
+          }
+          return [
+            ...oldData,
+            {
+              id: createdTask.id,
+              name: data.name,
+            },
+          ];
+        },
+      );
       handleOff();
       reset();
     } catch (error: unknown) {

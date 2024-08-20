@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { AddListModalButton } from "@/components/common";
@@ -14,6 +15,12 @@ interface TodoLostBoxProps {
 
 const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
   const [todoListIndex, setTodoListIndex] = useState(taskList);
+  const queryClient = useQueryClient();
+  const taskListsNav = taskList.map(({ id, name }) => ({
+    id,
+    name,
+  }));
+  queryClient.setQueryData(["task-lists", Number(teamId)], taskListsNav);
 
   const handleAddTask = (newTask: GroupTask) => {
     setTodoListIndex((prevTasks) => [...prevTasks, newTask]);
@@ -46,9 +53,9 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
       </div>
       <section>
         {todoListIndex.length === 0 ? (
-          <p className="py-64 text-center text-14-500 text-text-default">
+          <div className="py-64 text-center text-14-500 text-text-default">
             아직 할 일 목록이 없습니다.
-          </p>
+          </div>
         ) : (
           <DragAndDrop
             todoListIndex={todoListIndex}
