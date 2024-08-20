@@ -96,10 +96,10 @@ const UserSettingForm = () => {
           )}
         </form>
       </FormProvider>
-      {/* <CancelUserComponent
+      <CancelUserComponent
         isOpen={isCancelOpen}
         onClose={() => setIsCancelOpen(false)}
-      /> */}
+      />
       <ChangePasswordComponent
         isOpen={isChangeOpen}
         onClose={() => setIsChangeOpen(false)}

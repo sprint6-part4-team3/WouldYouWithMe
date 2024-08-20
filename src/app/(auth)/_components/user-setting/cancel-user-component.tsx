@@ -35,6 +35,7 @@ const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
         await deleteCookie("token");
         await deleteCookie("refreshToken");
         await deleteCookie("userId");
+        await deleteCookie("firstTeamName");
 
         setUser({
           id: 0,

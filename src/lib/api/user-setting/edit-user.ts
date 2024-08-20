@@ -23,7 +23,6 @@ const EditUser = async (data: UserSettingInput) => {
         data: error.response.data,
       };
     }
-
     return {
       success: false,
       data: { message: "수정 요청 중 오류가 발생했습니다." },
