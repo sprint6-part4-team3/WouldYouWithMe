@@ -17,3 +17,4 @@ export { default as OneInputForm } from "./modal/one-input-form";
 export { default as SidePage } from "./side-page";
 export { default as SkeletonLoader } from "./skeleton-loader";
 export { default as Toast } from "./toast";
+export { default as ToolTip } from "./tool-tip";
