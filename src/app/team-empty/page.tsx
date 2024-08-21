@@ -1,16 +1,10 @@
 "use client";
 
 import Lottie from "lottie-react";
-import { Metadata } from "next";
 import Link from "next/link";
 
 import { Button } from "@/components/common";
 import TeamEmpty from "@/public/assets/lotties/team-empty.json";
-
-export const metadata: Metadata = {
-  title: "팀 없음 | 우주윗미",
-  description: "팀이 없을때 페이지",
-};
 
 const TeamEmptyPage = () => (
   <div className="flex h-full flex-col items-center justify-center pt-20">
