@@ -18,10 +18,10 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
   children,
 }) => (
   <html lang="ko" className="dark">
-    <StarsCanvas />
     <body
       className={`${inter.className} min-w-330 dark:bg-background-primary dark:text-text-primary`}
     >
+      <StarsCanvas />
       <AppProvider>
         <ToastContainer />
         <NavBar />
