@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "우주윗미 - WYWM",
-    description: "Would You Study With Me?, 우주윗미",
+    description: "Would You Study With Me? 우주윗미",
     url: "https://3team-coworkers.netlify.app",
     siteName: "우주윗미",
     images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "우주윗미 - WYWM",
-    description: "Would You Study With Me?, 우주윗미",
+    description: "Would You Study With Me? 우주윗미",
     creator: "6-3",
     images: [
       "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/85/img-og.png",

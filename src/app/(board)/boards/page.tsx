@@ -12,10 +12,27 @@ export const metadata: Metadata = {
   description: "같이 일정관리 할 팀원들을 모집해요",
   openGraph: {
     title: "우주윗미 - 자유게시판",
+    description: "Would You Study With Me? 우주윗미",
     url: "https://3team-coworkers.netlify.app/boards",
+    siteName: "우주윗미",
+    images: [
+      {
+        url: "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/85/img-og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
   },
   twitter: {
-    title: "우주윗미 - 자유게시판",
+    card: "summary_large_image",
+    title: "우주윗미 - WYWM",
+    description: "Would You Study With Me? 우주윗미",
+    creator: "6-3",
+    images: [
+      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/85/img-og.png",
+    ],
   },
 };
 

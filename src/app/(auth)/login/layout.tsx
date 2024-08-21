@@ -6,10 +6,27 @@ export const metadata: Metadata = {
   description: "로그인 페이지",
   openGraph: {
     title: "우주윗미 - 로그인",
+    description: "Would You Study With Me? 우주윗미",
     url: "https://3team-coworkers.netlify.app/login",
+    siteName: "우주윗미",
+    images: [
+      {
+        url: "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/85/img-og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
   },
   twitter: {
+    card: "summary_large_image",
     title: "우주윗미 - 로그인",
+    description: "Would You Study With Me? 우주윗미",
+    creator: "6-3",
+    images: [
+      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/85/img-og.png",
+    ],
   },
 };
 
