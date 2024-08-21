@@ -2,7 +2,7 @@
 
 import { useAtom } from "jotai";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useToggle } from "@/hooks";
 import { IconProfileCurrent, IconUserX } from "@/public/assets/icons";
@@ -19,6 +19,7 @@ interface MemberCardProps {
 }
 
 const Card = ({ member, adminId, teamName }: MemberCardProps) => {
+  const [isClient, setIsClient] = useState(false);
   const [user] = useAtom(userAtom);
   const {
     value: isProfileModalOpen,
@@ -30,6 +31,10 @@ const Card = ({ member, adminId, teamName }: MemberCardProps) => {
     handleOn: openDeleteModal,
     handleOff: closeDeleteModal,
   } = useToggle();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <div className="rounded-16 bg-background-secondary px-16 py-12  md:px-20 md:py-16 lg:px-24 lg:py-20">
@@ -70,7 +75,8 @@ const Card = ({ member, adminId, teamName }: MemberCardProps) => {
           </div>
         </div>
         {(user.id === member.userId || user.id === adminId) &&
-          member.userId !== adminId && (
+          member.userId !== adminId &&
+          isClient && (
             <IconUserX
               onClick={openDeleteModal}
               className="cursor-pointer hover:stroke-red-700"
@@ -103,7 +109,8 @@ const Card = ({ member, adminId, teamName }: MemberCardProps) => {
           </span>
         </div>
         {(user.id === member.userId || user.id === adminId) &&
-          member.userId !== adminId && (
+          member.userId !== adminId &&
+          isClient && (
             <IconUserX onClick={openDeleteModal} className="cursor-pointer" />
           )}
       </div>
