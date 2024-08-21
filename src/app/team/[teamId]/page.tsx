@@ -1,42 +1,36 @@
-import { redirect } from "next/navigation";
+/* eslint-disable no-console */
+/* eslint-disable no-restricted-globals */
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 
 import getGroupData from "@/lib/api/group/get-group-data";
-import { GroupResponse } from "@/types/group";
-import getTeamAdmin from "@/utils/get-team-admin";
 
-import MemberBox from "./_components/member";
-import ReportBox from "./_components/report";
-import TeamCardBox from "./_components/team-card";
-import TodoListBox from "./_components/todo-list";
+import TeamWrapper from "./team-wrapper";
 
 const TeamPage = async ({ params }: { params: { teamId: number } }) => {
-  const { teamId } = params;
+  const queryClient = new QueryClient();
 
-  try {
-    const response: GroupResponse = await getGroupData(teamId);
+  const currentTeamId = Number(params.teamId);
 
-    if (!response) {
-      return redirect("/team-empty");
-    }
-
-    const adminId = getTeamAdmin(response.members);
-
-    return (
-      <>
-        <TeamCardBox
-          teamImage={response.image}
-          teamName={response.name}
-          teamId={teamId}
-          adminId={adminId}
-        />
-        <TodoListBox taskList={response.taskLists} teamId={teamId} />
-        <ReportBox taskList={response.taskLists} />
-        <MemberBox memberList={response.members} teamName={response.name} />
-      </>
-    );
-  } catch {
-    throw new Error("팀 페이지를 가져오는데 실패하였습니다.");
+  if (isNaN(currentTeamId)) {
+    throw new Error("오류발생");
   }
+
+  console.log("currentTeamId", currentTeamId);
+
+  await queryClient.prefetchQuery({
+    queryKey: ["team", currentTeamId],
+    queryFn: () => getGroupData(currentTeamId),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <TeamWrapper teamId={currentTeamId} />
+    </HydrationBoundary>
+  );
 };
 
 export default TeamPage;
