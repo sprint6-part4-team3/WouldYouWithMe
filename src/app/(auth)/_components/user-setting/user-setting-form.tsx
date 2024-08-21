@@ -38,31 +38,36 @@ const UserSettingForm = () => {
     },
   });
 
-  const { mutate } = useMutation({
+  const { setValue } = methods;
+
+  const mutation = useMutation({
     mutationFn: (data: { nickname: string; image: string | null }) =>
       EditUser(data),
+    onSuccess: (data, variables) => {
+      if (data.success) {
+        success("유저 정보가 수정되었습니다.");
+
+        setValue("nickname", variables.nickname);
+        setValue("image", variables.image || "");
+
+        setUser((prevUser) => ({
+          ...prevUser,
+          nickname: variables.nickname,
+          image: variables.image || prevUser.image,
+        }));
+        router.replace(`/user-setting`);
+      } else {
+        error(data.data.message || "수정에 실패했습니다.");
+      }
+    },
+    onError: () => {
+      error("수정에 실패했습니다.");
+    },
   });
 
   const handleSubmitUser: SubmitHandler<UserSettingInput> = (data) => {
     const { image, nickname } = data;
-
-    mutate(
-      { image, nickname },
-      {
-        onSuccess: () => {
-          success("유저 정보가 수정되었습니다.");
-          setUser((prevUser) => ({
-            ...prevUser,
-            nickname: data.nickname,
-            image: data.image || prevUser.image,
-          }));
-          router.replace(`/user-setting`);
-        },
-        onError: () => {
-          error("수정에 실패했습니다.");
-        },
-      },
-    );
+    mutation.mutate({ image, nickname });
   };
 
   const handleChangePasswordClick = () => {
@@ -91,15 +96,12 @@ const UserSettingForm = () => {
           )}
         </form>
       </FormProvider>
-      {/* 수정해야함!! */}
-      {/* <CancelUserComponent
-        isOpen={isCancelOpen}
-        onClose={() => setIsCancelOpen(false)}
-      /> */}
-      <ChangePasswordComponent
-        isOpen={isChangeOpen}
-        onClose={() => setIsChangeOpen(false)}
-      />
+      {isCancelOpen && (
+        <CancelUserComponent onClose={() => setIsCancelOpen(false)} />
+      )}
+      {isChangeOpen && (
+        <ChangePasswordComponent onClose={() => setIsChangeOpen(false)} />
+      )}
     </>
   );
 };

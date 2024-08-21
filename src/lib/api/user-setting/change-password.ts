@@ -7,7 +7,11 @@ const ChangePassword = async (data: ChangePasswordInput) => {
   try {
     const response = await instance.patch(`/user/password`, data);
 
-    return { success: true, response };
+    if (response.status === 200) {
+      return { success: true, response };
+    }
+
+    return { success: false, response };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       return {
