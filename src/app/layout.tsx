@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import AppProvider from "@/components/app-provider";
 import ToastContainer from "@/components/common/toast/container";
 import NavBar from "@/components/nav-bar";
+import GoogleAnalytics from "@/lib/google-analytics/google-analytics";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,9 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
     <body
       className={`${inter.className} min-w-330 dark:bg-background-primary dark:text-text-primary`}
     >
+      {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+      ) : null}
       <AppProvider>
         <ToastContainer />
         <NavBar />
