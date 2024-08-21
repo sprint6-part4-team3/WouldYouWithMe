@@ -32,6 +32,7 @@ const useComments = (
       const commentWithUser = {
         ...newComment,
         user: {
+          id: currentUser.id,
           nickname: currentUser.nickname,
           image: currentUser.image,
         },
@@ -81,14 +82,14 @@ const useComments = (
 
   const handleAddComment = async (content: string): Promise<void> => {
     const now = new Date().toISOString();
-    const tempComment = {
+    const tempComment: Comment = {
       id: Date.now(),
-      taskId,
       content,
       createdAt: now,
+      taskId,
       updatedAt: now,
-      userId: currentUser.id,
       user: {
+        id: currentUser.id,
         nickname: currentUser.nickname,
         image: currentUser.image,
       },
