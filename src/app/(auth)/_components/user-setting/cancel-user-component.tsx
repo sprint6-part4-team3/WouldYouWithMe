@@ -8,23 +8,21 @@ import { Button, Drawer, FloatButton, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import CancelUser from "@/lib/api/user-setting/cancel-user";
 import { LoadingSpinner } from "@/public/assets/icons";
-import { pwLengthAtom, recentTeamAtom, userAtom } from "@/stores";
+import { pwLengthAtom, userAtom } from "@/stores";
 import { deleteCookie } from "@/utils/next-cookie";
 
 interface CancelUserComponentProps {
-  isOpen: boolean;
   onClose: () => void;
 }
-
-const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
+// TODO - recentTeam 초기화도 추가해야하는데 일단 없어요,,,
+const CancelUserComponent = ({ onClose }: CancelUserComponentProps) => {
   const queryClient = useQueryClient();
   const { success, error } = useToast();
   const router = useRouter();
   const isMobile = useIsMobile();
 
-  const [user, setUser] = useAtom(userAtom);
+  const [, setUser] = useAtom(userAtom);
   const [, setPwLength] = useAtom(pwLengthAtom);
-  const [, setRecentTeam] = useAtom(recentTeamAtom(user.id));
 
   const CommonCancelUser = isMobile ? Drawer : Modal;
 
@@ -50,7 +48,6 @@ const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
           refreshToken: "",
           loginType: null,
         });
-        setRecentTeam(null);
         setPwLength(0);
       }
 
@@ -73,42 +70,40 @@ const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
   };
 
   return (
-    isOpen && (
-      <CommonCancelUser
-        onClose={onClose}
-        title="회원 탈퇴를 진행하시겠어요?"
-        description=<>
-          그룹장으로 있는 그룹은 자동으로 삭제되고,
-          <br /> 모든 그룹에서 나가집니다.
-        </>
-        showWarningIcon
-      >
-        <div className="flex gap-8">
-          <Button variant="secondary" onClick={onClose} className="h-48 w-136">
-            닫기
+    <CommonCancelUser
+      onClose={onClose}
+      title="회원 탈퇴를 진행하시겠어요?"
+      description=<>
+        그룹장으로 있는 그룹은 자동으로 삭제되고,
+        <br /> 모든 그룹에서 나가집니다.
+      </>
+      showWarningIcon
+    >
+      <div className="flex gap-8">
+        <Button variant="secondary" onClick={onClose} className="h-48 w-136">
+          닫기
+        </Button>
+        {isPending ? (
+          <FloatButton
+            Icon={<LoadingSpinner width={30} height={30} />}
+            disabled={isPending}
+            variant="danger"
+            className="h-48 w-136"
+          >
+            처리 중...
+          </FloatButton>
+        ) : (
+          <Button
+            type="submit"
+            variant="danger"
+            onClick={onSubmit}
+            className="h-48 w-136"
+          >
+            회원 탈퇴
           </Button>
-          {isPending ? (
-            <FloatButton
-              Icon={<LoadingSpinner width={30} height={30} />}
-              disabled={isPending}
-              variant="danger"
-              className="h-48 w-136"
-            >
-              처리 중...
-            </FloatButton>
-          ) : (
-            <Button
-              type="submit"
-              variant="danger"
-              onClick={onSubmit}
-              className="h-48 w-136"
-            >
-              회원 탈퇴
-            </Button>
-          )}
-        </div>
-      </CommonCancelUser>
-    )
+        )}
+      </div>
+    </CommonCancelUser>
   );
 };
 

@@ -23,14 +23,10 @@ import { pwLengthAtom } from "@/stores";
 import { ChangePasswordInput } from "@/types/auth";
 
 interface ChangePasswordComponentProps {
-  isOpen: boolean;
   onClose: () => void;
 }
 
-const ChangePasswordComponent = ({
-  isOpen,
-  onClose,
-}: ChangePasswordComponentProps) => {
+const ChangePasswordComponent = ({ onClose }: ChangePasswordComponentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToast();
   const router = useRouter();
@@ -86,72 +82,70 @@ const ChangePasswordComponent = ({
   };
 
   return (
-    isOpen && (
-      <CommonChangePassword
-        onClose={handleClose}
-        title="비밀번호 변경하기"
-        description=""
-      >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FieldWrapper
+    <CommonChangePassword
+      onClose={handleClose}
+      title="비밀번호 변경하기"
+      description=""
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FieldWrapper
+          id="password"
+          label="새 비밀번호"
+          errorMessage={errors.password?.message || ""}
+        >
+          <Input
             id="password"
-            label="새 비밀번호"
-            errorMessage={errors.password?.message || ""}
+            type="password"
+            placeholder="새 비밀번호를 입력하세요."
+            {...register("password")}
+            isError={!!errors.password}
+          />
+        </FieldWrapper>
+        <div className="mt-16">
+          <FieldWrapper
+            id="passwordConfirmation"
+            label="새 비밀번호 확인"
+            errorMessage={errors.passwordConfirmation?.message || ""}
           >
             <Input
-              id="password"
+              id="passwordConfirmation"
               type="password"
-              placeholder="새 비밀번호를 입력하세요."
-              {...register("password")}
-              isError={!!errors.password}
+              placeholder="새 비밀번호를 다시 입력하세요."
+              {...register("passwordConfirmation")}
+              isError={!!errors.passwordConfirmation}
             />
           </FieldWrapper>
-          <div className="mt-16">
-            <FieldWrapper
-              id="passwordConfirmation"
-              label="새 비밀번호 확인"
-              errorMessage={errors.passwordConfirmation?.message || ""}
-            >
-              <Input
-                id="passwordConfirmation"
-                type="password"
-                placeholder="새 비밀번호를 다시 입력하세요."
-                {...register("passwordConfirmation")}
-                isError={!!errors.passwordConfirmation}
-              />
-            </FieldWrapper>
-          </div>
-          <div className="mt-24 flex gap-8">
-            <Button
-              onClick={handleClose}
-              variant="secondary"
+        </div>
+        <div className="mt-24 flex gap-8">
+          <Button
+            onClick={handleClose}
+            variant="secondary"
+            className="mt-15 h-48 w-136"
+          >
+            닫기
+          </Button>
+          {isLoading ? (
+            <FloatButton
+              Icon={<LoadingSpinner width={30} height={30} />}
+              disabled
+              variant="primary"
               className="mt-15 h-48 w-136"
             >
-              닫기
+              처리 중...
+            </FloatButton>
+          ) : (
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={!isValid}
+              className="mt-15 h-48 w-136"
+            >
+              변경하기
             </Button>
-            {isLoading ? (
-              <FloatButton
-                Icon={<LoadingSpinner width={30} height={30} />}
-                disabled
-                variant="primary"
-                className="mt-15 h-48 w-136"
-              >
-                처리 중...
-              </FloatButton>
-            ) : (
-              <Button
-                type="submit"
-                variant="primary"
-                disabled={!isValid}
-                className="mt-15 h-48 w-136"
-              >
-                변경하기
-              </Button>
-            )}
-          </div>
-        </form>
-      </CommonChangePassword>
-    )
+          )}
+        </div>
+      </form>
+    </CommonChangePassword>
   );
 };
 
