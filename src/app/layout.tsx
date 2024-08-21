@@ -13,9 +13,33 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "우주윗미 | 같이 스터디해요",
-  description: "WojuWithMe는 같이 스터디할 사람을 찾아주는 서비스입니다.",
+  description: "우주윗미는 같이 스터디할 사람을 찾아주는 서비스입니다.",
   icons: {
-    icon: "/icon.ico",
+    icon: "/assets/favicon.ico",
+  },
+  openGraph: {
+    title: "우주윗미 - WYWM",
+    description: "Would You Study With Me? 우주윗미",
+    url: "https://3team-coworkers.netlify.app",
+    siteName: "우주윗미",
+    images: [
+      {
+        url: "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/85/img-og.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "우주윗미 - WYWM",
+    description: "Would You Study With Me? 우주윗미",
+    creator: "6-3",
+    images: [
+      "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/85/img-og.png",
+    ],
   },
 };
 
