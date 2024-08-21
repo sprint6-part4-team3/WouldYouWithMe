@@ -2,27 +2,20 @@
 
 "use client";
 
-import { useAtom } from "jotai";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { IconButton } from "@/components/common";
-import userAtom from "@/stores/user-atom";
 
 interface CommentFormInputs {
   content: string;
 }
 
 interface CommentInputProps {
-  onAddComment: (
-    content: string,
-    nickname: string,
-    image: string | null,
-  ) => Promise<void>;
+  onAddComment: (content: string) => Promise<void>;
 }
 
 const CommentInput = ({ onAddComment }: CommentInputProps) => {
-  const [currentUser] = useAtom(userAtom);
   const {
     register,
     handleSubmit,
@@ -38,8 +31,7 @@ const CommentInput = ({ onAddComment }: CommentInputProps) => {
     try {
       const { content } = data;
       reset();
-
-      await onAddComment(content, currentUser.nickname, currentUser.image);
+      await onAddComment(content);
     } catch (error) {
       console.error("Error submitting comment:", error);
     }

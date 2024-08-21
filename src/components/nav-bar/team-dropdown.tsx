@@ -1,16 +1,17 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useAtomValue, useSetAtom } from "jotai";
+import { setCookie } from "cookies-next";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useToggle } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
 import { IconDropdown, IconPlusCurrent } from "@/public/assets/icons";
 import { ImgPlanet } from "@/public/assets/images";
-import { recentTeamAtom } from "@/stores";
+import { recentTeamAtom, userAtom } from "@/stores";
 import { User } from "@/types/user";
 
 import DropDown from "../common/drop-down";
@@ -21,50 +22,67 @@ const fetchUserData = async (): Promise<User> => {
 };
 
 const TeamDropdown = () => {
-  const { data: user } = useQuery<User>({
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
+  const useRecentTeamAtom = useMemo(() => recentTeamAtom(userId), [userId]);
+  const [recentTeam, setRecentTeam] = useAtom(useRecentTeamAtom);
+
+  const { data: userData, isLoading } = useQuery<User>({
     queryKey: ["userData"],
     queryFn: fetchUserData,
+    enabled: !!userId,
+    staleTime: 60000,
+    gcTime: 300000,
   });
 
   const teamDropdown = useToggle();
-  const setRecentTeam = useSetAtom(recentTeamAtom);
-  const recentTeam = useAtomValue(recentTeamAtom);
-
   const [dropdownTeamName, setDropdownTeamName] = useState<string>("");
 
   useEffect(() => {
-    const teams = user?.memberships ?? [];
-    if (
-      recentTeam &&
-      teams.some((membership) => membership.group.id === recentTeam.groupId)
-    ) {
-      setDropdownTeamName(recentTeam.teamName);
-    } else if (teams.length > 0) {
-      setDropdownTeamName(teams[0].group.name);
-    } else {
-      setDropdownTeamName("");
+    if (!isLoading && userData) {
+      if (userData.memberships.length > 0) {
+        const firstTeam = userData.memberships[0].group;
+        setCookie("firstTeamName", firstTeam.name);
+      }
+      if (recentTeam) {
+        setDropdownTeamName(recentTeam.teamName);
+      } else {
+        setDropdownTeamName(userData.memberships[0].group.name);
+        setRecentTeam({
+          teamName: userData.memberships[0].group.name,
+          groupId: userData.memberships[0].groupId,
+        });
+      }
     }
-  }, [recentTeam, user?.memberships]);
+  }, [isLoading, userData, recentTeam, setRecentTeam]);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const visibleTeams = isExpanded
-    ? (user?.memberships ?? [])
-    : (user?.memberships ?? []).slice(0, 4);
+    ? (userData?.memberships ?? [])
+    : (userData?.memberships ?? []).slice(0, 4);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  if (!user?.memberships.length) {
+  if (isLoading || !userId) {
     return null;
+  }
+
+  if (!userData?.memberships.length) {
+    return (
+      <Link href="/create-team" className="hidden text-text-primary md:flex">
+        팀 생성
+      </Link>
+    );
   }
 
   return (
     <div className="mt-1 cursor-pointer whitespace-nowrap text-16-500 text-text-primary">
       <DropDown handleClose={teamDropdown.handleOff}>
         <DropDown.Trigger onClick={teamDropdown.handleToggle}>
-          <div className="flex items-center">
-            {dropdownTeamName}
+          <div className="hidden items-center md:flex">
+            {recentTeam?.teamName ? dropdownTeamName : "팀선택"}
             <IconDropdown className="ml-8" />
           </div>
         </DropDown.Trigger>
@@ -110,7 +128,7 @@ const TeamDropdown = () => {
               </DropDown.Item>
             </Link>
           ))}
-          {user?.memberships.length > 4 && (
+          {userData?.memberships.length > 4 && (
             <DropDown.Item onClick={toggleExpand}>
               <div className="flex items-center justify-center">
                 {isExpanded ? "접기" : "팀 더보기"}

@@ -20,10 +20,11 @@ import { EditTaskType } from "@/types/task-list";
 interface EditTaskProps {
   id: number;
   name: string;
+  done: boolean;
   closeEditTask: () => void;
 }
 
-const EditTaskModal = ({ id, name, closeEditTask }: EditTaskProps) => {
+const EditTaskModal = ({ id, name, done, closeEditTask }: EditTaskProps) => {
   const { groupId: currentGroupId, taskListId: currentListId } =
     useTaskParams();
   const toast = useToast();
@@ -63,8 +64,17 @@ const EditTaskModal = ({ id, name, closeEditTask }: EditTaskProps) => {
     }) => editTaskDetail(groupId, taskListId, taskId, data),
   });
   const onSubmit: SubmitHandler<EditTaskType> = async (data) => {
+    const submitData = {
+      ...data,
+      done,
+    };
     mutate(
-      { groupId: currentGroupId, taskListId: currentListId, taskId: id, data },
+      {
+        groupId: currentGroupId,
+        taskListId: currentListId,
+        taskId: id,
+        data: submitData,
+      },
       {
         onSuccess: () => {
           router.refresh();
@@ -78,7 +88,11 @@ const EditTaskModal = ({ id, name, closeEditTask }: EditTaskProps) => {
     );
   };
   return (
-    <EditTaskComponent onClose={handleClose} title="할 일 수정하기">
+    <EditTaskComponent
+      showCloseButton
+      onClose={handleClose}
+      title="할 일 수정하기"
+    >
       <form className="flex flex-col gap-16" onSubmit={handleSubmit(onSubmit)}>
         <FieldWrapper
           id="name"

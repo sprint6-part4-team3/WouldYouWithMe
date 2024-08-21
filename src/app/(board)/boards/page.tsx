@@ -8,7 +8,7 @@ import BoardListInfo from "./_components/board-list-info";
 import CarouselItems from "./_components/carousel/carouselItems";
 
 export const metadata: Metadata = {
-  title: "자유게시판",
+  title: "자유게시판 | 우주윗미",
   description: "같이 일정관리 할 팀원들을 모집해요",
 };
 

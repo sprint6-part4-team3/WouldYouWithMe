@@ -20,6 +20,7 @@ import {
 import { TaskDetailData } from "@/types/task-detail/index";
 
 import EditTaskModal from "./edit-task-modal";
+import TaskDeleteModal from "./task-delete-modal";
 
 dayjs.locale("ko");
 
@@ -42,7 +43,7 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
         date,
       }),
   });
-
+  // 완료하기 로직
   const task = tasks?.find((taskItems) => taskItems.id === id);
 
   const [isCompleted, setIsCompleted] = useState<boolean>(
@@ -57,12 +58,21 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
     }
   }, [task]);
 
+  if (!task) throw new Error();
+
+  const renderCheckboxIcon = () => {
+    if (isCompleted) {
+      return <IconCheckBoxPrimary />;
+    }
+    return isHovered ? <IconCheckBoxPrimary /> : <IconCheckBox />;
+  };
+  // 아래부터는 드랍다운 로직
   const {
     value: isDropdownOpen,
     handleOff: closeDropdown,
     handleToggle: toggleDropdown,
   } = useToggle();
-
+  // 편집하기 로직
   const { editTaskMutation } = useTaskMutation(
     currentGroupId,
     currentListId,
@@ -83,9 +93,15 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
     setIsEditTaskOpen(true);
   };
 
+  // 삭제하기 로직
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const handleDeleteClick = () => {
     closeDropdown();
+    setIsDeleteModalOpen(true);
   };
+  const closeDeleteTask = useCallback(() => {
+    setIsDeleteModalOpen(false);
+  }, []);
 
   const handleToggleComplete = () => {
     if (task) {
@@ -110,15 +126,6 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
 
       editTaskMutation.mutate({ done: newCompletedState });
     }
-  };
-
-  if (!task) return null;
-
-  const renderCheckboxIcon = () => {
-    if (isCompleted) {
-      return <IconCheckBoxPrimary />;
-    }
-    return isHovered ? <IconCheckBoxPrimary /> : <IconCheckBox />;
   };
 
   return (
@@ -179,8 +186,16 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
           {FREQUENCY_LABELS[task.frequency]}
         </span>
       </div>
+      {isDeleteModalOpen && (
+        <TaskDeleteModal onClose={closeDeleteTask} id={id} />
+      )}
       {isEditTaskOpen && (
-        <EditTaskModal id={id} name={task.name} closeEditTask={closeEditTask} />
+        <EditTaskModal
+          id={id}
+          name={task.name}
+          done={!!task.doneAt}
+          closeEditTask={closeEditTask}
+        />
       )}
     </article>
   );

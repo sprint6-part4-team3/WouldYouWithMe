@@ -11,7 +11,11 @@ import GoogleAnalytics from "@/lib/google-analytics";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Coworkers",
+  title: "우주윗미 | 같이 스터디해요",
+  description: "WojuWithMe는 같이 스터디할 사람을 찾아주는 서비스입니다.",
+  icons: {
+    icon: "/icon.ico",
+  },
 };
 
 const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({

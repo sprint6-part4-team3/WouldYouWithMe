@@ -72,20 +72,19 @@ const AddListModalButton = ({
       if (onAddTask) {
         onAddTask(newTaskList);
       }
+      const taskListsNav = { id: createdTask.id, name: data.name };
       queryClient.setQueryData(
         ["task-lists", createdTask.groupId],
         (oldData: TaskListNav) => {
           if (!oldData) {
-            return [{ id: createdTask.id, name: data.name }];
+            return [taskListsNav];
           }
-          return [
-            ...oldData,
-            {
-              id: createdTask.id,
-              name: data.name,
-            },
-          ];
+          return [...oldData, taskListsNav];
         },
+      );
+      sessionStorage.setItem(
+        `task-lists-${createdTask.groupId}`,
+        JSON.stringify(taskListsNav),
       );
       handleOff();
       reset();

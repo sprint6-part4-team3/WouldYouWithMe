@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "마이히스토리",
+  title: "마이히스토리 | 우주윗미",
   description: "내 지원정보페이지",
 };
 
