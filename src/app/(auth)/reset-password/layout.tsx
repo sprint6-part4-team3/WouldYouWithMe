@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "비밀번호 재설정",
+  title: "비밀번호 재설정 | 우주윗미",
   description: "비밀번호 재설정 페이지",
 };
 

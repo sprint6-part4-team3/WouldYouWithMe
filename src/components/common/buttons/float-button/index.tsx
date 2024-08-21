@@ -11,7 +11,7 @@ interface IconButtonProps extends ComponentProps<"button"> {
 
 /**
  * 
- * 커스텀 범용 아이콘 버튼 컴포넌트(radius:40px)
+ * 커스텀 범용 아이콘 버튼 컴포넌트(radius:12px)
  * variant에 따라 디자인이 적용됩니다.
  * svg를 리액트 컴포넌트로 바꿔서 넣어줍니다.("@svgr/webpack")
  * 글자는 중앙정렬입니다.
@@ -51,7 +51,7 @@ const FloatButton = ({
   <button
     type="button"
     className={clsx(
-      "flex cursor-pointer items-center justify-center gap-4 rounded-40 duration-100 hover:scale-[1.005] active:scale-[0.995] disabled:scale-100 disabled:cursor-not-allowed",
+      "flex cursor-pointer items-center justify-center gap-4 rounded-12 duration-100 hover:scale-[1.005] active:scale-[0.995] disabled:scale-100 disabled:cursor-not-allowed",
       {
         "bg-brand-primary text-text-inverse hover:bg-interaction-hover disabled:bg-interaction-inactive":
           variant === "primary",

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "회원 가입",
+  title: "회원 가입 | 우주윗미",
   description: "회원 가입 페이지",
   openGraph: {
     title: "우주윗미 - 회원 가입",

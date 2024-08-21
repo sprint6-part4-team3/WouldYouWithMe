@@ -91,10 +91,11 @@ const UserSettingForm = () => {
           )}
         </form>
       </FormProvider>
-      <CancelUserComponent
+      {/* 수정해야함!! */}
+      {/* <CancelUserComponent
         isOpen={isCancelOpen}
         onClose={() => setIsCancelOpen(false)}
-      />
+      /> */}
       <ChangePasswordComponent
         isOpen={isChangeOpen}
         onClose={() => setIsChangeOpen(false)}

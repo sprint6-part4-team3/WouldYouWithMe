@@ -71,7 +71,8 @@ const TeamCardBox = ({
   teamImage,
 }: TeamCardBoxProps) => {
   const [user] = useAtom(userAtom);
-  const setRecentTeam = useSetAtom(recentTeamAtom);
+  const userId = user.id;
+  const setRecentTeam = useSetAtom(recentTeamAtom(userId));
 
   useEffect(() => {
     setRecentTeam({
@@ -102,7 +103,7 @@ const TeamCardBox = ({
         </div>
         <h1 className="text-20-700">{teamName}</h1>
       </div>
-      {user.id === adminId && (
+      {userId === adminId && (
         <div className="flex items-center gap-30">
           <TeamCardDropdownButton teamName={teamName} teamId={teamId} />
         </div>

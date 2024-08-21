@@ -11,8 +11,7 @@ export type Comment = {
   createdAt: string;
   updatedAt: string;
   taskId: number;
-  userId: number;
-  user: User | { nickname: string; image: string | null };
+  user: User | { id: number; nickname: string; image: string | null };
 };
 
 export type GetCommentsResponse = {

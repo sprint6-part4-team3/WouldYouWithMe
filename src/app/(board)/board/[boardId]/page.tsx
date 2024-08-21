@@ -3,6 +3,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
@@ -10,6 +11,23 @@ import getBoardComment from "@/lib/api/board-comment/get-comment";
 
 import BoardDetail from "./_components/board-detail";
 import CommentList from "./_components/comment-list";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { boardId: number };
+}): Promise<Metadata> {
+  const { boardId } = params;
+  const boardData = await getBoardDetailData(boardId);
+
+  let { title } = boardData;
+
+  title = `${title} | 우주윗미`;
+
+  return {
+    title,
+  };
+}
 
 const BoardPage = async ({ params }: { params: { boardId: number } }) => {
   const queryClient = new QueryClient();
