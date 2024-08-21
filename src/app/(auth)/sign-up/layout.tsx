@@ -4,6 +4,13 @@ import React from "react";
 export const metadata: Metadata = {
   title: "회원 가입",
   description: "회원 가입 페이지",
+  openGraph: {
+    title: "우주윗미 - 회원 가입",
+    url: "https://3team-coworkers.netlify.app/sign-up",
+  },
+  twitter: {
+    title: "우주윗미 - 회원 가입",
+  },
 };
 
 interface SignUpLayoutProps {

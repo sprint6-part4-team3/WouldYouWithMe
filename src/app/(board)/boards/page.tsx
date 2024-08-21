@@ -10,6 +10,13 @@ import CarouselItems from "./_components/carousel/carouselItems";
 export const metadata: Metadata = {
   title: "자유게시판",
   description: "같이 일정관리 할 팀원들을 모집해요",
+  openGraph: {
+    title: "우주윗미 - 자유게시판",
+    url: "https://3team-coworkers.netlify.app/boards",
+  },
+  twitter: {
+    title: "우주윗미 - 자유게시판",
+  },
 };
 
 const BoardPage = () => {
