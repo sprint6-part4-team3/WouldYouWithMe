@@ -7,11 +7,16 @@ import AppProvider from "@/components/app-provider";
 import ToastContainer from "@/components/common/toast/container";
 import StarsCanvas from "@/components/landing/star-canvas";
 import NavBar from "@/components/nav-bar";
+import GoogleAnalytics from "@/lib/google-analytics";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Coworkers",
+  title: "우주윗미 | 같이 스터디해요",
+  description: "WojuWithMe는 같이 스터디할 사람을 찾아주는 서비스입니다.",
+  icons: {
+    icon: "/icon.ico",
+  },
 };
 
 const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
@@ -22,6 +27,9 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
       className={`${inter.className} min-w-330 dark:bg-background-primary dark:text-text-primary`}
     >
       <StarsCanvas />
+      {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+      ) : null}
       <AppProvider>
         <ToastContainer />
         <NavBar />

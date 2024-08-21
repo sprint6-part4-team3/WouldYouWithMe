@@ -12,7 +12,7 @@ interface ButtonProps extends ComponentProps<"button"> {
  * 
  * 커스텀 버튼 컴포넌트 radius(12px)
  * variant에 따라 디자인이 적용됩니다.
- * 글자 크기 16px 굵기 600 중앙정렬입니다.
+ * 글자 크기 16px 모바일 14px 굵기 600 중앙정렬입니다.
  * 버튼 가로 세로 크기를 className으로 주면 됩니다.
  * 커스텀 디자인 적용을 원하는 경우에도 className으로 주면 덮어 쓸 수 있습니다.
  * button attributes 모두 사용 가능합니다.
@@ -74,7 +74,7 @@ const Button = ({ children, variant, className, ...rest }: ButtonProps) => (
   <button
     type="button"
     className={clsx(
-      "flex cursor-pointer items-center justify-center rounded-12 text-16-600 duration-100 hover:scale-[1.005] active:scale-[0.995] disabled:scale-100 disabled:cursor-not-allowed",
+      "flex cursor-pointer items-center justify-center rounded-12 text-14-600 duration-100 hover:scale-[1.005] active:scale-[0.9] disabled:scale-100 disabled:cursor-not-allowed md:text-16-600",
       {
         "bg-brand-primary text-text-inverse hover:bg-interaction-hover disabled:bg-interaction-inactive":
           variant === "primary",

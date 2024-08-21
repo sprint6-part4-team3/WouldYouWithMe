@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "계정 설정",
+  title: "계정 설정 | 우주윗미",
   description: "계정 설정 페이지",
 };
 

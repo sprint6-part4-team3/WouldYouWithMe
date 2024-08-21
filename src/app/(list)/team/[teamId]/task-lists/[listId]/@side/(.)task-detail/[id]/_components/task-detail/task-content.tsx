@@ -8,7 +8,7 @@ import { useAtom } from "jotai";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 
-import { useComments, useTaskMutation, useTaskParams, useToast } from "@/hooks";
+import { useComments, useTaskMutation, useTaskParams } from "@/hooks";
 import getComments from "@/lib/api/task-comments/get-comments";
 import getTasks from "@/lib/api/task-lists/get-tasks";
 import { IconCheckPrimary } from "@/public/assets/icons";
@@ -36,7 +36,6 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
   const [currentUser] = useAtom(userAtom);
   const currentDate = useSearchParams().get("date");
   const queryClient = useQueryClient();
-  const toast = useToast();
 
   const [isTaskCompleted, setIsTaskCompleted] = useState(false);
 
@@ -140,7 +139,7 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
       />
       <TaskInfo {...taskInfoProps} />
       <TaskDescription
-        description={task.description}
+        description={task?.description}
         isTaskCompleted={isTaskCompleted}
         onToggleComplete={handleToggleComplete}
         isPending={editTaskMutation.isPending}

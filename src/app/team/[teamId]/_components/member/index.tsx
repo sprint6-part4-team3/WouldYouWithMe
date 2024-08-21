@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 import { IconMail } from "@/public/assets/icons";
 import { GroupMember } from "@/types/user";
 import getTeamAdmin from "@/utils/get-team-admin";

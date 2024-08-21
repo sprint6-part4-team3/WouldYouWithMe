@@ -44,4 +44,5 @@ export type NewTask = WeeklyTask | MonthlyTask | OtherTask;
 export type EditTaskType = {
   name: string;
   description?: string;
+  done: boolean;
 };
