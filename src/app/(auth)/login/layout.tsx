@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "로그인",
+  title: "로그인 | 우주윗미",
   description: "로그인 페이지",
 };
 

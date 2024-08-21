@@ -1,14 +1,15 @@
 "use client";
 
 import Lottie from "lottie-react";
+import { Metadata } from "next";
 import Link from "next/link";
 
 import { Button } from "@/components/common";
 import TeamEmpty from "@/public/assets/lotties/team-empty.json";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "팀 없음 | 우주윗미",
-  description: "아직 소속된 팀이 없습니다. 팀을 생성하거나 팀에 참여해보세요.",
+  description: "팀이 없을때 페이지",
 };
 
 const TeamEmptyPage = () => (

@@ -1,10 +1,16 @@
 "use client";
 
 import Lottie from "lottie-react";
+import { Metadata } from "next";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/common";
 import notfound from "@/public/assets/lotties/500.json";
+
+export const metadata: Metadata = {
+  title: "500에러 | 우주윗미",
+  description: "500 서버에러 페이지 입니다",
+};
 
 const Error = () => {
   const router = useRouter();
