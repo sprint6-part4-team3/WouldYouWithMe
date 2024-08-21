@@ -2,8 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSetAtom } from "jotai";
-import { useRouter } from "next/navigation";
+import { useAtom, useSetAtom } from "jotai";
 import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -11,7 +10,7 @@ import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
 import { useToast } from "@/hooks";
 import editGroup from "@/lib/api/group/edit-group";
 import { teamAddEditSchema } from "@/lib/schemas/team-manage";
-import recentTeamAtom from "@/stores/recent-team-atom";
+import { recentTeamAtom, userAtom } from "@/stores";
 import { TeamAddEditInput } from "@/types/team-management";
 
 import ImageInput from "./image-input";
@@ -25,11 +24,12 @@ interface EditTeamFormProps {
 }
 
 const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
+
   const queryClient = useQueryClient();
   const toast = useToast();
-  const router = useRouter();
-  const setRecentTeam = useSetAtom(recentTeamAtom);
-
+  const setRecentTeam = useSetAtom(recentTeamAtom(userId));
   const [isImgLoading, setIsImgLoading] = useState(false);
 
   const methods = useForm<TeamAddEditInput>({
@@ -54,8 +54,7 @@ const EditTeamForm = ({ id, name, image }: EditTeamFormProps) => {
           teamName: res.name,
           groupId: res.id,
         });
-        router.replace(`/team/${res.id}`);
-        router.refresh();
+        window.location.href = `/team/${res.id}`;
         queryClient.invalidateQueries({ queryKey: ["userData"] });
       },
       onError: (error) => {

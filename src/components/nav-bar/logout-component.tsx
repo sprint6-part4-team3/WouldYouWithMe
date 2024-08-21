@@ -35,6 +35,8 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
       await deleteCookie("token");
       await deleteCookie("refreshToken");
       await deleteCookie("userId");
+      await deleteCookie("firstTeamName");
+
       success("로그아웃 성공");
 
       queryClient.invalidateQueries({ queryKey: ["userData"] });
