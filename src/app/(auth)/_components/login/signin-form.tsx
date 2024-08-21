@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Button, FieldWrapper, Input } from "@/components/common";
+import { Button, FieldWrapper, FloatButton, Input } from "@/components/common";
 import {
   GOOGLE_AUTHORIZE_URL,
   KAKAO_AUTHORIZE_URL,
@@ -17,6 +17,7 @@ import {
 import { useToast } from "@/hooks";
 import signIn from "@/lib/api/auth/sign-in";
 import { loginSchema } from "@/lib/schemas/auth";
+import { LoadingSpinner } from "@/public/assets/icons";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { pwLengthAtom, userAtom } from "@/stores";
 import { SignInInput } from "@/types/auth";
@@ -142,14 +143,20 @@ const SignInForm: React.FC = () => {
             </button>
           </div>
         </div>
-        <Button
-          variant="primary"
-          type="submit"
-          className="mt-40 h-47 w-full"
-          disabled={!isValid || isLoading}
-        >
-          {isLoading ? "처리 중..." : "로그인"}
-        </Button>
+        {isLoading ? (
+          <FloatButton
+            Icon={<LoadingSpinner width={30} height={30} />}
+            disabled={!isValid || isLoading}
+            variant="primary"
+            className="mt-40 h-47 w-full"
+          >
+            처리 중...
+          </FloatButton>
+        ) : (
+          <Button type="submit" variant="primary" className="mt-40 h-47 w-full">
+            로그인
+          </Button>
+        )}
         <div className="flex justify-center">
           <p className="mt-24">
             아직 계정이 없으신가요?
