@@ -1,7 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AddListModalButton } from "@/components/common";
 import { GroupTask } from "@/types/group";
@@ -16,11 +16,18 @@ interface TodoLostBoxProps {
 const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
   const [todoListIndex, setTodoListIndex] = useState(taskList);
   const queryClient = useQueryClient();
-  const taskListsNav = taskList.map(({ id, name }) => ({
+  const taskListsNav = todoListIndex.map(({ id, name }) => ({
     id,
     name,
   }));
-  queryClient.setQueryData(["task-lists", Number(teamId)], taskListsNav);
+  queryClient.setQueryData(["task-lists", teamId], taskListsNav);
+
+  useEffect(() => {
+    sessionStorage.setItem(
+      `task-lists-${teamId}`,
+      JSON.stringify(taskListsNav),
+    );
+  }, [taskListsNav, teamId]);
 
   const handleAddTask = (newTask: GroupTask) => {
     setTodoListIndex((prevTasks) => [...prevTasks, newTask]);
