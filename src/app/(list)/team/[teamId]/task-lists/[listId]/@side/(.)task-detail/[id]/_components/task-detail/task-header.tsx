@@ -4,11 +4,11 @@
 import { useParams } from "next/navigation";
 import React, { useCallback, useState } from "react";
 
+import { TaskDeleteModal } from "@/app/(list)/team/[teamId]/task-lists/[listId]/_components";
 import DropDown from "@/components/common/drop-down/index";
 import { useToggle } from "@/hooks";
 import { IconKebab } from "@/public/assets/icons";
 
-import { TaskDeleteModal } from "../../../../../_components";
 import TaskEditModal from "./task-edit";
 
 interface TaskHeaderProps {
