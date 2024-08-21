@@ -4,9 +4,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 
-import { Button, Drawer, Modal } from "@/components/common";
+import { Button, Drawer, FloatButton, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import CancelUser from "@/lib/api/user-setting/cancel-user";
+import { LoadingSpinner } from "@/public/assets/icons";
 import { pwLengthAtom, recentTeamAtom, userAtom } from "@/stores";
 import { deleteCookie } from "@/utils/next-cookie";
 
@@ -83,15 +84,25 @@ const CancelUserComponent = ({ isOpen, onClose }: CancelUserComponentProps) => {
           <Button variant="secondary" onClick={onClose} className="h-48 w-136">
             닫기
           </Button>
-          <Button
-            type="submit"
-            variant="danger"
-            disabled={isPending}
-            className="h-48 w-136"
-            onClick={onSubmit}
-          >
-            {isPending ? "처리 중..." : "회원 탈퇴"}
-          </Button>
+          {isPending ? (
+            <FloatButton
+              Icon={<LoadingSpinner width={30} height={30} />}
+              disabled={isPending}
+              variant="danger"
+              className="h-48 w-136"
+            >
+              처리 중...
+            </FloatButton>
+          ) : (
+            <Button
+              type="submit"
+              variant="danger"
+              onClick={onSubmit}
+              className="h-48 w-136"
+            >
+              회원 탈퇴
+            </Button>
+          )}
         </div>
       </CommonCancelUser>
     )

@@ -5,8 +5,9 @@ import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { Button, Drawer, Modal } from "@/components/common";
+import { Button, Drawer, FloatButton, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
+import { LoadingSpinner } from "@/public/assets/icons";
 import { pwLengthAtom, userAtom } from "@/stores";
 import { deleteCookie } from "@/utils/next-cookie";
 
@@ -73,15 +74,20 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
           <Button variant="secondary" onClick={onClose} className="h-48 w-136">
             닫기
           </Button>
-          <Button
-            type="submit"
-            variant="danger"
-            disabled={isLoading}
-            className="h-48 w-136"
-            onClick={onSubmit}
-          >
-            {isLoading ? "처리 중..." : "로그아웃"}
-          </Button>
+          {isLoading ? (
+            <FloatButton
+              Icon={<LoadingSpinner width={30} height={30} />}
+              disabled={isLoading}
+              variant="danger"
+              className="h-48 w-136"
+            >
+              처리 중...
+            </FloatButton>
+          ) : (
+            <Button type="submit" variant="danger" className="h-48 w-136">
+              로그아웃
+            </Button>
+          )}
         </div>
       </CommonLogout>
     )

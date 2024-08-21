@@ -11,12 +11,14 @@ import {
   Button,
   Drawer,
   FieldWrapper,
+  FloatButton,
   Input,
   Modal,
 } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import ChangePassword from "@/lib/api/user-setting/change-password";
 import { resetPasswordSchema } from "@/lib/schemas/auth";
+import { LoadingSpinner } from "@/public/assets/icons";
 import { pwLengthAtom } from "@/stores";
 import { ChangePasswordInput } from "@/types/auth";
 
@@ -127,14 +129,24 @@ const ChangePasswordComponent = ({
             >
               닫기
             </Button>
-            <Button
-              type="submit"
-              variant="primary"
-              disabled={!isValid || isLoading}
-              className="mt-15 h-48 w-136"
-            >
-              {isLoading ? "처리 중..." : "변경하기"}
-            </Button>
+            {isLoading ? (
+              <FloatButton
+                Icon={<LoadingSpinner width={30} height={30} />}
+                disabled={!isValid || isLoading}
+                variant="primary"
+                className="mt-15 h-48 w-136"
+              >
+                처리 중...
+              </FloatButton>
+            ) : (
+              <Button
+                type="submit"
+                variant="primary"
+                className="mt-15 h-48 w-136"
+              >
+                변경하기
+              </Button>
+            )}
           </div>
         </form>
       </CommonChangePassword>
