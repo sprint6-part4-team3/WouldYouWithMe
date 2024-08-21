@@ -1,16 +1,19 @@
+"use client";
+
 /* eslint-disable no-console */
+import { useParams } from "next/navigation";
 import React, { useCallback, useState } from "react";
 
+import { TaskDeleteModal } from "@/app/(list)/team/[teamId]/task-lists/[listId]/_components";
 import DropDown from "@/components/common/drop-down/index";
 import { useToggle } from "@/hooks";
 import { IconKebab } from "@/public/assets/icons";
 
-import TaskDeleteModal from "./task-delete-modal";
 import TaskEditModal from "./task-edit";
 
 interface TaskHeaderProps {
   taskName: string;
-  taskDescription: string;
+  taskDescription?: string;
   isCompleted: boolean;
 }
 
@@ -21,6 +24,8 @@ const TaskHeader = ({
 }: TaskHeaderProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
+  const param = useParams();
+
   const {
     value: isDropdownOpen,
     handleOff: closeDropdown,
@@ -62,12 +67,16 @@ const TaskHeader = ({
         </DropDown>
       </div>
       {isDeleteModalOpen && (
-        <TaskDeleteModal onClose={handleCloseDeleteModal} />
+        <TaskDeleteModal
+          id={Number(param.id)}
+          onClose={handleCloseDeleteModal}
+        />
       )}
       {isEditTaskOpen && (
         <TaskEditModal
           name={taskName}
           description={taskDescription}
+          done={isCompleted}
           closeEditTask={closeEditTask}
         />
       )}

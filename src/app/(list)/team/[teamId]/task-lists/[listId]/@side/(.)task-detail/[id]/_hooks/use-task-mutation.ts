@@ -1,3 +1,5 @@
+"use client";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import editTaskDetail from "@/lib/api/task-detail/edit-task-detail";

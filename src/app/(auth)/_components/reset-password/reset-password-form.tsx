@@ -6,10 +6,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Button, FieldWrapper, Input } from "@/components/common";
+import { Button, FieldWrapper, FloatButton, Input } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import ResetPassword from "@/lib/api/reset-password/reset-password";
 import { resetPasswordSchema } from "@/lib/schemas/auth";
+import { LoadingSpinner } from "@/public/assets/icons";
 import { pwLengthAtom } from "@/stores";
 import { ResetPasswordInput } from "@/types/auth";
 
@@ -99,14 +100,25 @@ const ResetPasswordForm: React.FC = () => {
           />
         </FieldWrapper>
       </div>
-      <Button
-        variant="primary"
-        type="submit"
-        className="mt-40 h-47 w-full"
-        disabled={!isValid || isLoading}
-      >
-        {isLoading ? "처리 중..." : "재설정"}
-      </Button>
+      {isLoading ? (
+        <FloatButton
+          Icon={<LoadingSpinner width={30} height={30} />}
+          disabled
+          variant="primary"
+          className="mt-40 h-47 w-full"
+        >
+          처리 중...
+        </FloatButton>
+      ) : (
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={!isValid}
+          className="mt-40 h-47 w-full"
+        >
+          재설정
+        </Button>
+      )}
     </form>
   );
 };

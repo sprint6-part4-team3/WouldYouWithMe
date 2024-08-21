@@ -6,10 +6,17 @@ const CancelUser = async () => {
   try {
     const response = await instance.delete(`/user`);
 
-    return { success: true, message: response.data.message };
+    if (response.status === 204) {
+      return { success: true, message: "회원 탈퇴가 완료되었습니다." };
+    }
+
+    return { success: false, message: "회원 탈퇴 중 오류가 발생했습니다." };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      return { success: false, message: "회원 탈퇴 중 오류가 발생했습니다." };
+      return {
+        success: false,
+        message: "회원 탈퇴 중 서버 오류가 발생했습니다.",
+      };
     }
     return {
       success: false,

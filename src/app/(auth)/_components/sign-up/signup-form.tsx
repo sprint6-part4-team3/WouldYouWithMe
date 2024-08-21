@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { Button, FieldWrapper, Input } from "@/components/common";
+import { Button, FieldWrapper, FloatButton, Input } from "@/components/common";
 import {
   GOOGLE_AUTHORIZE_URL,
   KAKAO_AUTHORIZE_URL,
@@ -17,6 +17,7 @@ import {
 import { useIsMobile, useToast } from "@/hooks";
 import signUp from "@/lib/api/auth/sign-up";
 import { signUpSchema } from "@/lib/schemas/auth";
+import { LoadingSpinner } from "@/public/assets/icons";
 import { ImgGoogle, ImgKakao } from "@/public/assets/images";
 import { pwLengthAtom, userAtom } from "@/stores";
 import { SignUpInput, SignUpResponseSuccess } from "@/types/auth";
@@ -169,14 +170,25 @@ const SignUpForm: React.FC = () => {
           />
         </FieldWrapper>
       </div>
-      <Button
-        variant="primary"
-        type="submit"
-        className="mt-40 h-47 w-full"
-        disabled={!isValid || isLoading}
-      >
-        {isLoading ? "처리 중..." : "회원가입"}
-      </Button>
+      {isLoading ? (
+        <FloatButton
+          Icon={<LoadingSpinner width={30} height={30} />}
+          disabled
+          variant="primary"
+          className="mt-40 h-47 w-full"
+        >
+          처리 중...
+        </FloatButton>
+      ) : (
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={!isValid}
+          className="mt-40 h-47 w-full"
+        >
+          회원가입
+        </Button>
+      )}
       <div className="flex justify-center">
         <p className="mt-24">
           이미 계정이 있으신가요?

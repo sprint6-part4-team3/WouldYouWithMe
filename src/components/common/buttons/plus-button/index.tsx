@@ -24,7 +24,7 @@ const PlusButton = ({ children, ...rest }: PlusButtonProps) => (
   <FloatButton
     Icon={<IconPlus />}
     variant="primary"
-    className="size-fit px-21 py-[14.5px] text-16-600"
+    className="size-fit rounded-40 px-21 py-[14.5px] text-16-600"
     {...rest}
   >
     {children}
