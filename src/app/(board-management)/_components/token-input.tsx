@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 
-import { FieldWrapper, Input } from "@/components/common";
+import { FieldWrapper, Input, ToolTip } from "@/components/common";
 import { BoardAddEditInput } from "@/types/board/add-edit";
 
 const TokenInput = () => {
@@ -23,11 +23,15 @@ const TokenInput = () => {
           >
             *
           </abbr>
-          &nbsp;팀 참여 토큰&nbsp;
-          <span className="text-14-400 text-text-default">
-            (토큰 만료기한은 <span className="text-brand-primary">3일</span>
-            입니다.)
-          </span>
+          &nbsp;팀 참여 토큰&nbsp;&nbsp;
+          <ToolTip
+            message="팀페이지 멤버 추가하기 버튼을 눌러보세요!"
+            position="top"
+          >
+            <span className="cursor-pointer text-13-500 text-brand-primary/70">
+              토큰은 어디서 발급받나요?
+            </span>
+          </ToolTip>
         </div>
       }
       id="token"
