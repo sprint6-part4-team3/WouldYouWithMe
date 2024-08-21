@@ -1,10 +1,29 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
-import PageLoading from "@/components/loading";
 import { IconPlusCurrent } from "@/public/assets/icons";
 
-import { TaskCurrent, TaskDateNav, TaskListNav } from "./_components";
+import {
+  TaskCurrent,
+  TaskDateNav,
+  TaskListNav,
+  TasksSkeleton,
+} from "./_components";
+
+const getMidnightKoreanTime = () => {
+  const koreaOffset = 9 * 60;
+  const now = new Date();
+  const koreanDate = new Date(
+    now.getTime() + (koreaOffset - now.getTimezoneOffset()) * 60 * 1000,
+  );
+  const currentDate = new Date(koreanDate.getTime() - koreaOffset * 60 * 1000);
+  currentDate.setUTCHours(0, 0, 0, 0);
+
+  return currentDate;
+};
+
+const generateTaskAddLink = (teamId: number, listId: number, date: Date) =>
+  `/team/${teamId}/task-lists/${listId}/add-task?date=${date.toISOString()}`;
 
 interface TaskListProps {
   params: { teamId: string; listId: string };
@@ -14,23 +33,13 @@ interface TaskListProps {
 const TaskLists = ({ params, searchParams }: TaskListProps) => {
   const currentListId = Number(params.listId);
   const currentTeamId = Number(params.teamId);
-  let currentDate: Date;
-  if (!searchParams.date) {
-    const koreaOffset = 9 * 60;
-    const now = new Date();
-    const koreanDate = new Date(
-      now.getTime() + (koreaOffset - now.getTimezoneOffset()) * 60 * 1000,
-    );
-    currentDate = new Date(koreanDate.getTime() - koreaOffset * 60 * 1000);
-    currentDate.setUTCHours(0, 0, 0, 0);
-  } else {
-    currentDate = new Date(searchParams.date);
-  }
-
+  const currentDate = searchParams.date
+    ? new Date(searchParams.date)
+    : getMidnightKoreanTime();
   const today = new Date();
   today.setUTCHours(0, 0, 0, 0);
 
-  const showAddButton = currentDate >= today;
+  const isVisibleAddButton = currentDate >= today;
 
   return (
     <>
@@ -45,23 +54,28 @@ const TaskLists = ({ params, searchParams }: TaskListProps) => {
       />
       <Suspense
         key={`${currentListId}/${currentDate}`}
-        fallback={<PageLoading />}
+        fallback={<TasksSkeleton />}
       >
         <TaskCurrent
           currentDate={currentDate}
           currentListId={currentListId}
           currentTeamId={currentTeamId}
         />
+        {isVisibleAddButton && (
+          <Link
+            href={generateTaskAddLink(
+              currentTeamId,
+              currentListId,
+              currentDate,
+            )}
+          >
+            <div className="group flex h-72 items-center gap-4 rounded-16 border-4 border-dotted border-background-tertiary px-16 text-16-400 hover:bg-background-secondary/50 hover:text-brand-primary">
+              <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />
+              할 일 추가
+            </div>
+          </Link>
+        )}
       </Suspense>
-      {showAddButton && (
-        <Link
-          href={`/team/${currentTeamId}/task-lists/${currentListId}/add-task?date=${currentDate.toISOString()}`}
-          className="group mt-32 flex items-center gap-4 text-16-400 hover:text-brand-primary"
-        >
-          <IconPlusCurrent className="stroke-white group-hover:stroke-brand-primary" />
-          할 일 추가
-        </Link>
-      )}
     </>
   );
 };

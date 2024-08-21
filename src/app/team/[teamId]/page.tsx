@@ -1,6 +1,5 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
 
 import getGroupData from "@/lib/api/group/get-group-data";
 import { GroupResponse } from "@/types/group";
@@ -10,7 +9,6 @@ import MemberBox from "./_components/member";
 import ReportBox from "./_components/report";
 import TeamCardBox from "./_components/team-card";
 import TodoListBox from "./_components/todo-list";
-import PageLoading from "./loading";
 
 type Props = {
   params: { teamId: number };

@@ -1,10 +1,16 @@
 "use client";
 
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import getTaskLists from "@/lib/api/task-lists/get-task-lists";
+
+type TaskLists = {
+  id: number;
+  name: string;
+}[];
 
 interface TaskListNavProps {
   currentTeamId: number;
@@ -19,26 +25,48 @@ const TaskListNav = ({
 }: TaskListNavProps) => {
   const router = useRouter();
   const [current, setCurrent] = useState(currentListId);
+  const currentButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [placeholder, setPlaceholder] = useState<TaskLists>([
+    { id: 0, name: "Loading" },
+  ]);
 
-  const {
-    data: taskLists,
-    error,
-    isLoading,
-  } = useQuery({
+  useEffect(() => {
+    if (currentButtonRef.current) {
+      currentButtonRef.current.scrollIntoView({
+        behavior: "auto",
+        inline: "center",
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem(`task-lists-${currentTeamId}`);
+    const newPlaceholderData = storedData ? JSON.parse(storedData) : [];
+    setPlaceholder(newPlaceholderData);
+  }, [currentTeamId]);
+
+  const { data: taskLists, error } = useQuery({
     queryKey: ["task-lists", currentTeamId],
-    queryFn: () => getTaskLists({ groupId: currentTeamId }),
-    placeholderData: keepPreviousData,
+    queryFn: async () => {
+      const data = await getTaskLists({ groupId: currentTeamId });
+      sessionStorage.setItem(
+        `task-lists-${currentTeamId}`,
+        JSON.stringify(data),
+      );
+      return data;
+    },
+    placeholderData: () => placeholder,
   });
 
   if (error) throw new Error();
-  if (isLoading) return <nav className="my-16 flex h-25 gap-12 md:mt-24" />;
   if (!taskLists) throw new Error();
 
   return (
-    <nav className="my-16 flex h-25 gap-12 md:mt-24">
+    <nav className="task-lists-nav my-16 flex h-25 w-full gap-12 overflow-x-auto md:mt-24">
       {taskLists.map((list) => (
         <button
           key={list.id}
+          ref={list.id === current ? currentButtonRef : null}
           type="button"
           onClick={() => {
             setCurrent(list.id);
@@ -46,11 +74,12 @@ const TaskListNav = ({
               `/team/${currentTeamId}/task-lists/${list.id}?date=${currentDate.toISOString()}`,
             );
           }}
-          className={`${
+          className={clsx(
+            "h-full whitespace-nowrap text-16-500",
             current === list.id
-              ? "border-b border-text-tertiary text-16-500 text-text-tertiary"
-              : "text-16-500 text-text-default"
-          }`}
+              ? "border-b border-text-tertiary text-text-tertiary"
+              : "text-text-default",
+          )}
         >
           {list.name}
         </button>

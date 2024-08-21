@@ -26,6 +26,10 @@ const UserDropdown = () => {
     setIsLogoutOpen(false);
   };
 
+  if (user.id === 0) {
+    return null;
+  }
+
   return (
     <div className="text-md-medium flex cursor-pointer items-center justify-center whitespace-nowrap text-text-primary">
       <DropDown handleClose={userDropdown.handleOff}>
@@ -58,7 +62,6 @@ const UserDropdown = () => {
               계정 설정
             </DropDown.Item>
           </Link>
-          <DropDown.Item>팀 참여</DropDown.Item>
           <DropDown.Item onClick={openLogout}>로그아웃</DropDown.Item>
         </DropDown.Menu>
       </DropDown>
