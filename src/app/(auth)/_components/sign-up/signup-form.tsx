@@ -173,14 +173,19 @@ const SignUpForm: React.FC = () => {
       {isLoading ? (
         <FloatButton
           Icon={<LoadingSpinner width={30} height={30} />}
-          disabled={!isValid || isLoading}
+          disabled
           variant="primary"
           className="mt-40 h-47 w-full"
         >
           처리 중...
         </FloatButton>
       ) : (
-        <Button type="submit" variant="primary" className="mt-40 h-47 w-full">
+        <Button
+          type="submit"
+          variant="primary"
+          disabled={!isValid}
+          className="mt-40 h-47 w-full"
+        >
           회원가입
         </Button>
       )}

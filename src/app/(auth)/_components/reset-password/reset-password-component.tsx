@@ -93,7 +93,7 @@ const ResetPasswordComponent = ({
             {isLoading ? (
               <FloatButton
                 Icon={<LoadingSpinner width={30} height={30} />}
-                disabled={!isValid || isLoading}
+                disabled
                 variant="primary"
                 className="mt-15 h-48 w-136"
               >
@@ -103,6 +103,7 @@ const ResetPasswordComponent = ({
               <Button
                 type="submit"
                 variant="primary"
+                disabled={!isValid}
                 className="mt-15 h-48 w-136"
               >
                 링크 보내기

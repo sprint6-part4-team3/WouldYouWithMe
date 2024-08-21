@@ -84,7 +84,7 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
               처리 중...
             </FloatButton>
           ) : (
-            <Button type="submit" variant="danger" className="h-48 w-136">
+            <Button onClick={onSubmit} variant="danger" className="h-48 w-136">
               로그아웃
             </Button>
           )}
