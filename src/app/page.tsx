@@ -1,3 +1,6 @@
+"use client";
+
+import Lottie from "lottie-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,22 +13,25 @@ import {
   landingMockupSecond,
   landingMockupThird,
 } from "@/public/assets/images";
+import Planet from "@/public/assets/lotties/planet.json";
+import Planet2 from "@/public/assets/lotties/planet2.json";
+import Planet3 from "@/public/assets/lotties/planet3.json";
+import Planet4 from "@/public/assets/lotties/planet4.json";
 
 export default function Home() {
   return (
     <main className="relative">
-      <section
-        className="flex flex-col items-center justify-center bg-cover bg-center py-55 lg:py-100 xl:py-84"
-        style={{
-          backgroundImage: "url('/assets/images/img-landing-main.png')",
-        }}
-      >
+      <section className="flex flex-col items-center justify-center bg-cover bg-center py-55 lg:py-100 xl:py-84">
         <h1 className="mb-4 text-center text-24-600 lg:mb-8 lg:text-40-600 xl:mb-20 xl:text-48-600">
-          함께 만들어가는 투두 리스트&nbsp;&nbsp;🛠️
+          다들 어디 계세요?
         </h1>
-        <h2 className="text-gradient mb-421 flex h-38 items-center justify-center text-center font-[PyeongChangPeace-Bold] text-32-600 lg:mb-560 lg:h-57 lg:text-48-600 xl:mb-675 xl:h-76 xl:text-64-600">
+        <h2 className="text-gradient flex h-38 items-center justify-center text-center font-[PyeongChangPeace-Bold] text-32-600 lg:h-57 lg:text-48-600 xl:h-76 xl:text-64-600">
           우주윗미
         </h2>
+        <Lottie
+          className="size-2/3 h-auto min-w-250 max-w-500"
+          animationData={Planet3}
+        />
         {/* TODO: 추후에 로그인 되어 있을 시 팀 생성하기, 아닐 시 로그인 페이지로 이동을 변경 예정 */}
         <Link href="/login">
           <div>
@@ -93,18 +99,15 @@ export default function Home() {
           </div>
         </article>
       </section>
-      <section
-        className="bg-cover bg-center pb-343 pt-123 lg:pb-663 lg:pt-173 xl:pb-749 xl:pt-230"
-        style={{
-          backgroundImage: "url('/assets/images/img-landing-bottom.png')",
-        }}
-      >
+      <section className="bg-cover bg-center pb-343 pt-123 lg:pb-663 lg:pt-173 xl:pb-749 xl:pt-230">
         <h3 className="mb-16 text-center text-24-600 lg:mb-24 lg:text-40-600 xl:mb-24 xl:text-40-600">
           지금 바로 시작해보세요
         </h3>
-        <h4 className="flex flex-col items-center justify-center text-16-500 md:flex-row lg:mb-24 lg:text-24-500 xl:mb-20 xl:text-24-500">
-          <span>팀원 모두와 같은 방향,&nbsp;</span>
-          <span>같은 속도로 나아가는 가장 쉬운 방법</span>
+        <h4 className="flex flex-col items-center justify-center text-16-500 md:flex-row  lg:text-24-500  xl:text-24-500">
+          <span>함께 하세요</span>
+          <br />
+          <span>우주에 당신은 혼자가 아닙니다</span>
+          <Lottie animationData={Planet4} />
         </h4>
       </section>
     </main>
