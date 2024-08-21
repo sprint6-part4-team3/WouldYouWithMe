@@ -1,12 +1,15 @@
+/* eslint-disable no-restricted-globals */
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import type { Metadata, ResolvingMetadata } from "next";
-import { redirect } from "next/navigation";
 
 import getGroupData from "@/lib/api/group/get-group-data";
+import { GroupResponse } from "@/types/group";
 
-import MemberBox from "./_components/member";
-import ReportBox from "./_components/report";
-import TeamCardBox from "./_components/team-card";
-import TodoListBox from "./_components/todo-list";
+import TeamWrapper from "./team-wrapper";
 
 type Props = {
   params: { teamId: number };
@@ -42,8 +45,6 @@ const TeamPage = async ({ params }: { params: { teamId: number } }) => {
   if (isNaN(currentTeamId)) {
     throw new Error("오류발생");
   }
-
-  console.log("currentTeamId", currentTeamId);
 
   await queryClient.prefetchQuery({
     queryKey: ["team", currentTeamId],

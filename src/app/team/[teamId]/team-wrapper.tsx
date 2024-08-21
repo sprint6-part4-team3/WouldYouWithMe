@@ -18,7 +18,6 @@ interface TeamWrapperProps {
 }
 
 const TeamWrapper = ({ teamId }: TeamWrapperProps) => {
-  console.log(teamId);
   const { data: response, error } = useQuery({
     queryKey: ["team", teamId],
     queryFn: () => getGroupData(teamId),
@@ -33,8 +32,6 @@ const TeamWrapper = ({ teamId }: TeamWrapperProps) => {
   }
 
   const adminId = getTeamAdmin(response.members);
-
-  console.log("response", response);
 
   return (
     <>

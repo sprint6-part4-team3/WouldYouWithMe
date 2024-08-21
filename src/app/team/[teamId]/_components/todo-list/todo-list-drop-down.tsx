@@ -11,15 +11,9 @@ import EditTodoListModal from "./edit-todo-list-modal";
 
 type TodoListDropDownProps = {
   task: GroupTask;
-  onEditTask: (newTask: GroupTask) => void;
-  onDeleteTask: (newTask: GroupTask) => void;
 };
 
-const TodoListDropDown = ({
-  task,
-  onEditTask,
-  onDeleteTask,
-}: TodoListDropDownProps) => {
+const TodoListDropDown = ({ task }: TodoListDropDownProps) => {
   const { value, handleOff, handleToggle } = useToggle();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -45,26 +39,18 @@ const TodoListDropDown = ({
         <IconButton icon="IconKebab" variant="none" />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value} className="z-50">
-        <DropDown.Item>
-          <div onClick={openEditModal}>수정하기</div>
+        <DropDown.Item onClick={openEditModal}>
+          <span>수정하기</span>
         </DropDown.Item>
-        <DropDown.Item>
-          <div onClick={openDeleteModal}>삭제하기</div>
+        <DropDown.Item onClick={openDeleteModal}>
+          <span>삭제하기</span>
         </DropDown.Item>
       </DropDown.Menu>
       {isDeleteModalOpen && (
-        <DeleteTaskListModal
-          onClose={closeDeleteModal}
-          task={task}
-          onDeleteTask={onDeleteTask}
-        />
+        <DeleteTaskListModal onClose={closeDeleteModal} task={task} />
       )}
       {isEditModalOpen && (
-        <EditTodoListModal
-          onClose={closeEditModal}
-          task={task}
-          onEditTask={onEditTask}
-        />
+        <EditTodoListModal onClose={closeEditModal} task={task} />
       )}
     </DropDown>
   );

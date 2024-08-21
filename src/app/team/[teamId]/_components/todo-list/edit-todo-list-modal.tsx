@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -16,17 +17,13 @@ import { TaskListAddEditInput } from "@/types/task-list";
 interface EditTodoListModalProps {
   task: GroupTask;
   onClose: () => void;
-  onEditTask: (newTask: GroupTask) => void;
 }
 
-const EditTodoListModal = ({
-  task,
-  onClose,
-  onEditTask,
-}: EditTodoListModalProps) => {
+const EditTodoListModal = ({ task, onClose }: EditTodoListModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const isMobile = useIsMobile();
+  const router = useRouter();
 
   const {
     register,
@@ -37,22 +34,16 @@ const EditTodoListModal = ({
     resolver: zodResolver(taskListAddEditSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
+    defaultValues: {
+      name: task.name,
+    },
   });
 
   const deleteTeam = async (data: TaskListAddEditInput) => {
     try {
       setIsLoading(true);
-      const editTask = await editTaskList(data, task.groupId, task.id);
-      const newTask: GroupTask = {
-        id: editTask.id,
-        name: data.name,
-        createdAt: editTask.createdAt,
-        updatedAt: editTask.updatedAt,
-        displayIndex: editTask.displayIndex,
-        groupId: editTask.groupId,
-        tasks: [],
-      };
-      onEditTask(newTask);
+      await editTaskList(data, task.groupId, task.id);
+      router.refresh();
       onClose();
       reset();
       toast.success("목록이 수정 되었습니다.");
@@ -80,8 +71,8 @@ const EditTodoListModal = ({
     <ModalComponent
       showCloseButton
       onClose={onClose}
-      title="목록을 수정 하실건가요?"
-      description={task.name}
+      title="할 일 목록 수정"
+      description="수정할 할 일 목록 이름을 입력해주세요"
     >
       <form
         className="flex flex-col gap-16"

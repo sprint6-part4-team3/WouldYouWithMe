@@ -29,7 +29,7 @@ import FloatButton from "../float-button";
 
 type AddListModalButtonProps = {
   groupId: number;
-  onAddTask?: (newTask: GroupTask) => void;
+  onAddTask?: () => void;
 };
 
 type TaskListNav = { id: number; name: string }[];
@@ -58,19 +58,9 @@ const AddListModalButton = ({
     setIsLoading(true);
     try {
       const createdTask = await createTaskList(data, groupId);
-
-      const newTaskList: GroupTask = {
-        id: createdTask.id,
-        name: data.name,
-        createdAt: createdTask.createdAt,
-        updatedAt: createdTask.updatedAt,
-        displayIndex: createdTask.displayIndex,
-        groupId: createdTask.groupId,
-        tasks: [],
-      };
       toast.success("등록이 완료되었습니다");
       if (onAddTask) {
-        onAddTask(newTaskList);
+        onAddTask();
       }
       const taskListsNav = { id: createdTask.id, name: data.name };
       queryClient.setQueryData(
