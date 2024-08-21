@@ -40,14 +40,16 @@ const TeamDropdown = () => {
 
   useEffect(() => {
     if (!isLoading && userData) {
-      const firstTeam = userData.memberships[0].group;
-      setCookie("firstTeamName", firstTeam.name);
+      if (userData.memberships.length > 0) {
+        const firstTeam = userData.memberships[0].group;
+        setCookie("firstTeamName", firstTeam.name);
+      }
       if (recentTeam) {
         setDropdownTeamName(recentTeam.teamName);
-      } else if (userData.memberships.length > 0) {
-        setDropdownTeamName(firstTeam.name);
+      } else {
+        setDropdownTeamName(userData.memberships[0].group.name);
         setRecentTeam({
-          teamName: firstTeam.name,
+          teamName: userData.memberships[0].group.name,
           groupId: userData.memberships[0].groupId,
         });
       }
