@@ -7,22 +7,32 @@ import { useMemo } from "react";
 import { useToast } from "@/hooks";
 import isTokenExpire from "@/utils/get-token-expire";
 
-const CopyTeamToken = ({ token }: { token: string }) => {
+interface CopyTeamTokenProps {
+  token: string;
+  isLogin: boolean;
+}
+
+const CopyTeamToken = ({ token, isLogin }: CopyTeamTokenProps) => {
   const toast = useToast();
   const router = useRouter();
 
   const isExpire = useMemo(() => isTokenExpire(token), [token]);
 
   const copyToClipboard = () => {
-    navigator.clipboard
-      .writeText(token)
-      .then(() => {
-        router.push("/join-team");
-        toast.success("토큰이 복사되었습니다.");
-      })
-      .catch(() => {
-        toast.error("토큰이 복사되지 않았습니다.");
-      });
+    if (!isLogin) {
+      toast.error("로그인 후 이용해주세요");
+      router.push("/login");
+    } else {
+      navigator.clipboard
+        .writeText(token)
+        .then(() => {
+          router.push("/join-team");
+          toast.success("토큰이 복사되었습니다.");
+        })
+        .catch(() => {
+          toast.error("토큰이 복사되지 않았습니다.");
+        });
+    }
   };
 
   return (
