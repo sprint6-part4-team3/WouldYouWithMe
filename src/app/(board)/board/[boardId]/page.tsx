@@ -36,7 +36,7 @@ const BoardPage = async ({ params }: { params: { boardId: number } }) => {
   const userId = cookies().get("userId")?.value;
 
   await Promise.all([
-    queryClient.prefetchQuery({
+    queryClient.fetchQuery({
       queryKey: ["board", boardId],
       queryFn: () => getBoardDetailData(boardId),
     }),
