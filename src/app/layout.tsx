@@ -10,7 +10,10 @@ import NavBar from "@/components/nav-bar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Coworkers",
+  title: "우주윗미",
+  icons: {
+    icon: "/assets/favicon.ico",
+  },
   openGraph: {
     title: "우주윗미",
     description: "함께 만들어가는 스터디 투두리스트, 우주윗미",
@@ -19,8 +22,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/85/img-open-graph.png",
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 630,
       },
     ],
     locale: "ko_KR",
