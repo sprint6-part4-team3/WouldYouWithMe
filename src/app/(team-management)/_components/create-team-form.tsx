@@ -2,8 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSetAtom } from "jotai";
-import { useRouter } from "next/navigation";
+import { useAtom, useSetAtom } from "jotai";
 import { useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
@@ -11,7 +10,7 @@ import { DUPLICATE_TEAM_NAME } from "@/constants/error-message";
 import { useToast } from "@/hooks";
 import createGroup from "@/lib/api/group/create-group";
 import { teamAddEditSchema } from "@/lib/schemas/team-manage";
-import recentTeamAtom from "@/stores/recent-team-atom";
+import { recentTeamAtom, userAtom } from "@/stores";
 import { TeamAddEditInput } from "@/types/team-management";
 
 import ImageInput from "./image-input";
@@ -19,12 +18,14 @@ import NameInput from "./name-input";
 import SubmitButton from "./submit-button";
 
 const CreateTeamForm = () => {
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
+
   const queryClient = useQueryClient();
 
   const toast = useToast();
-  const router = useRouter();
 
-  const setRecentTeam = useSetAtom(recentTeamAtom);
+  const setRecentTeam = useSetAtom(recentTeamAtom(userId));
 
   const [isImgLoading, setIsImgLoading] = useState(false);
 
@@ -49,7 +50,7 @@ const CreateTeamForm = () => {
           teamName: res.name,
           groupId: res.id,
         });
-        router.push(`/team/${res.id}`);
+        window.location.href = `/team/${res.id}`;
         queryClient.invalidateQueries({ queryKey: ["userData"] });
       },
       onError: (error) => {

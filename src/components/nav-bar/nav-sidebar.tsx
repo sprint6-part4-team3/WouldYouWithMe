@@ -2,13 +2,13 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useClickOutside, useIsMobile } from "@/hooks";
 import getUserData from "@/lib/api/nav-bar/get-user";
-import { recentTeamAtom } from "@/stores";
+import { recentTeamAtom, userAtom } from "@/stores";
 import groupIdListAtom from "@/stores/group-list";
 import { User } from "@/types/user";
 import extractGroupId from "@/utils/extract-group-id";
@@ -26,25 +26,31 @@ const fetchUserData = async (): Promise<User> => {
 };
 
 const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
   const [, setGroupIdList] = useAtom(groupIdListAtom);
-  const { data: user } = useQuery<User>({
-    queryKey: ["userData"],
+  const useRecentTeamAtom = useMemo(() => recentTeamAtom(userId), [userId]);
+  const [, setRecentTeam] = useAtom(useRecentTeamAtom);
+
+  const { data: userData } = useQuery<User>({
+    queryKey: ["userData", userId],
     queryFn: fetchUserData,
+    enabled: !!userId,
   });
 
   useEffect(() => {
-    if (user) {
-      const groupIdsFromData = extractGroupId(user.memberships);
+    if (userData) {
+      const groupIdsFromData = extractGroupId(userData.memberships);
       setGroupIdList(groupIdsFromData);
     }
-  }, [setGroupIdList, user]);
+  }, [setGroupIdList, userData]);
 
   const sidebarRef = useClickOutside(onClose);
   const isMobile = useIsMobile();
-  const setRecentTeam = useSetAtom(recentTeamAtom);
 
-  const teams = user?.memberships ?? [];
+  const teams = userData?.memberships ?? [];
   const hasTeams = teams.length > 0;
+  const isLoggedIn = userId !== 0;
 
   const handleLinkClick = (teamName: string, groupId: number) => {
     setRecentTeam({
@@ -74,12 +80,12 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
         className="absolute right-22 top-22"
       />
       <div className="ml-16 mt-75">
-        {hasTeams && (
+        {hasTeams ? (
           <ul className="space-y-24">
             {teams.map((membership) => (
               <li key={membership.group.id}>
                 <Link
-                  href={`/${membership.group.id}`}
+                  href={`/team/${membership.group.id}`}
                   onClick={() =>
                     handleLinkClick(membership.group.name, membership.group.id)
                   }
@@ -89,10 +95,21 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
               </li>
             ))}
           </ul>
+        ) : (
+          isLoggedIn && (
+            <div className="mt-24 flex flex-col gap-24">
+              <Link
+                href="/create-team"
+                onClick={onClose}
+                className="text-brand-primary"
+              >
+                팀 생성하기
+              </Link>
+            </div>
+          )
         )}
-
-        <div className="mt-24">
-          <Link href="/boards" onClick={onClose}>
+        <div className="mt-24 flex flex-col gap-24">
+          <Link href="/boards" onClick={onClose} className="text-brand-primary">
             자유게시판
           </Link>
         </div>
