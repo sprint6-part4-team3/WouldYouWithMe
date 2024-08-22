@@ -49,6 +49,7 @@ const TeamPage = async ({ params }: { params: { teamId: number } }) => {
   await queryClient.prefetchQuery({
     queryKey: ["team", currentTeamId],
     queryFn: () => getGroupData(currentTeamId),
+    staleTime: 5000,
   });
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 
@@ -14,7 +14,7 @@ import RedirectBoardModal from "./redirect-board-modal";
 const AddMemberModal = () => {
   const pathname = usePathname();
 
-  const boardId = useMemo(() => pathname.split("/")[2], [pathname]);
+  const teamId = useMemo(() => pathname.split("/")[2], [pathname]);
 
   const { value: isOpen, handleOn, handleOff } = useToggle();
   const {
@@ -26,33 +26,26 @@ const AddMemberModal = () => {
   const toast = useToast();
   const isMobile = useIsMobile();
 
-  const copyToClipboard = (token: string) => {
-    navigator.clipboard
-      .writeText(token)
-      .then(() => {
-        toast.success("링크가 생성되어 복사되었습니다.");
-      })
-      .catch(() => {
-        toast.error("링크가 복사되지 않았습니다.");
-      });
-  };
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: () => createInvitationToken(Number(boardId)),
-    onSuccess: (res) => {
-      copyToClipboard(res);
-      boardHandleOn();
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-    onSettled: () => {
-      handleOff();
-    },
+  const { data } = useQuery({
+    queryKey: ["token", teamId],
+    queryFn: () => createInvitationToken(Number(teamId)),
+    staleTime: 60000 * 60,
+    enabled: !!isOpen,
   });
 
-  const handleClickCopy = () => {
-    mutate();
+  const copyToClipboard = () => {
+    if (data) {
+      navigator.clipboard
+        .writeText(data)
+        .then(() => {
+          toast.success("링크가 생성되어 복사되었습니다.");
+          handleOff();
+          boardHandleOn();
+        })
+        .catch(() => {
+          toast.error("링크가 복사되지 않았습니다.");
+        });
+    }
   };
 
   const ModalComponent = isMobile ? Drawer : Modal;
@@ -74,24 +67,16 @@ const AddMemberModal = () => {
           title="멤버 초대"
           description="그룹에 참여할 수 있는 토큰을 복사합니다."
         >
-          {isPending ? (
-            <FloatButton
-              variant="primary"
-              disabled
-              className="mt-16 h-47 w-full"
-              Icon={<LoadingSpinner width={30} height={30} />}
-            >
-              복사 중
-            </FloatButton>
-          ) : (
-            <Button
-              onClick={handleClickCopy}
-              variant="primary"
-              className="mt-16 h-47 w-full"
-            >
-              복사하기
-            </Button>
-          )}
+          <span className="max-w-full truncate rounded-10 border border-border-primary bg-background-tertiary px-10 py-12 text-text-secondary">
+            {data}
+          </span>
+          <Button
+            className="mt-16 h-47 w-full"
+            variant="primary"
+            onClick={copyToClipboard}
+          >
+            복사하기
+          </Button>
         </ModalComponent>
       )}
       {isOpenBoard && (

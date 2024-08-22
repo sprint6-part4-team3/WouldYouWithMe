@@ -21,6 +21,7 @@ const TeamWrapper = ({ teamId }: TeamWrapperProps) => {
   const { data: response, error } = useQuery({
     queryKey: ["team", teamId],
     queryFn: () => getGroupData(teamId),
+    staleTime: 5000,
   });
 
   if (!response) {
