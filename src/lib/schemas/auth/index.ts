@@ -5,7 +5,14 @@ const loginSchema = z.object({
     .string()
     .min(1, "이메일은 필수 입력입니다.")
     .email("이메일 형식으로 작성해 주세요."),
-  password: z.string().min(1, "비밀번호는 필수 입력입니다."),
+  password: z
+    .string()
+    .min(1, "비밀번호는 필수 입력입니다.")
+    .min(8, "비밀번호는 최소 8자 이상입니다.")
+    .regex(
+      /^[a-zA-Z0-9!@#$%^&*]+$/,
+      "비밀번호는 숫자, 영문, 특수문자로만 가능합니다.",
+    ),
 });
 
 const signUpSchema = z
@@ -55,7 +62,7 @@ const emailSchema = z.object({
 
 const userSettingSchema = z.object({
   image: z.string().optional(),
-  nickname: z.string().min(1, "이름은 필수 입력입니다."),
+  nickname: z.string().min(1, "닉네임은 필수 입력입니다."),
 });
 
 export {

@@ -48,7 +48,6 @@ const Drawer = ({
   onClose,
   title,
   description,
-  showCloseButton = false,
   showWarningIcon = false,
   className,
   children,
@@ -130,21 +129,6 @@ const Drawer = ({
             <div className="mb-16 flex justify-center">
               <div className="h-4 w-32 rounded-full bg-gray-300" />
             </div>
-            {showCloseButton && (
-              <button
-                type="button"
-                onClick={handleClose}
-                className="absolute right-16 top-16 text-text-secondary hover:text-text-primary"
-              >
-                <IconX
-                  width={20}
-                  height={20}
-                  className="text-gray-500 transition-colors duration-200"
-                  transition-colors
-                />
-              </button>
-            )}
-
             <div className="flex flex-col items-center">
               {showWarningIcon && (
                 <div className="mb-16">

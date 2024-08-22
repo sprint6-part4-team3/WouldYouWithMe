@@ -1,34 +1,31 @@
+"use client";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 import { Button, Drawer, FloatButton, Modal } from "@/components/common";
-import {
-  useBackAndRefresh,
-  useIsMobile,
-  useTaskParams,
-  useToast,
-} from "@/hooks";
+import { useIsMobile, useTaskParams, useToast } from "@/hooks";
 import deleteTaskDetail from "@/lib/api/task-detail/delete-task-detail";
 import { LoadingSpinner } from "@/public/assets/icons";
 
 interface TaskDeleteModalProps {
   onClose: () => void;
+  id: number;
 }
 
-const TaskDeleteModal = ({ onClose }: TaskDeleteModalProps) => {
-  const { groupId, taskListId, taskId } = useTaskParams();
+const TaskDeleteModal = ({ onClose, id }: TaskDeleteModalProps) => {
+  const { groupId, taskListId, taskId: paramId } = useTaskParams();
+  const taskId = id;
   const isMobile = useIsMobile();
   const toast = useToast();
-  const router = useRouter();
   const queryClient = useQueryClient();
-
-  const navigateBackAndRefresh = useBackAndRefresh();
+  const router = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
       deleteTaskDetail(
-        taskId.toString(),
+        taskId!.toString(),
         groupId.toString(),
         taskListId.toString(),
       ),
@@ -37,7 +34,8 @@ const TaskDeleteModal = ({ onClose }: TaskDeleteModalProps) => {
       queryClient.invalidateQueries({
         queryKey: ["tasks", groupId, taskListId],
       });
-      navigateBackAndRefresh();
+      onClose();
+      if (paramId) router.back();
     },
     onError: (error) => {
       toast.error(`태스크 삭제 실패: ${error.message}`);

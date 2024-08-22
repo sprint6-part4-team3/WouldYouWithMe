@@ -1,8 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { date } from "zod";
 
 import {
   Button,
@@ -20,10 +19,16 @@ import { EditTaskType } from "@/types/task-list";
 interface EditTaskProps {
   name: string;
   description?: string;
+  done: boolean;
   closeEditTask: () => void;
 }
 
-const TaskEditModal = ({ name, description, closeEditTask }: EditTaskProps) => {
+const TaskEditModal = ({
+  name,
+  description,
+  done,
+  closeEditTask,
+}: EditTaskProps) => {
   const {
     groupId: currentGroupId,
     taskListId: currentListId,
@@ -32,7 +37,6 @@ const TaskEditModal = ({ name, description, closeEditTask }: EditTaskProps) => {
   const dateUrl = useSearchParams().get("date");
   const toast = useToast();
   const queryClient = useQueryClient();
-  const router = useRouter();
   const isMobile = useIsMobile();
   const EditTaskComponent = isMobile ? Drawer : Modal;
   const {
@@ -70,12 +74,16 @@ const TaskEditModal = ({ name, description, closeEditTask }: EditTaskProps) => {
     }) => editTaskDetail(groupId, taskListId, taskId, data),
   });
   const onSubmit: SubmitHandler<EditTaskType> = async (data) => {
+    const submitData = {
+      ...data,
+      done,
+    };
     mutate(
       {
         groupId: currentGroupId,
         taskListId: currentListId,
         taskId: currentTaskId,
-        data,
+        data: submitData,
       },
       {
         onSuccess: () => {

@@ -2,6 +2,8 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button, FloatButton, TextArea } from "@/components/common";
@@ -20,6 +22,9 @@ const AddComment = ({ boardId, setSampleComment }: AddCommentProps) => {
   const queryClient = useQueryClient();
   const toast = useToast();
   const [user] = useAtom(userAtom);
+  const router = useRouter();
+
+  const isLogin = useMemo(() => user.id !== 0, [user]);
 
   const {
     register,
@@ -38,27 +43,32 @@ const AddComment = ({ boardId, setSampleComment }: AddCommentProps) => {
   });
 
   const handleSubmitComment: SubmitHandler<BoardCommentInput> = (data) => {
-    const submitData = { content: data.content.trim() };
+    if (!isLogin) {
+      toast.error("로그인 후 이용해주세요");
+      router.push("/login");
+    } else {
+      const submitData = { content: data.content.trim() };
 
-    const sampleComment = {
-      writer: { image: user.image, nickname: user.nickname, id: user.id },
-      updatedAt: new Date().toISOString(),
-      createdAt: new Date().toISOString(),
-      content: submitData.content,
-      id: 10000,
-    };
+      const sampleComment = {
+        writer: { image: user.image, nickname: user.nickname, id: user.id },
+        updatedAt: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        content: submitData.content,
+        id: 10000,
+      };
 
-    setSampleComment(sampleComment);
+      setSampleComment(sampleComment);
 
-    mutate(submitData, {
-      onSuccess: () => {
-        reset();
-      },
-      onError: (error) => {
-        toast.error(error.message);
-        setSampleComment(null);
-      },
-    });
+      mutate(submitData, {
+        onSuccess: () => {
+          reset();
+        },
+        onError: (error) => {
+          toast.error(error.message);
+          setSampleComment(null);
+        },
+      });
+    }
   };
 
   return (

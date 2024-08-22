@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ToolTip } from "@/components/common";
 import { IconDoneCyan } from "@/public/assets/icons";
 import { GroupTask, TaskList } from "@/types/group";
 import groupTaskTodoList from "@/utils/group-task-todo-list";
@@ -45,9 +46,11 @@ const TodoListCard = ({
       <div className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`} />
       <Link
         href={link}
-        className="z-2 flex flex-1 items-center justify-between hover:text-brand-primary hover:underline"
+        className="z-2 group flex flex-1 items-center justify-between"
       >
-        <span className="text-14-500">{children}</span>
+        <ToolTip message="목록을 클릭하여 투두리스트 관리하기" position="right">
+          <span className="group-hover text-14-500">{children}</span>
+        </ToolTip>
         <div className="flex items-center gap-4 rounded-full bg-background-primary px-8 py-4">
           {totalItems === completedItems ? (
             <IconDoneCyan />

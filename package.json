@@ -42,6 +42,8 @@
     "@chromatic-com/storybook": "^1.6.1",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
+    "@react-three/drei": "^9.111.2",
+    "@react-three/fiber": "^8.17.5",
     "@storybook/addon-essentials": "^8.2.5",
     "@storybook/addon-interactions": "^8.2.5",
     "@storybook/addon-links": "^8.2.5",
@@ -68,6 +70,7 @@
     "prettier": "^3.3.3",
     "storybook": "^8.2.5",
     "tailwindcss": "^3.4.6",
+    "three": "^0.167.1",
     "typescript": "^5"
   }
 }

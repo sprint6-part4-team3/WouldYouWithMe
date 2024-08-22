@@ -3,8 +3,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import Lottie from "lottie-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { useToast } from "@/hooks";
 import likeBoard from "@/lib/api/board/like-board";
 import unlikeBoard from "@/lib/api/board/unlike-board";
 import BrokeHeartAnimation from "@/public/assets/lotties/broke-heart.json";
@@ -12,14 +14,22 @@ import HeartAnimation from "@/public/assets/lotties/heart.json";
 import { BoardResponse } from "@/types/board";
 
 interface BoardLikeProps {
+  isLogin: boolean;
   isLiked: boolean;
   boardId: number;
   likeCount: number;
 }
 
-const BoardLike = ({ isLiked, boardId, likeCount }: BoardLikeProps) => {
+const BoardLike = ({
+  isLogin,
+  isLiked,
+  boardId,
+  likeCount,
+}: BoardLikeProps) => {
   const [showLottie, setShowLottie] = useState(false);
   const queryClient = useQueryClient();
+  const toast = useToast();
+  const router = useRouter();
 
   const { mutate } = useMutation({
     mutationFn: async (userAction: "UNLIKE" | "LIKE") => {
@@ -54,12 +64,17 @@ const BoardLike = ({ isLiked, boardId, likeCount }: BoardLikeProps) => {
   });
 
   const handleLikeClick = (userAction: "UNLIKE" | "LIKE") => {
-    setShowLottie(true);
-    mutate(userAction);
+    if (!isLogin) {
+      toast.error("로그인 후 이용해주세요");
+      router.push("/login");
+    } else {
+      setShowLottie(true);
+      mutate(userAction);
 
-    setTimeout(() => {
-      setShowLottie(false);
-    }, 1000);
+      setTimeout(() => {
+        setShowLottie(false);
+      }, 1000);
+    }
   };
 
   return (

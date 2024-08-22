@@ -2,15 +2,16 @@
 
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { useAtom } from "jotai";
 import Image from "next/image";
-import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/common";
 import EMPTY_IMAGE from "@/constants/image";
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
 import { IconComment, IconProfile } from "@/public/assets/icons";
+import { userAtom } from "@/stores";
 import formatBoardDate from "@/utils/format-board-date";
 
 import BoardDropDown from "./board-drop-down";
@@ -25,6 +26,10 @@ interface BoardDetailProps {
 const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
   const router = useRouter();
   const [previousPage, setPreviousPage] = useState<string | null>("");
+
+  const [user] = useAtom(userAtom);
+
+  const isLogin = useMemo(() => user.id !== 0, [user]);
 
   useEffect(() => {
     const storage = globalThis?.sessionStorage;
@@ -107,7 +112,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
         </div>
       </div>
 
-      <CopyTeamToken token={parsedContent.token} />
+      <CopyTeamToken isLogin={isLogin} token={parsedContent.token} />
 
       {boardData.image && boardData.image !== EMPTY_IMAGE && (
         <div className="mt-40 flex w-327 md:w-360">
@@ -129,6 +134,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
 
       <div className="mb-24 flex items-center justify-center gap-24">
         <BoardLike
+          isLogin={isLogin}
           isLiked={boardData.isLiked}
           boardId={boardId}
           likeCount={boardData.likeCount}
