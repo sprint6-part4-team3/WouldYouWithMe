@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 import { useToast } from "@/hooks";
@@ -39,6 +39,11 @@ const UserSettingForm = () => {
   });
 
   const { setValue } = methods;
+
+  useEffect(() => {
+    setValue("image", user.image || "");
+    setValue("nickname", user.nickname || "");
+  }, [user.image, user.nickname, setValue]);
 
   const mutation = useMutation({
     mutationFn: (data: { nickname?: string; image: string | null }) =>
