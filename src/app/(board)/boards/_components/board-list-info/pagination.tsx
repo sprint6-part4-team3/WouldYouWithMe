@@ -62,12 +62,12 @@ const Pagination = ({
   };
 
   return (
-    <div className="flex w-full items-center justify-center gap-10 py-20 text-20-500 md:gap-15 lg:mb-40">
+    <div className="flex w-full items-center justify-center gap-8 py-20 text-20-500 md:gap-14 lg:mb-40">
       <button disabled={startPage <= 1} onClick={handlePrevGroup} type="button">
         <IconPagePrevPrev
-          className={clsx("fill-text-primary", {
+          className={clsx({
             "fill-text-default cursor-not-allowed": startPage <= 1,
-            "hover:fill-text-secondary": startPage > 1,
+            "fill-text-primary hover:fill-text-secondary": startPage > 1,
           })}
         />
       </button>
@@ -77,9 +77,9 @@ const Pagination = ({
         type="button"
       >
         <IconPagePrev
-          className={clsx("fill-text-primary", {
+          className={clsx({
             "fill-text-default cursor-not-allowed": currentPage - 1 <= 0,
-            "hover:fill-text-secondary": currentPage - 1 > 0,
+            "fill-text-primary hover:fill-text-secondary": currentPage - 1 > 0,
           })}
         />
       </button>
@@ -105,9 +105,10 @@ const Pagination = ({
         type="button"
       >
         <IconPageNext
-          className={clsx("fill-text-primary", {
+          className={clsx({
             "fill-text-default cursor-not-allowed": currentPage + 1 > totalPage,
-            "hover:fill-text-secondary": currentPage + 1 < totalPage,
+            "fill-text-primary hover:fill-text-secondary":
+              currentPage + 1 <= totalPage,
           })}
         />
       </button>
@@ -118,10 +119,11 @@ const Pagination = ({
         type="button"
       >
         <IconPageNextNext
-          className={clsx("fill-text-primary", {
+          className={clsx({
             "fill-text-default cursor-not-allowed":
               startPage + PAGE_COUNT > totalPage,
-            "hover:fill-text-secondary": startPage + PAGE_COUNT <= totalPage,
+            "fill-text-primary hover:fill-text-secondary":
+              startPage + PAGE_COUNT <= totalPage,
           })}
         />
       </button>
