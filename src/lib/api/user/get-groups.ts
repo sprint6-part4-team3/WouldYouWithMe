@@ -10,7 +10,7 @@ const getGroups = async () => {
   try {
     const { data }: AxiosResponse<Group[]> = await instance.get("/user/groups");
     return data;
-  } catch (e: unknown) {
+  } catch (e) {
     if (axios.isAxiosError(e)) {
       throw e.response?.data;
     } else {
