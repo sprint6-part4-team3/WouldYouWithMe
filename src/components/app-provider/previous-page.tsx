@@ -26,7 +26,7 @@ const PreviousPageComponent = () => {
 };
 
 const SuspensePreviousPageComponent = () => (
-  <Suspense fallback={<div>로딩</div>}>
+  <Suspense fallback={null}>
     <PreviousPageComponent />
   </Suspense>
 );
