@@ -14,8 +14,6 @@ interface TodoListCardProps {
   link: string;
   tasks: TaskList[];
   task: GroupTask;
-  onEditTask: (newTask: GroupTask) => void;
-  onDeleteTask: (newTask: GroupTask) => void;
 }
 
 function getColorClass(color: TodoListCardProps["color"]) {
@@ -35,8 +33,6 @@ const TodoListCard = ({
   link,
   tasks,
   task,
-  onEditTask,
-  onDeleteTask,
 }: TodoListCardProps) => {
   const colorClass = getColorClass(color);
   const { totalItems, completedItems, CHECKED_ITEMS } =
@@ -63,11 +59,7 @@ const TodoListCard = ({
         </div>
       </Link>
       <div className="absolute right-10">
-        <TodoListDropDown
-          task={task}
-          onEditTask={onEditTask}
-          onDeleteTask={onDeleteTask}
-        />
+        <TodoListDropDown task={task} />
       </div>
     </div>
   );

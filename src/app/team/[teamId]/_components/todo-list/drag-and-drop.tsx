@@ -6,6 +6,7 @@ import {
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useToast } from "@/hooks";
@@ -18,18 +19,9 @@ import TodoListCard from "./todo-list-card";
 interface DragAndDropProps {
   todoListIndex: GroupTask[];
   teamId: number;
-  handleEditTask: (newTask: GroupTask) => void;
-  handleDeleteTask: (newTask: GroupTask) => void;
-  setTodoListIndex: (newTask: GroupTask[]) => void;
 }
 
-const DragAndDrop = ({
-  todoListIndex,
-  teamId,
-  handleEditTask,
-  handleDeleteTask,
-  setTodoListIndex,
-}: DragAndDropProps) => {
+const DragAndDrop = ({ todoListIndex, teamId }: DragAndDropProps) => {
   // 색상 타입 및 배열 정의
   const colorProps: Array<
     "purple" | "blue" | "green" | "pink" | "rose" | "orange" | "yellow"
@@ -37,6 +29,7 @@ const DragAndDrop = ({
 
   const [enabled, setEnabled] = useState(false);
   const toast = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     const animation = requestAnimationFrame(() => setEnabled(true));
@@ -72,7 +65,6 @@ const DragAndDrop = ({
     const [movedTask] = updatedTasks.splice(source.index, 1); // 드래그한 요소를 배열에서 제거
     updatedTasks.splice(destination.index, 0, movedTask); // 드롭한 위치에 요소를 추가
 
-    setTodoListIndex(updatedTasks);
     const data: TaskListEditIndex = {
       displayIndex: destination.index,
     };
@@ -83,7 +75,7 @@ const DragAndDrop = ({
     loadDataAfterEdit(data, groupId, id).then((success) => {
       if (!success) {
         // 서버 요청이 실패한 경우 이전 상태로 복원
-        setTodoListIndex(previousTasks);
+        router.refresh();
       }
     });
   };
@@ -115,8 +107,6 @@ const DragAndDrop = ({
                         link={`/team/${[teamId]}/task-lists/${item.id}`}
                         tasks={item.tasks}
                         task={item}
-                        onEditTask={handleEditTask}
-                        onDeleteTask={handleDeleteTask}
                       >
                         {item.name}
                       </TodoListCard>

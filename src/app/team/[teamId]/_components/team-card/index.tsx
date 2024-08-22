@@ -70,9 +70,14 @@ const TeamCardBox = ({
   adminId,
   teamImage,
 }: TeamCardBoxProps) => {
+  const [isClient, setIsClient] = useState(false);
   const [user] = useAtom(userAtom);
   const userId = user.id;
   const setRecentTeam = useSetAtom(recentTeamAtom(userId));
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     setRecentTeam({
@@ -103,7 +108,7 @@ const TeamCardBox = ({
         </div>
         <h1 className="text-20-700">{teamName}</h1>
       </div>
-      {userId === adminId && (
+      {isClient && userId === adminId && (
         <div className="flex items-center gap-30">
           <TeamCardDropdownButton teamName={teamName} teamId={teamId} />
         </div>

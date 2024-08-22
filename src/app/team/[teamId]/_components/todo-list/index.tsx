@@ -1,7 +1,8 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 import { AddListModalButton } from "@/components/common";
 import { GroupTask } from "@/types/group";
@@ -14,9 +15,9 @@ interface TodoLostBoxProps {
 }
 
 const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
-  const [todoListIndex, setTodoListIndex] = useState(taskList);
   const queryClient = useQueryClient();
-  const taskListsNav = todoListIndex.map(({ id, name }) => ({
+  const router = useRouter();
+  const taskListsNav = taskList.map(({ id, name }) => ({
     id,
     name,
   }));
@@ -29,22 +30,8 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
     );
   }, [taskListsNav, teamId]);
 
-  const handleAddTask = (newTask: GroupTask) => {
-    setTodoListIndex((prevTasks) => [...prevTasks, newTask]);
-  };
-
-  const handleEditTask = (updatedTask: GroupTask) => {
-    setTodoListIndex((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === updatedTask.id ? updatedTask : task,
-      ),
-    );
-  };
-
-  const handleDeleteTask = (taskToDelete: GroupTask) => {
-    setTodoListIndex((prevTasks) =>
-      prevTasks.filter((task) => task.id !== taskToDelete.id),
-    );
+  const handleAddTask = () => {
+    router.refresh();
   };
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -67,14 +54,8 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
         </div>
       </div>
       <section>
-        {todoListIndex.length > 0 && (
-          <DragAndDrop
-            todoListIndex={todoListIndex}
-            teamId={teamId}
-            handleEditTask={handleEditTask}
-            handleDeleteTask={handleDeleteTask}
-            setTodoListIndex={setTodoListIndex}
-          />
+        {taskList.length > 0 && (
+          <DragAndDrop todoListIndex={taskList} teamId={teamId} />
         )}
       </section>
       <div
