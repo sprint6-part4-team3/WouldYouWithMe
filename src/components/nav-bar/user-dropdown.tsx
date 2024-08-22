@@ -27,7 +27,11 @@ const UserDropdown = () => {
   };
 
   if (user.id === 0) {
-    return null;
+    return (
+      <Link href="/login" className="text-text-primary">
+        로그인
+      </Link>
+    );
   }
 
   return (
