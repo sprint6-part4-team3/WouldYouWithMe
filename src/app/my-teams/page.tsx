@@ -41,7 +41,7 @@ const MyTeams = async () => {
                     layout="fill"
                     objectFit="cover"
                     className="rounded-md"
-                    alt="팀 기본 이미지"
+                    alt="기본 팀 이미지"
                   />
                 )}
               </div>
