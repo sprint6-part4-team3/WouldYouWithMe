@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/common";
@@ -12,14 +13,20 @@ import { Group } from "@/types/user";
 
 const MyTeams = () => {
   const [myTeams, setMyTeams] = useState<Group[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const getGroups = async () => {
       const res = await getUserGroups();
+
+      if (res.length === 0) {
+        router.push("/team-empty");
+      }
+
       setMyTeams(res);
     };
     getGroups();
-  }, []);
+  }, [router]);
 
   return (
     <>
