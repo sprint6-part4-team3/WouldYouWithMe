@@ -41,7 +41,7 @@ const UserSettingForm = () => {
   const { setValue } = methods;
 
   const mutation = useMutation({
-    mutationFn: (data: { nickname: string; image: string | null }) =>
+    mutationFn: (data: { nickname?: string; image: string | null }) =>
       EditUser(data),
     onSuccess: (data, variables) => {
       if (data.success) {
@@ -52,7 +52,7 @@ const UserSettingForm = () => {
 
         setUser((prevUser) => ({
           ...prevUser,
-          nickname: variables.nickname,
+          nickname: variables.nickname || prevUser.nickname,
           image: variables.image || prevUser.image,
         }));
         router.replace(`/user-setting`);
@@ -67,7 +67,15 @@ const UserSettingForm = () => {
 
   const handleSubmitUser: SubmitHandler<UserSettingInput> = (data) => {
     const { image, nickname } = data;
-    mutation.mutate({ image, nickname });
+    const updatedData: { nickname?: string; image: string | null } = {
+      image,
+    };
+
+    if (nickname !== user.nickname) {
+      updatedData.nickname = nickname;
+    }
+
+    mutation.mutate(updatedData);
   };
 
   const handleChangePasswordClick = () => {
