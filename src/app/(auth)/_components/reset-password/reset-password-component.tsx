@@ -46,8 +46,7 @@ const ResetPasswordComponent = ({
   const onSubmit: SubmitHandler<EmailInput> = async ({ email }) => {
     setIsLoading(true);
 
-    // NOTE - 배포 주소로 변경 예정
-    const redirectUrl = "http://localhost:3000";
+    const redirectUrl = "https://3team-coworkers.netlify.app";
 
     const { success: apiSuccess, data } = await SendEmail(email, redirectUrl);
 
