@@ -8,10 +8,10 @@ import BoardListInfo from "./_components/board-list-info";
 import CarouselItems from "./_components/carousel/carouselItems";
 
 export const metadata: Metadata = {
-  title: "자유게시판 | 우주윗미",
+  title: "모집게시판 | 우주윗미",
   description: "같이 일정관리 할 팀원들을 모집해요",
   openGraph: {
-    title: "우주윗미 - 자유게시판",
+    title: "우주윗미 - 모집게시판",
     description: "Would You Study With Me? 우주윗미",
     url: "https://3team-coworkers.netlify.app/boards",
     siteName: "우주윗미",
@@ -43,7 +43,7 @@ const BoardPage = () => {
     <div className="mt-40 flex flex-col gap-40">
       <div className="flex items-center justify-between">
         <div className="flex gap-8 sm:flex-col md:items-center md:gap-16">
-          <h1 className="text-24-700">자유게시판</h1>
+          <h1 className="text-24-700">모집게시판</h1>
           <p className="text-14-500 text-text-disabled">
             같이 일정관리 할 팀원들을 모집해봐요
           </p>

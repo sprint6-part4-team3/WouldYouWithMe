@@ -22,7 +22,7 @@ const NavBar = () => (
         </Link>
         <TeamDropdown />
         <Link href="/boards" className="hidden text-text-primary md:block">
-          자유게시판
+          모집게시판
         </Link>
       </div>
       <UserDropdown />
