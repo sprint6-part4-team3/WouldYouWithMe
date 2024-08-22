@@ -3,6 +3,13 @@
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
+import {
+  IconPageNext,
+  IconPageNextNext,
+  IconPagePrev,
+  IconPagePrevPrev,
+} from "@/public/assets/icons";
+
 interface PaginationProps {
   /** 총 게시물 개수 */
   totalCount: number;
@@ -56,15 +63,27 @@ const Pagination = ({
 
   return (
     <div className="flex w-full items-center justify-center gap-10 py-20 text-20-500 md:gap-15 lg:mb-40">
-      {startPage > 1 && (
-        <button
-          className="text-30 hover:text-text-secondary md:text-40"
-          onClick={handlePrevGroup}
-          type="button"
-        >
-          &#8249;
-        </button>
-      )}
+      <button disabled={startPage <= 1} onClick={handlePrevGroup} type="button">
+        <IconPagePrevPrev
+          className={clsx("fill-text-primary", {
+            "fill-text-default cursor-not-allowed": startPage <= 1,
+            "hover:fill-text-secondary": startPage > 1,
+          })}
+        />
+      </button>
+      <button
+        disabled={currentPage - 1 <= 0}
+        onClick={() => handleCurrentPage(currentPage - 1)}
+        type="button"
+      >
+        <IconPagePrev
+          className={clsx("fill-text-primary", {
+            "fill-text-default cursor-not-allowed": currentPage - 1 <= 0,
+            "hover:fill-text-secondary": currentPage - 1 > 0,
+          })}
+        />
+      </button>
+
       {pageArray.slice(startPage - 1, lastPage).map((pageNumber) => (
         <button
           className={clsx(`size-35 rounded-full md:size-40`, {
@@ -79,15 +98,33 @@ const Pagination = ({
           {pageNumber}
         </button>
       ))}
-      {lastPage < totalPage && (
-        <button
-          className="text-30 hover:text-text-secondary md:text-40"
-          onClick={handleNextGroup}
-          type="button"
-        >
-          &#8250;
-        </button>
-      )}
+
+      <button
+        disabled={currentPage + 1 > totalPage}
+        onClick={() => handleCurrentPage(currentPage + 1)}
+        type="button"
+      >
+        <IconPageNext
+          className={clsx("fill-text-primary", {
+            "fill-text-default cursor-not-allowed": currentPage + 1 > totalPage,
+            "hover:fill-text-secondary": currentPage + 1 < totalPage,
+          })}
+        />
+      </button>
+
+      <button
+        disabled={startPage + PAGE_COUNT > totalPage}
+        onClick={handleNextGroup}
+        type="button"
+      >
+        <IconPageNextNext
+          className={clsx("fill-text-primary", {
+            "fill-text-default cursor-not-allowed":
+              startPage + PAGE_COUNT > totalPage,
+            "hover:fill-text-secondary": startPage + PAGE_COUNT <= totalPage,
+          })}
+        />
+      </button>
     </div>
   );
 };
