@@ -38,7 +38,7 @@ const TodoListCard = ({
   const { totalItems, completedItems, CHECKED_ITEMS } =
     groupTaskTodoList(tasks);
   return (
-    <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary pl-24 pr-30 text-16-500">
+    <div className="relative z-0 my-10 flex h-40 items-center rounded-12 bg-background-secondary pl-24 pr-30 text-16-500">
       <div className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`} />
       <Link
         href={link}
