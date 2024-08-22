@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,11 +31,12 @@ const BoardListInfo = () => {
 
   const {
     data: boardListData,
-    isLoading,
     isError,
+    isLoading,
   } = useQuery<BoardListResponse>({
     queryKey: ["boardList", page, orderBy, keyword],
     queryFn: () => getBoardList({ page, orderBy, keyword }),
+    placeholderData: keepPreviousData,
   });
 
   useEffect(() => {
@@ -104,9 +105,7 @@ const BoardListInfo = () => {
           </div>
         </>
       )}
-      {!isLoading && boardListData?.list.length === 0 && (
-        <BoardEmpty keyword={keyword} />
-      )}
+      {boardListData?.list.length === 0 && <BoardEmpty keyword={keyword} />}
     </section>
   );
 };
