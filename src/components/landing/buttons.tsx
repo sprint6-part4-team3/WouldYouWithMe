@@ -2,18 +2,28 @@
 
 import { getCookie } from "cookies-next";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/common";
 
 const LandingButtons = () => {
-  const token = getCookie("token");
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
-  if (token) {
+  useEffect(() => {
+    const token = getCookie("token");
+    if (token) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
+
+  if (loggedIn) {
     return (
       <Link href="/my-teams">
         <Button
-          className="m-auto h-45 w-300 rounded-full text-16-600 hover:bg-gradient-to-r hover:from-brand-tertiary hover:to-brand-primary hover:text-text-inverse"
-          variant="noFill"
+          className="m-auto h-45 w-300 rounded-full bg-gradient-to-r from-brand-tertiary to-brand-primary text-16-600 hover:text-text-inverse"
+          variant="primary"
         >
           팀 목록으로 이동
         </Button>
