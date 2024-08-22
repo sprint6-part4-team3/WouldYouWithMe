@@ -23,6 +23,7 @@ export const middleware = (request: NextRequest) => {
       pathname === "/join-team" ||
       pathname.startsWith("/team/") ||
       pathname === "/team-empty" ||
+      pathname === "/my-teams" ||
       pathname === "/user-history") &&
     !accessToken
   ) {
@@ -46,7 +47,7 @@ export const config = {
     "/join-team",
     "/team/:path*",
     "/team-empty",
-
+    "/my-teams",
     "/user-history",
   ],
 };
