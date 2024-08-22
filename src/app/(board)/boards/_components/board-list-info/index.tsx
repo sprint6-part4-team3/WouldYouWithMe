@@ -105,7 +105,9 @@ const BoardListInfo = () => {
           </div>
         </>
       )}
-      {boardListData?.list.length === 0 && <BoardEmpty keyword={keyword} />}
+      {!isLoading && boardListData?.list.length === 0 && (
+        <BoardEmpty keyword={keyword} />
+      )}
     </section>
   );
 };
