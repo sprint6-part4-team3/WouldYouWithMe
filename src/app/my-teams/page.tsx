@@ -20,7 +20,7 @@ const MyTeams = () => {
       const res = await getUserGroups();
 
       if (res.length === 0) {
-        router.push("/team-empty");
+        router.replace("/team-empty");
       }
 
       setMyTeams(res);
