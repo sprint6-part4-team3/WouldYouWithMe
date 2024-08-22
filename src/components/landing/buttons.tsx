@@ -1,12 +1,9 @@
 "use client";
 
 import { getCookie } from "cookies-next";
-
 import Link from "next/link";
 
-
 import { Button } from "@/components/common";
-
 
 const LandingButtons = () => {
   const token = getCookie("token");
