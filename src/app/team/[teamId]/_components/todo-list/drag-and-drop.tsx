@@ -6,6 +6,7 @@ import {
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { useToast } from "@/hooks";
@@ -28,6 +29,7 @@ const DragAndDrop = ({ todoListIndex, teamId }: DragAndDropProps) => {
 
   const [enabled, setEnabled] = useState(false);
   const toast = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     const animation = requestAnimationFrame(() => setEnabled(true));
@@ -73,7 +75,7 @@ const DragAndDrop = ({ todoListIndex, teamId }: DragAndDropProps) => {
     loadDataAfterEdit(data, groupId, id).then((success) => {
       if (!success) {
         // 서버 요청이 실패한 경우 이전 상태로 복원
-        // setTodoListIndex(previousTasks);
+        router.refresh();
       }
     });
   };
