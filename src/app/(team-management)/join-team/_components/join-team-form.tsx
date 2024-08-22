@@ -69,7 +69,7 @@ const JoinTeamForm = () => {
         errorMessage={errors.token?.message || ""}
       >
         <span className="absolute right-0 top-1 text-14-500 text-brand-primary/70">
-          <ToolTip message="자유게시판 게시글을 확인하세요!">
+          <ToolTip message="모집게시판 게시글을 확인하세요!">
             <span className="cursor-pointer ">
               팀 참여 토큰은 어디서 얻나요?
             </span>
