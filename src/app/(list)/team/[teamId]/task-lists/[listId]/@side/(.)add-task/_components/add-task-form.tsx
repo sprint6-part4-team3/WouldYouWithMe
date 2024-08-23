@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { MouseEvent, useState } from "react";
@@ -33,6 +33,7 @@ const AddTaskForm = () => {
   const searchParams = useSearchParams();
   const initialDate = searchParams.get("date");
   const params = useParams<{ teamId: string; listId: string }>();
+  const queryClient = useQueryClient();
   const methods = useForm<NewTaskForm>({
     resolver: zodResolver(newTaskSchema),
     mode: "onBlur",
@@ -89,14 +90,30 @@ const AddTaskForm = () => {
         onSuccess: () => {
           toast.success("등록되었습니다");
           if (initialDate === data.startDate) {
+            queryClient.invalidateQueries({
+              queryKey: [
+                "tasks",
+                Number(params.teamId),
+                Number(params.listId),
+                initialDate,
+              ],
+            });
+            router.back();
+          } else {
+            queryClient.invalidateQueries({
+              queryKey: [
+                "tasks",
+                Number(params.teamId),
+                Number(params.listId),
+                initialDate,
+              ],
+            });
             router.back();
             setTimeout(() => {
-              router.refresh();
+              router.replace(
+                `/team/${params.teamId}/task-lists/${params.listId}?date=${data.startDate}`,
+              );
             }, 50);
-          } else {
-            window.location.replace(
-              `/team/${params.teamId}/task-lists/${params.listId}?date=${data.startDate}`,
-            );
           }
         },
         onError: () => {
