@@ -22,6 +22,9 @@ const BoardDropDown = ({ boardId }: { boardId: number }) => {
         <IconKebab className="mt-6 cursor-pointer" />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value}>
+        <Link href={`${boardId}/edit`} prefetch>
+          <DropDown.Item>수정하기</DropDown.Item>
+        </Link>
         <DropDown.Item
           onClick={() => {
             modalOn();
@@ -30,9 +33,6 @@ const BoardDropDown = ({ boardId }: { boardId: number }) => {
         >
           삭제하기
         </DropDown.Item>
-        <Link href={`${boardId}/edit`} prefetch>
-          <DropDown.Item>수정하기</DropDown.Item>
-        </Link>
       </DropDown.Menu>
       {modalIsOpen && <BoardDeleteModal boardId={boardId} onClose={modalOff} />}
     </DropDown>

@@ -118,13 +118,13 @@ const Carousel = ({ items }: CarouselProps) => {
           {extendedItems.map((item, index) => (
             <div
               key={item.description + index}
-              className={`${item.background} relative flex h-200 w-full shrink-0 justify-between gap-6 rounded-2xl px-30 md:h-240 md:gap-16 md:px-60 lg:h-280 lg:px-90`}
+              className={`${item.background} relative flex h-200 w-full shrink-0 justify-between gap-6 rounded-2xl px-30 md:h-240 md:gap-16 md:px-60 lg:h-280 lg:px-70`}
             >
               <div className="flex h-full flex-col justify-center">
                 <span className="flex h-auto w-60 items-center justify-center rounded-full bg-text-primary text-brand-primary sm:text-14">
                   {item.tag}
                 </span>
-                <h2 className="mb-2 mt-8 text-20-700 md:text-24-700 lg:text-26">
+                <h2 className="mb-2 mt-10 text-20-700 md:text-24-700 lg:text-26">
                   {item.title}
                 </h2>
                 <p className="pb-20 text-text-secondary sm:text-14 lg:text-18">
@@ -132,7 +132,7 @@ const Carousel = ({ items }: CarouselProps) => {
                 </p>
                 {item.children}
               </div>
-              <div className="absolute right-60 hidden h-full flex-col justify-center md:flex md:opacity-20 lg:right-90 lg:opacity-50">
+              <div className="opacity-80-650 absolute right-60 hidden h-full flex-col justify-center lg:right-90 ">
                 {item.icon}
               </div>
             </div>

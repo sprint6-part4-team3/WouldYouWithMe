@@ -86,3 +86,9 @@ input {
 .task-lists-nav::-webkit-scrollbar {
   display: none;
 }
+
+@media (min-width: 660px) {
+  .opacity-80-650 {
+    @apply opacity-70 flex;
+  }
+}
