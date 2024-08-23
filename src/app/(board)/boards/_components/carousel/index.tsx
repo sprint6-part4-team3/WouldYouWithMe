@@ -124,10 +124,10 @@ const Carousel = ({ items }: CarouselProps) => {
                 <span className="flex h-auto w-60 items-center justify-center rounded-full bg-text-primary text-brand-primary sm:text-14">
                   {item.tag}
                 </span>
-                <h2 className="mb-2 mt-8 text-20-700 md:text-24-700">
+                <h2 className="mb-2 mt-8 text-20-700 md:text-24-700 lg:text-26">
                   {item.title}
                 </h2>
-                <p className="pb-20 text-text-secondary sm:text-14">
+                <p className="pb-20 text-text-secondary sm:text-14 lg:text-18">
                   {item.description === "명언" ? randomQuote : item.description}
                 </p>
                 {item.children}
