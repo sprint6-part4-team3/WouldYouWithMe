@@ -105,7 +105,7 @@ const TaskDeleteModal = ({
               value="single"
               checked={deleteOption === "single"}
               onChange={() => setDeleteOption("single")}
-              className="mr-2"
+              className="mr-2 cursor-pointer accent-brand-primary"
             />
             해당 할일 삭제
           </label>
@@ -118,7 +118,7 @@ const TaskDeleteModal = ({
                 value="recurring"
                 checked={deleteOption === "recurring"}
                 onChange={() => setDeleteOption("recurring")}
-                className="mr-2"
+                className="mr-2 cursor-pointer accent-brand-primary"
               />
               해당 반복일정 모두 삭제
             </label>
