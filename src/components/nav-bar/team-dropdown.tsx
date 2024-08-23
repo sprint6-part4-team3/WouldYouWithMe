@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import { setCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -80,7 +81,12 @@ const TeamDropdown = () => {
   return (
     <div className="mt-1 cursor-pointer whitespace-nowrap text-16-500 text-text-primary">
       <DropDown handleClose={teamDropdown.handleOff}>
-        <DropDown.Trigger onClick={teamDropdown.handleToggle}>
+        <DropDown.Trigger
+          onClick={() => {
+            teamDropdown.handleToggle();
+            setIsExpanded(false);
+          }}
+        >
           <div className="hidden items-center md:flex">
             {recentTeam?.teamName ? dropdownTeamName : "팀선택"}
             <IconDropdown className="ml-8" />
@@ -89,7 +95,7 @@ const TeamDropdown = () => {
         <DropDown.Menu
           isOpen={teamDropdown.value}
           position="top-50 right-0"
-          className="w-140"
+          className={clsx("w-140", { "max-h-330 overflow-y-auto": isExpanded })}
         >
           {visibleTeams.map((membership) => (
             <Link
@@ -130,7 +136,7 @@ const TeamDropdown = () => {
           ))}
           {userData?.memberships.length > 4 && (
             <DropDown.Item onClick={toggleExpand}>
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center pb-7 pt-8">
                 {isExpanded ? "접기" : "팀 더보기"}
               </div>
             </DropDown.Item>
@@ -138,7 +144,7 @@ const TeamDropdown = () => {
           <div className="rounded-12 border-t-2 border-border-primary" />
           <Link href="/create-team">
             <DropDown.Item onClick={teamDropdown.handleOff}>
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center pb-7 pt-8">
                 <IconPlusCurrent className="mr-5 stroke-white" />팀 생성하기
               </div>
             </DropDown.Item>
