@@ -17,14 +17,12 @@ import { IconPlusCurrent, LoadingSpinner } from "@/public/assets/icons";
 import { GroupTask } from "@/types/group";
 import { TaskListAddEditInput } from "@/types/task-list";
 
+import ErrorMessage from "../../forms/error-message";
 import FloatButton from "../float-button";
 
 /**
  * 새로운 목록 추가하기 버튼
  * 목록 만들기 모달 띄우는 버튼입니다.
- * @example
- *  <AddListModalButton />
- * @author ☯️채종민
  */
 
 type AddListModalButtonProps = {
@@ -47,10 +45,10 @@ const AddListModalButton = ({
     register,
     handleSubmit,
     reset,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<TaskListAddEditInput>({
     resolver: zodResolver(taskListAddEditSchema),
-    mode: "onBlur",
+    mode: "onChange",
     reValidateMode: "onChange",
   });
 
@@ -128,7 +126,9 @@ const AddListModalButton = ({
               {...register("name")}
               id="create-list"
               placeholder="목록 명을 입력해주세요."
+              isError={!!errors.name}
             />
+            <ErrorMessage message={errors.name?.message} />
             {isLoading ? (
               <FloatButton
                 variant="primary"
@@ -139,7 +139,12 @@ const AddListModalButton = ({
                 목록 생성 중...
               </FloatButton>
             ) : (
-              <Button variant="primary" className="h-48 w-full" type="submit">
+              <Button
+                variant="primary"
+                className="h-48 w-full"
+                type="submit"
+                disabled={!isValid}
+              >
                 만들기
               </Button>
             )}
