@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable no-console */
 import { useParams } from "next/navigation";
 import React, { useCallback, useState } from "react";
 
@@ -15,12 +14,16 @@ interface TaskHeaderProps {
   taskName: string;
   taskDescription?: string;
   isCompleted: boolean;
+  recurringId?: string;
+  frequency?: string;
 }
 
 const TaskHeader = ({
   taskName,
   taskDescription,
   isCompleted,
+  recurringId,
+  frequency,
 }: TaskHeaderProps) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
@@ -70,6 +73,8 @@ const TaskHeader = ({
         <TaskDeleteModal
           id={Number(param.id)}
           onClose={handleCloseDeleteModal}
+          recurringId={recurringId}
+          frequency={frequency}
         />
       )}
       {isEditTaskOpen && (

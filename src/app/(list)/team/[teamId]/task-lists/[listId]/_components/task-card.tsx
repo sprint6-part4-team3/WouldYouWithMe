@@ -27,9 +27,11 @@ dayjs.locale("ko");
 interface TaskCardProps {
   id: number;
   date: string;
+  recurringId?: string;
+  frequency?: string;
 }
 
-const TaskCard = ({ id, date }: TaskCardProps) => {
+const TaskCard = ({ id, date, recurringId, frequency }: TaskCardProps) => {
   const { groupId: currentGroupId, taskListId: currentListId } =
     useTaskParams();
   const queryClient = useQueryClient();
@@ -178,7 +180,12 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
         </span>
       </div>
       {isDeleteModalOpen && (
-        <TaskDeleteModal onClose={closeDeleteTask} id={id} />
+        <TaskDeleteModal
+          onClose={closeDeleteTask}
+          id={id}
+          recurringId={recurringId}
+          frequency={frequency}
+        />
       )}
       {isEditTaskOpen && (
         <EditTaskModal
