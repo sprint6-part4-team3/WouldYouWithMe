@@ -144,7 +144,7 @@ const Carousel = ({ items }: CarouselProps) => {
                 </p>
                 {item.children}
               </div>
-              <div className="absolute right-60 hidden h-full flex-col justify-center md:flex md:opacity-20 lg:right-90 lg:opacity-50">
+              <div className="opacity-80-650 absolute right-60 hidden h-full flex-col justify-center lg:right-90">
                 {item.icon}
               </div>
             </div>

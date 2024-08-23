@@ -89,6 +89,6 @@ input {
 
 @media (min-width: 660px) {
   .opacity-80-650 {
-    @apply opacity-70 flex;
+    @apply opacity-80 flex;
   }
 }
