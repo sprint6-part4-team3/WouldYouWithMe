@@ -38,15 +38,19 @@ const TodoListCard = ({
   const { totalItems, completedItems, CHECKED_ITEMS } =
     groupTaskTodoList(tasks);
   return (
-    <div className="relative z-0 my-10 flex h-40 items-center rounded-12 bg-background-secondary pl-24 pr-30 text-16-500">
-      <div className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`} />
+    <div className="relative my-10 flex h-40 items-center rounded-12 bg-background-secondary pl-24 pr-12 text-16-500">
       <Link
         href={link}
-        className="z-2 group flex flex-1 items-center justify-between"
+        className="group z-0 flex flex-1 items-center justify-between"
       >
+        <div
+          className={`absolute left-0 h-40 w-12 rounded-l-12 ${colorClass}`}
+        />
         <ToolTip message="목록을 클릭하여 투두리스트 관리하기" position="right">
           <span className="group-hover text-14-500">{children}</span>
         </ToolTip>
+      </Link>
+      <div className="flex items-center gap-6">
         <div className="flex items-center gap-4 rounded-full bg-background-primary px-8 py-4">
           {totalItems === completedItems ? (
             <IconDoneCyan />
@@ -57,8 +61,6 @@ const TodoListCard = ({
             {completedItems}&#47;{totalItems}
           </span>
         </div>
-      </Link>
-      <div className="absolute right-10">
         <TodoListDropDown task={task} />
       </div>
     </div>
