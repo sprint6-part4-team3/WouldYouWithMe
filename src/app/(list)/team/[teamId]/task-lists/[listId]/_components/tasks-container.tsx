@@ -92,7 +92,6 @@ const TasksContainer = ({
                       recurringId={task.recurringId.toString()}
                       frequency={task.frequency}
                       date={stringCurrentDate}
-
                     />
                   </div>
                 )}
