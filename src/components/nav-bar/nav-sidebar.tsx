@@ -101,7 +101,9 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
                         )
                       }
                     >
-                      {membership.group.name}
+                      <span className="block w-full truncate">
+                        {membership.group.name}
+                      </span>
                     </Link>
                   </li>
                 ))}

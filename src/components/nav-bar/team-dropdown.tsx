@@ -46,7 +46,11 @@ const TeamDropdown = () => {
         setCookie("firstTeamName", firstTeam.name);
       }
       if (recentTeam) {
-        setDropdownTeamName(recentTeam.teamName);
+        setDropdownTeamName(
+          recentTeam.teamName.length > 6
+            ? `${recentTeam.teamName.slice(0, 4)}...`
+            : recentTeam.teamName,
+        );
       } else {
         setDropdownTeamName(userData.memberships[0].group.name);
         setRecentTeam({
@@ -129,7 +133,11 @@ const TeamDropdown = () => {
                       />
                     )}
                   </div>
-                  <span className="ml-12">{membership.group.name}</span>
+                  <span className="ml-12">
+                    {membership.group.name.length > 6
+                      ? `${membership.group.name.slice(0, 4)}...`
+                      : membership.group.name}
+                  </span>
                 </div>
               </DropDown.Item>
             </Link>
