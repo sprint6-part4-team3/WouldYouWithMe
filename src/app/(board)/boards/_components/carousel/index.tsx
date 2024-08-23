@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable react/no-array-index-key */
 
 "use client";
@@ -25,25 +26,33 @@ const Carousel = ({ items }: CarouselProps) => {
   const [randomQuote, setRandomQuote] = useState("");
 
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [isDebouncing, setIsDebouncing] = useState(false);
 
   const extendedItems = [items[items.length - 1], ...items, items[0]];
 
-  const goToPrevious = () => {
-    setTransition(true);
-    setCurrentIndex((prevIndex) => prevIndex - 1);
+  const debounce = (func: Function, delay: number) => {
+    if (isDebouncing) return;
+    setIsDebouncing(true);
+    func();
+    setTimeout(() => setIsDebouncing(false), delay);
   };
 
+  const goToPrevious = useCallback(() => {
+    if (isDebouncing) return;
+    setTransition(true);
+    setCurrentIndex((prevIndex) => prevIndex - 1);
+  }, [isDebouncing]);
+
   const goToNext = useCallback(() => {
+    if (isDebouncing) return;
     setTransition(true);
     setCurrentIndex((prevIndex) => prevIndex + 1);
-  }, []);
+  }, [isDebouncing]);
 
-  // 명언 생성
   useEffect(() => {
     setRandomQuote(getRandomQuote());
   }, []);
 
-  // 5초 후 자동으로 넘기기
   useEffect(() => {
     const interval = setInterval(() => {
       goToNext();
@@ -72,7 +81,6 @@ const Carousel = ({ items }: CarouselProps) => {
     };
   }, [currentIndex, extendedItems.length]);
 
-  // 모바일 터치
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX);
   };
@@ -82,11 +90,13 @@ const Carousel = ({ items }: CarouselProps) => {
       const touchEndX = e.changedTouches[0].clientX;
       const distance = touchStartX - touchEndX;
       if (Math.abs(distance) > 50) {
-        if (distance > 0) {
-          goToNext();
-        } else {
-          goToPrevious();
-        }
+        debounce(() => {
+          if (distance > 0) {
+            goToNext();
+          } else {
+            goToPrevious();
+          }
+        }, 300);
       }
       setTouchStartX(null);
     }
@@ -132,7 +142,7 @@ const Carousel = ({ items }: CarouselProps) => {
 
       <button
         type="button"
-        onClick={goToPrevious}
+        onClick={() => debounce(goToPrevious, 500)}
         className="left-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
       >
         &#8249;
@@ -140,7 +150,7 @@ const Carousel = ({ items }: CarouselProps) => {
 
       <button
         type="button"
-        onClick={goToNext}
+        onClick={() => debounce(goToNext, 500)}
         className="right-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
       >
         &#8250;
