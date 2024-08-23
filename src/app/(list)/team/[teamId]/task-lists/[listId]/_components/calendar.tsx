@@ -36,7 +36,7 @@ const Calendar = ({ currentDate }: CalendarProps) => {
   const days = eachDayOfInterval({ start: startWeek, end: endWeek });
 
   return (
-    <section className="h-fit w-full rounded-24 bg-background-tertiary p-16">
+    <section className="z-50 h-fit w-full rounded-24 bg-background-tertiary p-16">
       <header className="mb-4 flex items-center justify-between">
         <IconButton
           variant="none"

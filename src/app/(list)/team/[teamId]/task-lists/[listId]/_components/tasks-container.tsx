@@ -89,9 +89,9 @@ const TasksContainer = ({
                     <TaskCard
                       key={task.id}
                       id={task.id}
-                      date={task.date}
                       recurringId={task.recurringId.toString()}
                       frequency={task.frequency}
+                      date={stringCurrentDate}
                     />
                   </div>
                 )}
