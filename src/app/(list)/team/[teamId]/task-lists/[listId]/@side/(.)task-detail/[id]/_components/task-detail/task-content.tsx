@@ -34,19 +34,10 @@ interface TaskContentProps {
 const TaskContent = ({ initialComments }: TaskContentProps) => {
   const { groupId, taskListId, taskId } = useTaskParams();
   const [currentUser] = useAtom(userAtom);
-  const searchParams = useSearchParams();
+  const currentDate = useSearchParams().get("date");
   const queryClient = useQueryClient();
 
   const [isTaskCompleted, setIsTaskCompleted] = useState(false);
-
-  const currentDate = useMemo(() => {
-    const dateParam = searchParams.get("date");
-    if (dateParam) {
-      // 공백을 '+'로 변환
-      return dateParam.replace(/ /g, "+");
-    }
-    return null;
-  }, [searchParams]);
 
   const { data: tasks } = useQuery({
     queryKey: ["tasks", Number(groupId), Number(taskListId), currentDate],
