@@ -95,7 +95,7 @@ const AddTaskForm = () => {
             }, 50);
           } else {
             window.location.replace(
-              `/${params.teamId}/task-lists/${params.listId}?date=${data.startDate}`,
+              `/team/${params.teamId}/task-lists/${params.listId}?date=${data.startDate}`,
             );
           }
         },
