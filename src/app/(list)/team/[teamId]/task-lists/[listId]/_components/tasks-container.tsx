@@ -86,7 +86,13 @@ const TasksContainer = ({
                     {...draggableProvided.draggableProps}
                     {...draggableProvided.dragHandleProps}
                   >
-                    <TaskCard key={task.id} id={task.id} date={task.date} />
+                    <TaskCard
+                      key={task.id}
+                      id={task.id}
+                      date={task.date}
+                      recurringId={task.recurringId.toString()}
+                      frequency={task.frequency}
+                    />
                   </div>
                 )}
               </Draggable>

@@ -42,7 +42,6 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
   const currentDate = useMemo(() => {
     const dateParam = searchParams.get("date");
     if (dateParam) {
-      // 공백을 '+'로 변환
       return dateParam.replace(/ /g, "+");
     }
     return null;
@@ -146,6 +145,8 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
         taskName={task.name}
         taskDescription={task.description}
         isCompleted={isTaskCompleted}
+        recurringId={task.recurringId.toString()}
+        frequency={task.frequency}
       />
       <TaskInfo {...taskInfoProps} />
       <TaskDescription
