@@ -2,6 +2,7 @@
 
 import { useAtom } from "jotai";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 import { Button } from "@/components/common";
@@ -18,6 +19,7 @@ import Carousel from ".";
 const CarouselItems = () => {
   const toast = useToast();
   const [user] = useAtom(userAtom);
+  const router = useRouter();
 
   const isLogin = useMemo(() => user.id !== 0, [user]);
 
@@ -66,6 +68,7 @@ const CarouselItems = () => {
             if (!isLogin) {
               e.preventDefault();
               toast.error("로그인 후 이용해주세요");
+              router.push("/login");
             }
           }}
         >

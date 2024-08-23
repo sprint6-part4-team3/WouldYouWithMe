@@ -4,7 +4,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
-import { ChangeEvent, memo, useState } from "react";
+import { ChangeEvent, memo, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { FieldWrapper } from "@/components/common";
@@ -27,6 +27,11 @@ const ImageInput = memo(() => {
   const { mutate, isPending } = useMutation({
     mutationFn: (image: File) => imageUpload(image),
   });
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    setImgUrl(watch("image"));
+  }, [watch("image")]);
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

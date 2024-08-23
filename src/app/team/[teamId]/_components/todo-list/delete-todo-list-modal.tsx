@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button, Drawer, FloatButton, Input, Modal } from "@/components/common";
@@ -11,14 +12,11 @@ import { GroupTask } from "@/types/group";
 interface TeamDeleteModalProps {
   task: GroupTask;
   onClose: () => void;
-  onDeleteTask: (newTask: GroupTask) => void;
 }
 
-const TeamDeleteModal = ({
-  task,
-  onClose,
-  onDeleteTask,
-}: TeamDeleteModalProps) => {
+const TeamDeleteModal = ({ task, onClose }: TeamDeleteModalProps) => {
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const isMobile = useIsMobile();
@@ -27,7 +25,7 @@ const TeamDeleteModal = ({
     try {
       setIsLoading(true);
       await deleteTaskList(task.groupId, task.id);
-      onDeleteTask(task);
+      router.refresh();
       onClose();
       toast.success("목록이 삭제 되었습니다.");
     } catch (error) {

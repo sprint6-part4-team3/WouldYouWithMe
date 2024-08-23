@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 import { Button, FieldWrapper, Input } from "@/components/common";
@@ -9,8 +10,14 @@ const NameInput = () => {
   const {
     register,
     watch,
+    setValue,
     formState: { errors },
   } = useFormContext<UserSettingInput>();
+
+  useEffect(() => {
+    const nicknameValue = watch("nickname");
+    setValue("nickname", nicknameValue);
+  }, [watch, setValue]);
 
   return (
     <FieldWrapper

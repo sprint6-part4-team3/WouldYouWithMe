@@ -110,7 +110,7 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
         )}
         <div className="mt-24 flex flex-col gap-24">
           <Link href="/boards" onClick={onClose} className="text-brand-primary">
-            자유게시판
+            모집게시판
           </Link>
         </div>
       </div>
