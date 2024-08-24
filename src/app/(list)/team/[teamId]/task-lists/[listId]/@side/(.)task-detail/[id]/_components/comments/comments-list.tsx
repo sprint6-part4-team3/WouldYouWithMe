@@ -45,6 +45,7 @@ const CommentItem = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [currentUser] = useAtom(userAtom);
 
   const handleEdit = () => {
@@ -90,6 +91,15 @@ const CommentItem = ({
     return commentDate.format("YYYY.MM.DD");
   };
 
+  const truncateContent = (content: string, maxLength: number) => {
+    if (content.length <= maxLength) return content;
+    return `${content.slice(0, maxLength)}···`;
+  };
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <div
       className={`flex w-full flex-col items-start gap-16 border-b-[0.2px] border-text-disabled ${
@@ -106,11 +116,24 @@ const CommentItem = ({
       ) : (
         <>
           <div className="flex items-start justify-between self-stretch text-14-400">
-            {comment.content}
+            <div className="w-full break-words pr-4">
+              {isExpanded
+                ? comment.content
+                : truncateContent(comment.content, 100)}
+              {comment.content.length > 100 && (
+                <button
+                  type="button"
+                  onClick={toggleExpand}
+                  className=" ml-10 text-12-400  text-text-disabled hover:underline"
+                >
+                  {isExpanded ? "접기" : "전체보기"}
+                </button>
+              )}
+            </div>
             {isCommentOwner && !isOptimistic && (
               <DropDown handleClose={handleClose}>
                 <DropDown.Trigger onClick={handleToggle}>
-                  <IconKebab className="cursor-pointer" />
+                  <IconKebab className="shrink-0 cursor-pointer" />
                 </DropDown.Trigger>
                 <DropDown.Menu isOpen={isDropdownOpen}>
                   <DropDown.Item onClick={handleEdit}>수정하기</DropDown.Item>

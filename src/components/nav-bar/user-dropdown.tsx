@@ -59,7 +59,9 @@ const UserDropdown = () => {
           position="top-50 right-0 lg:left-0"
         >
           <Link href="/user/history">
-            <DropDown.Item>마이 히스토리</DropDown.Item>
+            <DropDown.Item onClick={userDropdown.handleToggle}>
+              마이 히스토리
+            </DropDown.Item>
           </Link>
           <Link href="/user-setting">
             <DropDown.Item onClick={userDropdown.handleToggle}>
