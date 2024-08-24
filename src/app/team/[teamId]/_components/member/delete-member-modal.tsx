@@ -53,10 +53,10 @@ const DeleteMemberModal = ({
     onSuccess: () => {
       if (isSameMember) {
         if (replaceId === "team-empty") {
-          router.push(`/team-empty`);
+          window.location.href = "/team-empty";
           queryClient.invalidateQueries({ queryKey: ["userData"] });
         } else {
-          router.push(`/team/${replaceId}`);
+          window.location.href = `/team/${replaceId}`;
           queryClient.invalidateQueries({ queryKey: ["userData"] });
         }
       } else {
