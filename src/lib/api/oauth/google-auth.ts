@@ -8,7 +8,6 @@ import { useEffect, useRef } from "react";
 import { useToast } from "@/hooks";
 import instance from "@/lib/api/axios-instance";
 import { userAtom } from "@/stores";
-import redirectTo from "@/utils/next-redirect";
 
 const GoogleAuth = () => {
   const { success, error } = useToast();
@@ -71,7 +70,7 @@ const GoogleAuth = () => {
             loginType: "GOOGLE",
           });
 
-          redirectTo("/");
+          window.location.replace("/");
         } else {
           error("로그인 요청 중 오류가 발생했습니다.");
         }
