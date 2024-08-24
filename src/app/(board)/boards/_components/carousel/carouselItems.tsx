@@ -35,7 +35,7 @@ const CarouselItems = () => {
           className="h-40 w-100 md:h-60 md:w-150 lg:h-80 lg:w-200"
         />
       ),
-      background: "bg-point-purple",
+      background: "bg-purple-500",
       children: (
         <a
           href="https://sprint.codeit.kr/admissions/21/detail"
@@ -59,7 +59,7 @@ const CarouselItems = () => {
           className="h-40 w-100 md:h-100 md:w-190 lg:h-100 lg:w-250"
         />
       ),
-      background: "bg-point-orange",
+      background: "bg-pink-500",
       children: (
         <Link
           href="/create-team"
@@ -89,7 +89,7 @@ const CarouselItems = () => {
           className="h-40 w-100 md:h-100 md:w-190 lg:h-100 lg:w-250"
         />
       ),
-      background: "bg-point-pink",
+      background: "bg-amber-600",
     },
     {
       tag: "Info",
@@ -102,7 +102,7 @@ const CarouselItems = () => {
           className="h-40 w-100 md:h-110 md:w-150 lg:h-150 lg:w-180"
         />
       ),
-      background: "bg-point-blue",
+      background: "bg-indigo-600",
     },
   ];
 

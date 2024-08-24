@@ -16,7 +16,7 @@ const TopTitle = ({ orderBy, setOrderBy }: TopTitleProps) => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex gap-8 sm:flex-col md:items-center md:gap-16">
-        <h2 className="text-24-700">게시글</h2>
+        <h2 className="text-24-700 lg:text-26">게시글</h2>
         <p className="text-14-500 text-text-disabled">
           원하는 팀에 참여하여 일정관리해봐요
         </p>

@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable react/no-array-index-key */
 
 "use client";
 
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 import getRandomQuote from "@/utils/get-random-quote";
 
@@ -23,34 +25,49 @@ const Carousel = ({ items }: CarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [transition, setTransition] = useState(true);
   const [randomQuote, setRandomQuote] = useState("");
-
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const extendedItems = [items[items.length - 1], ...items, items[0]];
 
-  const goToPrevious = () => {
-    setTransition(true);
-    setCurrentIndex((prevIndex) => prevIndex - 1);
+  const stopAutoSlide = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
   };
 
-  const goToNext = useCallback(() => {
+  const goToPrevious = useCallback(() => {
+    if (isTransitioning) return;
     setTransition(true);
+    setIsTransitioning(true);
+    setCurrentIndex((prevIndex) => prevIndex - 1);
+  }, [isTransitioning]);
+
+  const goToNext = useCallback(() => {
+    if (isTransitioning) return;
+    setTransition(true);
+    setIsTransitioning(true);
     setCurrentIndex((prevIndex) => prevIndex + 1);
-  }, []);
+  }, [isTransitioning]);
 
-  // 명언 생성
-  useEffect(() => {
-    setRandomQuote(getRandomQuote());
-  }, []);
-
-  // 5초 후 자동으로 넘기기
-  useEffect(() => {
-    const interval = setInterval(() => {
+  const startAutoSlide = () => {
+    intervalRef.current = setInterval(() => {
       goToNext();
     }, 5000);
+  };
 
-    return () => clearInterval(interval);
-  }, [currentIndex, goToNext]);
+  const resetAutoSlide = () => {
+    stopAutoSlide();
+    startAutoSlide();
+  };
+
+  useEffect(() => {
+    setRandomQuote(getRandomQuote());
+    startAutoSlide();
+
+    return () => stopAutoSlide();
+  }, []);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -67,14 +84,18 @@ const Carousel = ({ items }: CarouselProps) => {
       }, 500);
     }
 
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 500); // 500ms 동안 전환 중 상태 유지
+
     return () => {
       clearTimeout(timeoutId);
     };
   }, [currentIndex, extendedItems.length]);
 
-  // 모바일 터치
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX);
+    stopAutoSlide(); // 터치 시작 시 자동 전환 중지
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -90,6 +111,7 @@ const Carousel = ({ items }: CarouselProps) => {
       }
       setTouchStartX(null);
     }
+    resetAutoSlide(); // 터치 종료 후 자동 전환 재개
   };
 
   return (
@@ -122,7 +144,7 @@ const Carousel = ({ items }: CarouselProps) => {
                 </p>
                 {item.children}
               </div>
-              <div className="absolute right-60 hidden h-full flex-col justify-center md:flex md:opacity-20 lg:right-90 lg:opacity-50">
+              <div className="opacity-80-650 absolute right-60 hidden h-full flex-col justify-center lg:right-90">
                 {item.icon}
               </div>
             </div>
@@ -132,7 +154,11 @@ const Carousel = ({ items }: CarouselProps) => {
 
       <button
         type="button"
-        onClick={goToPrevious}
+        onClick={() => {
+          stopAutoSlide(); // 수동 클릭 시 자동 전환 중지
+          goToPrevious();
+          resetAutoSlide(); // 수동 클릭 후 자동 전환 재개
+        }}
         className="left-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
       >
         &#8249;
@@ -140,7 +166,11 @@ const Carousel = ({ items }: CarouselProps) => {
 
       <button
         type="button"
-        onClick={goToNext}
+        onClick={() => {
+          stopAutoSlide(); // 수동 클릭 시 자동 전환 중지
+          goToNext();
+          resetAutoSlide(); // 수동 클릭 후 자동 전환 재개
+        }}
         className="right-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
       >
         &#8250;
