@@ -42,7 +42,11 @@ const TeamWrapper = ({ teamId }: TeamWrapperProps) => {
         teamId={teamId}
         adminId={adminId}
       />
-      <TodoListBox taskList={response.taskLists} teamId={teamId} />
+      <TodoListBox
+        taskList={response.taskLists}
+        teamId={teamId}
+        response={response}
+      />
       <ReportBox taskList={response.taskLists} />
       <MemberBox memberList={response.members} teamName={response.name} />
     </>
