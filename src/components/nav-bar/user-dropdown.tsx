@@ -45,7 +45,7 @@ const UserDropdown = () => {
                 alt={user.nickname}
                 width={32}
                 height={32}
-                objectFit="cover"
+                style={{ width: "32px", height: "32px", objectFit: "cover" }}
                 className="mr-12 rounded-md"
               />
             ) : (
