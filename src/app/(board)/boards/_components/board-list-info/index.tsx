@@ -101,7 +101,9 @@ const BoardListInfo = () => {
               alt="맨 위로 버튼"
               className="cursor-pointer drop-shadow-[0_0_10px_#22b8cf]"
             />
-            <span className="text-14-500">맨 위로</span>
+            <span onClick={scrollToTop} className="cursor-pointer text-14-500">
+              맨 위로
+            </span>
           </div>
         </>
       )}
