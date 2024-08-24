@@ -1,13 +1,19 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/common";
+import getUserGroups from "@/lib/api/user/get-user-groups";
 
 const LandingButtons = () => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const { data: userGroups } = useQuery({
+    queryKey: ["userGroups"],
+    queryFn: () => getUserGroups(),
+  });
 
   useEffect(() => {
     const token = getCookie("token");
@@ -20,7 +26,7 @@ const LandingButtons = () => {
 
   if (loggedIn) {
     return (
-      <Link href="/my-teams">
+      <Link href={userGroups?.length === 0 ? "team-empty" : "/my-teams"}>
         <Button
           className="m-auto h-45 w-300 rounded-full bg-gradient-to-r from-brand-tertiary to-brand-primary text-16-600 hover:text-text-inverse"
           variant="primary"
