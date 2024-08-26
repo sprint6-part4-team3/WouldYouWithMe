@@ -40,9 +40,11 @@ const KakaoAuth = () => {
 
         if (response.status === 200) {
           success("로그인 성공");
-          setCookie("token", data.accessToken);
-          setCookie("refreshToken", data.refreshToken);
-          setCookie("userId", data.user.id);
+          setCookie("token", data.accessToken, { maxAge: 60 * 60 * 24 });
+          setCookie("refreshToken", data.refreshToken, {
+            maxAge: 60 * 60 * 24,
+          });
+          setCookie("userId", data.user.id, { maxAge: 60 * 60 * 24 });
 
           setUser({
             id: data.user.id,
