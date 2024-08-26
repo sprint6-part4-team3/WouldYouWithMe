@@ -7,19 +7,20 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
+import {
+  CancelUserComponent,
+  ChangePasswordComponent,
+  EmailInput,
+  ImageInput,
+  NameInput,
+  PasswordInput,
+} from "@/app/(auth)/_components/user-setting";
 import PageLoading from "@/components/loading";
 import { useToast } from "@/hooks";
 import EditUser from "@/lib/api/user-setting/edit-user";
 import { userSettingSchema } from "@/lib/schemas/auth";
 import { userAtom } from "@/stores";
 import { UserSettingInput } from "@/types/auth";
-
-import CancelUserComponent from "./cancel-user-component";
-import ChangePasswordComponent from "./change-password-component";
-import EmailInput from "./email-input";
-import ImageInput from "./image-input";
-import NameInput from "./name-input";
-import PasswordInput from "./password-input";
 
 const UserSettingForm = () => {
   const [isChangeOpen, setIsChangeOpen] = useState(false);
