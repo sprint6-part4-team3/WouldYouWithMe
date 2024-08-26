@@ -1852,6 +1852,11 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/merge-streams/-/merge-streams-2.3.0.tgz#719df7fb41766bc143369eaa0dd56d8dc87c9958"
   integrity sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==
 
+"@stichiboi/react-elegant-mouse-trail@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@stichiboi/react-elegant-mouse-trail/-/react-elegant-mouse-trail-1.0.1.tgz#0848ee63dcf073a97c24b87b40632eafeb27716e"
+  integrity sha512-u47nCJ+z8Jej7RN/fT5rbDUODOmbYPeF/yjw+hy/wBUJg13mC0R5j07uLIR8cCseeC9pOaCO6of8kvQ25kPySw==
+
 "@storybook/addon-actions@8.2.6":
   version "8.2.6"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-8.2.6.tgz#54381a27e64c8cdac4bf7e51a0f122013fca2222"

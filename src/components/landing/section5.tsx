@@ -14,7 +14,7 @@ const Section5 = () => {
   const isInView = useInView(ref);
 
   return (
-    <section ref={ref} className="h-screen flex justify-center items-center">
+    <section ref={ref} className="flex h-screen items-center justify-center">
       <motion.article
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}

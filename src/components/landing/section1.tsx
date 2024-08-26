@@ -44,7 +44,7 @@ const Section1 = () => {
         animate={isInView ? "visible" : "hidden"} // 뷰포트에 있을 때만 애니메이션 실행
         exit="exit"
         variants={lottieVariants}
-        className="flex justify-center size-4/5 h-auto min-w-350 max-w-700"
+        className="flex size-4/5 h-auto min-w-350 max-w-700 justify-center"
       >
         <Lottie animationData={Planet3} />
       </motion.div>
