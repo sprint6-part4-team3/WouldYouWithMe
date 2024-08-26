@@ -13,22 +13,40 @@ interface CommentFormInputs {
 
 interface CommentInputProps {
   onAddComment: (content: string) => Promise<void>;
+  taskId: number;
 }
 
 const MAX_COMMENT_LENGTH = 199;
+const STORAGE_KEY_PREFIX = "comment_draft_";
 
-const CommentInput = ({ onAddComment }: CommentInputProps) => {
+const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
+  const storageKey = `${STORAGE_KEY_PREFIX}${taskId}`;
+
   const {
     register,
     handleSubmit,
     reset,
     watch,
+    setValue,
     formState: { isSubmitting },
   } = useForm<CommentFormInputs>();
 
   const contentValue = watch("content");
   const [charCount, setCharCount] = useState(0);
   const [isExceeded, setIsExceeded] = useState(false);
+
+  useEffect(() => {
+    const savedComment = localStorage.getItem(storageKey);
+    if (savedComment) {
+      setValue("content", savedComment);
+    }
+  }, [taskId, setValue, storageKey]);
+
+  useEffect(() => {
+    if (contentValue) {
+      localStorage.setItem(storageKey, contentValue);
+    }
+  }, [contentValue, storageKey]);
 
   useEffect(() => {
     const newCount = contentValue ? contentValue.length : 0;
@@ -44,6 +62,8 @@ const CommentInput = ({ onAddComment }: CommentInputProps) => {
       const { content } = data;
       reset();
       await onAddComment(content);
+      // Remove the draft from local storage after successful submission
+      localStorage.removeItem(storageKey);
     } catch (error) {
       console.error("Error submitting comment:", error);
     }

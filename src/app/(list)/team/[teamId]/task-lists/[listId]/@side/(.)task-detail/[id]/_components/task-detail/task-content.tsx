@@ -146,7 +146,7 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
         isTaskCompleted={isTaskCompleted}
         onToggleComplete={handleToggleComplete}
       />
-      <CommentInput onAddComment={handleAddComment} />
+      <CommentInput onAddComment={handleAddComment} taskId={taskId} />
       {hasComments ? (
         <CommentList
           comments={commentsToDisplay}
