@@ -26,15 +26,15 @@ const Section1 = () => {
       >
         <div className="flex flex-col gap-40 md:gap-60 ">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="wrap mb-4 text-center font-[PyeongChangPeace-Bold] text-24-600 md:mb-8 md:text-32-600 lg:mb-20 lg:text-40-600">
+            <h2 className="wrap mb-4 text-center font-[PyeongChangPeace-Bold] text-20-600 md:mb-8 md:text-24-600 lg:mb-20 lg:text-32-600">
               Would You
-            </h1>
-            <h1 className=" mb-4 whitespace-nowrap text-center font-[PyeongChangPeace-Bold] text-24-600 md:mb-8 md:text-32-600 lg:mb-20 lg:text-40-600">
-              Study With Me?
-            </h1>
-            <h2 className="text-gradient flex h-38 items-center justify-center text-center font-[PyeongChangPeace-Bold] text-32-600 md:h-57 md:text-48-600 lg:h-76 lg:text-64-600">
-              우주윗미
             </h2>
+            <h2 className=" mb-4 whitespace-nowrap text-center font-[PyeongChangPeace-Bold] text-20-600 md:mb-8 md:text-24-600 lg:mb-20 lg:text-32-600">
+              Study With Me?
+            </h2>
+            <h1 className="text-gradient flex h-38 items-center justify-center text-center font-[PyeongChangPeace-Bold] text-32-600 md:h-57 md:text-48-600 lg:h-76 lg:text-64-600">
+              우주윗미
+            </h1>
           </div>
           <LandingButtons />
         </div>
