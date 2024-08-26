@@ -43,6 +43,7 @@ const CommentEditInput = ({
         className="w-full resize-none bg-background-secondary text-14-400 focus:outline-none "
         rows={3}
         disabled={isPending}
+        maxLength={200}
       />
       <div className="mb-10 flex justify-end space-x-8 ">
         <Button
