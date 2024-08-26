@@ -1,6 +1,5 @@
 "use client";
 
-import { getCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,9 +14,9 @@ import LogoutComponent from "./logout-component";
 
 const UserDropdown = () => {
   const [user] = useAtom(userAtom);
+  const userId = user.id;
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userDropdown = useToggle();
-  const userCookieId = getCookie("userId");
 
   const openLogout = () => {
     setIsLogoutOpen(true);
@@ -28,7 +27,7 @@ const UserDropdown = () => {
     setIsLogoutOpen(false);
   };
 
-  if (!userCookieId) {
+  if (!userId) {
     return (
       <Link href="/login" className="text-text-primary">
         로그인
