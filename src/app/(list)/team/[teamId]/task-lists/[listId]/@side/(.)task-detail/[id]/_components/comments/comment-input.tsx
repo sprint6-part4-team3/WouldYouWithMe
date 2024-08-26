@@ -52,7 +52,7 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
   const debouncedContent = useDebounce(contentValue || "", 500);
 
   const isMaxLength = contentValue
-    ? contentValue.length > MAX_COMMENT_LENGTH
+    ? contentValue.length === MAX_COMMENT_LENGTH
     : false;
 
   useEffect(() => {
