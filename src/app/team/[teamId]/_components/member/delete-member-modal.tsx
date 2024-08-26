@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
 
@@ -9,7 +9,9 @@ import { Button, Drawer, FloatButton, Input, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
 import deleteMember from "@/lib/api/group/delete-member";
 import { LoadingSpinner } from "@/public/assets/icons";
+import { recentTeamAtom } from "@/stores";
 import groupIdListAtom from "@/stores/group-list";
+import { User } from "@/types/user";
 
 /** 멤버 삭제 모달 */
 interface DeleteMemberModalProps {
@@ -33,6 +35,7 @@ const DeleteMemberModal = ({
   const pathname = usePathname();
   const router = useRouter();
   const isMobile = useIsMobile();
+  const setRecentTeam = useSetAtom(recentTeamAtom(userId));
 
   const ModalComponent = useMemo(() => (isMobile ? Drawer : Modal), [isMobile]);
 
@@ -40,24 +43,31 @@ const DeleteMemberModal = ({
 
   const isSameMember = useMemo(() => userId === memberId, [userId, memberId]);
 
-  const replaceId = useMemo(
-    () =>
-      groupIdList[0] === groupId
-        ? groupIdList[1] || "team-empty"
-        : groupIdList[0],
-    [groupId, groupIdList],
-  );
-
   const { mutate, isPending } = useMutation({
     mutationFn: () => deleteMember(groupId, memberId),
     onSuccess: () => {
       if (isSameMember) {
-        if (replaceId === "team-empty") {
-          window.location.href = "/team-empty";
+        if (groupIdList.length <= 1) {
           queryClient.invalidateQueries({ queryKey: ["userData"] });
+          setRecentTeam({
+            teamName: "",
+            groupId: 0,
+          });
+          router.replace(`/team-empty`);
         } else {
-          window.location.href = `/team/${replaceId}`;
           queryClient.invalidateQueries({ queryKey: ["userData"] });
+          const cachedData = queryClient.getQueryData<User>(["userData"]);
+          if (cachedData) {
+            setRecentTeam({
+              teamName:
+                groupIdList[0] === groupId
+                  ? cachedData.memberships[1].group.name
+                  : cachedData.memberships[0].group.name,
+              groupId:
+                groupIdList[0] === groupId ? groupIdList[1] : groupIdList[0],
+            });
+            window.location.replace(`/my-teams`);
+          }
         }
       } else {
         router.refresh();

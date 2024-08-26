@@ -5,15 +5,19 @@ import { useAtom, useSetAtom } from "jotai";
 import Lottie from "lottie-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
 import { Button } from "@/components/common";
 import Motion from "@/components/common/framer-motion/motion";
 import getUserGroups from "@/lib/api/user/get-user-groups";
 import { ImgPlanet } from "@/public/assets/images";
 import TeamEmpty from "@/public/assets/lotties/team-empty.json";
-import { recentTeamAtom, userAtom } from "@/stores";
+import { groupIdListAtom, recentTeamAtom, userAtom } from "@/stores";
+import extractGroupId from "@/utils/extract-group-id";
 
 const MyTeams = () => {
+  const [, setGroupIdList] = useAtom(groupIdListAtom);
+
   const { data: userGroups } = useQuery({
     queryKey: ["userGroups"],
     queryFn: () => getUserGroups(),
@@ -31,6 +35,13 @@ const MyTeams = () => {
     });
     window.location.replace(`/team/${team.id}`);
   };
+
+  useEffect(() => {
+    if (userGroups) {
+      const groupIdsFromData = extractGroupId(userGroups);
+      setGroupIdList(groupIdsFromData);
+    }
+  }, [setGroupIdList, userGroups]);
 
   return (
     <div>

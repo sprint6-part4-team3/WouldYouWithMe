@@ -1,10 +1,9 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
 import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { Button, Drawer, FloatButton, Input, Modal } from "@/components/common";
 import { useIsMobile, useToast } from "@/hooks";
@@ -12,6 +11,7 @@ import deleteGroup from "@/lib/api/group/delete-group";
 import { LoadingSpinner } from "@/public/assets/icons";
 import { recentTeamAtom, userAtom } from "@/stores";
 import groupIdListAtom from "@/stores/group-list";
+import { User } from "@/types/user";
 
 interface TeamDeleteModalProps {
   teamId: number;
@@ -27,6 +27,7 @@ const TeamDeleteModal = ({
   const queryClient = useQueryClient();
   const [user] = useAtom(userAtom);
   const userId = user.id;
+  const router = useRouter();
 
   const [groupIdList] = useAtom(groupIdListAtom);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,15 +37,6 @@ const TeamDeleteModal = ({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const setRecentTeam = useSetAtom(recentTeamAtom(userId));
-  const firstTeam = getCookie("firstTeamName") as string;
-
-  const replaceId = useMemo(
-    () =>
-      groupIdList[0] === Number(teamId)
-        ? groupIdList[1] || "team-empty"
-        : groupIdList[0],
-    [teamId, groupIdList],
-  );
 
   const deleteTeam = async () => {
     if (value !== teamName) return;
@@ -55,21 +47,28 @@ const TeamDeleteModal = ({
 
         toast.success("팀이 삭제 되었습니다.");
 
-        if (replaceId === "team-empty") {
+        if (groupIdList.length <= 1) {
+          queryClient.invalidateQueries({ queryKey: ["userData"] });
           setRecentTeam({
             teamName: "",
             groupId: 0,
           });
-          window.location.href = `/team-empty`;
+          router.replace("/team-empty");
         } else {
-          setRecentTeam({
-            teamName: firstTeam,
-            groupId: replaceId,
-          });
-          window.location.href = `/team/${replaceId}`;
+          queryClient.invalidateQueries({ queryKey: ["userData"] });
+          const cachedData = queryClient.getQueryData<User>(["userData"]);
+          if (cachedData) {
+            setRecentTeam({
+              teamName:
+                groupIdList[0] === teamId
+                  ? cachedData.memberships[1].group.name
+                  : cachedData.memberships[0].group.name,
+              groupId:
+                groupIdList[0] === teamId ? groupIdList[1] : groupIdList[0],
+            });
+            window.location.replace(`/my-teams`);
+          }
         }
-
-        queryClient.invalidateQueries({ queryKey: ["userData"] });
       } catch (error) {
         toast.error("팀 삭제에 실패했습니다.");
       } finally {
