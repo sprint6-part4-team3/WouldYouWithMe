@@ -67,7 +67,7 @@ const TeamDeleteModal = ({
               groupId:
                 groupIdList[0] === teamId ? groupIdList[1] : groupIdList[0],
             });
-            window.location.href = `/my-teams`;
+            window.location.replace(`/my-teams`);
           }
         }
       } catch (error) {
