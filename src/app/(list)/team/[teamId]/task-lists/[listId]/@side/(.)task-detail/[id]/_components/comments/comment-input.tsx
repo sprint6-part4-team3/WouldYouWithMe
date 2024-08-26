@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { IconButton } from "@/components/common";
@@ -13,14 +13,31 @@ interface CommentFormInputs {
 
 interface CommentInputProps {
   onAddComment: (content: string) => Promise<void>;
-  taskId: number;
+  taskId: string;
 }
 
 const MAX_COMMENT_LENGTH = 199;
 const STORAGE_KEY_PREFIX = "comment_draft_";
 
+const useDebounce = (value: string, delay: number) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
 const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
   const storageKey = `${STORAGE_KEY_PREFIX}${taskId}`;
+  const charCountRef = useRef<HTMLSpanElement>(null);
 
   const {
     register,
@@ -32,43 +49,52 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
   } = useForm<CommentFormInputs>();
 
   const contentValue = watch("content");
-  const [charCount, setCharCount] = useState(0);
-  const [isExceeded, setIsExceeded] = useState(false);
+  const debouncedContent = useDebounce(contentValue || "", 500);
+
+  const [isMaxLength, setIsMaxLength] = useState(false);
 
   useEffect(() => {
     const savedComment = localStorage.getItem(storageKey);
     if (savedComment) {
       setValue("content", savedComment);
     }
-  }, [taskId, setValue, storageKey]);
+  }, [storageKey, setValue]);
 
   useEffect(() => {
-    if (contentValue && contentValue.trim() !== "") {
-      localStorage.setItem(storageKey, contentValue);
+    if (debouncedContent.trim() !== "") {
+      localStorage.setItem(storageKey, debouncedContent);
     } else {
       localStorage.removeItem(storageKey);
     }
-  }, [contentValue, storageKey]);
+  }, [debouncedContent, storageKey]);
+
+  const updateCharCount = useCallback((value: string) => {
+    const newCount = value.length;
+    if (charCountRef.current) {
+      charCountRef.current.textContent = `${newCount}/${MAX_COMMENT_LENGTH}`;
+    }
+    setIsMaxLength(newCount >= MAX_COMMENT_LENGTH);
+  }, []);
 
   useEffect(() => {
-    const newCount = contentValue ? contentValue.length : 0;
-    setCharCount(newCount);
-    setIsExceeded(newCount > MAX_COMMENT_LENGTH);
-  }, [contentValue]);
+    updateCharCount(contentValue || "");
+  }, [contentValue, updateCharCount]);
 
   const isContentEmpty = !contentValue || contentValue.trim() === "";
 
-  const onSubmit: SubmitHandler<CommentFormInputs> = async (data) => {
-    if (isExceeded) return;
-    try {
-      const { content } = data;
-      reset();
-      await onAddComment(content);
-      localStorage.removeItem(storageKey);
-    } catch (error) {
-      console.error("Error submitting comment:", error);
-    }
-  };
+  const onSubmit: SubmitHandler<CommentFormInputs> = useCallback(
+    async (data) => {
+      try {
+        const { content } = data;
+        await onAddComment(content);
+        reset();
+        localStorage.removeItem(storageKey);
+      } catch (error) {
+        console.error("Error submitting comment:", error); //eslint-disable-line
+      }
+    },
+    [onAddComment, reset, storageKey],
+  );
 
   return (
     <div className="relative">
@@ -82,26 +108,31 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
             className="min-h-49 w-full resize-none overflow-hidden !border-0 bg-background-secondary p-13 placeholder:text-gray-400 focus:!outline-none"
             {...register("content", {
               maxLength: MAX_COMMENT_LENGTH,
+              onChange: (e) => updateCharCount(e.target.value),
             })}
+            maxLength={MAX_COMMENT_LENGTH}
             disabled={isSubmitting}
           />
           <div className="absolute right-3 top-1/2 flex -translate-y-1/2 flex-col items-end gap-7">
             <IconButton
               type="submit"
               icon="IconComment"
-              variant={isContentEmpty || isExceeded ? "darkest" : "green"}
+              variant={isContentEmpty || isMaxLength ? "darkest" : "green"}
               className="mb-1 text-gray-400 hover:text-white"
-              disabled={isContentEmpty || isSubmitting || isExceeded}
+              disabled={isContentEmpty || isSubmitting || isMaxLength}
             />
-            <span className="text-10-400 mt-5 text-text-secondary">
-              {charCount}/{MAX_COMMENT_LENGTH}
+            <span
+              ref={charCountRef}
+              className="text-10-400 mt-5 text-text-secondary"
+            >
+              0/{MAX_COMMENT_LENGTH}
             </span>
           </div>
         </div>
       </form>
-      {isExceeded && (
+      {isMaxLength && (
         <p className="mt-15 text-14-400 text-red-500">
-          댓글 글자수는 200글자를 넘을 수 없습니다.
+          댓글은 199자까지만 입력할 수 있습니다.
         </p>
       )}
     </div>
