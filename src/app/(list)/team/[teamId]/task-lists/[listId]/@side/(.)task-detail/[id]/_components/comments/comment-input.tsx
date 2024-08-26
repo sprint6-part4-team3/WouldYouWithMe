@@ -16,7 +16,7 @@ interface CommentInputProps {
   taskId: string;
 }
 
-const MAX_COMMENT_LENGTH = 199;
+const MAX_COMMENT_LENGTH = 200;
 const STORAGE_KEY_PREFIX = "comment_draft_";
 
 const useDebounce = (value: string, delay: number) => {
@@ -52,7 +52,7 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
   const debouncedContent = useDebounce(contentValue || "", 500);
 
   const isMaxLength = contentValue
-    ? contentValue.length === MAX_COMMENT_LENGTH
+    ? contentValue.length >= MAX_COMMENT_LENGTH
     : false;
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
   const updateCharCount = useCallback((value: string) => {
     const newCount = value.length;
     if (charCountRef.current) {
-      charCountRef.current.textContent = `${newCount}/${MAX_COMMENT_LENGTH}`;
+      charCountRef.current.textContent = `${newCount}/${MAX_COMMENT_LENGTH - 1}`;
     }
   }, []);
 
@@ -91,7 +91,7 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
         reset();
         localStorage.removeItem(storageKey);
       } catch (error) {
-        console.error("Error submitting comment:", error); //eslint-disable-line
+        console.error("Error submitting comment:", error);
       }
     },
     [onAddComment, reset, storageKey],
