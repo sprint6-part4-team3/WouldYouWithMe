@@ -36,9 +36,9 @@ const NameInput = () => {
         <Button
           type="submit"
           variant="primary"
-          className="absolute right-16 top-9 z-[5] h-32 w-50"
+          className="absolute right-16 top-9 z-[5] h-32 w-130"
         >
-          변경
+          이미지 / 이름 변경
         </Button>
       </div>
     </FieldWrapper>

@@ -23,9 +23,11 @@ const signUp = async (
     const { data } = response;
 
     if (response.status === 201) {
-      cookies().set("token", data.accessToken);
-      cookies().set("refreshToken", data.refreshToken);
-      cookies().set("userNickname", data.user.nickname);
+      const maxAge = 60 * 60 * 24;
+
+      cookies().set("token", data.accessToken, { maxAge });
+      cookies().set("refreshToken", data.refreshToken, { maxAge });
+      cookies().set("userNickname", data.user.nickname, { maxAge });
 
       return {
         success: true,

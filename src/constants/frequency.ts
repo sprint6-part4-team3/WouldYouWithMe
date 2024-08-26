@@ -1,5 +1,3 @@
-import { FrequencyType } from "@/types/task-list";
-
 export const FREQUENCY_OPTIONS = [
   { value: "ONCE", label: "한 번" },
   { value: "DAILY", label: "매일 반복" },

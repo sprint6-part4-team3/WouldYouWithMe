@@ -91,13 +91,13 @@ const SignInForm: React.FC = () => {
   const handleKakaoLogin = () => {
     const state = randomString(10);
     const KAKAO_LOGIN_URL = `${KAKAO_AUTHORIZE_URL}?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&scope=profile_nickname,profile_image&state=${state}`;
-    window.location.href = KAKAO_LOGIN_URL;
+    window.location.replace(KAKAO_LOGIN_URL);
   };
 
   const handleGoogleLogin = () => {
     const state = randomString(10);
     const GOOGLE_LOGIN_URL = `${GOOGLE_AUTHORIZE_URL}?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=profile email&state=${state}`;
-    window.location.href = GOOGLE_LOGIN_URL;
+    window.location.replace(GOOGLE_LOGIN_URL);
   };
 
   return (
