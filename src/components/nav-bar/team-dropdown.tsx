@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { getCookie, setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,14 +25,13 @@ const fetchUserData = async (): Promise<User> => {
 const TeamDropdown = () => {
   const [user] = useAtom(userAtom);
   const userId = user.id;
-  const userCookieId = getCookie("userId");
   const useRecentTeamAtom = useMemo(() => recentTeamAtom(userId), [userId]);
   const [recentTeam, setRecentTeam] = useAtom(useRecentTeamAtom);
 
   const { data: userData, isLoading } = useQuery<User>({
     queryKey: ["userData"],
     queryFn: fetchUserData,
-    enabled: !!userCookieId,
+    enabled: !!userId,
     staleTime: 60000,
     gcTime: 300000,
   });
@@ -71,7 +70,7 @@ const TeamDropdown = () => {
     setIsExpanded(!isExpanded);
   };
 
-  if (isLoading || !userCookieId) {
+  if (isLoading || !userId) {
     return null;
   }
 
