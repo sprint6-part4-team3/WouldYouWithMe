@@ -27,6 +27,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.12",
     "eslint-plugin-tailwindcss": "^3.17.4",
+    "firebase": "^10.13.0",
     "framer-motion": "^11.3.8",
     "jotai": "^2.9.1",
     "lottie-react": "^2.4.0",
