@@ -43,8 +43,10 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
   }, [taskId, setValue, storageKey]);
 
   useEffect(() => {
-    if (contentValue) {
+    if (contentValue && contentValue.trim() !== "") {
       localStorage.setItem(storageKey, contentValue);
+    } else {
+      localStorage.removeItem(storageKey);
     }
   }, [contentValue, storageKey]);
 
@@ -62,7 +64,6 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
       const { content } = data;
       reset();
       await onAddComment(content);
-      // Remove the draft from local storage after successful submission
       localStorage.removeItem(storageKey);
     } catch (error) {
       console.error("Error submitting comment:", error);
@@ -80,8 +81,6 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
             placeholder="댓글을 달아주세요"
             className="min-h-49 w-full resize-none overflow-hidden !border-0 bg-background-secondary p-13 placeholder:text-gray-400 focus:!outline-none"
             {...register("content", {
-              required: true,
-              validate: (value) => value.trim() !== "",
               maxLength: MAX_COMMENT_LENGTH,
             })}
             disabled={isSubmitting}
