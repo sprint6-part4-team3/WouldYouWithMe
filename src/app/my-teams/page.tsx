@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useAtom, useSetAtom } from "jotai";
 import Lottie from "lottie-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,13 +11,26 @@ import Motion from "@/components/common/framer-motion/motion";
 import getUserGroups from "@/lib/api/user/get-user-groups";
 import { ImgPlanet } from "@/public/assets/images";
 import TeamEmpty from "@/public/assets/lotties/team-empty.json";
-import { Group } from "@/types/user";
+import { recentTeamAtom, userAtom } from "@/stores";
 
 const MyTeams = () => {
   const { data: userGroups } = useQuery({
     queryKey: ["userGroups"],
     queryFn: () => getUserGroups(),
   });
+
+  const [user] = useAtom(userAtom);
+  const userId = user.id;
+
+  const setRecentTeam = useSetAtom(recentTeamAtom(userId));
+
+  const handleTeamClick = (team: { name: string; id: number }) => {
+    setRecentTeam({
+      teamName: team.name,
+      groupId: team.id,
+    });
+    window.location.replace(`/team/${team.id}`);
+  };
 
   return (
     <div>
@@ -44,9 +58,10 @@ const MyTeams = () => {
               transition={{ duration: 1.5 }}
               className="w-full"
             >
-              <Link
+              <button
+                type="button"
                 className="mb-12 flex w-full flex-col items-center justify-center gap-15 rounded-12 bg-background-secondary px-14 py-30 hover:bg-background-tertiary"
-                href={`/team/${team.id}`}
+                onClick={() => handleTeamClick(team)}
               >
                 <div className="relative size-52">
                   {team.image ? (
@@ -68,7 +83,7 @@ const MyTeams = () => {
                   )}
                 </div>
                 <span className="text-16-500">{team.name}</span>
-              </Link>
+              </button>
             </Motion>
           ))}
         </section>

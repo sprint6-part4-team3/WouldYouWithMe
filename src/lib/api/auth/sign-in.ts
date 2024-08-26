@@ -15,9 +15,11 @@ const signIn = async (email: string, password: string) => {
     const { data } = response;
 
     if (response.status === 200) {
-      cookies().set("token", data.accessToken);
-      cookies().set("refreshToken", data.refreshToken);
-      cookies().set("userId", data.user.id);
+      const maxAge = 60 * 60 * 24;
+
+      cookies().set("token", data.accessToken, { maxAge });
+      cookies().set("refreshToken", data.refreshToken, { maxAge });
+      cookies().set("userId", data.user.id, { maxAge });
 
       return { success: true, data };
     }

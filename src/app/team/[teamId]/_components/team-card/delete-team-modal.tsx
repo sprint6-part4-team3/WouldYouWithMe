@@ -31,7 +31,6 @@ const TeamDeleteModal = ({
   const [groupIdList] = useAtom(groupIdListAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState("");
-  const router = useRouter();
   const toast = useToast();
   const isMobile = useIsMobile();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
