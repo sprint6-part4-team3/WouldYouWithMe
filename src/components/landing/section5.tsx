@@ -14,14 +14,14 @@ const Section5 = () => {
   const isInView = useInView(ref);
 
   return (
-    <section ref={ref} className="h-screen">
+    <section ref={ref} className="h-screen flex justify-center items-center">
       <motion.article
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
         exit="exit"
         variants={lottieVariants}
       >
-        <div className="bg-cover bg-center pt-123 lg:pt-173 xl:pt-230">
+        <div>
           <h3 className="mb-16 text-center text-24-600 lg:mb-24 lg:text-40-600 xl:mb-24 xl:text-40-600">
             다들 어디에 계세요?
           </h3>
