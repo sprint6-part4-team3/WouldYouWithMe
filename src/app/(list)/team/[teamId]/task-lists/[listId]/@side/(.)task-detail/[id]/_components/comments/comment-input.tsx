@@ -16,7 +16,7 @@ interface CommentInputProps {
   taskId: string;
 }
 
-const MAX_COMMENT_LENGTH = 200;
+const MAX_COMMENT_LENGTH = 201;
 const STORAGE_KEY_PREFIX = "comment_draft_";
 
 const useDebounce = (value: string, delay: number) => {
@@ -133,7 +133,7 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
       </form>
       {isMaxLength && (
         <p className="mt-15 text-14-400 text-red-500">
-          댓글은 199자까지만 입력할 수 있습니다.
+          댓글은 200자까지만 입력할 수 있습니다.
         </p>
       )}
     </div>
