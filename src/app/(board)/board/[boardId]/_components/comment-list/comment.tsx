@@ -50,7 +50,8 @@ const Comment = ({
             )}
           </div>
           <div className="flex items-center">
-            {commentData.writer.image ? (
+            {commentData.writer.image &&
+            commentData.writer.image !== "Invalid Date" ? (
               <Image
                 src={commentData.writer.image}
                 alt={`${commentData.writer.nickname}의 프로필 사진`}

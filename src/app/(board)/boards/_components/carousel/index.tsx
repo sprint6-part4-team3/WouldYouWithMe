@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable react/no-array-index-key */
 
 "use client";
@@ -27,15 +25,8 @@ const Carousel = ({ items }: CarouselProps) => {
   const [randomQuote, setRandomQuote] = useState("");
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const extendedItems = [items[items.length - 1], ...items, items[0]];
-
-  const stopAutoSlide = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-  };
 
   const goToPrevious = useCallback(() => {
     if (isTransitioning) return;
@@ -51,23 +42,17 @@ const Carousel = ({ items }: CarouselProps) => {
     setCurrentIndex((prevIndex) => prevIndex + 1);
   }, [isTransitioning]);
 
-  const startAutoSlide = () => {
-    intervalRef.current = setInterval(() => {
-      goToNext();
-    }, 5000);
-  };
-
-  const resetAutoSlide = () => {
-    stopAutoSlide();
-    startAutoSlide();
-  };
-
   useEffect(() => {
     setRandomQuote(getRandomQuote());
-    startAutoSlide();
-
-    return () => stopAutoSlide();
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      goToNext();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex, goToNext]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -86,7 +71,7 @@ const Carousel = ({ items }: CarouselProps) => {
 
     setTimeout(() => {
       setIsTransitioning(false);
-    }, 500); // 500ms 동안 전환 중 상태 유지
+    }, 500);
 
     return () => {
       clearTimeout(timeoutId);
@@ -95,7 +80,6 @@ const Carousel = ({ items }: CarouselProps) => {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX);
-    stopAutoSlide(); // 터치 시작 시 자동 전환 중지
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -111,7 +95,6 @@ const Carousel = ({ items }: CarouselProps) => {
       }
       setTouchStartX(null);
     }
-    resetAutoSlide(); // 터치 종료 후 자동 전환 재개
   };
 
   return (
@@ -154,24 +137,22 @@ const Carousel = ({ items }: CarouselProps) => {
 
       <button
         type="button"
+        disabled={isTransitioning}
         onClick={() => {
-          stopAutoSlide(); // 수동 클릭 시 자동 전환 중지
           goToPrevious();
-          resetAutoSlide(); // 수동 클릭 후 자동 전환 재개
         }}
-        className="left-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
+        className="left-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
       >
         &#8249;
       </button>
 
       <button
         type="button"
+        disabled={isTransitioning}
         onClick={() => {
-          stopAutoSlide(); // 수동 클릭 시 자동 전환 중지
           goToNext();
-          resetAutoSlide(); // 수동 클릭 후 자동 전환 재개
         }}
-        className="right-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
+        className="right-10 top-1/2 hidden h-40 w-20 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-background-secondary hover:bg-background-tertiary md:absolute md:flex md:h-50 md:w-25"
       >
         &#8250;
       </button>
