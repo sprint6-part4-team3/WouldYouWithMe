@@ -41,7 +41,7 @@ const LandingButtons = () => {
       <Link href="/login">
         <Button
           className="m-auto h-65 w-200 rounded-full bg-gradient-to-r from-brand-tertiary to-brand-primary text-16-600 text-black hover:text-text-inverse"
-          variant="noFill"
+          variant="primary"
         >
           지금 시작하기
         </Button>
