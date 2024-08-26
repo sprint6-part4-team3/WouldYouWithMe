@@ -28,7 +28,7 @@ const MyTeams = () => {
       const groupIdsFromData = extractGroupId(userGroups);
       setGroupIdList(groupIdsFromData);
     }
-  }, [userGroups]);
+  }, [setGroupIdList, userGroups]);
 
   return (
     <div>
