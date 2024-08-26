@@ -2,10 +2,19 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      "sprint-fe-project.s3.ap-northeast-2.amazonaws.com",
-      "k.kakaocdn.net",
-      "lh3.googleusercontent.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "sprint-fe-project.s3.ap-northeast-2.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "k.kakaocdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
   },
   webpack: (config) => {
