@@ -116,30 +116,36 @@ const CommentItem = ({
       ) : (
         <>
           <div className="flex items-start justify-between self-stretch text-14-400">
-            <div className="w-full break-words pr-4">
-              {isExpanded
-                ? comment.content
-                : truncateContent(comment.content, 100)}
-              {comment.content.length > 100 && (
-                <button
-                  type="button"
-                  onClick={toggleExpand}
-                  className=" ml-10 text-12-400  text-text-disabled hover:underline"
-                >
-                  {isExpanded ? "접기" : "전체보기"}
-                </button>
-              )}
+            <div className="grow overflow-hidden">
+              <div className="w-full break-words pr-4">
+                {isExpanded
+                  ? comment.content
+                  : truncateContent(comment.content, 100)}
+                {comment.content.length > 100 && (
+                  <button
+                    type="button"
+                    onClick={toggleExpand}
+                    className="ml-10 text-12-400 text-text-disabled hover:underline"
+                  >
+                    {isExpanded ? "접기" : "전체보기"}
+                  </button>
+                )}
+              </div>
             </div>
             {isCommentOwner && !isOptimistic && (
-              <DropDown handleClose={handleClose}>
-                <DropDown.Trigger onClick={handleToggle}>
-                  <IconKebab className="shrink-0 cursor-pointer" />
-                </DropDown.Trigger>
-                <DropDown.Menu isOpen={isDropdownOpen}>
-                  <DropDown.Item onClick={handleEdit}>수정하기</DropDown.Item>
-                  <DropDown.Item onClick={handleDelete}>삭제하기</DropDown.Item>
-                </DropDown.Menu>
-              </DropDown>
+              <div className="shrink-0">
+                <DropDown handleClose={handleClose}>
+                  <DropDown.Trigger onClick={handleToggle}>
+                    <IconKebab className="cursor-pointer" />
+                  </DropDown.Trigger>
+                  <DropDown.Menu isOpen={isDropdownOpen}>
+                    <DropDown.Item onClick={handleEdit}>수정하기</DropDown.Item>
+                    <DropDown.Item onClick={handleDelete}>
+                      삭제하기
+                    </DropDown.Item>
+                  </DropDown.Menu>
+                </DropDown>
+              </div>
             )}
           </div>
           <div className="mb-12 flex items-center justify-between self-stretch text-14-500 text-text-primary">
