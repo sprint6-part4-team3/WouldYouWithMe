@@ -5,16 +5,17 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 import { AddListModalButton } from "@/components/common";
-import { GroupTask } from "@/types/group";
+import { GroupResponse, GroupTask } from "@/types/group";
 
 import DragAndDrop from "./drag-and-drop";
 
 interface TodoLostBoxProps {
   taskList: GroupTask[];
   teamId: number;
+  response: GroupResponse;
 }
 
-const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
+const TodoListBox = ({ taskList, teamId, response }: TodoLostBoxProps) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const taskListsNav = taskList.map(({ id, name }) => ({
@@ -55,7 +56,11 @@ const TodoListBox = ({ taskList, teamId }: TodoLostBoxProps) => {
       </div>
       <section>
         {taskList.length > 0 && (
-          <DragAndDrop todoListIndex={taskList} teamId={teamId} />
+          <DragAndDrop
+            todoListIndex={taskList}
+            teamId={teamId}
+            response={response}
+          />
         )}
       </section>
       <div
