@@ -51,7 +51,9 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
   const contentValue = watch("content");
   const debouncedContent = useDebounce(contentValue || "", 500);
 
-  const [isMaxLength, setIsMaxLength] = useState(false);
+  const isMaxLength = contentValue
+    ? contentValue.length > MAX_COMMENT_LENGTH
+    : false;
 
   useEffect(() => {
     const savedComment = localStorage.getItem(storageKey);
@@ -73,7 +75,6 @@ const CommentInput = ({ onAddComment, taskId }: CommentInputProps) => {
     if (charCountRef.current) {
       charCountRef.current.textContent = `${newCount}/${MAX_COMMENT_LENGTH}`;
     }
-    setIsMaxLength(newCount >= MAX_COMMENT_LENGTH);
   }, []);
 
   useEffect(() => {
