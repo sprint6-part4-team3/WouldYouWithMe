@@ -51,6 +51,7 @@ const JoinTeamForm = () => {
       onSuccess: () => {
         router.replace(`/my-teams`);
         toast.success("새로운 팀에 참여되었습니다.");
+        queryClient.invalidateQueries({ queryKey: ["userData"] });
         queryClient.invalidateQueries({ queryKey: ["userGroups"] });
       },
       onError: (error) => {
