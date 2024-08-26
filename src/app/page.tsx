@@ -55,8 +55,8 @@ export default function Home() {
                 그룹으로
                 <br /> 할 일을 관리해요
                 <p className="pt-5 text-text-default">
-                  드래그 해서 편하게
-                  <br /> 옮길 수 있어요
+                  드래그 해서 순서를
+                  <br /> 변경할 수 있어요
                 </p>
               </span>
             </div>
