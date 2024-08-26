@@ -1,7 +1,6 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
 import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
@@ -28,6 +27,7 @@ const TeamDeleteModal = ({
   const queryClient = useQueryClient();
   const [user] = useAtom(userAtom);
   const userId = user.id;
+  const router = useRouter();
 
   const [groupIdList] = useAtom(groupIdListAtom);
   const [isLoading, setIsLoading] = useState(false);

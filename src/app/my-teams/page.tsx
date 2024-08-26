@@ -12,7 +12,7 @@ import Motion from "@/components/common/framer-motion/motion";
 import getUserGroups from "@/lib/api/user/get-user-groups";
 import { ImgPlanet } from "@/public/assets/images";
 import TeamEmpty from "@/public/assets/lotties/team-empty.json";
-import { recentTeamAtom, userAtom, groupIdListAtom } from "@/stores";
+import { groupIdListAtom, recentTeamAtom, userAtom } from "@/stores";
 import extractGroupId from "@/utils/extract-group-id";
 
 const MyTeams = () => {
