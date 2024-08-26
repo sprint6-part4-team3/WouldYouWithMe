@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { redirect, useRouter } from "next/navigation";
@@ -9,8 +10,9 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/common";
 import EMPTY_IMAGE from "@/constants/image";
+import FIREBASE_DB from "@/firebase";
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
-import { IconComment, IconProfile } from "@/public/assets/icons";
+import { IconComment } from "@/public/assets/icons";
 import { userAtom } from "@/stores";
 import formatBoardDate from "@/utils/format-board-date";
 
@@ -26,6 +28,7 @@ interface BoardDetailProps {
 const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
   const router = useRouter();
   const [previousPage, setPreviousPage] = useState<string | null>("");
+  const [viewCount, setViewCount] = useState<number | null>(null);
 
   const [user] = useAtom(userAtom);
 
@@ -42,6 +45,29 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
 
     setPreviousPage(previousUrl);
   }, []);
+
+  useEffect(() => {
+    const getViewCount = async () => {
+      const docRef = doc(FIREBASE_DB, "boards", boardId.toString());
+
+      // 조회수 가져오기
+      const boardDb = await getDoc(docRef);
+      const boardData = boardDb.data();
+
+      if (boardData) {
+        // 조회수 업데이트
+        const currentViewCount = boardData.viewCount + 1;
+        setViewCount(currentViewCount);
+        updateDoc(docRef, { viewCount: currentViewCount });
+      } else {
+        // 조회수 생성
+        await setDoc(docRef, { viewCount: 1 });
+        setViewCount(1);
+      }
+    };
+
+    getViewCount();
+  }, [boardId]);
 
   const { data: boardData, error } = useQuery({
     queryKey: ["board", boardId],
@@ -79,8 +105,6 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-8 text-12-500 md:text-14-500">
-          {/** API에 작성자 이미지 없음 */}
-          <IconProfile />
           <span>{boardData.writer.nickname}</span>
           <div className="h-12 w-1 bg-background-tertiary" />
           <time
@@ -92,6 +116,9 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
           {boardData.createdAt !== boardData.updatedAt && (
             <span className="text-text-default">(수정됨)</span>
           )}
+          <div className="h-12 w-1 bg-background-tertiary" />
+          <span>조회수</span>
+          <span className="text-text-default">{viewCount}</span>
         </div>
 
         <div className="flex items-center gap-8 text-12-400 text-text-disabled md:text-14-400">
