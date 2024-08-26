@@ -23,3 +23,7 @@ export type InvitationRequestType = {
   userEmail: string;
   token: string;
 };
+
+export type InvitationResponseType = {
+  groupId: number;
+};
