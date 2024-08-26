@@ -48,10 +48,10 @@ const JoinTeamForm = () => {
     };
 
     mutate(submitData, {
-      onSuccess: (res) => {
-        router.replace(`/team/${res.groupId}`);
-        toast.success("해당 팀에 참여되었습니다.");
-        queryClient.invalidateQueries({ queryKey: ["userData"] });
+      onSuccess: () => {
+        router.replace(`/my-teams`);
+        toast.success("새로운 팀에 참여되었습니다.");
+        queryClient.invalidateQueries({ queryKey: ["userGroups"] });
       },
       onError: (error) => {
         toast.error(error.message);
