@@ -40,23 +40,15 @@ const DeleteMemberModal = ({
 
   const isSameMember = useMemo(() => userId === memberId, [userId, memberId]);
 
-  const replaceId = useMemo(
-    () =>
-      groupIdList[0] === groupId
-        ? groupIdList[1] || "team-empty"
-        : groupIdList[0],
-    [groupId, groupIdList],
-  );
-
   const { mutate, isPending } = useMutation({
     mutationFn: () => deleteMember(groupId, memberId),
     onSuccess: () => {
       if (isSameMember) {
-        if (replaceId === "team-empty") {
-          router.push(`/team-empty`);
+        if (groupIdList.length <= 1) {
+          router.replace(`/team-empty`);
           queryClient.invalidateQueries({ queryKey: ["userData"] });
         } else {
-          router.push(`/team/${replaceId}`);
+          router.replace(`/my-teams`);
           queryClient.invalidateQueries({ queryKey: ["userData"] });
         }
       } else {
