@@ -21,7 +21,7 @@ const ProfileModal = ({ onClose, member, teamName }: ProfileModalProps) => {
   return (
     <CommonComponent showCloseButton onClose={onClose} title="">
       <div className="flex w-full flex-col items-center justify-center gap-24">
-        {member.userImage ? (
+        {member.userImage && member.userImage !== "Invalid Date" ? (
           <Image
             width={52}
             height={52}

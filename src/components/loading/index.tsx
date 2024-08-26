@@ -15,7 +15,7 @@ const PageLoading = ({ message = "Loading" }: PageLoadingProps) => (
       animationData={TeamLoading}
     />
     <div className="m-auto flex items-center justify-center gap-10">
-      <div>{message}</div>
+      <span className="text-20-700">{message}</span>
     </div>
   </div>
 );

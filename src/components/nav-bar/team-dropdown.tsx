@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { setCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,13 +25,14 @@ const fetchUserData = async (): Promise<User> => {
 const TeamDropdown = () => {
   const [user] = useAtom(userAtom);
   const userId = user.id;
+  const userCookieId = getCookie("userId");
   const useRecentTeamAtom = useMemo(() => recentTeamAtom(userId), [userId]);
   const [recentTeam, setRecentTeam] = useAtom(useRecentTeamAtom);
 
   const { data: userData, isLoading } = useQuery<User>({
     queryKey: ["userData"],
     queryFn: fetchUserData,
-    enabled: !!userId,
+    enabled: !!userCookieId,
     staleTime: 60000,
     gcTime: 300000,
   });
@@ -70,7 +71,7 @@ const TeamDropdown = () => {
     setIsExpanded(!isExpanded);
   };
 
-  if (isLoading || !userId) {
+  if (isLoading || !userCookieId) {
     return null;
   }
 
@@ -120,7 +121,7 @@ const TeamDropdown = () => {
                         src={membership.group.image}
                         alt={membership.group.name}
                         layout="fill"
-                        objectFit="cover"
+                        style={{ objectFit: "cover" }}
                         className="rounded-md"
                       />
                     ) : (
@@ -128,7 +129,7 @@ const TeamDropdown = () => {
                         src={ImgPlanet}
                         alt="팀 기본이미지"
                         layout="fill"
-                        objectFit="cover"
+                        style={{ objectFit: "cover" }}
                         className="rounded-md"
                       />
                     )}

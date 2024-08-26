@@ -7,22 +7,25 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
+import {
+  CancelUserComponent,
+  ChangePasswordComponent,
+  EmailInput,
+  ImageInput,
+  NameInput,
+  PasswordInput,
+} from "@/app/(auth)/_components/user-setting";
+import PageLoading from "@/components/loading";
 import { useToast } from "@/hooks";
 import EditUser from "@/lib/api/user-setting/edit-user";
 import { userSettingSchema } from "@/lib/schemas/auth";
 import { userAtom } from "@/stores";
 import { UserSettingInput } from "@/types/auth";
 
-import CancelUserComponent from "./cancel-user-component";
-import ChangePasswordComponent from "./change-password-component";
-import EmailInput from "./email-input";
-import ImageInput from "./image-input";
-import NameInput from "./name-input";
-import PasswordInput from "./password-input";
-
 const UserSettingForm = () => {
   const [isChangeOpen, setIsChangeOpen] = useState(false);
   const [isCancelOpen, setIsCancelOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const setUser = useSetAtom(userAtom);
   const user = useAtomValue(userAtom);
@@ -41,9 +44,12 @@ const UserSettingForm = () => {
   const { setValue } = methods;
 
   useEffect(() => {
-    setValue("image", user.image || "");
-    setValue("nickname", user.nickname || "");
-  }, [user.image, user.nickname, setValue]);
+    if (user) {
+      setValue("image", user.image || "");
+      setValue("nickname", user.nickname || "");
+      setIsLoading(false);
+    }
+  }, [user, setValue]);
 
   const mutation = useMutation({
     mutationFn: (data: { nickname?: string; image: string | null }) =>
@@ -90,6 +96,10 @@ const UserSettingForm = () => {
   const handleCancelUserClick = () => {
     setIsCancelOpen(true);
   };
+
+  if (isLoading) {
+    return <PageLoading message="Loading" />;
+  }
 
   return (
     <>

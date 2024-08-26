@@ -50,7 +50,7 @@ const CreateTeamForm = () => {
           teamName: res.name,
           groupId: res.id,
         });
-        window.location.href = `/team/${res.id}`;
+        window.location.replace(`/team/${res.id}`);
         queryClient.invalidateQueries({ queryKey: ["userData"] });
       },
       onError: (error) => {
