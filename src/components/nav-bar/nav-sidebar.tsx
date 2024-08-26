@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 import Link from "next/link";
@@ -80,23 +81,34 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
         className="absolute right-22 top-22"
       />
       <div className="ml-16 mt-75">
-        {hasTeams ? (
-          <ul className="space-y-24">
-            {teams.map((membership) => (
-              <li key={membership.group.id}>
-                <Link
-                  href={`/team/${membership.group.id}`}
-                  onClick={() =>
-                    handleLinkClick(membership.group.name, membership.group.id)
-                  }
-                >
-                  {membership.group.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          isLoggedIn && (
+        {isLoggedIn ? (
+          <>
+            {hasTeams && (
+              <ul
+                className={clsx("space-y-24", {
+                  "max-h-[calc(100vh-190px)] overflow-y-auto":
+                    teams.length > 10,
+                })}
+              >
+                {teams.map((membership) => (
+                  <li key={membership.group.id}>
+                    <Link
+                      href={`/team/${membership.group.id}`}
+                      onClick={() =>
+                        handleLinkClick(
+                          membership.group.name,
+                          membership.group.id,
+                        )
+                      }
+                    >
+                      <span className="block w-full truncate">
+                        {membership.group.name}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="mt-24 flex flex-col gap-24">
               <Link
                 href="/create-team"
@@ -105,14 +117,26 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
               >
                 팀 생성하기
               </Link>
+              <Link
+                href="/boards"
+                onClick={onClose}
+                className="text-brand-primary"
+              >
+                모집게시판
+              </Link>
             </div>
-          )
+          </>
+        ) : (
+          <div className="mt-24 flex flex-col gap-24">
+            <Link
+              href="/boards"
+              onClick={onClose}
+              className="text-brand-primary"
+            >
+              모집게시판
+            </Link>
+          </div>
         )}
-        <div className="mt-24 flex flex-col gap-24">
-          <Link href="/boards" onClick={onClose} className="text-brand-primary">
-            모집게시판
-          </Link>
-        </div>
       </div>
     </motion.div>
   );

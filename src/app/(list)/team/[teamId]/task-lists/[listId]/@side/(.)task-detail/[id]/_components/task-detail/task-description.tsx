@@ -6,14 +6,12 @@ interface TaskDescriptionProps {
   description: string;
   isTaskCompleted: boolean;
   onToggleComplete: () => void;
-  isPending: boolean;
 }
 
 const TaskDescription = ({
   description,
   isTaskCompleted,
   onToggleComplete,
-  isPending,
 }: TaskDescriptionProps) => {
   let buttonText = "완료하기";
   if (isTaskCompleted) {

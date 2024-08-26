@@ -11,11 +11,12 @@ const usePreviousPage = () => {
       pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "");
     const previousUrl = storage.getItem("CURRENT_URL");
 
-    if (previousUrl) {
-      storage.setItem("PREVIOUS_URL", previousUrl);
+    if (previousUrl !== currentUrl) {
+      if (previousUrl) {
+        storage.setItem("PREVIOUS_URL", previousUrl);
+      }
+      storage.setItem("CURRENT_URL", currentUrl);
     }
-
-    storage.setItem("CURRENT_URL", currentUrl);
   }, [pathname, searchParams]);
 };
 

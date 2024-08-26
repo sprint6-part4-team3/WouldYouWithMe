@@ -115,7 +115,12 @@ const CommentList = ({ boardId }: CommentListProps) => {
                   alt="맨 위로 버튼"
                   className="cursor-pointer drop-shadow-[0_0_10px_#22b8cf]"
                 />
-                <span className="text-18-700 text-brand-primary">맨 위로</span>
+                <span
+                  onClick={scrollToTop}
+                  className="cursor-pointer text-18-700 text-brand-primary"
+                >
+                  맨 위로
+                </span>
               </div>
             )}
           </>

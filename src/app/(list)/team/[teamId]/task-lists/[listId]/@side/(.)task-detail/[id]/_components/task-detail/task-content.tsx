@@ -47,6 +47,7 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
         taskListId: Number(taskListId),
         date: currentDate!,
       }),
+    enabled: !!currentDate,
   });
 
   const task = useMemo(
@@ -136,13 +137,14 @@ const TaskContent = ({ initialComments }: TaskContentProps) => {
         taskName={task.name}
         taskDescription={task.description}
         isCompleted={isTaskCompleted}
+        recurringId={task.recurringId.toString()}
+        frequency={task.frequency}
       />
       <TaskInfo {...taskInfoProps} />
       <TaskDescription
         description={task?.description}
         isTaskCompleted={isTaskCompleted}
         onToggleComplete={handleToggleComplete}
-        isPending={editTaskMutation.isPending}
       />
       <CommentInput onAddComment={handleAddComment} />
       {hasComments ? (

@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,6 +17,7 @@ const UserDropdown = () => {
   const [user] = useAtom(userAtom);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userDropdown = useToggle();
+  const userCookieId = getCookie("userId");
 
   const openLogout = () => {
     setIsLogoutOpen(true);
@@ -26,7 +28,7 @@ const UserDropdown = () => {
     setIsLogoutOpen(false);
   };
 
-  if (user.id === 0) {
+  if (!userCookieId) {
     return (
       <Link href="/login" className="text-text-primary">
         로그인
@@ -45,7 +47,7 @@ const UserDropdown = () => {
                 alt={user.nickname}
                 width={32}
                 height={32}
-                objectFit="cover"
+                style={{ width: "32px", height: "32px", objectFit: "cover" }}
                 className="mr-12 rounded-md"
               />
             ) : (
@@ -59,7 +61,9 @@ const UserDropdown = () => {
           position="top-50 right-0 lg:left-0"
         >
           <Link href="/user/history">
-            <DropDown.Item>마이 히스토리</DropDown.Item>
+            <DropDown.Item onClick={userDropdown.handleToggle}>
+              마이 히스토리
+            </DropDown.Item>
           </Link>
           <Link href="/user-setting">
             <DropDown.Item onClick={userDropdown.handleToggle}>

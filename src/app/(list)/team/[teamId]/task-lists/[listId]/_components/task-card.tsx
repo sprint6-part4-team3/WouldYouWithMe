@@ -27,9 +27,11 @@ dayjs.locale("ko");
 interface TaskCardProps {
   id: number;
   date: string;
+  recurringId?: string;
+  frequency?: string;
 }
 
-const TaskCard = ({ id, date }: TaskCardProps) => {
+const TaskCard = ({ id, date, recurringId, frequency }: TaskCardProps) => {
   const { groupId: currentGroupId, taskListId: currentListId } =
     useTaskParams();
   const queryClient = useQueryClient();
@@ -43,14 +45,24 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
         date,
       }),
   });
-  // 완료하기 로직
+
   const task = tasks?.find((taskItems) => taskItems.id === id);
 
-  const [isCompleted, setIsCompleted] = useState<boolean>(
-    task?.doneAt !== null,
-  );
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const [isHovered, setIsHovered] = useState(false);
+  const { editTaskMutation } = useTaskMutation(
+    currentGroupId,
+    currentListId,
+    id,
+    setIsCompleted,
+  );
+  const {
+    value: isDropdownOpen,
+    handleOff: closeDropdown,
+    handleToggle: toggleDropdown,
+  } = useToggle();
 
   useEffect(() => {
     if (task) {
@@ -58,32 +70,24 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
     }
   }, [task]);
 
-  if (!task) throw new Error();
+  const closeEditTask = useCallback(() => {
+    setIsEditTaskOpen(false);
+  }, []);
+
+  const closeDeleteTask = useCallback(() => {
+    setIsDeleteModalOpen(false);
+  }, []);
+
+  if (!task) {
+    return null;
+  }
 
   const renderCheckboxIcon = () => {
     if (isCompleted) {
       return <IconCheckBoxPrimary />;
     }
-    return isHovered ? <IconCheckBoxPrimary /> : <IconCheckBox />;
+    return <IconCheckBox />;
   };
-  // 아래부터는 드랍다운 로직
-  const {
-    value: isDropdownOpen,
-    handleOff: closeDropdown,
-    handleToggle: toggleDropdown,
-  } = useToggle();
-  // 편집하기 로직
-  const { editTaskMutation } = useTaskMutation(
-    currentGroupId,
-    currentListId,
-    id,
-    setIsCompleted,
-  );
-
-  const [isEditTaskOpen, setIsEditTaskOpen] = useState(false);
-  const closeEditTask = useCallback(() => {
-    setIsEditTaskOpen(false);
-  }, []);
 
   const taskDate = dayjs(date);
   const formattedDate = taskDate.format("YYYY년 M월 D일");
@@ -93,39 +97,32 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
     setIsEditTaskOpen(true);
   };
 
-  // 삭제하기 로직
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const handleDeleteClick = () => {
     closeDropdown();
     setIsDeleteModalOpen(true);
   };
-  const closeDeleteTask = useCallback(() => {
-    setIsDeleteModalOpen(false);
-  }, []);
 
   const handleToggleComplete = () => {
-    if (task) {
-      const newCompletedState = !isCompleted;
-      setIsCompleted(newCompletedState);
-      queryClient.setQueryData<TaskDetailData[]>(
-        ["tasks", currentGroupId, currentListId, date],
-        (oldData) => {
-          if (oldData) {
-            return oldData.map((taskItem: TaskDetailData) =>
-              taskItem.id === id
-                ? {
-                    ...taskItem,
-                    doneAt: newCompletedState ? new Date().toISOString() : null,
-                  }
-                : taskItem,
-            );
-          }
-          return oldData;
-        },
-      );
+    const newCompletedState = !isCompleted;
+    setIsCompleted(newCompletedState);
+    queryClient.setQueryData<TaskDetailData[]>(
+      ["tasks", currentGroupId, currentListId, date],
+      (oldData) => {
+        if (oldData) {
+          return oldData.map((taskItem: TaskDetailData) =>
+            taskItem.id === id
+              ? {
+                  ...taskItem,
+                  doneAt: newCompletedState ? new Date().toISOString() : null,
+                }
+              : taskItem,
+          );
+        }
+        return oldData;
+      },
+    );
 
-      editTaskMutation.mutate({ done: newCompletedState });
-    }
+    editTaskMutation.mutate({ done: newCompletedState });
   };
 
   return (
@@ -137,8 +134,6 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
             onClick={handleToggleComplete}
             className="mr-8 transition-transform duration-200 ease-in-out hover:scale-110"
             disabled={editTaskMutation.isPending}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
           >
             {renderCheckboxIcon()}
           </button>
@@ -148,9 +143,7 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
             <h2
               className={clsx(
                 `text-14-400 text-text-primary hover:text-brand-primary`,
-                {
-                  "line-through": isCompleted,
-                },
+                { "line-through": isCompleted },
               )}
             >
               {task.name}
@@ -187,7 +180,12 @@ const TaskCard = ({ id, date }: TaskCardProps) => {
         </span>
       </div>
       {isDeleteModalOpen && (
-        <TaskDeleteModal onClose={closeDeleteTask} id={id} />
+        <TaskDeleteModal
+          onClose={closeDeleteTask}
+          id={id}
+          recurringId={recurringId}
+          frequency={frequency}
+        />
       )}
       {isEditTaskOpen && (
         <EditTaskModal
