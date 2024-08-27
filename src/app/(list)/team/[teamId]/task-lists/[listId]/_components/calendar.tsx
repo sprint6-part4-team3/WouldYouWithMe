@@ -45,7 +45,7 @@ const Calendar = ({ currentDate }: CalendarProps) => {
           onClick={() => setNewDate(subMonths(newDate, 1))}
         />
         <h3 className="text-16-500 text-text-inverse">
-          {format(currentDate, "MM월 yyyy", { locale: ko })}
+          {format(newDate, "MM월 yyyy", { locale: ko })}
         </h3>
         <IconButton
           variant="none"
