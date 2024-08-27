@@ -45,7 +45,7 @@ const Card = ({ member, adminId, teamName }: MemberCardProps) => {
           className="group flex cursor-pointer items-center gap-12"
         >
           <div className="relative size-28 flex-1 lg:size-32">
-            {member.userImage ? (
+            {member.userImage && member.userImage !== "Invalid Date" ? (
               <Image
                 fill
                 src={member.userImage}
@@ -88,7 +88,7 @@ const Card = ({ member, adminId, teamName }: MemberCardProps) => {
         <div onClick={openProfileModal} className="group cursor-pointer">
           <div className="flex items-center gap-6">
             <div className="relative size-24">
-              {member.userImage ? (
+              {member.userImage && member.userImage !== "Invalid Date" ? (
                 <Image
                   fill
                   src={member.userImage}

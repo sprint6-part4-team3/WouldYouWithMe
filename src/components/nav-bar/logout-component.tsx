@@ -16,6 +16,8 @@ interface LogoutComponentProps {
   onClose: () => void;
 }
 
+const STORAGE_KEY_PREFIX = "comment_draft_";
+
 const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { success, error } = useToast();
@@ -29,6 +31,14 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
 
   const queryClient = useQueryClient();
 
+  const clearCommentDrafts = () => {
+    Object.keys(localStorage).forEach((key) => {
+      if (key.startsWith(STORAGE_KEY_PREFIX)) {
+        localStorage.removeItem(key);
+      }
+    });
+  };
+
   const onSubmit = async () => {
     setIsLoading(true);
 
@@ -37,6 +47,9 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
       await deleteCookie("refreshToken");
       await deleteCookie("userId");
       await deleteCookie("firstTeamName");
+
+      // Clear comment drafts from local storage
+      clearCommentDrafts();
 
       success("로그아웃 성공");
 

@@ -8,7 +8,6 @@ import { useEffect, useRef } from "react";
 import { useToast } from "@/hooks";
 import instance from "@/lib/api/axios-instance";
 import { userAtom } from "@/stores";
-import redirectTo from "@/utils/next-redirect";
 
 const GoogleAuth = () => {
   const { success, error } = useToast();
@@ -54,9 +53,11 @@ const GoogleAuth = () => {
 
         if (response.status === 200) {
           success("로그인 성공");
-          setCookie("token", data.accessToken);
-          setCookie("refreshToken", data.refreshToken);
-          setCookie("userId", data.user.id);
+          setCookie("token", data.accessToken, { maxAge: 60 * 60 * 24 });
+          setCookie("refreshToken", data.refreshToken, {
+            maxAge: 60 * 60 * 24,
+          });
+          setCookie("userId", data.user.id, { maxAge: 60 * 60 * 24 });
 
           setUser({
             id: data.user.id,
@@ -71,7 +72,7 @@ const GoogleAuth = () => {
             loginType: "GOOGLE",
           });
 
-          redirectTo("/");
+          window.location.replace("/");
         } else {
           error("로그인 요청 중 오류가 발생했습니다.");
         }

@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import {
@@ -23,6 +24,7 @@ const JoinTeamForm = () => {
   const [user] = useAtom(userAtom);
   const toast = useToast();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const {
     register,
@@ -47,9 +49,10 @@ const JoinTeamForm = () => {
 
     mutate(submitData, {
       onSuccess: () => {
-        // TODO: 응답에 팀 id 오게 해달라고 다른 팀이 요청했다고 함. 그럼 해당 페이지로 이동
-        toast.success("해당 팀에 참여되었습니다.");
+        router.replace(`/my-teams`);
+        toast.success("새로운 팀에 참여되었습니다.");
         queryClient.invalidateQueries({ queryKey: ["userData"] });
+        queryClient.invalidateQueries({ queryKey: ["userGroups"] });
       },
       onError: (error) => {
         toast.error(error.message);

@@ -120,7 +120,7 @@ const TeamDropdown = () => {
                         src={membership.group.image}
                         alt={membership.group.name}
                         layout="fill"
-                        objectFit="cover"
+                        style={{ objectFit: "cover" }}
                         className="rounded-md"
                       />
                     ) : (
@@ -128,7 +128,7 @@ const TeamDropdown = () => {
                         src={ImgPlanet}
                         alt="팀 기본이미지"
                         layout="fill"
-                        objectFit="cover"
+                        style={{ objectFit: "cover" }}
                         className="rounded-md"
                       />
                     )}

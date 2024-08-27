@@ -1,14 +1,17 @@
 import axios, { AxiosResponse } from "axios";
 
 import { OTHER_TYPE_ERROR } from "@/constants/error-message";
-import { InvitationRequestType } from "@/types/team-management";
+import {
+  InvitationRequestType,
+  InvitationResponseType,
+} from "@/types/team-management";
 
 import instance from "../axios-instance";
 
 // 초대 수락 생성 POST 요청
 const acceptInvitation = async (data: InvitationRequestType) => {
   try {
-    const res: AxiosResponse<string> = await instance.post(
+    const res: AxiosResponse<InvitationResponseType> = await instance.post(
       `/groups/accept-invitation`,
       data,
     );

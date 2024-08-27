@@ -92,6 +92,7 @@ const ImageInput = memo(({ setIsImgLoading }: ImageInputProps) => {
             <div className="relative size-66">
               <Image
                 src={imgUrl}
+                style={{ objectFit: "cover" }}
                 alt="팀 프로필 사진"
                 fill
                 className="rounded-full object-fill"

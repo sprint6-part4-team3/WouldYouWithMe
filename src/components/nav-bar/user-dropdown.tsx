@@ -1,9 +1,10 @@
 "use client";
 
+import { setCookie } from "cookies-next";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useToggle } from "@/hooks";
 import { IconUser } from "@/public/assets/icons";
@@ -14,8 +15,21 @@ import LogoutComponent from "./logout-component";
 
 const UserDropdown = () => {
   const [user] = useAtom(userAtom);
+  const userId = user.id;
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const userDropdown = useToggle();
+
+  useEffect(() => {
+    if (user.accessToken && !document.cookie.includes("token")) {
+      setCookie("token", user.accessToken, { path: "/" });
+    }
+    if (user.refreshToken && !document.cookie.includes("refreshToken")) {
+      setCookie("refreshToken", user.refreshToken, { path: "/" });
+    }
+    if (user.id && !document.cookie.includes("userId")) {
+      setCookie("userId", user.id, { path: "/" });
+    }
+  }, [user]);
 
   const openLogout = () => {
     setIsLogoutOpen(true);
@@ -26,7 +40,7 @@ const UserDropdown = () => {
     setIsLogoutOpen(false);
   };
 
-  if (user.id === 0) {
+  if (!userId) {
     return (
       <Link href="/login" className="text-text-primary">
         로그인
@@ -45,7 +59,7 @@ const UserDropdown = () => {
                 alt={user.nickname}
                 width={32}
                 height={32}
-                objectFit="cover"
+                style={{ width: "32px", height: "32px", objectFit: "cover" }}
                 className="mr-12 rounded-md"
               />
             ) : (
