@@ -28,7 +28,7 @@ const LandingButtons = () => {
     return (
       <Link href={userGroups?.length === 0 ? "team-empty" : "/my-teams"}>
         <Button
-          className="m-auto h-45 w-300 rounded-full bg-gradient-to-r from-brand-tertiary to-brand-primary text-16-600 hover:text-text-inverse"
+          className="h-60 w-300 rounded-full bg-gradient-to-r from-brand-tertiary to-brand-primary hover:text-text-inverse"
           variant="primary"
         >
           팀 목록으로 이동
@@ -40,15 +40,15 @@ const LandingButtons = () => {
     <div className="flex flex-col gap-10 md:flex-row">
       <Link href="/login">
         <Button
-          className="m-auto h-45 w-200 rounded-full text-16-600 hover:bg-gradient-to-r hover:from-brand-tertiary hover:to-brand-primary hover:text-text-inverse"
-          variant="noFill"
+          variant="primary"
+          className="h-65 w-200 rounded-full bg-gradient-to-r from-brand-tertiary to-brand-primary hover:from-brand-primary hover:to-brand-tertiary hover:text-text-inverse"
         >
           지금 시작하기
         </Button>
       </Link>
       <Link href="/boards">
         <Button
-          className="m-auto h-45 w-200 rounded-full text-16-600 hover:bg-gradient-to-r hover:from-brand-tertiary hover:to-brand-primary hover:text-text-inverse"
+          className="h-65 w-200 rounded-full hover:bg-gradient-to-r hover:from-brand-tertiary hover:to-brand-primary hover:text-text-inverse"
           variant="noFill"
         >
           둘러보기

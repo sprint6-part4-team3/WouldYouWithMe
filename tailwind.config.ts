@@ -90,6 +90,7 @@ const config: Config = {
       // 3xl (32px)
       "32-700": ["32px", { lineHeight: "38px", fontWeight: "700" }],
       "32-600": ["32px", { lineHeight: "38px", fontWeight: "600" }],
+      "32-500": ["32px", { lineHeight: "38px", fontWeight: "500" }],
 
       // 2xl (24px)
       "24-700": ["24px", { lineHeight: "28px", fontWeight: "700" }],
