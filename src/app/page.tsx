@@ -40,7 +40,7 @@ export default function Home() {
           <Section5 />
         </FullpageSection>
       </FullpageContainer>
-      <div className="fixed right-10 top-1/3 z-10 sm:hidden">
+      <div className="fixed right-10 top-1/3 z-10">
         <IButtons activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
       </div>
     </main>

@@ -17,7 +17,7 @@ const Section2 = () => {
   return (
     <section
       ref={ref}
-      className="mt-25 flex h-screen w-full flex-col items-center gap-30 md:gap-0 lg:mt-0 lg:flex-row lg:justify-evenly"
+      className="mt-3 flex h-screen w-full flex-col items-center justify-evenly md:gap-0 lg:mt-0 lg:flex-row lg:justify-evenly"
     >
       <motion.article
         className="rounded-40 bg-gradient-to-r from-brand-primary to-brand-tertiary p-1 lg:w-1/2"
