@@ -14,6 +14,7 @@ import {
   startOfWeek,
   subMonths,
 } from "date-fns";
+import { ko } from "date-fns/locale";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -43,8 +44,8 @@ const Calendar = ({ currentDate }: CalendarProps) => {
           icon="IconCalendarArrowLeft"
           onClick={() => setNewDate(subMonths(newDate, 1))}
         />
-        <h3 className="text-14-500 text-text-inverse">
-          {format(newDate, "MMMM yyyy")}
+        <h3 className="text-16-500 text-text-inverse">
+          {format(newDate, "MM월 yyyy", { locale: ko })}
         </h3>
         <IconButton
           variant="none"
@@ -56,7 +57,7 @@ const Calendar = ({ currentDate }: CalendarProps) => {
         {DAYS_OF_WEEK.map((day) => (
           <div
             key={day}
-            className="px-3 py-7 text-center text-14-600 text-text-inverse"
+            className="px-3 py-7 text-center text-16-600 text-text-inverse"
           >
             {day}
           </div>
