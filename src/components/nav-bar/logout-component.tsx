@@ -56,7 +56,7 @@ const LogoutComponent = ({ isOpen, onClose }: LogoutComponentProps) => {
       });
       setPwLength(0);
 
-      router.push("/");
+      window.location.href = "/";
     } catch (err) {
       error("로그아웃 실패");
     } finally {
