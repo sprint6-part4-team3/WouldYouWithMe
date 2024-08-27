@@ -9,11 +9,13 @@ import {
   endOfWeek,
   format,
   isSameDay,
+  isToday,
   startOfDay,
   startOfMonth,
   startOfWeek,
   subMonths,
 } from "date-fns";
+import { ko } from "date-fns/locale";
 import { MouseEvent, useState } from "react";
 
 import { IconButton } from "@/components/common";
@@ -51,8 +53,8 @@ const Calendar = ({ setValue, initialDate }: CalendarProps) => {
           icon="IconCalendarArrowLeft"
           onClick={() => setCurrentDate(subMonths(currentDate, 1))}
         />
-        <h3 className="text-14-500 text-text-inverse">
-          {format(currentDate, "MMMM yyyy")}
+        <h3 className="text-18-500 text-text-inverse">
+          {format(currentDate, "MM월 yyyy", { locale: ko })}
         </h3>
         <IconButton
           variant="none"
@@ -64,7 +66,7 @@ const Calendar = ({ setValue, initialDate }: CalendarProps) => {
         {DAYS_OF_WEEK.map((day) => (
           <div
             key={day}
-            className="px-3 py-7 text-center text-14-600 text-text-inverse"
+            className="px-3 py-7 text-center text-16-600 text-text-inverse"
           >
             {day}
           </div>
@@ -77,7 +79,6 @@ const Calendar = ({ setValue, initialDate }: CalendarProps) => {
               {
                 "bg-brand-primary": isSameDay(day, currentDate),
               },
-              { " text-gray-400": day < today },
             )}
           >
             {isSameMonth(day, currentDate) && day >= today ? (
@@ -85,11 +86,16 @@ const Calendar = ({ setValue, initialDate }: CalendarProps) => {
                 type="button"
                 onClick={handleDayClick}
                 value={addHours(day, 9).toISOString()}
+                className={clsx({
+                  "text-brand-primary": isToday(day),
+                  "text-text-inverse":
+                    isToday(day) && isSameDay(day, currentDate),
+                })}
               >
                 <time>{format(day, "d")}</time>
               </button>
             ) : (
-              <time>{format(day, "d")}</time>
+              <time className="text-gray-400">{format(day, "d")}</time>
             )}
           </div>
         ))}
