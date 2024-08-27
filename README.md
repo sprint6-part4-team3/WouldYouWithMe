@@ -27,7 +27,7 @@ https://3team-coworkers.netlify.app
 - 베타 테스트를 통한 UI / UX 개선
 - 단순 기능 개발보다 사용자 경험성 고려
 
-- ### 소프트스킬 강화
+### 소프트스킬 강화
 
 - 프로젝트 일정 관리 및 정리
 - 데일리 스크럼과 PR 리뷰, 협업툴 활용
@@ -36,25 +36,25 @@ https://3team-coworkers.netlify.app
 
 ![image](https://github.com/user-attachments/assets/00968f2c-a2b3-4bc5-af5d-5196f8ed5618)
 
-### 🔨 기술 스택
+## 🔨 기술 스택
 
-## 프론트엔드
+### 프론트엔드
 
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white"> <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white"> <img alt="Tailwind CSS" src ="https://img.shields.io/badge/Tailwind_CSS-06B6D4.svg?&style=for-the-badge&logo=tailwindcss&logoColor=white"/> <img src="https://img.shields.io/badge/react--hook--form-663399?style=for-the-badge&logo=react&logoColor=white"> <img src="https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=ReactQuery&logoColor=white" /> <img src="https://img.shields.io/badge/axios-671ddf?&style=for-the-badge&logo=axios&logoColor=white" /> <img src="https://img.shields.io/badge/storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white" />
 
-## 도구 및 유틸리티
+### 도구 및 유틸리티
 
 <img src="https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white"/>
 
-## 코드 포매터 및 검사 도구
+### 코드 포매터 및 검사 도구
 
 <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"> <img src="https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white"> <img src="https://img.shields.io/badge/Zod-000000?style=for-the-badge&logo=zod&logoColor=3068B7" />
 
-## 협업 도구
+### 협업 도구
 
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white" /> <img src="https://img.shields.io/badge/Discord-5B61EE?style=for-the-badge&logo=Discord&logoColor=white" /> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">
 
-## 배포 플랫폼
+### 배포 플랫폼
 
 <img src="https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white" />
 
