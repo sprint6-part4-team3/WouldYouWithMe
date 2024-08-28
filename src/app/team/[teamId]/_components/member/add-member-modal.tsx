@@ -26,7 +26,7 @@ const AddMemberModal = () => {
   const toast = useToast();
   const isMobile = useIsMobile();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["token", teamId],
     queryFn: () => createInvitationToken(Number(teamId)),
     staleTime: 60000 * 60,
@@ -59,7 +59,6 @@ const AddMemberModal = () => {
         <IconPlusCurrent stroke="#22b8cf" />
         멤버 추가하기
       </div>
-
       {isOpen && (
         <ModalComponent
           showCloseButton
@@ -68,7 +67,7 @@ const AddMemberModal = () => {
           description="그룹에 참여할 수 있는 토큰을 복사합니다."
         >
           <span className="max-w-full truncate rounded-10 border border-border-primary bg-background-tertiary px-10 py-12 text-text-secondary">
-            {data}
+            {isLoading ? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" : data}
           </span>
           <Button
             className="mt-16 h-47 w-full"

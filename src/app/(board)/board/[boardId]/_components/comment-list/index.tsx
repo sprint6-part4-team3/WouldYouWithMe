@@ -99,9 +99,8 @@ const CommentList = ({ boardId }: CommentListProps) => {
             )}
 
             {isFetchingNextPage && (
-              <div className="flex w-full items-center justify-center gap-6">
-                <LoadingSpinner width={40} height={40} />
-                <span>댓글 불러오는 중...</span>
+              <div className="mx-8 flex w-full items-center justify-center">
+                <LoadingSpinner width={30} height={30} />
               </div>
             )}
 

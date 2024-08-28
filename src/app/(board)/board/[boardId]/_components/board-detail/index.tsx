@@ -86,7 +86,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
 
   const handleButtonClickBack = () => {
     if (previousPage && previousPage.startsWith("/boards")) {
-      router.back();
+      router.push(previousPage);
     } else {
       router.push("/boards?page=1&orderBy=recent&keyword=");
     }
