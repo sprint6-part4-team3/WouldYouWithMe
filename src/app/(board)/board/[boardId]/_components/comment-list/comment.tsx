@@ -50,18 +50,19 @@ const Comment = ({
             )}
           </div>
           <div className="flex items-center">
-            {commentData.writer.image &&
-            commentData.writer.image !== "Invalid Date" ? (
-              <Image
-                src={commentData.writer.image}
-                alt={`${commentData.writer.nickname}의 프로필 사진`}
-                width={32}
-                height={32}
-                className="rounded-full object-fill"
-              />
-            ) : (
-              <IconProfile />
-            )}
+            <div className="relative size-32">
+              {commentData.writer.image &&
+              commentData.writer.image !== "Invalid Date" ? (
+                <Image
+                  fill
+                  src={commentData.writer.image}
+                  alt={`${commentData.writer.nickname}프로필 사진`}
+                  className="rounded-full object-cover"
+                />
+              ) : (
+                <IconProfile />
+              )}
+            </div>
             <span className="ml-6 text-14-500 md:ml-12">
               {commentData.writer.nickname}
             </span>
