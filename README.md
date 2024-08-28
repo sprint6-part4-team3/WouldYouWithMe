@@ -1,6 +1,6 @@
 # ✨ 우주윗미 ✨
 
-![image](https://github.com/user-attachments/assets/e75bf1f1-069a-49a1-92ba-c87a03baf589)
+<img width="900" alt="우주윗미" src="https://github.com/user-attachments/assets/ac3c53e4-5215-40be-a092-8ef2cbad09ce">
 
 ### Would You Study With Me?
 
