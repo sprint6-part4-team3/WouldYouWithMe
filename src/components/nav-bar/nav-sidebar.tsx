@@ -74,6 +74,8 @@ const NavSideBar = ({ isOpen, onClose }: SidebarProps) => {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       <IconButton
+        aria-label="사이드바 닫기 버튼"
+        name="사이드바 닫기 버튼"
         icon="IconX"
         variant="none"
         isBorder={false}

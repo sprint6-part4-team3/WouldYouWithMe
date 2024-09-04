@@ -63,7 +63,13 @@ const Pagination = ({
 
   return (
     <div className="flex w-full items-center justify-center gap-8 py-20 text-20-500 md:gap-14 lg:mb-40">
-      <button disabled={startPage <= 1} onClick={handlePrevGroup} type="button">
+      <button
+        aria-label="5칸 뒤로 버튼"
+        name="페이지네이션 5칸 뒤로"
+        disabled={startPage <= 1}
+        onClick={handlePrevGroup}
+        type="button"
+      >
         <IconPagePrevPrev
           className={clsx({
             "fill-text-default cursor-not-allowed": startPage <= 1,
@@ -72,6 +78,8 @@ const Pagination = ({
         />
       </button>
       <button
+        aria-label="1칸 뒤로 버튼"
+        name="페이지네이션 1칸 뒤로"
         disabled={currentPage - 1 <= 0}
         onClick={() => handleCurrentPage(currentPage - 1)}
         type="button"
@@ -100,6 +108,8 @@ const Pagination = ({
       ))}
 
       <button
+        aria-label="1칸 앞으로 버튼"
+        name="페이지네이션 1칸 앞으로"
         disabled={currentPage + 1 > totalPage}
         onClick={() => handleCurrentPage(currentPage + 1)}
         type="button"
@@ -114,6 +124,8 @@ const Pagination = ({
       </button>
 
       <button
+        name="페이지네이션 5칸 앞으로"
+        aria-label="5칸 앞으로 버튼"
         disabled={startPage + PAGE_COUNT > totalPage}
         onClick={handleNextGroup}
         type="button"
