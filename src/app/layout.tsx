@@ -59,7 +59,6 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
       <AppProvider>
         <ToastContainer />
         <NavBar />
-        <div className="fixed inset-0 -z-10 bg-cover bg-center bg-repeat opacity-20" />
         <main className="px-16 ">{children}</main>
       </AppProvider>
     </body>
