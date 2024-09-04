@@ -6,7 +6,7 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { redirect, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/common";
 import EMPTY_IMAGE from "@/constants/image";
@@ -28,7 +28,7 @@ interface BoardDetailProps {
 const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
   const router = useRouter();
   const [previousPage, setPreviousPage] = useState<string | null>("");
-  const [viewCount, setViewCount] = useState<number | null>(null);
+  const [viewCount, setViewCount] = useState<number | null>(0);
 
   const [user] = useAtom(userAtom);
 
@@ -46,7 +46,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
     setPreviousPage(previousUrl);
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const getViewCount = async () => {
       const docRef = doc(FIREBASE_DB, "boards", boardId.toString());
 
@@ -88,7 +88,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
     if (previousPage && previousPage.startsWith("/boards")) {
       router.push(previousPage);
     } else {
-      router.push("/boards?page=1&orderBy=recent&keyword=");
+      router.push("/boards");
     }
   };
 

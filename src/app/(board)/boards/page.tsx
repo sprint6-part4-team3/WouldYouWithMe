@@ -1,8 +1,14 @@
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import Link from "next/link";
 
 import { Button } from "@/components/common";
+import getBoardList from "@/lib/api/board/get-board-list";
 
 import BoardListInfo from "./_components/board-list-info";
 import CarouselItems from "./_components/carousel/carouselItems";
@@ -36,8 +42,15 @@ export const metadata: Metadata = {
   },
 };
 
-const BoardPage = () => {
+const BoardPage = async () => {
+  const queryClient = new QueryClient();
+
   const userCookie = cookies().get("userId");
+
+  await queryClient.prefetchQuery({
+    queryKey: ["boardList", 1, "recent", ""],
+    queryFn: () => getBoardList({ page: 1, orderBy: "recent", keyword: "" }),
+  });
 
   return (
     <div className="mt-40 flex flex-col gap-40">
@@ -63,7 +76,9 @@ const BoardPage = () => {
 
       <CarouselItems />
 
-      <BoardListInfo />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <BoardListInfo />
+      </HydrationBoundary>
     </div>
   );
 };
