@@ -36,19 +36,16 @@ const BoardPage = async ({ params }: { params: { boardId: number } }) => {
 
   const { boardId } = params;
   const userId = cookies().get("userId")?.value;
-  let viewCount = 1;
 
   const docRef = doc(FIREBASE_DB, "boards", boardId.toString());
-
   const boardDb = await getDoc(docRef);
-  const boardData = boardDb.data();
+  let viewCount = 0;
 
-  if (boardData) {
-    const currentViewCount = boardData.viewCount + 1;
-    viewCount = currentViewCount;
-    updateDoc(docRef, { viewCount: currentViewCount });
+  if (boardDb.exists()) {
+    viewCount = boardDb.data().viewCount;
+    await updateDoc(docRef, { viewCount });
   } else {
-    await setDoc(docRef, { viewCount: 1 });
+    await setDoc(docRef, { viewCount });
   }
 
   await Promise.all([
@@ -66,7 +63,7 @@ const BoardPage = async ({ params }: { params: { boardId: number } }) => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <BoardDetail
-        viewCount={viewCount}
+        initialViewCount={viewCount}
         userId={Number(userId)}
         boardId={boardId}
       />

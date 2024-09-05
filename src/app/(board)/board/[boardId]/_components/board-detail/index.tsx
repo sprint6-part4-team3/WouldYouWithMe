@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { redirect, useRouter } from "next/navigation";
@@ -9,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/common";
 import EMPTY_IMAGE from "@/constants/image";
+import FIREBASE_DB from "@/firebase";
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
 import { IconComment } from "@/public/assets/icons";
 import { userAtom } from "@/stores";
@@ -21,12 +23,17 @@ import CopyTeamToken from "./copy-team-token";
 interface BoardDetailProps {
   userId: number;
   boardId: number;
-  viewCount: number;
+  initialViewCount: number;
 }
 
-const BoardDetail = ({ userId, boardId, viewCount }: BoardDetailProps) => {
+const BoardDetail = ({
+  userId,
+  boardId,
+  initialViewCount,
+}: BoardDetailProps) => {
   const router = useRouter();
   const [previousPage, setPreviousPage] = useState<string | null>("");
+  const [viewCount, setViewCount] = useState<number>(initialViewCount);
 
   const [user] = useAtom(userAtom);
 
@@ -43,6 +50,22 @@ const BoardDetail = ({ userId, boardId, viewCount }: BoardDetailProps) => {
 
     setPreviousPage(previousUrl);
   }, []);
+
+  useEffect(() => {
+    const getViewCount = async () => {
+      const docRef = doc(FIREBASE_DB, "boards", boardId.toString());
+
+      // 조회수 가져오기 및 업데이트
+      const boardDb = await getDoc(docRef);
+      if (boardDb.exists()) {
+        const currentViewCount = boardDb.data().viewCount + 1;
+        setViewCount(currentViewCount);
+        await updateDoc(docRef, { viewCount: currentViewCount });
+      }
+    };
+
+    getViewCount();
+  }, [boardId]);
 
   const { data: boardData, error } = useQuery({
     queryKey: ["board", boardId],
