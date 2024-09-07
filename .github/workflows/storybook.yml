@@ -27,11 +27,9 @@ jobs:
         with:
           path: |
             **/node_modules
-            .storybook-static
           key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}-storybook
           restore-keys: |
             ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}-storybook
-            ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-storybook
 
       - name: 종속성 설치
         if: steps.cache.outputs.cache-hit != 'true'
@@ -45,6 +43,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           onlyChanged: true
           autoAcceptChanges: true
+          exitOnceUploaded: true
 
       - name: 현재 시간 가져오기
         uses: josStorer/get-current-time@v2
