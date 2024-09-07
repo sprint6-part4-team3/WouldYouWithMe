@@ -34,6 +34,7 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+    formats: ["image/avif", "image/webp"],
   },
   webpack: (config) => {
     const fileLoaderRule = config.module.rules.find((rule) =>

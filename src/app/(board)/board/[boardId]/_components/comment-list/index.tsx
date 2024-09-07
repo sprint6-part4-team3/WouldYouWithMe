@@ -72,7 +72,7 @@ const CommentList = ({ boardId }: CommentListProps) => {
     <>
       <AddComment boardId={boardId} setSampleComment={setSampleComment} />
       <section
-        className={`flex flex-col gap-16 ${isFetchingNextPage ? "mb-20" : "mb-50"}`}
+        className={`flex flex-col gap-16  ${isFetchingNextPage ? "mb-20" : "mb-50"}`}
       >
         {sampleComment && (
           <div className="opacity-40">

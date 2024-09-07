@@ -23,12 +23,17 @@ import CopyTeamToken from "./copy-team-token";
 interface BoardDetailProps {
   userId: number;
   boardId: number;
+  initialViewCount: number;
 }
 
-const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
+const BoardDetail = ({
+  userId,
+  boardId,
+  initialViewCount,
+}: BoardDetailProps) => {
   const router = useRouter();
   const [previousPage, setPreviousPage] = useState<string | null>("");
-  const [viewCount, setViewCount] = useState<number | null>(null);
+  const [viewCount, setViewCount] = useState<number>(initialViewCount);
 
   const [user] = useAtom(userAtom);
 
@@ -50,19 +55,12 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
     const getViewCount = async () => {
       const docRef = doc(FIREBASE_DB, "boards", boardId.toString());
 
-      // 조회수 가져오기
+      // 조회수 가져오기 및 업데이트
       const boardDb = await getDoc(docRef);
-      const boardData = boardDb.data();
-
-      if (boardData) {
-        // 조회수 업데이트
-        const currentViewCount = boardData.viewCount + 1;
+      if (boardDb.exists()) {
+        const currentViewCount = boardDb.data().viewCount + 1;
         setViewCount(currentViewCount);
-        updateDoc(docRef, { viewCount: currentViewCount });
-      } else {
-        // 조회수 생성
-        await setDoc(docRef, { viewCount: 1 });
-        setViewCount(1);
+        await updateDoc(docRef, { viewCount: currentViewCount });
       }
     };
 
@@ -88,7 +86,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
     if (previousPage && previousPage.startsWith("/boards")) {
       router.push(previousPage);
     } else {
-      router.push("/boards?page=1&orderBy=recent&keyword=");
+      router.push("/boards");
     }
   };
 
@@ -150,7 +148,7 @@ const BoardDetail = ({ userId, boardId }: BoardDetailProps) => {
             height={0}
             sizes="100vw"
             onDragStart={(e) => e.preventDefault()}
-            className="h-auto w-full"
+            className="h-auto min-h-200 min-w-327"
           />
         </div>
       )}

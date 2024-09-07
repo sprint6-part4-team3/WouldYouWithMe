@@ -15,6 +15,8 @@ const GnbButton = () => {
   return (
     <>
       <IconButton
+        aria-label="사이드바 햄버거 버튼"
+        name="사이드바 햄버거 버튼"
         icon="IconGnbMenu"
         variant="none"
         onClick={toggleSidebar}

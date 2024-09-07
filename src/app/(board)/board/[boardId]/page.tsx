@@ -3,9 +3,11 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
+import FIREBASE_DB from "@/firebase";
 import getBoardDetailData from "@/lib/api/board/get-board-detail-data";
 import getBoardComment from "@/lib/api/board-comment/get-comment";
 
@@ -35,6 +37,17 @@ const BoardPage = async ({ params }: { params: { boardId: number } }) => {
   const { boardId } = params;
   const userId = cookies().get("userId")?.value;
 
+  const docRef = doc(FIREBASE_DB, "boards", boardId.toString());
+  const boardDb = await getDoc(docRef);
+  let viewCount = 0;
+
+  if (boardDb.exists()) {
+    viewCount = boardDb.data().viewCount;
+    await updateDoc(docRef, { viewCount });
+  } else {
+    await setDoc(docRef, { viewCount });
+  }
+
   await Promise.all([
     queryClient.fetchQuery({
       queryKey: ["board", boardId],
@@ -49,7 +62,11 @@ const BoardPage = async ({ params }: { params: { boardId: number } }) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <BoardDetail userId={Number(userId)} boardId={boardId} />
+      <BoardDetail
+        initialViewCount={viewCount}
+        userId={Number(userId)}
+        boardId={boardId}
+      />
       <CommentList boardId={boardId} />
     </HydrationBoundary>
   );
