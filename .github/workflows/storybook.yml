@@ -2,7 +2,7 @@ name: Preview
 
 on:
   pull_request:
-    branches: ["main", "develop"]
+    branches: ["develop"]
 
 permissions:
   contents: write
@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   storybook-preview:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: 저장소 체크아웃
         uses: actions/checkout@v3
@@ -25,12 +25,17 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: "**/node_modules"
+          path: |
+            **/node_modules
+            .storybook-static
           key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}-storybook
+          restore-keys: |
+            ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}-storybook
+            ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-storybook
 
       - name: 종속성 설치
         if: steps.cache.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: Chromatic에 게시
         id: chromatic
