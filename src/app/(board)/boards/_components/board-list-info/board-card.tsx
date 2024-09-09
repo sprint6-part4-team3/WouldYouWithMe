@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
+import EMPTY_IMAGE from "@/constants/image";
 import { IconComment, IconHeart } from "@/public/assets/icons";
 import { BoardListType } from "@/types/board-list";
 import formatBoardDate from "@/utils/format-board-date";
@@ -28,9 +29,10 @@ const BoardCard = ({ board }: BoardCardProps) => (
           src={board.image || "/assets/images/img-open-graph.png"}
           alt={`${board.title} 게시물 이미지`}
           fill
+          priority
+          className="absolute rounded-se-2xl rounded-ss-2xl border-b border-text-disabled object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
           onDragStart={(e) => e.preventDefault()}
-          className="rounded-se-2xl rounded-ss-2xl border-b border-text-disabled object-cover"
         />
       </div>
       <div className="flex flex-col gap-8 px-12">
