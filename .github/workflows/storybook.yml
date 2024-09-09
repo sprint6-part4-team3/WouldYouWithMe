@@ -2,7 +2,7 @@ name: Preview
 
 on:
   pull_request:
-    branches: ["main", "develop"]
+    branches: ["develop"]
 
 permissions:
   contents: write
@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   storybook-preview:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: 저장소 체크아웃
         uses: actions/checkout@v3
