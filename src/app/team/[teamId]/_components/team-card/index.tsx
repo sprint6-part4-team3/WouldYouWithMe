@@ -36,7 +36,13 @@ const TeamCardDropdownButton = ({
   return (
     <DropDown handleClose={handleOff}>
       <DropDown.Trigger onClick={handleToggle}>
-        <IconButton className="cursor-pointer" icon="IconGear" variant="none" />
+        <IconButton
+          name="팀 드롭다운 버튼"
+          aria-label="팀 드롭다운 버튼"
+          className="cursor-pointer"
+          icon="IconGear"
+          variant="none"
+        />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value}>
         <Link href={`/team/${teamId}/edit`}>
@@ -89,23 +95,25 @@ const TeamCardBox = ({
   return (
     <article className="relative m-auto flex h-64 w-full items-center justify-between rounded-12 border border-border-primary/10 bg-slate-50/10 px-24">
       <div className="flex items-center gap-12">
-        <div className="relative size-40">
-          {teamImage ? (
-            <Image
-              className="rounded-lg object-cover"
-              src={teamImage}
-              alt="팀 이미지"
-              fill
-            />
-          ) : (
-            <Image
-              className="rounded-lg object-cover"
-              src="/assets/images/img-planet.png"
-              alt="팀 이미지"
-              fill
-            />
-          )}
-        </div>
+        {teamImage ? (
+          <Image
+            className="size-40 rounded-lg object-cover"
+            src={teamImage}
+            alt="팀 이미지"
+            priority
+            width={40}
+            height={40}
+          />
+        ) : (
+          <Image
+            className="size-40 rounded-lg object-cover"
+            src="/assets/images/img-planet.png"
+            alt="팀 이미지"
+            priority
+            width={40}
+            height={40}
+          />
+        )}
         <h1 className="text-20-700">{teamName}</h1>
       </div>
       {isClient && userId === adminId && (

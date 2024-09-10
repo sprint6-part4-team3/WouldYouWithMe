@@ -36,7 +36,12 @@ const TodoListDropDown = ({ task }: TodoListDropDownProps) => {
   return (
     <DropDown handleClose={handleOff}>
       <DropDown.Trigger onClick={handleToggle}>
-        <IconButton icon="IconKebab" variant="none" />
+        <IconButton
+          name="할 일 목록 드롭다운 버튼"
+          aria-label="할 일 목록 드롭다운 버튼"
+          icon="IconKebab"
+          variant="none"
+        />
       </DropDown.Trigger>
       <DropDown.Menu isOpen={value} className="z-50">
         <DropDown.Item onClick={openEditModal}>
