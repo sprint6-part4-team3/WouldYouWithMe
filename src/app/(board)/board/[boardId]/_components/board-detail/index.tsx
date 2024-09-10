@@ -147,6 +147,7 @@ const BoardDetail = ({
             width={0}
             height={0}
             sizes="100vw"
+            priority
             onDragStart={(e) => e.preventDefault()}
             className="h-auto min-h-200 min-w-327"
           />
