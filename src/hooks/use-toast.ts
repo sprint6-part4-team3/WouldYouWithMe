@@ -6,8 +6,8 @@ const useToast = () => {
   const addToast = useSetAtom(ToastAtom);
 
   return {
-    success: addToast("success"),
-    error: addToast("error"),
+    success: (message: string) => addToast({ type: "success", message }),
+    error: (message: string) => addToast({ type: "error", message }),
   };
 };
 
