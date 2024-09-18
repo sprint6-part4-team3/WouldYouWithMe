@@ -13,11 +13,11 @@ export type ToastType = "success" | "error";
 
 export interface ToastProps {
   /** toast 타입입니다. success, error */
-  type?: ToastType;
+  type: ToastType;
   /** toast 메시지 입니다. */
-  message?: string;
+  message: string;
   /** 사용하실 때 고려하지 않아도 됩니다. */
-  id: string;
+  id?: string;
 }
 
 const TOAST_DURATION = 2000;
@@ -31,7 +31,7 @@ const Toast = memo(({ type, message = "test", id }: ToastProps) => {
       setShow(false);
 
       const removeTimeout = setTimeout(() => {
-        removeToastItem(id);
+        removeToastItem();
       }, 300);
 
       return () => clearTimeout(removeTimeout);
@@ -51,7 +51,7 @@ const Toast = memo(({ type, message = "test", id }: ToastProps) => {
           "animate-fadeOut": !show,
         },
       )}
-      onClick={() => removeToastItem(id)}
+      onClick={() => removeToastItem()}
     >
       {type === "success" ? (
         <Lottie
