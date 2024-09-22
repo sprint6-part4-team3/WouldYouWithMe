@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import AppProvider from "@/components/app-provider";
 import ToastContainer from "@/components/common/toast/container";
 import StarsCanvas from "@/components/landing/star-canvas";
+import MobileSizeWatcher from "@/components/mobile-size-watcher";
 import MouseTrailer from "@/components/mouse-trailer";
 import NavBar from "@/components/nav-bar";
 import GoogleAnalytics from "@/lib/google-analytics";
@@ -53,6 +54,7 @@ const RootLayout: React.FC<Readonly<{ children: React.ReactNode }>> = ({
     >
       <StarsCanvas />
       <MouseTrailer />
+      <MobileSizeWatcher />
       {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
       ) : null}
