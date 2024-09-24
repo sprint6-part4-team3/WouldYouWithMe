@@ -1,23 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+
+import { isMobileAtom } from "@/stores";
 
 const useIsMobile = (): boolean => {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 480);
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const [isMobile] = useAtom(isMobileAtom);
 
   return isMobile;
 };
