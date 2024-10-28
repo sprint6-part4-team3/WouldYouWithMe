@@ -31,7 +31,9 @@
     ".next/types/**/*.ts",
     ".eslintrc.json",
     "postcss.config.mjs",
-    "next.config.mjs"
+    "next.config.mjs",
+    "public/sw.js",
+    "public/workbox-*.js"
   ],
   "exclude": ["node_modules"]
 }

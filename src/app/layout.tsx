@@ -16,9 +16,23 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "우주윗미 | 같이 스터디해요",
   description: "우주윗미는 같이 스터디할 사람을 찾아주는 서비스입니다.",
+  manifest: "/manifest.json",
   icons: {
     icon: "/assets/favicon.ico",
+    apple: "/image192.png",
+    shortcut: "/image192.png",
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "우주윗미",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    minimumScale: 1,
+  },
+  themeColor: "#000000",
   openGraph: {
     title: "우주윗미 - WYWM",
     description: "Would You Study With Me? 우주윗미",
