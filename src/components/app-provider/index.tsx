@@ -12,7 +12,6 @@ const AppProvider = ({ children }: PropsWithChildren) => {
     new QueryClient({
       defaultOptions: {
         queries: {
-          // FIXME: 수정해도 되고 삭제해도 되고 추가해도 됨
           retry: false, // 실패하면 재시도 X
           staleTime: 60000, // 캐시 유지 시간 1분
         },
@@ -24,7 +23,7 @@ const AppProvider = ({ children }: PropsWithChildren) => {
     ChannelService.loadScript();
 
     ChannelService.boot({
-      pluginKey: "cc4e06f3-bd5d-4c8f-a62d-733460cb0b33" || "",
+      pluginKey: "cc4e06f3-bd5d-4c8f-a62d-733460cb0b33",
     });
   }, []);
 
